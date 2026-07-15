@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–5 closed (see retrospective); Sprint 6 ready in `docs/sprints/current.md`; Sprints 7–20 planned under `docs/sprints/planned/`
+**Status:** Sprints 1–5 closed; Sprint 6 ready; Sprints 7–40 planned under `docs/sprints/planned/` (21–40 = Email/Investment depth)
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -1097,6 +1097,559 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 **Out of scope:**
 
 - Full redesign / second UI stack
+
+---
+
+
+### B44 — Gmail thread digests
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B10, B15 |
+| Planned sprint | 21 |
+
+**Goal:** Thread-level Gmail digests (bounded fetch + LLM asks/commitments).
+
+**Acceptance criteria:**
+
+- [ ] Gmail panel lists recent threads (bounded) or accepts a thread id/link from skim
+- [ ] Fetch bounded messages in thread → local artifacts
+- [ ] LLM Markdown digest: summary, asks, commitments, suggested next action (manual)
+- [ ] Job busy/done/error; success snapshot
+- [ ] No full-history sync; hard caps on messages/chars
+
+**Out of scope:**
+
+- Automated replies
+- Automated trading / order placement (Icebox)
+
+---
+
+### B45 — Investment thesis & research notebook
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B9, B39 |
+| Planned sprint | 22 |
+
+**Goal:** Per-symbol/topic notebook and thesis notes seeding Investment LLM runs.
+
+**Acceptance criteria:**
+
+- [ ] Local notebook/thesis store per symbol or topic under data/
+- [ ] Panel UX to view/edit notes
+- [ ] Run can optionally include notebook slice in prompt (hard-capped)
+- [ ] Advice Markdown remains non-order
+- [ ] Empty notebook honest
+
+**Out of scope:**
+
+- Brokerage sync
+- Automated trading / order placement (Icebox)
+
+---
+
+### B46 — Gmail VIP / local priority rules
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B10 |
+| Planned sprint | 23 |
+
+**Goal:** Local VIP/muted sender rules shaping Gmail prioritization.
+
+**Acceptance criteria:**
+
+- [ ] CRUD for local sender rules (VIP / muted / tags)
+- [ ] Skim + digest prompts honor rules
+- [ ] Clear UI for rules; no silent network calls beyond existing fetch
+- [ ] Rules stored under data/; gitignored appropriately
+
+**Out of scope:**
+
+- Google filter sync product
+- Automated trading / order placement (Icebox)
+
+---
+
+### B47 — Investment watchlist news clustering
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B39, B9 |
+| Planned sprint | 24 |
+
+**Goal:** Cluster watchlist news into cited themes.
+
+**Acceptance criteria:**
+
+- [ ] Bounded fetch across watchlist symbols/topics
+- [ ] LLM or heuristic clustering into themes with source lists
+- [ ] Panel shows clusters + summary; hard caps preserved
+- [ ] No trade buttons; clear empty/error taxonomy
+
+**Out of scope:**
+
+- Streaming quotes product
+- Order tickets
+- Automated trading / order placement (Icebox)
+
+---
+
+### B48 — Gmail labels confirm-first
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B31, B18 |
+| Planned sprint | 25 |
+
+**Goal:** Read labels; confirm-first apply/remove with audit.
+
+**Acceptance criteria:**
+
+- [ ] Read and display labels for messages/threads in panel
+- [ ] Propose apply/remove → draft → confirm → execute → audit
+- [ ] Reconsent if modify scope missing
+- [ ] No bulk silent labeling; no auto-rules engine yet
+
+**Out of scope:**
+
+- Silent auto-label loops
+- Automated trading / order placement (Icebox)
+
+---
+
+### B49 — Investment manual holdings journal
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B45, B39 |
+| Planned sprint | 26 |
+
+**Goal:** Operator-entered holdings for advice context — not broker truth.
+
+**Acceptance criteria:**
+
+- [ ] Local holdings table/file under data/
+- [ ] Panel CRUD; validation for obvious junk rows
+- [ ] Optional include in LLM context with hard cap
+- [ ] UI states this is operator-entered, not broker-synced
+- [ ] No order/rebalance execution
+
+**Out of scope:**
+
+- Brokerage OAuth
+- Automated trading / order placement (Icebox)
+
+---
+
+### B50 — Gmail saved searches
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B10 |
+| Planned sprint | 27 |
+
+**Goal:** Named Gmail queries + builder for bounded skims.
+
+**Acceptance criteria:**
+
+- [ ] Persist named queries under data/
+- [ ] Panel query builder or advanced string field with examples
+- [ ] Run bounded fetch for query; job status
+- [ ] Invalid query / API errors actionable
+
+**Out of scope:**
+
+- Full offline index (later)
+- Automated trading / order placement (Icebox)
+
+---
+
+### B51 — Investment earnings & events skim
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B39 |
+| Planned sprint | 28 |
+
+**Goal:** Bounded earnings/events skim for watchlist.
+
+**Acceptance criteria:**
+
+- [ ] Bounded fetch of earnings/event-like sources for watchlist
+- [ ] Markdown table/list of upcoming/recent events + LLM wrap
+- [ ] Hard caps; cache where sensible
+- [ ] Honest empty state when no events found
+
+**Out of scope:**
+
+- Paid data vendor product
+- Auto trades
+- Automated trading / order placement (Icebox)
+
+---
+
+### B52 — Gmail attachment skim
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B44 |
+| Planned sprint | 29 |
+
+**Goal:** Attachment metadata + opt-in bounded text extract for digests.
+
+**Acceptance criteria:**
+
+- [ ] List attachment metadata (name, type, size) for selected message/thread
+- [ ] Opt-in text extract for allowlisted types under size cap; store under data/
+- [ ] Never auto-exfiltrate; clear skip reasons for unsafe/huge files
+- [ ] Optional include snippets in digest prompt
+
+**Out of scope:**
+
+- Arbitrary binary preview
+- Automated trading / order placement (Icebox)
+
+---
+
+### B53 — Investment citations & source quality
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B9, B24 |
+| Planned sprint | 30 |
+
+**Goal:** Structured citations and domain mute/quality tags.
+
+**Acceptance criteria:**
+
+- [ ] Structured source records in DuckDB/files (url, title, retrieved_at, quality tag)
+- [ ] Advice Markdown includes citations section
+- [ ] Operator can mute/exclude domains for future runs
+- [ ] Document quality rubric simply in architecture or module README
+
+**Out of scope:**
+
+- Paywall bypass product
+- Automated trading / order placement (Icebox)
+
+---
+
+### B54 — Gmail follow-up tracker
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B44, B46 |
+| Planned sprint | 31 |
+
+**Goal:** Local pin/due follow-ups for threads; boost in skims.
+
+**Acceptance criteria:**
+
+- [ ] Local follow-up records (thread id, note, due optional, status)
+- [ ] Panel list + pin from thread digest
+- [ ] Optional boost in priority skim
+- [ ] No auto-send reminders off-machine
+
+**Out of scope:**
+
+- Off-machine push notifications
+- Automated trading / order placement (Icebox)
+
+---
+
+### B55 — Investment scenario & risk check
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B45, B49 |
+| Planned sprint | 32 |
+
+**Goal:** Scenario/risk checklist runs from notebook/holdings/watchlist.
+
+**Acceptance criteria:**
+
+- [ ] Scenario Run mode distinct from news skim
+- [ ] Prompt template covers risks, invalidation, concentration (if holdings present)
+- [ ] Non-advice disclaimer
+- [ ] Snapshot for home/history
+
+**Out of scope:**
+
+- VaR product
+- Auto hedging
+- Automated trading / order placement (Icebox)
+
+---
+
+### B56 — Gmail newsletter digest
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B23, B50 |
+| Planned sprint | 33 |
+
+**Goal:** Cluster newsletters/bulk mail into keep/drop digest (manual).
+
+**Acceptance criteria:**
+
+- [ ] Heuristic/LLM clustering of bulk/newsletter-like mail in bounded window
+- [ ] Markdown digest per sender/group with keep/unsubscribe/archive suggestions
+- [ ] No automatic unsubscribe HTTP calls unless confirm-first in a later story
+- [ ] Respect VIP rules (do not treat VIP as bulk)
+
+**Out of scope:**
+
+- Unconfirmed mass unsubscribe
+- Automated trading / order placement (Icebox)
+
+---
+
+### B57 — Investment theme/sector baskets
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B39, B47 |
+| Planned sprint | 34 |
+
+**Goal:** Named baskets scoping Investment fetches/advice.
+
+**Acceptance criteria:**
+
+- [ ] Local basket CRUD under data/
+- [ ] Investment Run target: watchlist | basket | ad-hoc
+- [ ] Cluster/advice paths accept basket scope
+- [ ] No ETF auto-trading
+
+**Out of scope:**
+
+- Auto-rebalance
+- Automated trading / order placement (Icebox)
+
+---
+
+### B58 — Gmail archive/trash batch
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B25, B31 |
+| Planned sprint | 35 |
+
+**Goal:** Multi-select confirm-first archive/trash with audit.
+
+**Acceptance criteria:**
+
+- [ ] Multi-select from recent skim/search results
+- [ ] Propose archive or trash → confirm → execute → audit
+- [ ] Clear irreversible copy for trash
+- [ ] Caps on batch size
+
+**Out of scope:**
+
+- Auto-delete without confirm
+- Automated trading / order placement (Icebox)
+
+---
+
+### B59 — Investment local alerts
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B39 |
+| Planned sprint | 36 |
+
+**Goal:** In-panel/local alerts for watchlist conditions; informational only.
+
+**Acceptance criteria:**
+
+- [ ] Alert rule CRUD (symbol/topic, condition type: keyword / manual threshold note)
+- [ ] Evaluation on Run and/or opt-in schedule (reuse job patterns; default off)
+- [ ] Triggered alerts list in Investment panel; optional home chip
+- [ ] Explicit: alerts are informational; no trades
+
+**Out of scope:**
+
+- SMS push
+- Automated trading / order placement (Icebox)
+
+---
+
+### B60 — Gmail people context
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B46, B44 |
+| Planned sprint | 37 |
+
+**Goal:** Frequent contacts + notes to improve digests/priority.
+
+**Acceptance criteria:**
+
+- [ ] Derive frequent contacts from bounded recent mail (local)
+- [ ] Operator notes per person; VIP link to rules
+- [ ] Optional inject into thread digest / priority skim (capped)
+- [ ] No CRM multi-user features
+
+**Out of scope:**
+
+- Full CRM
+- Automated trading / order placement (Icebox)
+
+---
+
+### B61 — Investment comparative analysis
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B45, B53 |
+| Planned sprint | 38 |
+
+**Goal:** A vs B bounded compare with citations.
+
+**Acceptance criteria:**
+
+- [ ] UI to select two scopes (symbol/topic/basket)
+- [ ] Bounded dual fetch + comparison Markdown template
+- [ ] Citations/source quality reused
+- [ ] No winner-as-order framing; manual decision copy
+
+**Out of scope:**
+
+- Pair-trade execution
+- Automated trading / order placement (Icebox)
+
+---
+
+### B62 — Email × Investment bridge
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B49, B39, B54 |
+| Planned sprint | 39 |
+
+**Goal:** Mail mentions of holdings/watchlist → bridge digest + deep links.
+
+**Acceptance criteria:**
+
+- [ ] Bounded scan: match sender/subject/body keywords to holdings/watchlist symbols
+- [ ] Bridge results Markdown + deep links
+- [ ] False-positive controls (min token length, allowlist tickers)
+- [ ] No auto-trading; no auto-send
+- [ ] Architecture note on matching approach
+
+**Out of scope:**
+
+- Broker statement as only source
+- Auto trades
+- Automated trading / order placement (Icebox)
+
+---
+
+### B63 — Gmail & Investment operator playbooks
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B50, B39, B45 |
+| Planned sprint | 40 |
+
+**Goal:** Named playbooks binding module + scope + prompt for one-click deep runs.
+
+**Acceptance criteria:**
+
+- [ ] Named playbooks binding module + query/watchlist/basket + prompt template
+- [ ] One-click Run from Gmail/Investment or Settings
+- [ ] Playbooks stored locally; exportable with backup patterns if present
+
+**Out of scope:**
+
+- New domain modules
+- Automated trading
+
+---
+
+### B64 — Gmail + Investment depth polish
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Later → Email/Investment depth |
+| Depends on | B63 |
+| Planned sprint | 40 |
+
+**Goal:** PO-prioritized polish/reliability pass on deep email/investment surfaces.
+
+**Acceptance criteria:**
+
+- [ ] PO polish list for Gmail+Investment (errors, density, caps, empty states) recorded in sprint file
+- [ ] Address list within theme tokens
+- [ ] Update architecture module maps for deep email/investment surfaces
+
+**Out of scope:**
+
+- Full redesign
+- Icebox items
 
 ---
 

@@ -54,5 +54,6 @@ Close the 11–20 arc with a **Weekly review** composition (cross-module skim th
 
 ## Parking lot (post–20)
 
+- **Email + Investment depth arc → Sprints 21–40** ([index](README.md))
 - Revisit Icebox only with PRODUCT.md revision
-- Tax e-file / brokerage — explicit no unless stakeholder reopens brief
+- Tax e-file / brokerage / automated trading — explicit no unless stakeholder reopens brief

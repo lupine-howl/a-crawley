@@ -54,10 +54,40 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 Index: [`docs/sprints/planned/README.md`](docs/sprints/planned/README.md)
 
-### After Sprint 20 (unscheduled)
+## Later (scheduled — Sprints 21–40)
 
-- Deeper embeddings/RAG only if Sprint 15 proves need
-- Broader integrations (only with explicit PRODUCT pull)
+**Deep Email + Investment** — stakeholder priority after Sprint 20.  
+Overview: [`docs/sprints/planned/email-investment-depth-21-40.md`](docs/sprints/planned/email-investment-depth-21-40.md)
+
+| Sprint | Theme | Focus | File |
+|--------|-------|-------|------|
+| 21 | Gmail thread digests | Email | [sprint-21.md](docs/sprints/planned/sprint-21.md) |
+| 22 | Investment research notebook + thesis | Investment | [sprint-22.md](docs/sprints/planned/sprint-22.md) |
+| 23 | Gmail VIP / local priority rules | Email | [sprint-23.md](docs/sprints/planned/sprint-23.md) |
+| 24 | Investment watchlist news clusters | Investment | [sprint-24.md](docs/sprints/planned/sprint-24.md) |
+| 25 | Gmail labels (confirm-first) | Email | [sprint-25.md](docs/sprints/planned/sprint-25.md) |
+| 26 | Investment holdings journal (manual) | Investment | [sprint-26.md](docs/sprints/planned/sprint-26.md) |
+| 27 | Gmail saved searches | Email | [sprint-27.md](docs/sprints/planned/sprint-27.md) |
+| 28 | Investment earnings & events skim | Investment | [sprint-28.md](docs/sprints/planned/sprint-28.md) |
+| 29 | Gmail attachment skim | Email | [sprint-29.md](docs/sprints/planned/sprint-29.md) |
+| 30 | Investment citations & source quality | Investment | [sprint-30.md](docs/sprints/planned/sprint-30.md) |
+| 31 | Gmail follow-up tracker | Email | [sprint-31.md](docs/sprints/planned/sprint-31.md) |
+| 32 | Investment scenario & risk check | Investment | [sprint-32.md](docs/sprints/planned/sprint-32.md) |
+| 33 | Gmail newsletter digest | Email | [sprint-33.md](docs/sprints/planned/sprint-33.md) |
+| 34 | Investment theme/sector baskets | Investment | [sprint-34.md](docs/sprints/planned/sprint-34.md) |
+| 35 | Gmail archive/trash batch | Email | [sprint-35.md](docs/sprints/planned/sprint-35.md) |
+| 36 | Investment local in-panel alerts | Investment | [sprint-36.md](docs/sprints/planned/sprint-36.md) |
+| 37 | Gmail people context | Email | [sprint-37.md](docs/sprints/planned/sprint-37.md) |
+| 38 | Investment comparative analysis | Investment | [sprint-38.md](docs/sprints/planned/sprint-38.md) |
+| 39 | Email × Investment signal bridge | Bridge | [sprint-39.md](docs/sprints/planned/sprint-39.md) |
+| 40 | Playbooks + Gmail/Investment polish | Both | [sprint-40.md](docs/sprints/planned/sprint-40.md) |
+
+Index: [`docs/sprints/planned/README.md`](docs/sprints/planned/README.md)
+
+### After Sprint 40 (unscheduled)
+
+- Offline full-mailbox index / heavier RAG only if 21–40 proves need
+- Broker **read-only** statement import — only with explicit PRODUCT pull (still no trading)
 - Revisit Icebox only via brief revision
 
 ## Icebox
