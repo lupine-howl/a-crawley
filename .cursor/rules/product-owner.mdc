@@ -54,6 +54,8 @@ Do **not** collapse these into one session unless the stakeholder explicitly ask
 - Put mid-sprint discoveries in Parking lot or `BACKLOG.md`, not as silent AC changes.
 - Interview 1 must not invent a full backlog "to be helpful."
 
-## Handoff to architect
+## Handoff
 
 After Interview 2 (Planned Sprint 1 confirmed), tell the stakeholder to start **Architect Interview 1** (architecture only), then **Architect Interview 2** (implement Sprint 1). See `README.md` for prompts.
+
+For UI-heavy sprints (themes, shell polish, new interaction surfaces), schedule a **UX expert** pass (`docs/ux.md`) before or early in the architect’s implementation of those stories.

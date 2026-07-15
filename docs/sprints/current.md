@@ -36,7 +36,7 @@ Implement **in order** (S2.1 → S2.2) unless dependencies already satisfied.
 - [ ] Operator can switch theme from the dashboard; selection persists locally
 - [ ] Styling approach decided and recorded in `docs/architecture.md` (evolve Sprint 1 custom CSS vs introduce a build later)
 - [ ] Stub / Coming soon panels match the updated system
-- [ ] Optional: incorporate UX designer suggestions if available this sprint; otherwise ship a clean interim theme set
+- [ ] Optional: incorporate `@ux-expert` guidance from `docs/ux.md` if available this sprint; otherwise ship a clean interim theme set
 
 **Out of scope:**
 
@@ -79,6 +79,6 @@ Implement **in order** (S2.1 → S2.2) unless dependencies already satisfied.
 
 ## Parking lot
 
-- UX designer theme proposals may arrive mid-sprint — fold into S2.1 if timely; else backlog follow-up
+- UX expert (`@ux-expert` → `docs/ux.md`) theme proposals may arrive mid-sprint — fold into S2.1 if timely; else backlog follow-up
 - Settings chrome may later hold Google / module credentials UI — keep LLM-only this sprint unless trivial
 - Persist theme via cookie, localStorage, or small local config file — architect chooses; document in architecture.md

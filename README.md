@@ -1,6 +1,6 @@
 # a-crawley
 
-Greenfield project. Product direction and delivery are driven by markdown artifacts and two Cursor agent roles.
+Greenfield project. Product direction and delivery are driven by markdown artifacts and Cursor agent roles.
 
 **Working title:** Crawley — local-first personal assistant.
 
@@ -37,8 +37,15 @@ Default bind is localhost only (`127.0.0.1:8000`). Override with `CRAWLEY_HOST` 
 |------|-------------|------|
 | Product owner | `.cursor/rules/product-owner.mdc` | Brief, roadmap, backlog, sprints |
 | Architect / developer | `.cursor/rules/architect-developer.mdc` | Architecture doc, then implements sprint |
+| UX expert | `.cursor/rules/ux-expert.mdc` | IA, themes, interaction specs (`docs/ux.md`) |
 
 Shared contract: [`AGENTS.md`](./AGENTS.md)
+
+### UX expert — design pass
+
+`@ux-expert`, then:
+
+> You are the UX expert. Read PRODUCT.md, docs/architecture.md, docs/sprints/current.md, and docs/ux.md. Interview me about visual/interaction goals for this sprint, then write docs/ux.md with implementable guidance for the architect. Do not implement application code.
 
 ## Delivery status
 
@@ -53,7 +60,7 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 3. **Architect Interview 1** — `docs/architecture.md`
 4. **Architect Interview 2** — implement Sprint 1
 
-Ongoing: PO plans the next sprint in `docs/sprints/current.md`; architect implements that file only.
+Ongoing: PO plans the next sprint in `docs/sprints/current.md`; UX expert may lock `docs/ux.md` for UI stories; architect implements that file only.
 
 ## Product docs
 
@@ -62,15 +69,18 @@ Ongoing: PO plans the next sprint in `docs/sprints/current.md`; architect implem
 - [`BACKLOG.md`](./BACKLOG.md) — prioritized work
 - [`docs/sprints/current.md`](./docs/sprints/current.md) — active sprint
 - [`docs/architecture.md`](./docs/architecture.md) — technical decisions
+- [`docs/ux.md`](./docs/ux.md) — UX / visual & interaction design
 
 ## Enabling a rule on an Agent chat
 
-These rules use `alwaysApply: false`. Type `@product-owner` or `@architect-developer` in Agent chat, then confirm via the context ring → **Rules**.
+These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-developer`, or `@ux-expert` in Agent chat, then confirm via the context ring → **Rules**.
 
 ## How to run Sprint 2
 
-`@architect-developer`, then:
+Optional design pass first — `@ux-expert` (see prompt under Agent roles).
 
-> Read AGENTS.md, docs/architecture.md, and docs/sprints/current.md. Implement Sprint 2 (S2.1 themes, then S2.2 LLM settings & connection test) in order. If AC is unclear, mark the story blocked and stop. Do not expand into B9–B12.
+Then `@architect-developer`:
+
+> Read AGENTS.md, docs/architecture.md, docs/ux.md (if filled), and docs/sprints/current.md. Implement Sprint 2 (S2.1 themes, then S2.2 LLM settings & connection test) in order. If AC is unclear, mark the story blocked and stop. Do not expand into B9–B12.
 
 PO review when done: check demo bar in `docs/sprints/current.md`, then archive and plan Sprint 3.
