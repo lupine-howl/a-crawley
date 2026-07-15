@@ -6,6 +6,7 @@ Senior architect / developer owns this file. Update when material decisions land
 **Status:** Sprint 5 closed (LAN + Work lite + write-back design)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
 **Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 5 done)  
+**Proposed next:** Sprints 6–10 under [`sprints/planned/`](sprints/planned/) (awaiting PO acceptance)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
 ## Overview

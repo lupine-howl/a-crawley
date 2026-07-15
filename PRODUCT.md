@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; Sprint 2 in delivery; Sprints 3–5 planned (Calendar/Google → Investment/Fitness → LAN/Work/write-back design)
+**Status:** Brief confirmed; Sprints 1–5 closed; Sprints 6–10 proposed (life modules → Day brief → Calendar write-back → local LLM → shared context)
 
 ## Problem
 

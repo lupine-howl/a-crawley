@@ -77,6 +77,5 @@ Make Crawley reachable on the **local network only when consciously enabled**, l
 
 ## Parking lot
 
-- Co-parenting schedule module (Sprint 6+)
-- Real write-back implementation after ADR soak
+- Sprints 6–10 proposed under [`planned/`](planned/) (Co-parenting/DIY → Finance/Day brief → Calendar write-back → Local LLM → Coding/Creative + shared context)
 - Optional LAN shared-secret gate (deferred; trusted LAN policy for now)
