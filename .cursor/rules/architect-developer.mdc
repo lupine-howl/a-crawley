@@ -48,6 +48,7 @@ Do **not** collapse these into one session unless the stakeholder explicitly ask
 - Implement only what is in `docs/sprints/current.md` during Interview 2+.
 - Do not change `PRODUCT.md`, `ROADMAP.md`, or backlog priority without stakeholder direction (suggest follow-ups in Parking lot).
 - No silent scope expansion. If needed setup is missing from the sprint, block and ask — or propose a story for the PO to approve.
+- When UI stories reference a UX pass, treat `docs/ux.md` as the design contract; do not invent a competing visual system. If UX docs are missing and the sprint allows an interim look, ship a clean interim and note follow-up.
 
 ## Done means (implementation)
 

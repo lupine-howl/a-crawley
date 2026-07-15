@@ -1,6 +1,6 @@
 # a-crawley
 
-Greenfield project. Product direction and delivery are driven by markdown artifacts and two Cursor agent roles.
+Greenfield project. Product direction and delivery are driven by markdown artifacts and Cursor agent roles.
 
 ## Agent roles
 
@@ -8,8 +8,15 @@ Greenfield project. Product direction and delivery are driven by markdown artifa
 |------|-------------|------|
 | Product owner | `.cursor/rules/product-owner.mdc` | Brief, roadmap, backlog, sprints |
 | Architect / developer | `.cursor/rules/architect-developer.mdc` | Architecture doc, then implements sprint |
+| UX expert | `.cursor/rules/ux-expert.mdc` | IA, themes, interaction specs (`docs/ux.md`) |
 
 Shared contract: [`AGENTS.md`](./AGENTS.md)
+
+### UX expert — design pass
+
+`@ux-expert`, then:
+
+> You are the UX expert. Read PRODUCT.md, docs/architecture.md, docs/sprints/current.md, and docs/ux.md. Interview me about visual/interaction goals for this sprint, then write docs/ux.md with implementable guidance for the architect. Do not implement application code.
 
 ## Bootstrap sequence
 
@@ -18,6 +25,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 3. **Architect Interview 1** — `docs/architecture.md` (no app code)
 4. **Architect Interview 2** — implement Sprint 1
 
+Ongoing: PO plans sprints; UX expert may lock `docs/ux.md` for UI stories; architect implements the current sprint file only.
+
 ## Product docs
 
 - [`PRODUCT.md`](./PRODUCT.md) — project brief
@@ -25,13 +34,14 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - [`BACKLOG.md`](./BACKLOG.md) — prioritized work
 - [`docs/sprints/current.md`](./docs/sprints/current.md) — active sprint
 - [`docs/architecture.md`](./docs/architecture.md) — technical decisions
+- [`docs/ux.md`](./docs/ux.md) — UX / visual & interaction design
 
 ## Enabling a rule on an Agent chat
 
-These rules use `alwaysApply: false` (manual / intelligent — not always on). For each PO or Architect session:
+These rules use `alwaysApply: false` (manual / intelligent — not always on). For each role session:
 
-1. Open a **new Agent** chat (separate chats for PO vs Architect).
-2. In the chat input, type `@` and select the rule — e.g. `@product-owner` or `@architect-developer`.
+1. Open a **new Agent** chat (separate chats per role).
+2. In the chat input, type `@` and select the rule — e.g. `@product-owner`, `@architect-developer`, or `@ux-expert`.
 3. Check the **context ring** next to the input → **Rules** to confirm it’s attached.
 4. Send your prompt.
 
@@ -61,8 +71,12 @@ To change how a rule attaches later: **Customize → Rules** (or open the `.mdc`
 
 `@architect-developer`, then:
 
-> You are the senior architect/developer. Run Interview 2. Read AGENTS.md, docs/architecture.md, and docs/sprints/current.md. Implement Sprint 1 in order. If AC is unclear, mark the story blocked and stop.
+> You are the senior architect/developer. Run Interview 2. Read AGENTS.md, docs/architecture.md, docs/ux.md (if filled), and docs/sprints/current.md. Implement Sprint 1 in order. If AC is unclear, mark the story blocked and stop.
 
-### 5. Review
+### 5. UX expert — design pass (UI-heavy sprints)
+
+See prompt under **Agent roles** above. Run before or early in architect work on theme/shell/interaction stories.
+
+### 6. Review
 
 PO (or you) checks the diff against sprint acceptance criteria, then plans the next sprint.
