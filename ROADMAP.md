@@ -1,20 +1,20 @@
 # Roadmap
 
 Ordered outcomes (not tasks). Product owner owns this file.  
-**Working title:** Crawley
+**Working title:** Crawley  
+**Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)
 
 ## Now
 
-**Local shell + proof that modules and real sources work** — *Sprint 1 closed 2026-07-15*
+**PoC complete (Sprints 1–5 closed 2026-07-15)** — local modular shell with real signal.
 
-- [x] Shared Python core with a **stable module contract** (lifecycle, config/credentials hooks, inputs/outputs; read paths first; **write-back reserved** for later).
-- [x] Local **browser** dashboard: navigate modules; click into panels.
-- [x] **Investment module PoC:** quick web search/crawl → LLM synthesis of findings into short advice/summary (OpenAI for prototyping).
-- [x] **Gmail PoC:** read-only connection → inbox summary the user can skim. *(Calendar remains stub until Sprint 3.)*
-- [x] **Fitness module:** visible stub (panel + contract compliance).
-- [x] Placeholders / registration for a sensible base set of other life modules (Coming soon panels).
+- [x] Shared Python core + **stable module contract** (write-back designed; dry-run until live sprints).
+- [x] Local **browser** dashboard: themes, Settings, Markdown, home At a glance.
+- [x] **Investment** (lite → hardened) + **Gmail** + **Calendar** read paths with LLM summaries.
+- [x] **Fitness** + **Work** lite modules; remaining domains stubbed/planned.
+- [x] Opt-in **phone-on-LAN**; write-back **ADR-006** + dry-run hooks.
 
-*Still out of Now:* local LLM hosting, write-back, desktop wrapper, automated trading, multi-user, public hosting.
+*Still out of Now:* local LLM ops, live mutations, native desktop wrapper, automated trading, multi-user, public hosting.
 
 ## Next
 
@@ -57,3 +57,4 @@ Valuable or tempting, explicitly not sequenced:
 - Dedicated mobile app store binary
 - **Automated trading / order placement**
 - Anything framed as professional medical or financial advice liability product
+- Tax e-file / bank aggregation SaaS

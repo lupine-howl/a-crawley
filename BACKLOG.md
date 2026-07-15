@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–10 closed (6–10 delivered as one bundle)
+**Status:** Sprints 1–5 closed; Sprint 6 ready; Sprints 7–40 planned under `docs/sprints/planned/` (21–40 = Email/Investment depth)
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -474,11 +474,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | done |
+| Status | ready |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Sprint | 6 |
+| Sprint | 6 (current) |
 
 **Goal:** Leave Coming soon with a local co-parenting schedule (handoffs / custody windows) the operator maintains, plus an LLM Markdown skim of what’s next — not a multi-user family product.
 

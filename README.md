@@ -63,11 +63,11 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 ## Delivery status
 
 - **Sprint 0** — bootstrap (archived): [`docs/sprints/archive/sprint-0-bootstrap.md`](./docs/sprints/archive/sprint-0-bootstrap.md)
-- **Sprint 1** — local shell + lite Investment & Gmail (closed): [`docs/sprints/archive/sprint-1-local-shell.md`](./docs/sprints/archive/sprint-1-local-shell.md)
-- **Sprint 2** — themes, LLM settings, Markdown, home glance (closed): [`docs/sprints/archive/sprint-2-themes-settings-glance.md`](./docs/sprints/archive/sprint-2-themes-settings-glance.md)
-- **Sprints 3–4** — Calendar + shared Google; Investment depth + Fitness (closed): [`docs/sprints/archive/sprint-3-4-google-investment-fitness.md`](./docs/sprints/archive/sprint-3-4-google-investment-fitness.md)
-- **Sprint 5** — LAN + Work lite + write-back design (closed): [`docs/sprints/archive/sprint-5-lan-work-writeback.md`](./docs/sprints/archive/sprint-5-lan-work-writeback.md)
-- **Sprints 6–10** — life modules, Day brief, Calendar write-back, local LLM, shared context (closed): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 1–5** — PoC closed; retro: [`docs/sprints/archive/sprints-1-5-retrospective.md`](./docs/sprints/archive/sprints-1-5-retrospective.md)
+- **Sprint 5** — LAN + Work + write-back design (archived): [`docs/sprints/archive/sprint-5-lan-work-writeback.md`](./docs/sprints/archive/sprint-5-lan-work-writeback.md)
+- **Sprint 6** — Co-parenting + DIY lite (**ready**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 7–20** — planned: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
+- **Sprints 21–40** — Email/Investment depth arc: [`docs/sprints/planned/email-investment-depth-21-40.md`](./docs/sprints/planned/email-investment-depth-21-40.md)
 
 ## Bootstrap sequence (complete)
 
