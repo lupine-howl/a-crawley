@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprint 1 closed 2026-07-15; Sprint 2 active (B7–B8)
+**Status:** Sprint 1 closed 2026-07-15; Sprint 2 active (B7, B8, B13, B14)
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -212,6 +212,57 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 - Multi-user settings profiles
 - LocalLlama install/ops (beyond selecting a stub/provider that isn’t ready)
 - Cloud billing dashboards
+
+---
+
+### B13 — Markdown rendering for LLM summaries
+
+| Field | Value |
+|-------|-------|
+| Status | in_sprint |
+| Priority | P1 |
+| Roadmap theme | Next |
+| Depends on | B4, B5 (summary panels exist) |
+| Sprint | 2 |
+
+**Goal:** Show Investment / Gmail (and similar) LLM output as formatted Markdown in the dashboard, not plain monospace text.
+
+**Acceptance criteria:**
+
+- [ ] Panel summaries render Markdown→HTML safely (no script from model output)
+- [ ] Minimum: headings, paragraphs, bold/italic, lists, links
+- [ ] Styles use theme tokens; readable in all Sprint 2 themes
+- [ ] Approach noted in `docs/architecture.md`
+
+**Out of scope:**
+
+- Rich embed types (mermaid, math), in-app MD editor
+- Replacing stub Coming soon content with Markdown docs
+
+---
+
+### B14 — Dashboard home At a glance
+
+| Field | Value |
+|-------|-------|
+| Status | in_sprint |
+| Priority | P1 |
+| Roadmap theme | Next |
+| Depends on | B13 (Markdown render); B4, B5 |
+| Sprint | 2 |
+
+**Goal:** Give the operator a reason to reopen Crawley: home shows LLM/Gmail status plus **persisted** last successful Investment and Gmail summaries with deep links — not an empty dashboard stub.
+
+**Acceptance criteria:**
+
+- [ ] `/` At a glance: status chips + last Investment + last Gmail (or empty hints)
+- [ ] Snapshots persist under `data/` across restarts; only successful runs update them
+- [ ] Markdown snippets reuse safe renderer; theme tokens; no fake stub data
+- [ ] Documented in `docs/architecture.md`
+
+**Out of scope:**
+
+- Full run history UI, scheduled auto-runs, “run all” batch
 
 ---
 
