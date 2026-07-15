@@ -1,6 +1,6 @@
 # Sprint 6 — Co-parenting + DIY lite (planned)
 
-**Status:** planned (activates after Sprint 5 closes)  
+**Status:** promoted to [`../current.md`](../current.md) (ready — next delivery)  
 **Duration:** one symbolic week  
 **Backlog refs:** B19, B20, B21  
 **Depends on:** Sprint 2 Markdown/home; Sprint 5 Work patterns preferred as template for local-note modules  

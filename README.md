@@ -61,10 +61,10 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 ## Delivery status
 
 - **Sprint 0** — bootstrap (archived): [`docs/sprints/archive/sprint-0-bootstrap.md`](./docs/sprints/archive/sprint-0-bootstrap.md)
-- **Sprint 1** — local shell + lite Investment & Gmail (closed): [`docs/sprints/archive/sprint-1-local-shell.md`](./docs/sprints/archive/sprint-1-local-shell.md)
-- **Sprint 2** — themes, LLM settings, Markdown, home glance (closed): [`docs/sprints/archive/sprint-2-themes-settings-glance.md`](./docs/sprints/archive/sprint-2-themes-settings-glance.md)
-- **Sprints 3–4** — Calendar + shared Google; Investment depth + Fitness (closed): [`docs/sprints/archive/sprint-3-4-google-investment-fitness.md`](./docs/sprints/archive/sprint-3-4-google-investment-fitness.md)
-- **Sprint 5** — LAN + Work lite + write-back design (done): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 1–5** — PoC closed; retro: [`docs/sprints/archive/sprints-1-5-retrospective.md`](./docs/sprints/archive/sprints-1-5-retrospective.md)
+- **Sprint 5** — LAN + Work + write-back design (archived): [`docs/sprints/archive/sprint-5-lan-work-writeback.md`](./docs/sprints/archive/sprint-5-lan-work-writeback.md)
+- **Sprint 6** — Co-parenting + DIY lite (**ready**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 7–20** — planned: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
 
 ## Bootstrap sequence (complete)
 
@@ -88,6 +88,6 @@ Ongoing: PO plans the next sprint in `docs/sprints/current.md`; UX expert may lo
 
 These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-developer`, or `@ux-expert` in Agent chat, then confirm via the context ring → **Rules**.
 
-## After Sprint 5
+## Next delivery
 
-PO sequences Next work (e.g. co-parenting, live write-back). Archive `docs/sprints/current.md` when closing Sprint 5 formally.
+`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 6**). Optional `@ux-expert` pass for Co-parenting schedule forms first.

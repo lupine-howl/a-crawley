@@ -79,8 +79,10 @@ Operator can:
 
 ## Parking lot (after Sprint 10)
 
-- Optional **native desktop shell** wrapping the web UI
-- Gmail draft-then-send write-back
-- Scheduled overnight Day brief
-- Wearables / brokerage integrations as explicit Later bets
-- Deeper shared memory (searchable history, embeddings) if seed proves useful
+- Gmail draft-then-send write-back → **[Sprint 11](sprint-11.md)**
+- Optional **native desktop shell** → **[Sprint 12](sprint-12.md)**
+- Scheduled overnight Day brief → **[Sprint 13](sprint-13.md)**
+- Co-parenting ↔ Calendar sync → **[Sprint 14](sprint-14.md)**
+- Deeper shared memory / history → **[Sprint 15](sprint-15.md)**
+- Wearables / finance import / watchlist → Sprints **16–18**; LAN gate + weekly review → **19–20** ([index](README.md))
+- Brokerage / automated trading remain **Icebox**

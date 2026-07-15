@@ -5,7 +5,7 @@
 **Backlog refs:** B7, B8, B13, B14  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
 **UX contract:** [`docs/ux.md`](../ux.md) (Confirmed — Sprint 2 design; home glance = PO add)  
-**Previous:** [`archive/sprint-1-local-shell.md`](archive/sprint-1-local-shell.md)
+**Previous:** [`sprint-1-local-shell.md`](sprint-1-local-shell.md)
 
 ## Goal
 

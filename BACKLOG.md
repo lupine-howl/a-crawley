@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprint 5 closed; Sprints 6–10 planned under `docs/sprints/planned/`
+**Status:** Sprints 1–5 closed (see retrospective); Sprint 6 ready in `docs/sprints/current.md`; Sprints 7–20 planned under `docs/sprints/planned/`
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -155,10 +155,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria (Sprint 3):**
 
-- [ ] Read-only Calendar fetch for a bounded upcoming window
-- [ ] LLM Markdown summary; job busy/done/error; empty state honest
-- [ ] Success snapshot for home glance
-- [ ] Clear errors for missing Calendar scope / auth failure
+- [x] Read-only Calendar fetch for a bounded upcoming window
+- [x] LLM Markdown summary; job busy/done/error; empty state honest
+- [x] Success snapshot for home glance
+- [x] Clear errors for missing Calendar scope / auth failure
 
 **Out of scope:**
 
@@ -180,10 +180,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Theme tokens (colors, type/spacing as needed) live in one place and apply across shell + module panels
-- [ ] Operator can switch theme from the dashboard (persist locally)
-- [ ] Styling approach decision recorded in architecture (custom CSS themes vs later build tool)
-- [ ] Stub / Coming soon panels match the updated system
+- [x] Theme tokens (colors, type/spacing as needed) live in one place and apply across shell + module panels
+- [x] Operator can switch theme from the dashboard (persist locally)
+- [x] Styling approach decision recorded in architecture (custom CSS themes vs later build tool)
+- [x] Stub / Coming soon panels match the updated system
 
 **Out of scope:**
 
@@ -206,10 +206,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Settings entry point on the dashboard (button/nav to settings panel)
-- [ ] Configure active model (and related PoC settings — e.g. model id); secrets stay local / not committed
-- [ ] **Test connection** action reports success/failure clearly in the UI
-- [ ] Modules use the configured provider/settings after save (document restart-required vs hot-reload)
+- [x] Settings entry point on the dashboard (button/nav to settings panel)
+- [x] Configure active model (and related PoC settings — e.g. model id); secrets stay local / not committed
+- [x] **Test connection** action reports success/failure clearly in the UI
+- [x] Modules use the configured provider/settings after save (document restart-required vs hot-reload)
 
 **Out of scope:**
 
@@ -233,10 +233,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Panel summaries render Markdown→HTML safely (no script from model output)
-- [ ] Minimum: headings, paragraphs, bold/italic, lists, links
-- [ ] Styles use theme tokens; readable in all Sprint 2 themes
-- [ ] Approach noted in `docs/architecture.md`
+- [x] Panel summaries render Markdown→HTML safely (no script from model output)
+- [x] Minimum: headings, paragraphs, bold/italic, lists, links
+- [x] Styles use theme tokens; readable in all Sprint 2 themes
+- [x] Approach noted in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -259,10 +259,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] `/` At a glance: status chips + last Investment + last Gmail (or empty hints)
-- [ ] Snapshots persist under `data/` across restarts; only successful runs update them
-- [ ] Markdown snippets reuse safe renderer; theme tokens; no fake stub data
-- [ ] Documented in `docs/architecture.md`
+- [x] `/` At a glance: status chips + last Investment + last Gmail (or empty hints)
+- [x] Snapshots persist under `data/` across restarts; only successful runs update them
+- [x] Markdown snippets reuse safe renderer; theme tokens; no fake stub data
+- [x] Documented in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -284,11 +284,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Cache/reuse fetch artifacts for identical (or TTL) re-runs
-- [ ] Bounded richer source metadata; hard caps preserved
-- [ ] Improved advice Markdown structure; source list + summary in panel
-- [ ] Clearer network/parse/LLM/empty error handling
-- [ ] No trading/order affordances
+- [x] Cache/reuse fetch artifacts for identical (or TTL) re-runs
+- [x] Bounded richer source metadata; hard caps preserved
+- [x] Improved advice Markdown structure; source list + summary in panel
+- [x] Clearer network/parse/LLM/empty error handling
+- [x] No trading/order affordances
 
 **Out of scope:**
 
@@ -310,10 +310,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Clearer Markdown summary structure (priorities / follow-ups)
-- [ ] Better auth expiry, quota, and empty-inbox handling
-- [ ] Still bounded; uses shared Google OAuth from B15
-- [ ] No write-back
+- [x] Clearer Markdown summary structure (priorities / follow-ups)
+- [x] Better auth expiry, quota, and empty-inbox handling
+- [x] Still bounded; uses shared Google OAuth from B15
+- [x] No write-back
 
 **Out of scope:**
 
@@ -335,10 +335,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Fitness leaves Coming soon; form for goal/context
-- [ ] LLM Markdown breakdown; disclaimer not medical advice
-- [ ] Job status + snapshot for home
-- [ ] No wearable API required
+- [x] Fitness leaves Coming soon; form for goal/context
+- [x] LLM Markdown breakdown; disclaimer not medical advice
+- [x] Job status + snapshot for home
+- [x] No wearable API required
 
 **Out of scope:**
 
@@ -361,10 +361,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Default bind localhost; explicit LAN enable with warning
-- [ ] Documented WSL/firewall test path; disable returns to localhost
-- [ ] Auth posture decided and documented (minimal gate **or** trusted-LAN-only)
-- [ ] Settings and/or env control
+- [x] Default bind localhost; explicit LAN enable with warning
+- [x] Documented WSL/firewall test path; disable returns to localhost
+- [x] Auth posture decided and documented (minimal gate **or** trusted-LAN-only)
+- [x] Settings and/or env control
 
 **Out of scope:**
 
@@ -386,10 +386,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Installed-app OAuth with both readonly scopes
-- [ ] Local tokens; upgrade/reconsent path
-- [ ] Connected/reconnect surfaced in UI minimally
-- [ ] No write scopes
+- [x] Installed-app OAuth with both readonly scopes
+- [x] Local tokens; upgrade/reconsent path
+- [x] Connected/reconnect surfaced in UI minimally
+- [x] No write scopes
 
 **Out of scope:**
 
@@ -411,9 +411,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Fitness snapshot when present
-- [ ] Keeps prior module snapshots; still one composition / truncate long bodies
-- [ ] Participating modules listed in architecture.md
+- [x] Home shows last Fitness snapshot when present
+- [x] Keeps prior module snapshots; still one composition / truncate long bodies
+- [x] Participating modules listed in architecture.md
 
 **Out of scope:**
 
@@ -435,9 +435,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Work leaves Coming soon; local task/note capture
-- [ ] Run → Markdown next-actions / prioritization
-- [ ] Snapshot on home; no third-party OAuth required
+- [x] Work leaves Coming soon; local task/note capture
+- [x] Run → Markdown next-actions / prioritization
+- [x] Snapshot on home; no third-party OAuth required
 
 **Out of scope:**
 
@@ -459,10 +459,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] ADR: confirm-before-write, draft-first, audit locally
-- [ ] Contract hooks documented; dry-run/no-op only in app
-- [ ] Architecture stages: propose → confirm → execute
-- [ ] No live Gmail send / Calendar insert
+- [x] ADR: confirm-before-write, draft-first, audit locally
+- [x] Contract hooks documented; dry-run/no-op only in app
+- [x] Architecture stages: propose → confirm → execute
+- [x] No live Gmail send / Calendar insert
 
 **Out of scope:**
 
@@ -478,7 +478,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 6 |
+| Sprint | 6 (current) |
 
 **Goal:** Leave Coming soon with a local co-parenting schedule (handoffs / custody windows) the operator maintains, plus an LLM Markdown skim of what’s next — not a multi-user family product.
 
@@ -506,7 +506,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 6 |
+| Sprint | 6 (current) |
 
 **Goal:** DIY domain live: local project notes / punch list → LLM next-steps Markdown.
 
@@ -532,7 +532,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14, B19, B20 |
-| Planned sprint | 6 |
+| Sprint | 6 (current) |
 
 **Goal:** Extend At a glance when Co-parenting and DIY go live; keep one composition.
 
@@ -780,6 +780,323 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 **Out of scope:**
 
 - Per-module pin/hide preferences UI
+
+---
+
+### B31 — Gmail write-back (confirm-first send)
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B18, B25, B15 |
+| Planned sprint | 11 |
+
+**Goal:** Confirm-first Gmail send (draft → confirm → execute → audit), reusing Sprint 8 write-back patterns.
+
+**Acceptance criteria:**
+
+- [ ] Propose → draft/diff → confirm → send → audit
+- [ ] Cancel performs no send; reconsent for write scope when needed
+- [ ] Audit visible via existing viewer patterns
+- [ ] No silent/auto sends; no bulk label product
+
+**Out of scope:**
+
+- Multi-account, mailing-list automation
+
+---
+
+### B32 — Native desktop shell wrapper
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B1 |
+| Planned sprint | 12 |
+
+**Goal:** Optional native window wrapping the existing web UI — one UI stack.
+
+**Acceptance criteria:**
+
+- [ ] Desktop launcher loads existing UI; browser path remains valid
+- [ ] ADR for technology choice; README run notes for stakeholder machine
+- [ ] Clear error if backend unavailable
+- [ ] No parallel native feature widgets
+
+**Out of scope:**
+
+- App-store shipping, auto-update SaaS, mobile binary
+
+---
+
+### B33 — Opt-in scheduled Day brief
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B23 |
+| Planned sprint | 13 |
+
+**Goal:** Local opt-in schedule to refresh Day brief; default off; no scheduled write-back.
+
+**Acceptance criteria:**
+
+- [ ] Settings enable/disable + simple cadence; default off
+- [ ] Scheduled refresh of Day brief documented (what it may fetch)
+- [ ] No scheduled mutations (ADR-006)
+- [ ] Missed-run behavior documented
+
+**Out of scope:**
+
+- Push notifications off-machine
+
+---
+
+### B34 — Co-parenting publish to Calendar
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B19, B25 |
+| Planned sprint | 14 |
+
+**Goal:** Confirm-first publish of selected co-parenting windows to Google Calendar.
+
+**Acceptance criteria:**
+
+- [ ] Select entries → draft events → confirm insert
+- [ ] Local schedule remains source of truth unless published
+- [ ] Audit entries; no silent sync loops
+- [ ] Sole-operator only
+
+**Out of scope:**
+
+- Other-parent accounts, family ACLs
+
+---
+
+### B35 — Snapshot history browser
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B14 |
+| Planned sprint | 15 |
+
+**Goal:** Bounded history of successful summaries beyond last-only; browse/search locally.
+
+**Acceptance criteria:**
+
+- [ ] Persist bounded N histories per module
+- [ ] Simple history UI with safe Markdown view
+- [ ] Retention/prune documented
+
+**Out of scope:**
+
+- Cloud sync of history
+
+---
+
+### B36 — Shared context depth (history pins)
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B29, B35 |
+| Planned sprint | 15 |
+
+**Goal:** Pin/select history into shared context with hard caps.
+
+**Acceptance criteria:**
+
+- [ ] Operator can pin history items into shared context
+- [ ] Hard caps; secrets never injected
+- [ ] Architecture updated
+
+**Out of scope:**
+
+- Full vector RAG platform
+
+---
+
+### B37 — Fitness data import lite
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B11 |
+| Planned sprint | 16 |
+
+**Goal:** Bounded activity import to ground Fitness plans; keep non-medical framing.
+
+**Acceptance criteria:**
+
+- [ ] Import path for bounded activity artifact
+- [ ] Optional use in Fitness Run prompt
+- [ ] Disclaimer retained; bad file errors clear
+
+**Out of scope:**
+
+- Continuous wearable productization
+
+---
+
+### B38 — Finance CSV import lite
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B22 |
+| Planned sprint | 17 |
+
+**Goal:** Local CSV import for Finance planning summaries — not brokerage or e-file.
+
+**Acceptance criteria:**
+
+- [ ] Bounded CSV import under `data/`
+- [ ] Planning Markdown + non-advice disclaimer
+- [ ] No bank/broker OAuth; no trading UI
+
+**Out of scope:**
+
+- Tax e-file, bank aggregation SaaS
+
+---
+
+### B39 — Investment watchlist
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B9 |
+| Planned sprint | 18 |
+
+**Goal:** Local watchlist scoping Investment runs; still manual advice only.
+
+**Acceptance criteria:**
+
+- [ ] Edit/save watchlist under `data/`
+- [ ] Run can target watchlist within hard caps
+- [ ] No order/trade affordances
+
+**Out of scope:**
+
+- Automated trading (Icebox)
+
+---
+
+### B40 — Optional LAN shared-secret gate
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B12 |
+| Planned sprint | 19 |
+
+**Goal:** Optional gate when LAN bind is enabled; localhost stays low-friction.
+
+**Acceptance criteria:**
+
+- [ ] Optional shared-secret (or basic gate) when LAN on
+- [ ] Trusted-LAN-only without gate remains an explicit choice
+- [ ] Documented in README + architecture
+
+**Out of scope:**
+
+- Enterprise SSO, public internet exposure features
+
+---
+
+### B41 — Local backup / export
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B1 |
+| Planned sprint | 19 |
+
+**Goal:** Operator-triggered local backup/export of app data with explicit secrets handling.
+
+**Acceptance criteria:**
+
+- [ ] Export archive written locally
+- [ ] Secrets include/exclude choice documented
+- [ ] No cloud upload
+
+**Out of scope:**
+
+- Remote backup SaaS
+
+---
+
+### B42 — Weekly review composition
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B23, B29 |
+| Planned sprint | 20 |
+
+**Goal:** Cross-module Weekly review Markdown the operator will reopen; one composition.
+
+**Acceptance criteria:**
+
+- [ ] Run Weekly review from bounded snapshots/shared context
+- [ ] Persist result; home or panel slot
+- [ ] Partial/empty honest; no fake data
+- [ ] One composition (no widget dump)
+
+**Out of scope:**
+
+- Push digests off-machine
+
+---
+
+### B43 — Shell polish pass
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B7 |
+| Planned sprint | 20 |
+
+**Goal:** Close 11–20 with a short prioritized UX/reliability polish list inside the existing design system.
+
+**Acceptance criteria:**
+
+- [ ] PO polish list recorded in sprint file before implement
+- [ ] Fixes use existing theme tokens / patterns
+- [ ] No new domain modules in this item
+
+**Out of scope:**
+
+- Full redesign / second UI stack
 
 ---
 
