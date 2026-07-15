@@ -5,7 +5,8 @@ Senior architect / developer owns this file. Update when material decisions land
 **Working title:** Crawley  
 **Status:** Sprints 1–11 closed (11 = Settings Update: git pull + hot reload)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 11 done)  
+**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 12 — Sender Inbox)  
+**Sprint 11 (closed):** [`sprints/archive/sprint-11-settings-update.md`](sprints/archive/sprint-11-settings-update.md)  
 **Next planned:** Sender Inbox (12) · ASX profiles (13) · ASX paper (14)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  

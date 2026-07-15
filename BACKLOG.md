@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–11 closed (11 = Settings Update); Sender Inbox → Sprint 12; ASX → 13–14; former post-10 platform/depth plans shelved
+**Status:** Sprints 1–11 closed (11 = Settings Update, B78 done); **Sprint 12 ready** = Sender Inbox (B65–B70); ASX → 13–14; former post-10 platform/depth plans shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -1666,7 +1666,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B7 |
-| Planned sprint | 12 |
+| Planned sprint | 12 (current) |
 
 **Goal:** UX expert design contract for Sender-grouped Inbox and ASX research desk (profiles, recommendations, paper portfolio pages) before implementation.
 
@@ -1694,7 +1694,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B5, B10, B65 |
-| Planned sprint | 12 |
+| Planned sprint | 12 (current) |
 
 **Goal:** Polite background process pulls **one email at a time** and LLM-categorizes each on a useful metric schema.
 
@@ -1719,7 +1719,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66, B65 |
-| Planned sprint | 12 |
+| Planned sprint | 12 (current) |
 
 **Goal:** Default Inbox UI grouped by **sender**, not a chronological stream.
 
@@ -1743,7 +1743,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B67 |
-| Planned sprint | 12 |
+| Planned sprint | 12 (current) |
 
 **Goal:** Per-sender LLM profile describing interaction history from ingested mail.
 
@@ -1767,7 +1767,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B68 |
-| Planned sprint | 12 |
+| Planned sprint | 12 (current) |
 
 **Goal:** Extract actionable todos from each sender’s ingested emails; local open/done.
 
@@ -1791,7 +1791,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66 |
-| Planned sprint | 12 |
+| Planned sprint | 12 (current) |
 
 **Goal:** Hard PoC bound of ~20 ingested emails with clear UI and reset path.
 
@@ -1992,7 +1992,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B1 |
-| Sprint | 11 (current) — **only story** |
+| Sprint | 11 |
 
 **Goal:** From the dashboard (Settings → **Update**), pull the latest application code from git and confirm the running process **hot-reloads** when reload is enabled — so the operator can update Crawley without a manual terminal dance.
 

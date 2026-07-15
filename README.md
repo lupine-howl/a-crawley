@@ -68,8 +68,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 - **Sprints 1–5** — PoC closed; retro: [`docs/sprints/archive/sprints-1-5-retrospective.md`](./docs/sprints/archive/sprints-1-5-retrospective.md)
 - **Sprints 6–10** — **implemented** (life modules, Day brief, Calendar write-back, LocalLlama, shared context): [`docs/sprints/archive/sprint-6-10-life-modules-llm-context.md`](./docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](./docs/sprints/archive/sprint-6-10-code-verification.md)
-- **Sprint 11** — Settings Update (git pull + hot reload) (**in progress**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprint 12** — Sender Inbox PoC (planned): [`docs/sprints/planned/sprint-12-sender-inbox.md`](./docs/sprints/planned/sprint-12-sender-inbox.md)
+- **Sprint 11** — Settings Update (git pull + hot reload) (**closed**): [`docs/sprints/archive/sprint-11-settings-update.md`](./docs/sprints/archive/sprint-11-settings-update.md)
+- **Sprint 12** — Sender Inbox PoC (**ready**): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Sprints 13–14** — ASX profiles + paper portfolio (planned): [`docs/sprints/planned/`](./docs/sprints/planned/)
 - **Sprints 12–13** — ASX profiles → recommendations + paper portfolio: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
@@ -99,4 +99,4 @@ These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-develop
 
 ## Next delivery
 
-`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 11** = Settings → Update only). Sender Inbox is Sprint **12**; ASX is Sprints **13–14**. UX: `docs/ux/sender-inbox-asx.md` (§2.3 Update, §3 Inbox).
+`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 12** — Sender Inbox PoC). ASX is Sprints **13–14**. UX: `docs/ux/sender-inbox-asx.md`.
