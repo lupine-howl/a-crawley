@@ -8,7 +8,8 @@
 **Depends on:** Sprint 5 (LAN, Work, ADR-006)  
 **Architecture:** [`docs/architecture.md`](../../architecture.md) + ADR-007 / ADR-008  
 **Previous:** [`archive/sprint-5-lan-work-writeback.md`](sprint-5-lan-work-writeback.md)  
-**Planned sources:** [`planned/sprint-6.md`](../planned/sprint-6.md) … [`planned/sprint-10.md`](../planned/sprint-10.md)
+**Planned sources:** [`planned/sprint-6.md`](../planned/sprint-6.md) … [`planned/sprint-10.md`](../planned/sprint-10.md)  
+**Code verification:** [`sprint-6-10-code-verification.md`](sprint-6-10-code-verification.md)
 
 ## Goal
 

@@ -63,7 +63,7 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 ## Delivery status
 
 - **Sprints 1–5** — PoC closed; retro: [`docs/sprints/archive/sprints-1-5-retrospective.md`](./docs/sprints/archive/sprints-1-5-retrospective.md)
-- **Sprints 6–10** — life modules, Day brief, Calendar write-back, LocalLlama, shared context (closed): [`docs/sprints/archive/sprint-6-10-life-modules-llm-context.md`](./docs/sprints/archive/sprint-6-10-life-modules-llm-context.md)
+- **Sprints 6–10** — **implemented** (life modules, Day brief, Calendar write-back, LocalLlama, shared context): [`docs/sprints/archive/sprint-6-10-life-modules-llm-context.md`](./docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](./docs/sprints/archive/sprint-6-10-code-verification.md)
 - **Sprint 11** — Sender Inbox PoC + UX (**ready**, pivot): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Sprints 12–13** — ASX profiles → recommendations + paper portfolio: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)

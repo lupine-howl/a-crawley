@@ -1,8 +1,10 @@
 # Shelved sprints
 
 Deferred on **2026-07-15** for the **Sender Inbox + ASX PoC** pivot.  
-**Important:** Sprints **1–10 are closed and delivered** — they are **not** shelved.  
-The shelved queue is the *former planned* **Sprints 11–40** (platform Later + Email/Investment depth arc) that would have started after Sprint 10.
+
+**Do not confuse with Sprints 6–10:** those **are implemented in code** (see [`../archive/sprint-6-10-code-verification.md`](../archive/sprint-6-10-code-verification.md)). They are closed/archived, **not** shelved.
+
+What is shelved: the *former planned* **post-10** queue (old platform Later + Email/Investment depth files `sprint-11.md`…`sprint-40.md`).
 
 Pivot delivery numbers: **Sprint 11–13** = Sender Inbox → ASX profiles → paper portfolio  
 (see [`../current.md`](../current.md) and [`../planned/README.md`](../planned/README.md)).

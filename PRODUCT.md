@@ -16,7 +16,7 @@ A single person’s life spans many systems—email, calendar, fitness, co-paren
 Crawley is a **local-first, AI-rich personal assistant** that runs on the stakeholder’s machine. It collects data from configured sources, analyzes it with ML/LLMs, and surfaces advice through a modular desktop-facing dashboard.
 
 - **Brain:** Python, with a rich ML stack; OpenAI API for prototyping; path to a locally hosted LLM (e.g. Llama variant) after PoC.
-- **Shape:** Shared core + **pluggable modules** behind a stable contract (read now; write-back later).
+- **Shape:** Shared core + **pluggable modules** behind a stable contract (reads first; Calendar confirm-first write-back shipped; Gmail send still later).
 - **Surface:** Local **browser UI** on the machine (easy desktop use; optional phone-on-LAN testing later). Optional native desktop shell around the same UI is a later enhancement—not a parallel product.
 
 ## Target users
@@ -40,11 +40,11 @@ Explicitly out of scope for now (unless the roadmap moves them):
 - Public hosting, SaaS, or commercial packaging
 - Multi-user / accounts / co-parent shared login
 - Dedicated native mobile app (browser-on-phone testing may be enabled later; it is not a product requirement)
-- Local LLM setup and ops **before** a working PoC on the cloud LLM path
-- Automated trading / order placement (may return as a later/icebox idea)
+- Automated trading / **live brokerage order placement** (paper/simulation portfolio is allowed)
 - Medical diagnosis or regulated advice framed as professional care
-- Live write-back before designed confirm-first path (ADR-006); silent/scheduled mutations without explicit confirm
+- Silent/scheduled mutations without explicit confirm (ADR-006 still governs)
 - Building two separate UI stacks (e.g. Qt *and* web) for the same PoC
+- Gmail send until a dedicated confirm-first story un-shelves it
 
 ## Constraints
 
@@ -54,8 +54,9 @@ Explicitly out of scope for now (unless the roadmap moves them):
 | UI (Now) | Local browser UI served from the machine |
 | UI (Later) | Optional native desktop wrapper reusing the same UI |
 | LLM | OpenAI API for prototyping; local Llama-class model after PoC proves value |
-| Google | Single Google identity; **read-only** through Sprint 5; confirm-first write-back scheduled (Calendar → Gmail) per roadmap |
-| Advice model | Summaries and suggestions the user applies manually; no automated financial or medical action |
+| Google | Single Google identity; Calendar confirm-first **insert** shipped; Gmail remains read (+ Sender Inbox pivot); Gmail send shelved |
+| LLM | OpenAI + LocalLlama (Ollama HTTP) both operable |
+| Advice model | Summaries and suggestions the user applies manually; no automated financial or medical action; paper trades ≠ live orders |
 | Audience | Personal use only |
 | Security | Practical intrusion resistance for a local (and optionally LAN) app; not enterprise compliance theater |
 
@@ -63,11 +64,11 @@ Explicitly out of scope for now (unless the roadmap moves them):
 
 | Metric | Target | Notes |
 |--------|--------|-------|
-| PoC usefulness | Can open dashboard, hit investment + Gmail/Calendar flows, get LLM-synthesized output from real reads/searches | **Met** after Sprints 1–5; Fitness/Work lite also live |
-| Module extensibility | New domain can be added behind the shared module contract without rewriting the core | Contract defined early |
-| Habit / pull | Stakeholder chooses to open Crawley for at least one real decision or summary in a normal week once PoC works | Qualitative but explicit |
-| Privacy posture | No public deployment; secrets stay local; remote surface minimized (localhost by default) | LAN/phone access only if consciously enabled later |
-| Path to local LLM | PoC proven on OpenAI before investing in local model hosting | Milestone, not day-one |
+| PoC usefulness | Dashboard + Investment/Gmail/Calendar + life-domain lites + Day brief | **Met** through Sprint 10 (code verified) |
+| Module extensibility | New domain behind shared contract without rewriting core | **Met** — nine live modules in registry |
+| Habit / pull | Operator reopens for a real decision/summary in a normal week | Qualitative; Day brief + glance support this |
+| Privacy posture | No public deploy; secrets local; localhost default | LAN opt-in; trusted-LAN-only |
+| Path to local LLM | OpenAI PoC then LocalLlama operable | **Met** (ADR-007; Settings Test connection) |
 
 ## Modular domains (intent)
 
@@ -112,8 +113,9 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 
 ## Decisions log (Pivot — Sender Inbox + ASX PoCs)
 
-- After **Sprints 6–10 delivered**, next number is **Sprint 11** (not a reset to 6)
-- **Shelve** former planned Sprints 11–40 depth/platform queue (B32–B64); restore later selectively
-- **Gmail Next (11):** background one-email-at-a-time LLM categorization; UI **grouped by sender** with LLM **sender profiles** + **todos**; PoC **~20 emails**
-- **Investment Next (12–13):** **ASX-first**; large universe; background scan; per-company **profiles**; sources + prompts; structured **recommendations**; **paper portfolio** (not live orders)
-- UX expert designs both dashboards at Sprint 11 gate (`docs/ux/sender-inbox-asx.md`)
+- **Code-verified:** Sprints 6–10 are implemented (`tests/test_sprint6_10.py` green; modules in registry) — see [`docs/sprints/archive/sprint-6-10-code-verification.md`](docs/sprints/archive/sprint-6-10-code-verification.md)
+- Next number is **Sprint 11** (do not renumber pivot back to 6)
+- **Shelve** only former *planned* post-10 queue (B32–B64 / old `sprint-11.md`…`40.md`); never shelve delivered 6–10
+- **Gmail Next (11):** one-at-a-time categorize; sender-grouped inbox; profiles; todos; ~20 email PoC
+- **Investment Next (12–13):** ASX-first scan/profiles/recommendations + **paper** portfolio (not live orders)
+- UX gate: `docs/ux/sender-inbox-asx.md` (S11.0)
