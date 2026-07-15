@@ -59,17 +59,22 @@ PO locks product direction and the first delivery plan; architect locks `docs/ar
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | in_progress |
 | Owner | Architect / developer |
-| Depends on | S0.2 done |
+| Depends on | S0.2 done (soft: docs drafted against Now themes; archive blocked until Planned Sprint 1 exists) |
 
 **Acceptance criteria:**
 
-- [ ] Stakeholder interviewed on stack, deploy, data, integrations, constraints
-- [ ] `docs/architecture.md` written (overview, stack, boundaries, key flows, decisions, risks)
-- [ ] Architecture aligned enough to execute Planned Sprint 1
-- [ ] Stakeholder confirmed architecture
-- [ ] Sprint 0 archived to `docs/sprints/archive/`; `docs/sprints/current.md` becomes Sprint 1 from the Planned Sprint 1 section
+- [x] Stakeholder interviewed on stack, deploy, data, integrations, constraints
+- [x] `docs/architecture.md` written (overview, stack, boundaries, key flows, decisions, risks)
+- [ ] Architecture aligned enough to execute Planned Sprint 1 — *blocked: Planned Sprint 1 TBD (S0.2)*
+- [x] Stakeholder confirmed architecture
+- [ ] Sprint 0 archived to `docs/sprints/archive/`; `docs/sprints/current.md` becomes Sprint 1 from the Planned Sprint 1 section — *blocked on S0.2*
+
+**Notes:**
+
+- Architecture + ADRs 001–005 confirmed 2026-07-15.
+- Archive Sprint 0 / promote Sprint 1 still blocked on S0.2 (Planned Sprint 1). No application code until Architect Interview 2.
 
 **Out of scope:**
 
