@@ -75,10 +75,11 @@ Operator can:
 - Actual Gmail send / Calendar insert
 - LocalLlama production hosting
 - Native desktop wrapper
-- Co-parenting / DIY / Finance live modules (remain stubs or Later)
+- Co-parenting / DIY / Finance live modules → Sprints 6–7
 
 ## Parking lot
 
-- Co-parenting schedule module (candidate Sprint 6)
-- LocalLlama install path (Later theme)
-- Real write-back implementation sprint after ADR soak
+- Co-parenting schedule module → **[Sprint 6](sprint-6.md)**
+- Real write-back implementation after ADR soak → **[Sprint 8](sprint-8.md)**
+- LocalLlama install path → **[Sprint 9](sprint-9.md)**
+- DIY / Finance / Day brief / Coding+context → [Sprint 7](sprint-7.md), [Sprint 10](sprint-10.md); [index](README.md)

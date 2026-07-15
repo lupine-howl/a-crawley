@@ -32,20 +32,36 @@ Harden **Investment**; **Fitness** lite (non-clinical) — [`docs/sprints/planne
 ### Sprint 5 (planned) — Reach + Work + write-back design
 **Phone-on-LAN** (opt-in); **Work** lite; write-back **ADR/dry-run only** — [`docs/sprints/planned/sprint-5.md`](docs/sprints/planned/sprint-5.md)
 
-### After Sprint 5 (unscheduled Next)
-- Co-parenting / DIY / Finance modules as needed
-- Real write-back implementation (after ADR soak)
-- Further UX polish passes
+### Sprint 6 (planned) — Co-parenting + DIY lite
+Local schedule + project notes → LLM Markdown; home glance slots — [`docs/sprints/planned/sprint-6.md`](docs/sprints/planned/sprint-6.md)
+
+### Sprint 7 (planned) — Finance lite + Day brief
+Finance/Taxes planning path (non-advice); Calendar+Gmail **Day brief** on home — [`docs/sprints/planned/sprint-7.md`](docs/sprints/planned/sprint-7.md)
+
+### Sprint 8 (planned) — Confirm-first Calendar write-back
+First real mutation after Sprint 5 ADR soak; audit log viewer — [`docs/sprints/planned/sprint-8.md`](docs/sprints/planned/sprint-8.md)
+
+### Sprint 9 (planned) — Local LLM operable
+LocalLlama (or equivalent) behind existing provider interface; OpenAI remains selectable — [`docs/sprints/planned/sprint-9.md`](docs/sprints/planned/sprint-9.md)
+
+### Sprint 10 (planned) — Coding/Creative + shared context seed
+Last top-tier lite module; thin cross-module context for prompts — [`docs/sprints/planned/sprint-10.md`](docs/sprints/planned/sprint-10.md)
+
+### After Sprint 10 (unscheduled)
+- Optional **native desktop shell** (wrap existing UI)
+- Gmail draft-then-send write-back; further selective mutations
+- Scheduled overnight Day brief; deeper shared memory / search if seed proves useful
+- Wearables, brokerage, tax e-file — only if explicitly pulled from Icebox/Later bets
 
 ## Later
 
-**Local intelligence and thicker life coverage**
+**Thicker local intelligence and optional desktop chrome**
 
-- Run on a **locally hosted LLM** (Llama-class or similar); reduce reliance on cloud APIs for core advice.
 - Optional **native desktop shell** wrapping the existing web UI (dock icon / window)—not a second UI stack.
-- Broader module set: DIY, coding/creative projects, taxes/finance depth, co-parenting workflows as needed.
-- Selective write-back and automation with strong user confirmation.
-- Stronger local data organisation across modules (shared memory/context across domains).
+- Deeper shared memory (searchable history, optional embeddings) after Sprint 10 seed.
+- Broader integrations as needed: workout wearables, tax/finance depth, co-parenting ↔ Calendar sync.
+- Additional selective write-back (e.g. Gmail) with the same confirm-first discipline.
+- *(Local LLM path and top-tier lite modules are scheduled in Sprints 9–10 above.)*
 
 ## Icebox
 

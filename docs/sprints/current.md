@@ -145,7 +145,8 @@ Implement **in order** (S2.1 → S2.2 → S2.3 → S2.4) unless dependencies alr
 - Calendar / shared Google / Gmail harden → **Sprint 3** ([planned](planned/sprint-3.md))
 - Investment depth / Fitness lite → **Sprint 4** ([planned](planned/sprint-4.md))
 - Phone-on-LAN / Work / write-back design → **Sprint 5** ([planned](planned/sprint-5.md))
-- Write-back mutations, local LLM ops, automated trading → Later / Icebox
+- Co-parenting / DIY → **Sprint 6**; Finance + Day brief → **Sprint 7**; Calendar write-back → **Sprint 8**; Local LLM → **Sprint 9**; Coding/Creative + shared context → **Sprint 10** ([index](planned/README.md))
+- Native desktop shell, Gmail send, automated trading → After Sprint 10 / Later / Icebox
 
 ## Parking lot
 
