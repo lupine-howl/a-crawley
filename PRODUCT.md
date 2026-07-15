@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; **Sprints 1–5 closed** ([retro](docs/sprints/archive/sprints-1-5-retrospective.md)); Sprint 6 ready; Sprints 7–20 planned
+**Status:** Brief confirmed; **Sprints 1–5 closed** ([retro](docs/sprints/archive/sprints-1-5-retrospective.md)); Sprint 6 ready; Sprints 7–40 planned (21–40 = Email/Investment depth)
 
 ## Problem
 
@@ -105,3 +105,11 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 - Sprints **11–20** schedule Later themes: Gmail write-back → desktop shell → scheduled Day brief → co-parenting Calendar publish → history/memory → Fitness/Finance/Investment depth → LAN gate/backup → weekly review/polish
 - Icebox stays out (trading, multi-user, SaaS, e-file) without PRODUCT revision
 - Native desktop shell moved from “after 10 unscheduled” to **Sprint 12**
+
+## Decisions log (Sprints 21–40 — Email/Investment depth)
+
+- Stakeholder priority: **deep functionality for Gmail and Investment** after Sprint 20
+- Alternating email/investment sprints ending with bridge (39) + playbooks/polish (40)
+- **Holdings journal is manual** (no brokerage OAuth); alerts are in-panel/local only
+- Mutations stay **confirm-first** (labels, archive/trash); no silent automation
+- **Automated trading remains Icebox**

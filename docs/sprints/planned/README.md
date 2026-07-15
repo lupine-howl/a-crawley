@@ -1,7 +1,8 @@
 # Planned sprints index
 
 **Active / next delivery:** [`../current.md`](../current.md) (**Sprint 6** ready).  
-**Closed:** [`../archive/`](../archive/) — see also [`../archive/sprints-1-5-retrospective.md`](../archive/sprints-1-5-retrospective.md).
+**Closed:** [`../archive/`](../archive/) — see also [`../archive/sprints-1-5-retrospective.md`](../archive/sprints-1-5-retrospective.md).  
+**Depth arc overview:** [`email-investment-depth-21-40.md`](email-investment-depth-21-40.md)
 
 | Sprint | Theme | File | Backlog |
 |--------|-------|------|---------|
@@ -24,7 +25,27 @@
 | 18 | Investment watchlist | [`sprint-18.md`](sprint-18.md) | B39 |
 | 19 | LAN gate + local backup/export | [`sprint-19.md`](sprint-19.md) | B40–B41 |
 | 20 | Weekly review + shell polish | [`sprint-20.md`](sprint-20.md) | B42–B43 |
+| 21 | Gmail thread digests | [`sprint-21.md`](sprint-21.md) | B44 |
+| 22 | Investment research notebook + thesis | [`sprint-22.md`](sprint-22.md) | B45 |
+| 23 | Gmail VIP / local priority rules | [`sprint-23.md`](sprint-23.md) | B46 |
+| 24 | Investment watchlist news clusters | [`sprint-24.md`](sprint-24.md) | B47 |
+| 25 | Gmail labels (confirm-first) | [`sprint-25.md`](sprint-25.md) | B48 |
+| 26 | Investment holdings journal (manual) | [`sprint-26.md`](sprint-26.md) | B49 |
+| 27 | Gmail saved searches | [`sprint-27.md`](sprint-27.md) | B50 |
+| 28 | Investment earnings & events skim | [`sprint-28.md`](sprint-28.md) | B51 |
+| 29 | Gmail attachment skim | [`sprint-29.md`](sprint-29.md) | B52 |
+| 30 | Investment citations & source quality | [`sprint-30.md`](sprint-30.md) | B53 |
+| 31 | Gmail follow-up tracker | [`sprint-31.md`](sprint-31.md) | B54 |
+| 32 | Investment scenario & risk check | [`sprint-32.md`](sprint-32.md) | B55 |
+| 33 | Gmail newsletter digest | [`sprint-33.md`](sprint-33.md) | B56 |
+| 34 | Investment theme/sector baskets | [`sprint-34.md`](sprint-34.md) | B57 |
+| 35 | Gmail archive/trash batch | [`sprint-35.md`](sprint-35.md) | B58 |
+| 36 | Investment local in-panel alerts | [`sprint-36.md`](sprint-36.md) | B59 |
+| 37 | Gmail people context | [`sprint-37.md`](sprint-37.md) | B60 |
+| 38 | Investment comparative analysis | [`sprint-38.md`](sprint-38.md) | B61 |
+| 39 | Email × Investment signal bridge | [`sprint-39.md`](sprint-39.md) | B62 |
+| 40 | Playbooks + Gmail/Investment polish | [`sprint-40.md`](sprint-40.md) | B63–B64 |
 
 Promote by archiving `current.md` then copying/adapting the next planned file into `docs/sprints/current.md`.
 
-**UX note:** Prefer UX passes for Sprints **6**, **7**, **8**, **10**, **11**, **12** (chrome only), **19** (gate copy), and **20** (weekly review composition).
+**Hard rule for 21–40:** deepen **Gmail** and **Investment** only (plus the Sprint 39 bridge). No automated trading. Other domains stay maintenance-only unless a blocker forces a tiny fix.

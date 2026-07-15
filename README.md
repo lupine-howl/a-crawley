@@ -65,6 +65,7 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprint 5** — LAN + Work + write-back design (archived): [`docs/sprints/archive/sprint-5-lan-work-writeback.md`](./docs/sprints/archive/sprint-5-lan-work-writeback.md)
 - **Sprint 6** — Co-parenting + DIY lite (**ready**): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Sprints 7–20** — planned: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
+- **Sprints 21–40** — Email/Investment depth arc: [`docs/sprints/planned/email-investment-depth-21-40.md`](./docs/sprints/planned/email-investment-depth-21-40.md)
 
 ## Bootstrap sequence (complete)
 
