@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed (Interview 1 complete)
+**Status:** Brief confirmed; Sprint 1 PoC closed 2026-07-15; Sprint 2 (themes + LLM settings) active
 
 ## Problem
 

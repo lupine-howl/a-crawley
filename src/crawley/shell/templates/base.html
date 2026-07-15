@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Crawley{% endblock %}</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --ink: #1c1917;
+      --muted: #57534e;
+      --line: #d6d3d1;
+      --panel: #fffcf7;
+      --accent: #0f766e;
+      --warn: #9a3412;
+      --ok: #166534;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at top left, #e7e5e4 0%, transparent 55%),
+        linear-gradient(180deg, var(--bg), #ebe6df);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    .wrap {
+      display: grid;
+      grid-template-columns: 14rem 1fr;
+      min-height: 100vh;
+    }
+    nav {
+      border-right: 1px solid var(--line);
+      padding: 1.25rem 0.75rem;
+      background: color-mix(in srgb, var(--panel) 80%, transparent);
+    }
+    .brand {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      padding: 0.25rem 0.75rem 1rem;
+      display: block;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav a.mod {
+      display: block;
+      padding: 0.45rem 0.75rem;
+      margin: 0.1rem 0;
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 0.35rem;
+      font-size: 0.95rem;
+    }
+    nav a.mod:hover { background: #e7e5e4; }
+    nav a.mod.active {
+      background: var(--ink);
+      color: var(--panel);
+    }
+    nav a.mod .tag {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: 0.25rem;
+    }
+    nav a.mod.active .tag { color: #a8a29e; }
+    main { padding: 1.5rem 1.75rem 2.5rem; }
+    .llm {
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 0.4rem;
+      background: var(--panel);
+    }
+    .llm.ok { border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+    .llm.bad { border-color: color-mix(in srgb, var(--warn) 50%, var(--line)); color: var(--warn); }
+    h1 {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-weight: 600;
+      font-size: 1.75rem;
+      margin: 0 0 0.5rem;
+    }
+    .muted { color: var(--muted); line-height: 1.5; }
+    .panel {
+      margin-top: 1rem;
+      padding: 1.25rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 0.5rem;
+      min-height: 10rem;
+    }
+    .coming {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+    }
+    .run-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: end;
+      margin-bottom: 0.75rem;
+    }
+    .run-form label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.2rem; }
+    .run-form input[type="text"] {
+      min-width: 16rem;
+      flex: 1;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid var(--line);
+      border-radius: 0.35rem;
+      font: inherit;
+    }
+    button, .btn {
+      display: inline-block;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--panel);
+      border-radius: 0.35rem;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .job { margin: 0.75rem 0; }
+    .job-busy { color: var(--accent); }
+    .job-done { color: var(--ok); }
+    .job-error { color: var(--warn); }
+    .summary pre {
+      white-space: pre-wrap;
+      font-family: inherit;
+      line-height: 1.45;
+      margin: 0.5rem 0 0;
+    }
+    .summary h2, .panel h2 { font-size: 1rem; margin: 1rem 0 0.35rem; }
+    .src-list { padding-left: 1.1rem; color: var(--muted); }
+    code { font-size: 0.85em; }
+    @media (max-width: 720px) {
+      .wrap { grid-template-columns: 1fr; }
+      nav {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        align-items: center;
+      }
+      .brand { width: 100%; padding-bottom: 0.5rem; }
+    }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/" hx-boost="false">Crawley</a>
+      {% for m in nav %}
+      <a
+        class="mod{% if active_id == m.meta.id %} active{% endif %}"
+        href="/modules/{{ m.meta.id }}"
+        hx-get="/modules/{{ m.meta.id }}"
+        hx-target="#panel-root"
+        hx-swap="innerHTML"
+        hx-push-url="true"
+      >{{ m.meta.title }}{% if m.meta.kind.value == 'stub' %}<span class="tag">soon</span>{% endif %}</a>
+      {% endfor %}
+    </nav>
+    <main>
+      <div class="llm {% if llm.ok %}ok{% else %}bad{% endif %}">
+        LLM ({{ llm.provider }}): {{ llm.message }}
+      </div>
+      <div id="panel-root">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+</body>
+</html>

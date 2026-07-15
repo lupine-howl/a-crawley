@@ -2,6 +2,35 @@
 
 Greenfield project. Product direction and delivery are driven by markdown artifacts and Cursor agent roles.
 
+**Working title:** Crawley — local-first personal assistant.
+
+## Run locally (WSL / Linux)
+
+Requires [uv](https://docs.astral.sh/uv/) (installs/uses Python 3.12+ for you — no system Python install needed).
+
+```bash
+# From the repo root
+uv sync
+cp .env.example .env
+# Set OPENAI_API_KEY for Investment / Gmail summaries
+# Set GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET for Gmail (Desktop OAuth app; Gmail API enabled)
+uv run python -m crawley
+```
+
+Open http://127.0.0.1:8000 in your browser.
+
+Secrets stay local:
+
+| Path | Purpose |
+|------|---------|
+| `.env` | API keys (gitignored; see `.env.example`) |
+| `data/` | DuckDB, caches, crawl/mail artifacts (gitignored except `.gitkeep`) |
+| `data/secrets/` | OAuth token files (e.g. `gmail_token.json`) |
+
+Default bind is localhost only (`127.0.0.1:8000`). Override with `CRAWLEY_HOST` / `CRAWLEY_PORT` if needed.
+
+**Gmail OAuth notes:** redirect URI used is `http://127.0.0.1:8000/modules/gmail/oauth/callback` — add it under **Authorized redirect URIs** (not JavaScript origins). Local HTTP is allowed automatically for `127.0.0.1` / `localhost`.
+
 ## Agent roles
 
 | Role | Cursor rule | Does |
@@ -18,14 +47,20 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 > You are the UX expert. Read PRODUCT.md, docs/architecture.md, docs/sprints/current.md, and docs/ux.md. Interview me about visual/interaction goals for this sprint, then write docs/ux.md with implementable guidance for the architect. Do not implement application code.
 
-## Bootstrap sequence
+## Delivery status
+
+- **Sprint 0** — bootstrap (archived): [`docs/sprints/archive/sprint-0-bootstrap.md`](./docs/sprints/archive/sprint-0-bootstrap.md)
+- **Sprint 1** — local shell + lite Investment & Gmail (closed): [`docs/sprints/archive/sprint-1-local-shell.md`](./docs/sprints/archive/sprint-1-local-shell.md)
+- **Sprint 2** — themes & LLM settings (active): [`docs/sprints/current.md`](./docs/sprints/current.md)
+
+## Bootstrap sequence (complete)
 
 1. **PO Interview 1** — `PRODUCT.md` + `ROADMAP.md`
-2. **PO Interview 2** — `BACKLOG.md` + Planned Sprint 1 (still in Sprint 0)
-3. **Architect Interview 1** — `docs/architecture.md` (no app code)
+2. **PO Interview 2** — `BACKLOG.md` + Planned Sprint 1
+3. **Architect Interview 1** — `docs/architecture.md`
 4. **Architect Interview 2** — implement Sprint 1
 
-Ongoing: PO plans sprints; UX expert may lock `docs/ux.md` for UI stories; architect implements the current sprint file only.
+Ongoing: PO plans the next sprint in `docs/sprints/current.md`; UX expert may lock `docs/ux.md` for UI stories; architect implements that file only.
 
 ## Product docs
 
@@ -38,45 +73,14 @@ Ongoing: PO plans sprints; UX expert may lock `docs/ux.md` for UI stories; archi
 
 ## Enabling a rule on an Agent chat
 
-These rules use `alwaysApply: false` (manual / intelligent — not always on). For each role session:
+These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-developer`, or `@ux-expert` in Agent chat, then confirm via the context ring → **Rules**.
 
-1. Open a **new Agent** chat (separate chats per role).
-2. In the chat input, type `@` and select the rule — e.g. `@product-owner`, `@architect-developer`, or `@ux-expert`.
-3. Check the **context ring** next to the input → **Rules** to confirm it’s attached.
-4. Send your prompt.
+## How to run Sprint 2
 
-To change how a rule attaches later: **Customize → Rules** (or open the `.mdc` file) and use the type dropdown — Always Apply / Apply Intelligently / Apply to Specific Files / Apply Manually.
+Optional design pass first — `@ux-expert` (see prompt under Agent roles).
 
-## How to run agents
+Then `@architect-developer`:
 
-### 1. Product owner — Interview 1 (brief & roadmap)
+> Read AGENTS.md, docs/architecture.md, docs/ux.md (if filled), and docs/sprints/current.md. Implement Sprint 2 (S2.1 themes, then S2.2 LLM settings & connection test) in order. If AC is unclear, mark the story blocked and stop. Do not expand into B9–B12.
 
-`@product-owner`, then:
-
-> You are the product owner. Run Interview 1 only. Read PRODUCT.md and ROADMAP.md, interview me about the project, then write PRODUCT.md (project brief) and ROADMAP.md. Do not write the backlog or Sprint 1 yet. Do not write application code.
-
-### 2. Product owner — Interview 2 (backlog & Planned Sprint 1)
-
-`@product-owner`, then:
-
-> You are the product owner. Run Interview 2 only. Read PRODUCT.md and ROADMAP.md. Interview me about near-term priorities, then write BACKLOG.md and fill the Planned Sprint 1 section in docs/sprints/current.md. Do not replace Sprint 0 yet. Do not write architecture or application code.
-
-### 3. Architect — Interview 1 (architecture)
-
-`@architect-developer`, then:
-
-> You are the senior architect/developer. Run Interview 1 only. Read PRODUCT.md, ROADMAP.md, BACKLOG.md, and the Planned Sprint 1 section in docs/sprints/current.md. Interview me about technical constraints and stack, then write docs/architecture.md. When confirmed, archive Sprint 0 and promote Planned Sprint 1 to docs/sprints/current.md. Do not implement Sprint 1 yet.
-
-### 4. Architect — Interview 2 (implement Sprint 1)
-
-`@architect-developer`, then:
-
-> You are the senior architect/developer. Run Interview 2. Read AGENTS.md, docs/architecture.md, docs/ux.md (if filled), and docs/sprints/current.md. Implement Sprint 1 in order. If AC is unclear, mark the story blocked and stop.
-
-### 5. UX expert — design pass (UI-heavy sprints)
-
-See prompt under **Agent roles** above. Run before or early in architect work on theme/shell/interaction stories.
-
-### 6. Review
-
-PO (or you) checks the diff against sprint acceptance criteria, then plans the next sprint.
+PO review when done: check demo bar in `docs/sprints/current.md`, then archive and plan Sprint 3.

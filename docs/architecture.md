@@ -3,9 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Interview 1 confirmed (2026-07-15)  
-
-**Host (Now):** WSL2 / Linux personal machine, localhost by default
+**Status:** Sprint 1 closed 2026-07-15; aligned to Sprint 2  
+**Host (Now):** WSL2 / Linux personal machine, localhost by default  
+**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 2 — themes & LLM settings)  
+**Prior sprint:** [`docs/sprints/archive/sprint-1-local-shell.md`](sprints/archive/sprint-1-local-shell.md)
 
 ## Overview
 
@@ -23,7 +24,7 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
                │                             │
 ┌──────────────▼──────────────┐   ┌──────────▼────────────┐
 │  Module registry + contract  │   │  LLM provider          │
-│  investment, gmail, …       │   │  OpenAI → LocalLlama   │
+│  investment, gmail, stubs…  │   │  OpenAI → LocalLlama   │
 └──────────────┬──────────────┘   └───────────────────────┘
                │
 ┌──────────────▼──────────────────────────────────────────┐
@@ -33,7 +34,30 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 ```
 
 **Shape:** shared core + modules behind a stable contract (read paths first; write-back reserved).  
-**Not in PoC:** public hosting, multi-user, local LLM ops, native desktop shell, automated trading.
+**Shipped (Sprint 1):** runnable shell + contract/registry + OpenAI provider + **lite Investment** + **lite Gmail**; Calendar and other top-tier domains are **Coming soon** stubs; shell UI uses **custom CSS variables** (no Tailwind CDN).  
+**Sprint 2 slice:** themable palette (B7) + dashboard LLM settings & connection test (B8).  
+**Not in PoC yet:** public hosting, multi-user, local LLM ops, native desktop shell, automated trading, write-back, real Calendar fetch.
+
+## Sprint delivery maps
+
+### Sprint 1 (closed)
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S1.1** Project skeleton & local run | `uv`, `python -m crawley`, FastAPI/Uvicorn localhost, `.env.example`, gitignored `data/` / secrets paths |
+| **S1.2** Dashboard, contract, registry & stubs | Shell nav + panels; module Protocol/ABC; explicit registry; Coming soon for non-lite modules (incl. Calendar, Fitness) |
+| **S1.3** OpenAI LLM provider | Provider interface + OpenAI via env; LocalLlama placeholder; clear errors if key missing/invalid |
+| **S1.4** Investment lite | Threaded bounded fetch → `data/` artifacts + DuckDB rows → LLM synthesis on Investment panel; busy/done/error status |
+| **S1.5** Gmail lite (read-only) | Installed-app OAuth (Gmail read-only scope only); bounded inbox scan → panel summary; local tokens |
+
+### Sprint 2 (active)
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S2.1** Themable UI | Centralize theme tokens; dashboard theme switch + local persistence; document CSS approach (evolve custom tokens; Node build only if chosen) |
+| **S2.2** LLM settings & test | Settings surface in shell; persist model/provider PoC settings locally; test-connection endpoint/action; hot-reload vs restart policy documented |
+
+Implement Sprint 2 stories **in order** (S2.1 → S2.2) unless dependencies already met.
 
 ## Stack
 
@@ -42,76 +66,72 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 | Language | Python 3.12+ | Hard requirement for core, modules, crawl, analysis, LLM calls |
 | Packaging / run | `uv` | `uv run python -m crawley` (or equivalent entrypoint) |
 | HTTP / UI | FastAPI + Jinja2 + HTMX | Server-rendered local browser UI; optional native wrapper Later |
+| UI styling | Custom CSS variables in shell templates | Sprint 1 baseline; Sprint 2 adds themes (B7). No Node/Tailwind CDN in tree today |
 | Process | Single process | Uvicorn hosts the app; I/O concurrency via threads |
-| Crawl / fetch | `ThreadPoolExecutor` (or equivalent) | Multi-thread for I/O-bound work; no separate worker service in PoC |
+| Crawl / fetch | `ThreadPoolExecutor` (or equivalent) | Multi-thread for I/O-bound work; no separate worker service in Sprint 1 |
 | Analytical store | DuckDB | Local file DB under `data/`; sorting, joins, ML feature pulls |
 | Raw / cache | Filesystem under `data/` | Crawl dumps, mail caches, artifacts |
-| Large batches | Parquet via DuckDB / Polars | When tabular volume grows |
-| Dataframe / ML | Polars (preferred) / pandas, numpy, scikit-learn as needed | Keep heavy models behind module/provider boundaries |
-| LLM | Provider interface | `OpenAI` implementation for PoC; `LocalLlama` later |
-| Google | OAuth installed-app | Read-only Gmail + Calendar scopes for PoC; write scopes later |
-| Secrets | Local files | `.env` for API keys; tokens under gitignored local config/data |
+| Large batches | Parquet via DuckDB / Polars | When tabular volume grows (optional in Sprint 1 if DuckDB rows suffice) |
+| Dataframe / ML | Polars (preferred) / pandas, numpy, scikit-learn as needed | Keep heavy models behind module/provider boundaries; Sprint 1 may stay light |
+| LLM | Provider interface | `OpenAI` for Sprint 1; `LocalLlama` placeholder only |
+| Google | OAuth installed-app | **Sprint 1:** Gmail **read-only** only; Calendar real scopes deferred (nav stub). Write scopes later. |
+| Secrets | Local files | `.env` for API keys; Google tokens under gitignored local config/data |
 
 ## Boundaries
 
 | Component | Owns | Does not own |
 |-----------|------|--------------|
 | **Shell** | App lifecycle, HTTP routes, dashboard chrome, job/status UX, wiring modules ↔ LLM ↔ data | Domain logic, provider SDKs called ad hoc from templates |
-| **Module contract** | Lifecycle, config/credential hooks, inputs/outputs, optional write-back hooks (unused in PoC) | Storage engine details, which LLM vendor is active |
+| **Module contract** | Lifecycle, config/credential hooks, inputs/outputs, optional write-back hooks (unused in Sprint 1) | Storage engine details, which LLM vendor is active |
 | **Modules** (in-repo packages) | Domain fetch, normalize, analyze, panel content | Global auth UI, choosing DuckDB schema for unrelated modules |
 | **LLM provider** | Chat/completions (and later local model) behind one interface | Source fetching, persistence format |
 | **Data plane** | Paths, DuckDB access helpers, cache conventions | Product copy, module-specific ranking rules |
 | **Secrets** | Load keys/tokens from local files; never commit | Cloud secret managers (out of scope) |
 
-### Module loading (PoC)
+### Module loading (Sprint 1)
 
 - In-repo Python packages  
 - Explicit **registry** in the core (list/dict of module implementations)  
 - Entry-point / plugin discovery deferred until multiple external packages justify it  
+- **Top-tier nav (all registered):** Investment, Gmail, Calendar, Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative  
+- **Live in Sprint 1:** Investment, Gmail  
+- **Coming soon stubs:** Calendar, Fitness, and the rest of the top-tier list  
 
 ### Proposed package layout (indicative)
 
 ```
-crawley/
+src/crawley/
   __main__.py          # python -m crawley
   app.py               # FastAPI app factory
-  shell/               # routes, templates, static
-  modules/
-    contract.py        # Protocol / ABC
-    registry.py
-    investment/
-    gmail_calendar/    # or split later
-    fitness/           # stub
-    …                  # placeholders
-  llm/
-    base.py
-    openai_provider.py
-    local_llama.py     # stub / Later
-  data/
-    duck.py
-    paths.py
+  shell/               # routes, templates, static (S1.2+)
+  modules/             # contract, registry, domains (S1.2+)
+  llm/                 # provider interface (S1.3+)
+  data/                # DuckDB helpers (S1.4+)
 data/                  # runtime, gitignored
 docs/
 ```
 
-Exact names may shift in Sprint 1; boundaries above stay.
+Sprint 1 uses a `src/` layout via `uv`/`hatchling`. Boundaries above stay; subpackages land with later stories.
 
 ## Key flows
 
-1. **Start & open dashboard**  
-   Operator runs the entrypoint → single process listens on localhost → browser shows module nav and panels (stubs allowed where out of sprint).
+1. **Start & open dashboard (S1.1–S1.2)**  
+   Operator runs the entrypoint → single process listens on localhost → browser shows module nav; Investment and Gmail panels are live paths; other top-tier entries show Coming soon.
 
-2. **Investment PoC**  
-   User triggers search/crawl on the investment panel → threaded fetch → raw artifacts on disk → structured rows in DuckDB → LLM provider synthesizes short summary/advice → HTML panel updates (HTMX partial or full render).
+2. **Investment lite (S1.4)**  
+   User triggers a **bounded** search/scrape → threaded fetch → raw artifacts on disk → structured rows in DuckDB → LLM provider synthesizes short summary/advice → Investment panel updates (HTMX partial or full render) with busy/done/error status.
 
-3. **Gmail / Calendar PoC (read-only)**  
-   First-time OAuth in browser → tokens stored locally → module reads mail and/or calendar → summary via LLM (or structured skim) → panel. No write-back in PoC.
+3. **Gmail lite read-only (S1.5)**  
+   First-time OAuth in browser (Gmail read-only scope) → tokens stored locally → **bounded** inbox scan → summary via LLM (or structured skim) on Gmail panel. Clear auth/API errors. No write-back. No Calendar API in this flow.
 
-4. **Add a domain module**  
-   Implement contract → register in registry → add nav entry / panel template → reuse data + LLM helpers. Core shell should not need a rewrite.
+4. **Stub module click (S1.2)**  
+   User opens Calendar (or any non-lite module) → Coming soon panel; no crash, no fake data.
 
-5. **Swap LLM (Later)**  
-   Configure `LocalLlama` (or equivalent) behind the same provider interface; modules keep calling the interface, not OpenAI APIs directly.
+5. **Add a domain module (ongoing)**  
+   Implement contract → register → nav/panel → reuse data + LLM helpers. Core shell should not need a rewrite.
+
+6. **Swap LLM (Later — not Sprint 1)**  
+   Configure `LocalLlama` behind the same provider interface; modules keep calling the interface, not OpenAI APIs directly.
 
 ## Decisions (ADR log)
 
@@ -129,11 +149,13 @@ Use `docs/adr/` for full write-ups when a choice has lasting impact. Summarize h
 
 | Item | Notes |
 |------|-------|
-| **Planned Sprint 1 missing** | `BACKLOG.md` / Planned Sprint 1 still TBD (S0.2). Architecture targets Now themes; story-level alignment pending PO Interview 2. |
-| **DuckDB ops familiarity** | Chosen for analytics; if ops pain dominates early, thin repository layer eases a SQLite fallback for metadata-only paths. |
-| **Google OAuth on WSL** | Browser redirect/localhost callback must be validated on the stakeholder’s setup; document the happy path in Sprint 1. |
-| **OpenAI cost / rate limits** | PoC should cache fetches and bound prompt size; no silent unbounded crawl→LLM loops. |
-| **HTMX UX ceiling** | Fine for PoC dashboards; interactive density limits may push a SPA later—not a dual UI stack for the same PoC. |
-| **Thread safety** | DuckDB / shared state access from worker threads needs clear ownership (queue to main, or documented connection rules). |
-| **Write-back** | Contract reserves hooks; do not request write scopes or implement mutations until a later sprint explicitly commits them. |
-| **LAN / phone access** | Out of Now; if enabled later, bind/auth defaults must stay intrusion-minded (not open-to-LAN by default). |
+| **Google OAuth on WSL** | Happy path documented in README; residual risk for Windows browser → WSL port forwarding. Manual verify recommended; no live E2E test. |
+| **OpenAI cost / rate limits** | Bound fetches and prompt size (B3/B4/B5); no silent unbounded crawl→LLM loops. Sprint 2 settings (B8) must not remove bounds. |
+| **DuckDB + threads** | Write lock in data helpers; keep ownership rules clear as modules grow. |
+| **Nav density** | Nine top-tier stubs may feel crowded; shortening labels is OK without dropping registry entries. |
+| **Calendar / shared Google auth** | Real Calendar read may later share OAuth with Gmail; do not request Calendar scopes until B6/B10 commit them. |
+| **Theme persistence** | Sprint 2 must pick cookie / localStorage / local config and document it (S2.1). |
+| **LLM settings vs `.env`** | Clarify precedence when both dashboard settings and env exist (S2.2). |
+| **HTMX UX ceiling** | Fine for Now; SPA migration Later if needed — not a second UI stack. |
+| **Write-back** | Contract reserves hooks; no write scopes or mutations until a later sprint commits them. |
+| **LAN / phone access** | Out of Now; if enabled later, bind/auth defaults must stay intrusion-minded. |

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Crawley{% endblock %}
+{% block content %}
+  <h1>Dashboard</h1>
+  <p class="muted">Pick a module from the left. Investment and Gmail are live shells; everything else is Coming soon until later sprints.</p>
+  {% if error %}
+  <div class="panel"><p class="coming">{{ error }}</p></div>
+  {% endif %}
+{% endblock %}
