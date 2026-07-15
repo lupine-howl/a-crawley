@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; Sprint 2 in delivery; Sprints 3–5 planned (Calendar/Google → Investment/Fitness → LAN/Work/write-back design)
+**Status:** Brief confirmed; Sprint 5 closed; Sprints 6–10 planned (see `ROADMAP.md` / `docs/sprints/planned/`)
 
 ## Problem
 
@@ -92,3 +92,9 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 - Write-back deferred but architecturally anticipated
 - Local LLM important after PoC, not before
 - Automated trading deferred (Later / Icebox)
+
+## Decisions log (Sprints 6–10 planning)
+
+- Sequence after Sprint 5: life stubs (**Co-parenting + DIY** → **Finance + Day brief**) before first **Calendar write-back**, then **Local LLM**, then **Coding/Creative + shared context seed**
+- Native desktop shell stays **after Sprint 10** (unscheduled), not forced into 6–10
+- Gmail send deferred until Calendar write-back soaks; Day brief uses snapshot composition (not overnight cron) in Sprint 7

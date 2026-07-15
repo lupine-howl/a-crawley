@@ -70,13 +70,15 @@ Make Crawley reachable on the **local network only when consciously enabled**, l
 
 ## Out of scope (sprint)
 
-- Actual Gmail send / Calendar insert
-- LocalLlama production hosting
-- Native desktop wrapper
-- Co-parenting / DIY / Finance live modules
+- Actual Gmail send / Calendar insert → **Sprint 8** ([planned](planned/sprint-8.md)) for Calendar confirm-first; Gmail send later
+- LocalLlama production hosting → **Sprint 9** ([planned](planned/sprint-9.md))
+- Native desktop wrapper → After Sprint 10 / Later
+- Co-parenting / DIY / Finance live modules → **Sprints 6–7** ([index](planned/README.md))
 
 ## Parking lot
 
-- Co-parenting schedule module (Sprint 6+)
-- Real write-back implementation after ADR soak
+- Co-parenting schedule module → **[Sprint 6](planned/sprint-6.md)**
+- Real write-back implementation after ADR soak → **[Sprint 8](planned/sprint-8.md)**
+- LocalLlama install path → **[Sprint 9](planned/sprint-9.md)**
+- Finance + Day brief / Coding+context → [Sprint 7](planned/sprint-7.md), [Sprint 10](planned/sprint-10.md)
 - Optional LAN shared-secret gate (deferred; trusted LAN policy for now)

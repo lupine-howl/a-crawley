@@ -80,5 +80,5 @@ Operator can:
 
 ## Parking lot
 
-- Agenda+inbox combined “day brief” on home
-- Calendar write-back draft flow (Sprint 5+ design)
+- Agenda+inbox combined “day brief” on home → **[Sprint 7](sprint-7.md)**
+- Calendar write-back draft flow → design in [Sprint 5](sprint-5.md); implement **[Sprint 8](sprint-8.md)**
