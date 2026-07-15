@@ -18,7 +18,7 @@ def test_settings_shows_update_section(client: TestClient) -> None:
     assert "CRAWLEY_RELOAD" in resp.text
 
 
-def test_pull_blocked_on_lan(monkeypatch) -> None:
+def test_pull_allowed_on_lan_with_warn(monkeypatch) -> None:
     monkeypatch.setattr(
         git_update,
         "git_status",
@@ -32,9 +32,29 @@ def test_pull_blocked_on_lan(monkeypatch) -> None:
             message="Branch main · abc1234",
         ),
     )
+
+    def fake_run(args, **kwargs):
+        full = list(args)
+        p = MagicMock()
+        p.returncode = 0
+        p.stderr = ""
+        if "fetch" in full:
+            p.stdout = ""
+        elif "merge" in full:
+            p.stdout = "Already up to date.\n"
+        elif "--short" in full:
+            p.stdout = "abc1234\n"
+        elif "rev-parse" in full and full[-1] == "HEAD":
+            p.stdout = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n"
+        else:
+            p.stdout = ""
+        return p
+
+    monkeypatch.setattr(git_update, "_run_git", fake_run)
     result = pull_latest(lan_bound=True)
-    assert result.ok is False
-    assert result.state == "blocked_lan"
+    assert result.ok is True
+    assert result.state == "up_to_date"
+    assert result.lan_warn is True
 
 
 def test_pull_up_to_date(monkeypatch) -> None:

@@ -29,13 +29,14 @@ class GitStatus:
 @dataclass(frozen=True)
 class PullResult:
     ok: bool
-    state: str  # success | up_to_date | error | blocked_lan | blocked_dirty | not_repo
+    state: str  # success | up_to_date | error | blocked_dirty | not_repo
     message: str
     branch: str
     before_sha: str
     after_sha: str
     changed_watched: bool
     reload_enabled: bool
+    lan_warn: bool = False
 
 
 def _run_git(args: list[str], *, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
@@ -127,11 +128,12 @@ def _watched_paths_changed(before: str, after: str) -> bool:
     return False
 
 
-def pull_latest(*, lan_bound: bool) -> PullResult:
+def pull_latest(*, lan_bound: bool = False) -> PullResult:
     """
     Fetch + ff-only merge of the current branch's upstream.
 
-    Safe defaults: refuse when LAN-bound; do not attempt merge conflict resolution.
+    Allowed on localhost and trusted LAN/Tailscale. Does not attempt merge
+    conflict resolution (ff-only only).
     """
     status = git_status()
     if not status.is_repo:
@@ -144,20 +146,7 @@ def pull_latest(*, lan_bound: bool) -> PullResult:
             after_sha="",
             changed_watched=False,
             reload_enabled=reload_enabled(),
-        )
-    if lan_bound:
-        return PullResult(
-            ok=False,
-            state="blocked_lan",
-            message=(
-                "Pull latest is disabled while LAN bind is active "
-                "(trusted-LAN policy). Disable LAN, restart, then retry on localhost."
-            ),
-            branch=status.branch,
-            before_sha=status.short_sha,
-            after_sha=status.short_sha,
-            changed_watched=False,
-            reload_enabled=reload_enabled(),
+            lan_warn=lan_bound,
         )
     if not status.remote:
         return PullResult(
@@ -172,6 +161,7 @@ def pull_latest(*, lan_bound: bool) -> PullResult:
             after_sha=status.short_sha,
             changed_watched=False,
             reload_enabled=reload_enabled(),
+            lan_warn=lan_bound,
         )
 
     before_full = _run_git(["rev-parse", "HEAD"])
@@ -188,6 +178,7 @@ def pull_latest(*, lan_bound: bool) -> PullResult:
             after_sha=status.short_sha,
             changed_watched=False,
             reload_enabled=reload_enabled(),
+            lan_warn=lan_bound,
         )
 
     merge = _run_git(["merge", "--ff-only", "@{upstream}"])
@@ -213,6 +204,7 @@ def pull_latest(*, lan_bound: bool) -> PullResult:
             after_sha=after_short or status.short_sha,
             changed_watched=False,
             reload_enabled=reload_enabled(),
+            lan_warn=lan_bound,
         )
 
     changed = _watched_paths_changed(before, after)
@@ -226,6 +218,7 @@ def pull_latest(*, lan_bound: bool) -> PullResult:
             after_sha=after_short,
             changed_watched=False,
             reload_enabled=reload_enabled(),
+            lan_warn=lan_bound,
         )
 
     reload = reload_enabled()
@@ -236,6 +229,8 @@ def pull_latest(*, lan_bound: bool) -> PullResult:
         msg += " Watched files changed — set CRAWLEY_RELOAD=1 and restart to auto-reload."
     elif not changed:
         msg += " No changes under src/crawley/ (reload may not fire)."
+    if lan_bound:
+        msg += " (Trusted LAN/Tailscale — no login gate.)"
 
     return PullResult(
         ok=True,
@@ -246,4 +241,5 @@ def pull_latest(*, lan_bound: bool) -> PullResult:
         after_sha=after_short,
         changed_watched=changed,
         reload_enabled=reload,
+        lan_warn=lan_bound,
     )

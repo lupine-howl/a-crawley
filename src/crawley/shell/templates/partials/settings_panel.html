@@ -36,13 +36,27 @@
   <h2 class="section-title">Network / LAN</h2>
   <p class="muted">
     Default bind is <code>127.0.0.1</code> (this machine only). Enabling LAN listens on
-    <code>0.0.0.0</code> so phones on your <strong>trusted</strong> local network can open the UI.
-    There is <strong>no login gate</strong> — do not expose beyond a trusted LAN. See README for WSL/firewall notes.
+    <code>0.0.0.0</code> so phones on your <strong>trusted</strong> local network or
+    <strong>Tailscale</strong> can open the UI. There is <strong>no login gate</strong>.
+    <strong>Restart required</strong> after changing this toggle.
   </p>
   {% if network_settings.lan_enabled or bind_exposes_lan %}
   <p class="job job-error">
-    LAN reach is preferred or bound. Anyone on the same network who can hit the port can use Crawley
-    (including Settings and local tokens). Disable and restart to return to localhost-only.
+    LAN/Tailscale reach is preferred or bound. Anyone who can hit the port can use Crawley
+    (including Settings, Update, and local tokens). Disable and restart for localhost-only.
+  </p>
+  {% if reachable_urls %}
+  <p class="muted">Try from another device (Tailscale / LAN):</p>
+  <ul class="muted">
+    {% for u in reachable_urls %}
+    <li><code>{{ u }}</code></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <p class="muted">
+    Tailscale tip: run Tailscale <strong>in the same WSL/Linux environment</strong> as Crawley
+    (or forward the port from Windows). Use the Tailscale IP / MagicDNS name + port
+    <code>{{ bind_port }}</code>.
   </p>
   {% endif %}
   {% if env_host_override %}
@@ -58,7 +72,7 @@
   >
     <label>
       <input type="checkbox" name="lan_enabled" value="on" {% if network_settings.lan_enabled %}checked{% endif %}>
-      Allow LAN access (bind <code>0.0.0.0</code> after restart)
+      Allow LAN / Tailscale access (bind <code>0.0.0.0</code> after restart)
     </label>
     <p class="muted">Effective preference resolves to <code>{{ bind_host }}:{{ bind_port }}</code>. <strong>Restart required</strong> for bind changes.</p>
     <div class="actions">
@@ -82,8 +96,8 @@
   <p class="job job-error">{{ git_status.message }}</p>
   {% endif %}
   {% if bind_exposes_lan %}
-  <p class="job job-error">
-    Pull latest is disabled while LAN bind is active. Use localhost, then retry.
+  <p class="muted">
+    Pull latest is allowed on trusted LAN/Tailscale. Anyone who can open Settings can update the checkout.
   </p>
   {% endif %}
   <form

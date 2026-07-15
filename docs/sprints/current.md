@@ -36,7 +36,7 @@ Sender Inbox PoC is **Sprint 12** (not this sprint). ASX PoCs are Sprints **13â€
 - [x] Runs `git pull` (or fetch + ff-only) on the app checkout; UI shows ok / up-to-date / error with short reason
 - [x] Documents **precondition** `CRAWLEY_RELOAD=1` so changes under `src/crawley/` trigger reload after pull
 - [x] **Proof of hot reload:** documented README demo steps and/or automated test of pull plumbing + reload flag behaviour
-- [x] Safe defaults: available on **localhost**; disable or hard-warn on LAN bind; never logs secrets; fails cleanly if not a git checkout / no network / non-ff / dirty blockers documented
+- [x] Safe defaults: available on **localhost** and trusted **LAN/Tailscale** (warn when LAN-bound); never logs secrets; fails cleanly if not a git checkout / no network / non-ff / dirty blockers documented
 - [x] Note in `docs/architecture.md` + README Update section
 - [x] No scheduled auto-pull
 
