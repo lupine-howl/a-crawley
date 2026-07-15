@@ -1,0 +1,95 @@
+{% if module %}
+  <h1>{{ module.meta.title }}</h1>
+  {% if panel.description %}
+  <p class="muted">{{ panel.description }}</p>
+  {% endif %}
+
+  {% if panel.coming_soon %}
+  <div class="panel">
+    <p class="coming">{{ panel.message }}</p>
+    {% if panel.description %}
+    <p class="muted">{{ panel.description }}</p>
+    {% endif %}
+  </div>
+  {% elif module.meta.id == 'investment' %}
+  <div
+    class="panel"
+    {% if panel.job.status == 'busy' %}
+    hx-get="/modules/investment/status"
+    hx-trigger="every 1s"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    {% endif %}
+  >
+    <form
+      class="run-form"
+      hx-post="/modules/investment/run"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <div>
+        <label for="inv-query">Search query</label>
+        <input id="inv-query" name="query" type="text" value="{{ panel.default_query }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+      </div>
+      <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        {% if panel.job.status == 'busy' %}Running…{% else %}Run search{% endif %}
+      </button>
+    </form>
+    <p class="muted">Bounded to {{ panel.max_items }} news sources · artifacts under <code>data/investment/</code></p>
+    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Summary</h2>
+      <pre>{{ panel.job.summary }}</pre>
+    </div>
+    {% endif %}
+    {% if panel.recent %}
+    <h2>Recent sources</h2>
+    <ul class="src-list">
+      {% for r in panel.recent %}
+      <li><strong>{{ r.title }}</strong> <span class="muted">{{ r.fetched_at }}</span></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  {% elif module.meta.id == 'gmail' %}
+  <div
+    class="panel"
+    {% if panel.job.status == 'busy' %}
+    hx-get="/modules/gmail/status"
+    hx-trigger="every 1s"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    {% endif %}
+  >
+    {% if not panel.auth.client_ok %}
+    <p class="job job-error">{{ panel.auth.error }}</p>
+    <p class="muted">Create OAuth Desktop credentials in Google Cloud, enable Gmail API, then set <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> in <code>.env</code>.</p>
+    {% elif not panel.auth.connected %}
+    <p class="muted">Not connected. Tokens will be stored at <code>{{ panel.auth.token_path }}</code> (gitignored).</p>
+    <p><a class="btn" href="/modules/gmail/oauth/start">Connect Gmail (read-only)</a></p>
+    {% else %}
+    <p class="job job-done">Gmail connected (read-only).</p>
+    <form hx-post="/modules/gmail/run" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        {% if panel.job.status == 'busy' %}Scanning…{% else %}Scan inbox (max {{ panel.max_messages }}){% endif %}
+      </button>
+    </form>
+    {% endif %}
+    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Inbox summary</h2>
+      <pre>{{ panel.job.summary }}</pre>
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="panel">
+    <p>{{ panel.message }}</p>
+  </div>
+  {% endif %}
+{% elif error %}
+  <h1>Not found</h1>
+  <div class="panel"><p class="coming">{{ error }}</p></div>
+{% endif %}

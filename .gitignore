@@ -1,0 +1,25 @@
+# Crawley local secrets and runtime data (do not commit)
+.env
+.env.*
+!.env.example
+
+# Runtime data plane (DuckDB, caches, OAuth tokens, crawl artifacts)
+data/*
+!data/.gitkeep
+
+# Python / tooling
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/

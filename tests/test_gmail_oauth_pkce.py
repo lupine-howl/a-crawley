@@ -1,0 +1,89 @@
+"""Gmail OAuth PKCE persistence tests."""
+
+from __future__ import annotations
+
+import json
+
+import pytest
+
+import crawley.modules.gmail as gmail_mod
+
+
+def test_authorization_url_persists_pkce(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    pending = tmp_path / "pending.json"
+    monkeypatch.setattr(gmail_mod, "PENDING_OAUTH_PATH", pending)
+    monkeypatch.setattr(gmail_mod, "SECRETS_DIR", tmp_path)
+    monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid.apps.googleusercontent.com")
+    monkeypatch.setenv("GOOGLE_CLIENT_SECRET", "csecret")
+
+    class FakeFlow:
+        redirect_uri = "http://127.0.0.1:8000/modules/gmail/oauth/callback"
+        code_verifier = None
+
+        def authorization_url(self, **kwargs):
+            self.code_verifier = "verifier-abc"
+            return "https://accounts.google.com/o/oauth2/auth?x=1", "state-xyz"
+
+    monkeypatch.setattr(gmail_mod, "build_auth_flow", lambda base: FakeFlow())
+    url, state = gmail_mod.authorization_url("http://127.0.0.1:8000")
+    assert "accounts.google.com" in url
+    assert state == "state-xyz"
+    saved = json.loads(pending.read_text(encoding="utf-8"))
+    assert saved["code_verifier"] == "verifier-abc"
+    assert saved["state"] == "state-xyz"
+
+
+def test_finish_oauth_requires_saved_verifier(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    pending = tmp_path / "pending.json"
+    monkeypatch.setattr(gmail_mod, "PENDING_OAUTH_PATH", pending)
+    monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid.apps.googleusercontent.com")
+    monkeypatch.setenv("GOOGLE_CLIENT_SECRET", "csecret")
+
+    with pytest.raises(RuntimeError, match="missing"):
+        gmail_mod.finish_oauth(
+            "http://127.0.0.1:8000",
+            "http://127.0.0.1:8000/modules/gmail/oauth/callback?code=x&state=s",
+        )
+
+
+def test_finish_oauth_restores_verifier(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    pending = tmp_path / "pending.json"
+    token = tmp_path / "token.json"
+    monkeypatch.setattr(gmail_mod, "PENDING_OAUTH_PATH", pending)
+    monkeypatch.setattr(gmail_mod, "TOKEN_PATH", token)
+    monkeypatch.setattr(gmail_mod, "SECRETS_DIR", tmp_path)
+    monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid.apps.googleusercontent.com")
+    monkeypatch.setenv("GOOGLE_CLIENT_SECRET", "csecret")
+
+    pending.write_text(
+        json.dumps(
+            {
+                "state": "state-xyz",
+                "code_verifier": "verifier-abc",
+                "redirect_uri": "http://127.0.0.1:8000/modules/gmail/oauth/callback",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    class FakeCreds:
+        def to_json(self) -> str:
+            return '{"token":"t"}'
+
+    class FakeFlow:
+        redirect_uri = ""
+        code_verifier = None
+        credentials = FakeCreds()
+
+        def fetch_token(self, authorization_response: str) -> None:
+            assert self.code_verifier == "verifier-abc"
+            assert "code=abc" in authorization_response
+
+    monkeypatch.setattr(gmail_mod, "build_auth_flow", lambda base: FakeFlow())
+    creds = gmail_mod.finish_oauth(
+        "http://127.0.0.1:8000",
+        "http://127.0.0.1:8000/modules/gmail/oauth/callback?code=abc&state=state-xyz",
+    )
+    assert isinstance(creds, FakeCreds)
+    assert token.exists()
+    assert not pending.exists()

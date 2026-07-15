@@ -5,22 +5,27 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 ## Now
 
-**Local shell + proof that modules and real sources work**
+**Local shell + proof that modules and real sources work** — *Sprint 1 closed 2026-07-15*
 
-- Shared Python core with a **stable module contract** (lifecycle, config/credentials hooks, inputs/outputs; read paths first; **write-back reserved** for later).
-- Local **browser** dashboard: navigate modules; click into panels.
-- **Investment module PoC:** quick web search/crawl → LLM synthesis of findings into short advice/summary (OpenAI for prototyping).
-- **Gmail + Calendar PoC:** read-only connection → inbox and/or calendar summary the user can skim.
-- **Fitness module:** visible stub (e.g. prompt → introductory goals breakdown can wait; panel + contract compliance is enough for Now).
-- Placeholders / registration for a sensible base set of other life modules (empty or stub panels behind the same contract).
+- [x] Shared Python core with a **stable module contract** (lifecycle, config/credentials hooks, inputs/outputs; read paths first; **write-back reserved** for later).
+- [x] Local **browser** dashboard: navigate modules; click into panels.
+- [x] **Investment module PoC:** quick web search/crawl → LLM synthesis of findings into short advice/summary (OpenAI for prototyping).
+- [x] **Gmail PoC:** read-only connection → inbox summary the user can skim. *(Calendar remains stub — real read is Next.)*
+- [x] **Fitness module:** visible stub (panel + contract compliance).
+- [x] Placeholders / registration for a sensible base set of other life modules (Coming soon panels).
 
-*Out of Now:* local LLM hosting, write-back, desktop wrapper, automated trading, multi-user, public hosting.
+*Still out of Now:* local LLM hosting, write-back, desktop wrapper, automated trading, multi-user, public hosting.
+
+**In flight (Sprint 2):** themable palette + LLM operator settings / connection test — see **Next**.
 
 ## Next
 
 **Harden the personal OS and deepen the highest-value modules**
 
+- **Design polish (Sprint 2):** themable palette / better styling (UX pass welcome; evolve custom CSS tokens — no Tailwind CDN in tree today).
+- **Operator settings (Sprint 2):** dashboard control to configure the active LLM (model/provider settings) and **test the connection**.
 - Strengthen investment and mail/calendar modules (richer analysis, clearer advice UX, better error/auth handling).
+- Real **Calendar** read-only summary (may share Google OAuth with Gmail).
 - Flesh out fitness beyond stub if it’s still pulling attention.
 - Optional **phone-on-LAN** access pattern for the same browser UI (consciously enabled; intrusion-minded defaults).
 - Begin wiring additional domain modules that matter day-to-day (e.g. co-parenting schedule, work tasks, finance)—still read/analyze/advise first.

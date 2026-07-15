@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Interview 2 draft — awaiting stakeholder confirm
+**Status:** Sprint 1 closed 2026-07-15; Sprint 2 active (B7–B8)
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -12,7 +12,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Now |
 | Depends on | — |
@@ -21,10 +21,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] `uv`-managed Python project with documented run command (e.g. `uv run python -m crawley`)
-- [ ] FastAPI + Jinja2/HTMX serves a dashboard on localhost
-- [ ] `.env.example` documents required secrets; secrets stay gitignored
-- [ ] README (or short run section) covers start → open browser on WSL/Linux
+- [x] `uv`-managed Python project with documented run command (e.g. `uv run python -m crawley`)
+- [x] FastAPI + Jinja2/HTMX serves a dashboard on localhost
+- [x] `.env.example` documents required secrets; secrets stay gitignored
+- [x] README (or short run section) covers start → open browser on WSL/Linux
 
 **Out of scope:**
 
@@ -37,7 +37,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Now |
 | Depends on | B1 |
@@ -46,11 +46,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Module Protocol/ABC (lifecycle, config/credential hooks, inputs/outputs; write-back hooks reserved unused)
-- [ ] Explicit in-repo registry wiring modules into the shell
-- [ ] Dashboard nav includes top-tier entries: Investment, Gmail, Calendar, Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative (names may be shortened in UI)
-- [ ] Clicking a stub module shows a clear Coming soon (or equivalent) panel — no crash, no fake data
-- [ ] Fitness is stub-only in Sprint 1 (contract-compliant panel)
+- [x] Module Protocol/ABC (lifecycle, config/credential hooks, inputs/outputs; write-back hooks reserved unused)
+- [x] Explicit in-repo registry wiring modules into the shell
+- [x] Dashboard nav includes top-tier entries: Investment, Gmail, Calendar, Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative (names may be shortened in UI)
+- [x] Clicking a stub module shows a clear Coming soon (or equivalent) panel — no crash, no fake data
+- [x] Fitness is stub-only in Sprint 1 (contract-compliant panel)
 
 **Out of scope:**
 
@@ -63,7 +63,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Now |
 | Depends on | B1 |
@@ -72,10 +72,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Provider interface in core; OpenAI implementation configured via env
-- [ ] LocalLlama stub or placeholder exists but is not required to run
-- [ ] Failed/missing API key surfaces a clear UI/ops error (no silent hang)
-- [ ] Prompt/output size bounded enough for PoC (no unbounded crawl→LLM loops)
+- [x] Provider interface in core; OpenAI implementation configured via env
+- [x] LocalLlama stub or placeholder exists but is not required to run
+- [x] Failed/missing API key surfaces a clear UI/ops error (no silent hang)
+- [x] Prompt/output size bounded enough for PoC (no unbounded crawl→LLM loops)
 
 **Out of scope:**
 
@@ -88,7 +88,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Now |
 | Depends on | B2, B3 |
@@ -97,11 +97,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Investment panel with a clear trigger (e.g. “Run search”)
-- [ ] Small bounded fetch (few sources / limited pages) → raw artifacts under `data/`
-- [ ] Structured rows landed in DuckDB (enough for the summary path)
-- [ ] LLM summary/advice rendered in the panel (HTMX partial or full refresh)
-- [ ] Job/status feedback while work runs (at least simple busy/done/error)
+- [x] Investment panel with a clear trigger (e.g. “Run search”)
+- [x] Small bounded fetch (few sources / limited pages) → raw artifacts under `data/`
+- [x] Structured rows landed in DuckDB (enough for the summary path)
+- [x] LLM summary/advice rendered in the panel (HTMX partial or full refresh)
+- [x] Job/status feedback while work runs (at least simple busy/done/error)
 
 **Out of scope:**
 
@@ -115,7 +115,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Now |
 | Depends on | B2, B3 |
@@ -124,10 +124,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] OAuth installed-app flow works on stakeholder WSL/Linux + browser; tokens stored locally (gitignored)
-- [ ] Read-only Gmail scope only; happy path documented briefly
-- [ ] Quick inbox scan (bounded message count / recent window) → panel summary the user can skim
-- [ ] Clear errors for missing credentials, revoked token, or API failure
+- [x] OAuth installed-app flow works on stakeholder WSL/Linux + browser; tokens stored locally (gitignored)
+- [x] Read-only Gmail scope only; happy path documented briefly
+- [x] Quick inbox scan (bounded message count / recent window) → panel summary the user can skim
+- [x] Clear errors for missing credentials, revoked token, or API failure
 
 **Out of scope:**
 
@@ -143,14 +143,14 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 |-------|-------|
 | Status | ready |
 | Priority | P1 |
-| Roadmap theme | Now (stub) / Next (real) |
+| Roadmap theme | Now (stub done) / Next (real) |
 | Depends on | B2 |
 
 **Goal:** Calendar appears as a first-class nav entry; Sprint 1 is Coming soon (or stub). Real read-only Calendar summary is a follow-on.
 
 **Acceptance criteria (Sprint 1):**
 
-- [ ] Calendar nav entry opens Coming soon / stub panel
+- [x] Calendar nav entry opens Coming soon / stub panel
 
 **Acceptance criteria (later — not Sprint 1):**
 
@@ -162,7 +162,60 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 ---
 
-### B7 — Harden investment crawl & advice UX
+### B7 — Themable UI & design polish
+
+| Field | Value |
+|-------|-------|
+| Status | in_sprint |
+| Priority | P1 |
+| Roadmap theme | Next |
+| Depends on | B1, B2 |
+| Sprint | 2 |
+
+**Goal:** Evolve Sprint 1 custom CSS tokens into a clearer visual system with a **themable palette** (light/dark or named themes), informed by a UX pass if available.
+
+**Acceptance criteria:**
+
+- [ ] Theme tokens (colors, type/spacing as needed) live in one place and apply across shell + module panels
+- [ ] Operator can switch theme from the dashboard (persist locally)
+- [ ] Styling approach decision recorded in architecture (custom CSS themes vs later build tool)
+- [ ] Stub / Coming soon panels match the updated system
+
+**Out of scope:**
+
+- Full brand/marketing site
+- Native desktop chrome styling
+
+---
+
+### B8 — LLM settings & connection test
+
+| Field | Value |
+|-------|-------|
+| Status | in_sprint |
+| Priority | P1 |
+| Roadmap theme | Next |
+| Depends on | B3 |
+| Sprint | 2 |
+
+**Goal:** From the dashboard, configure which LLM model/provider settings to use and verify connectivity without digging through `.env` only.
+
+**Acceptance criteria:**
+
+- [ ] Settings entry point on the dashboard (button/nav to settings panel)
+- [ ] Configure active model (and related PoC settings — e.g. model id); secrets stay local / not committed
+- [ ] **Test connection** action reports success/failure clearly in the UI
+- [ ] Modules use the configured provider/settings after save (document restart-required vs hot-reload)
+
+**Out of scope:**
+
+- Multi-user settings profiles
+- LocalLlama install/ops (beyond selecting a stub/provider that isn’t ready)
+- Cloud billing dashboards
+
+---
+
+### B9 — Harden investment crawl & advice UX
 
 | Field | Value |
 |-------|-------|
@@ -183,7 +236,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 ---
 
-### B8 — Harden Gmail + add Calendar read summary
+### B10 — Harden Gmail + add Calendar read summary
 
 | Field | Value |
 |-------|-------|
@@ -204,7 +257,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 ---
 
-### B9 — Fitness beyond stub
+### B11 — Fitness beyond stub
 
 | Field | Value |
 |-------|-------|
@@ -221,7 +274,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 ---
 
-### B10 — Phone-on-LAN access pattern
+### B12 — Phone-on-LAN access pattern
 
 | Field | Value |
 |-------|-------|
