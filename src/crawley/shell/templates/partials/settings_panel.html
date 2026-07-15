@@ -70,6 +70,47 @@
   </form>
 </div>
 
+<div class="panel panel-tight settings-section" id="update">
+  <h2 class="section-title">Update</h2>
+  <p class="muted">
+    Pull latest application code from git for the current branch.
+    With <code>CRAWLEY_RELOAD=1</code>, changes under <code>src/crawley/</code> trigger a hot reload.
+  </p>
+  {% if git_status.is_repo %}
+  <p class="muted">{{ git_status.message }}{% if reload_enabled %} · hot reload on{% else %} · hot reload off{% endif %}</p>
+  {% else %}
+  <p class="job job-error">{{ git_status.message }}</p>
+  {% endif %}
+  {% if bind_exposes_lan %}
+  <p class="job job-error">
+    Pull latest is disabled while LAN bind is active. Use localhost, then retry.
+  </p>
+  {% endif %}
+  <form
+    class="settings-form"
+    hx-post="/settings/update/pull"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+  >
+    <div class="actions">
+      <button
+        type="submit"
+        {% if not update_pull_allowed %}disabled{% endif %}
+      >Pull latest</button>
+    </div>
+  </form>
+  {% if update_result %}
+    {% if update_result.ok %}
+    <p class="job job-done">{{ update_result.message }}</p>
+    {% else %}
+    <p class="job job-error">{{ update_result.message }}</p>
+    {% endif %}
+  {% endif %}
+  {% if not reload_enabled %}
+  <p class="muted">Tip: set <code>CRAWLEY_RELOAD=1</code> in <code>.env</code> and restart once so pulls that change app code reload automatically.</p>
+  {% endif %}
+</div>
+
 <div class="panel panel-tight settings-section" id="llm">
   <h2 class="section-title">Language model</h2>
   <form

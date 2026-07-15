@@ -3,17 +3,24 @@
 UX expert owns this file. Update when a design pass lands.
 
 **Working title:** Crawley  
-**Status:** Confirmed — Sprint 2 design contract (2026-07-15); **Pivot UX** — Sender Inbox + ASX desk **Draft for implement** (2026-07-15)  
+**Status:** Confirmed — Sprint 2 design contract (2026-07-15); **Pivot UX** — Sender Inbox + ASX desk **Draft for implement** (2026-07-15); **Sprint 11** Settings → Update specified  
 **Surfaces:** Local browser dashboard + module panels (FastAPI / Jinja2 / HTMX; see `docs/architecture.md`)  
-**Sprint alignment:** S2.1–S2.4 (shell themes, Settings LLM, Markdown, At a glance) remain in force; **S11.0 / B65** pivot dashboards → [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)
+**Sprint alignment:** S2.1–S2.4 remain in force; **Sprint 11 / B78** Settings → Update; **Sprint 12+ / B65** pivot desks → [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)
 
-## Pivot — Sender Inbox + ASX desk (Sprints 11–13)
+## Pivot — Settings Update + Sender Inbox + ASX desk
+
+| Sprint | Surface |
+|--------|---------|
+| **11** | Settings → **Update** (git pull + hot reload) — quiet Settings section; §2.3 of pivot contract |
+| **12** | Sender Inbox (Gmail) |
+| **13–14** | ASX desk / recommendations / paper portfolio |
 
 **Contract:** [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)  
 **Status:** Draft for implement (stakeholder intents locked via PO pivot; architects may proceed)
 
 | Surface | Module | Default unit |
 |---------|--------|--------------|
+| Update | Settings | Git pull result + reload precondition |
 | Sender Inbox | Gmail | **Sender** (not chronological stream) |
 | ASX desk | Investment | **Company** + scanner progress |
 | Recommendations | Investment sub-route | Structured action rows |
@@ -304,9 +311,9 @@ Trusted subset focus: headings, paragraphs, emphasis, lists, links. Architect ow
 | **S2.2** | Settings nav entry (+ banner deep-link); LLM fields + Save; Test connection states; missing key parity with banner |
 | **S2.3** | Markdown→HTML for Investment/Gmail summaries; tokenized `.summary` styles; safe sanitize (see Component patterns) |
 | **S2.4** | Home At a glance: status chips + persisted last Investment/Gmail MD snippets; one composition; empty honest hints (see F6) |
-| **S11.0 / B65** | Sender Inbox + ASX desk IA/layouts/states — [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) (Draft for implement) |
-| **S11.1–S6.5** | Implement Sender Inbox per pivot contract §3 |
-| **S12 / S13** | Implement ASX desk, recommendations, paper portfolio per pivot §§4–6 |
+| **S11 / B78** | Settings → **Update** (git pull + hot reload) — quiet Settings section; pivot contract §2.3 |
+| **S12 / B65–B70** | Sender Inbox per pivot contract §3 |
+| **S13 / S14** | ASX desk, recommendations, paper portfolio per pivot §§4–6 |
 
 Architect implements; optional markup snippets in PRs are fine. Do not change Product/Roadmap/backlog from this pass.
 

@@ -19,7 +19,9 @@ uv run python -m crawley
 
 Open http://127.0.0.1:8000 in your browser.
 
-**Settings:** Theme (Paper / Slate / Ink / Moss), LLM provider/model/key (or LocalLlama base URL/timeout), editable summary prompts, and write-back audit live under **Settings**. Theme applies immediately (cookie). Saved LLM settings are stored in `data/secrets/settings.json` and **override** `.env` when a key is saved there; leave the key blank to keep the stored/env value. Changes apply on the next request (no restart). Use **Test connection** to verify the provider.
+**Settings:** Theme (Paper / Slate / Ink / Moss), Network/LAN, **Update** (git pull), LLM provider/model/key (or LocalLlama base URL/timeout), editable summary prompts, and write-back audit live under **Settings**. Theme applies immediately (cookie). Saved LLM settings are stored in `data/secrets/settings.json` and **override** `.env` when a key is saved there; leave the key blank to keep the stored/env value. Changes apply on the next request (no restart). Use **Test connection** to verify the provider.
+
+**Update (git pull):** Settings → **Update** → **Pull latest** runs `git fetch` + fast-forward-only merge of the **current branch’s upstream**. Disabled while LAN bind is active. For hot reload after a pull that changes `src/crawley/`, set `CRAWLEY_RELOAD=1` and restart once beforehand. Merge conflicts / diverged history must be fixed in a terminal — the UI will not resolve them.
 
 **Local LLM (Ollama):** install/run [Ollama](https://ollama.com/), `ollama pull llama3.2` (or your model), then Settings → Provider **LocalLlama** → base URL `http://127.0.0.1:11434` → model id → **Test connection**. OpenAI remains selectable anytime.
 
@@ -40,7 +42,9 @@ Default bind is localhost only (`127.0.0.1:8000`). To reach a phone on the same 
 
 `CRAWLEY_HOST` in the environment overrides the Settings toggle until removed.
 
-**Dev hot reload:** set `CRAWLEY_RELOAD=1` in `.env` and restart once. Uvicorn then restarts the app when files under `src/crawley/` change (including after `git pull`). Leave it off for day-to-day phone/LAN use.
+**Dev hot reload:** set `CRAWLEY_RELOAD=1` in `.env` and restart once. Uvicorn then restarts the app when files under `src/crawley/` change (including after Settings → **Pull latest**). Leave it off for day-to-day phone/LAN use.
+
+**Manual proof (Sprint 11):** With `CRAWLEY_RELOAD=1`, open Settings → Update, note the short SHA, pull a commit that touches `src/crawley/` (or pull after pushing such a commit), watch the server log for a reload, and confirm the Settings page shows the new SHA / “Pulled … hot reload should apply”.
 
 **Google OAuth notes:** redirect URI used is `http://127.0.0.1:8000/modules/gmail/oauth/callback` — add it under **Authorized redirect URIs** (not JavaScript origins). Enable **Gmail API** and **Google Calendar API**. Default scopes are Gmail + Calendar **read-only**. Calendar event insert uses an optional `calendar.events` write scope — use **Reconnect for Calendar write** on the Calendar panel (never requests Gmail send). Local HTTP is allowed automatically for `127.0.0.1` / `localhost`.
 
@@ -64,7 +68,9 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 - **Sprints 1–5** — PoC closed; retro: [`docs/sprints/archive/sprints-1-5-retrospective.md`](./docs/sprints/archive/sprints-1-5-retrospective.md)
 - **Sprints 6–10** — **implemented** (life modules, Day brief, Calendar write-back, LocalLlama, shared context): [`docs/sprints/archive/sprint-6-10-life-modules-llm-context.md`](./docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](./docs/sprints/archive/sprint-6-10-code-verification.md)
-- **Sprint 11** — Settings Update (git pull + hot reload) then Sender Inbox PoC (**ready**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprint 11** — Settings Update (git pull + hot reload) (**in progress**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprint 12** — Sender Inbox PoC (planned): [`docs/sprints/planned/sprint-12-sender-inbox.md`](./docs/sprints/planned/sprint-12-sender-inbox.md)
+- **Sprints 13–14** — ASX profiles + paper portfolio (planned): [`docs/sprints/planned/`](./docs/sprints/planned/)
 - **Sprints 12–13** — ASX profiles → recommendations + paper portfolio: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
@@ -93,4 +99,4 @@ These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-develop
 
 ## Next delivery
 
-`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 11**) **in order**: **S11.0** Settings → Update (git pull + hot reload), then Sender Inbox PoC. UX draft: `docs/ux/sender-inbox-asx.md`. ASX PoC is Sprints **12–13**.
+`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 11** = Settings → Update only). Sender Inbox is Sprint **12**; ASX is Sprints **13–14**. UX: `docs/ux/sender-inbox-asx.md` (§2.3 Update, §3 Inbox).

@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–10 closed; **Sprint 11 ready** = Settings Update (git pull + hot reload) then Sender Inbox PoC; Sprints 12–13 ASX; former planned 11–40 depth queue shelved; B65–B78
+**Status:** Sprints 1–11 closed (11 = Settings Update); Sender Inbox → Sprint 12; ASX → 13–14; former post-10 platform/depth plans shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -1666,7 +1666,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B7 |
-| Sprint | 11 (current) — after B78 |
+| Planned sprint | 12 |
 
 **Goal:** UX expert design contract for Sender-grouped Inbox and ASX research desk (profiles, recommendations, paper portfolio pages) before implementation.
 
@@ -1694,7 +1694,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B5, B10, B65 |
-| Sprint | 11 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Polite background process pulls **one email at a time** and LLM-categorizes each on a useful metric schema.
 
@@ -1719,7 +1719,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66, B65 |
-| Sprint | 11 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Default Inbox UI grouped by **sender**, not a chronological stream.
 
@@ -1743,7 +1743,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B67 |
-| Sprint | 11 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Per-sender LLM profile describing interaction history from ingested mail.
 
@@ -1767,7 +1767,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B68 |
-| Sprint | 11 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Extract actionable todos from each sender’s ingested emails; local open/done.
 
@@ -1791,7 +1791,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66 |
-| Sprint | 11 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Hard PoC bound of ~20 ingested emails with clear UI and reset path.
 
@@ -1815,7 +1815,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B65 |
-| Planned sprint | 12 |
+| Planned sprint | 13 |
 
 **Goal:** Ship a large curated ASX company list; PoC processes a 20-company slice.
 
@@ -1839,7 +1839,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B71 |
-| Planned sprint | 12 |
+| Planned sprint | 13 |
 
 **Goal:** Slow background process scans price movement, market data, and news/sentiment per company.
 
@@ -1863,7 +1863,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B72, B74 |
-| Planned sprint | 12 |
+| Planned sprint | 13 |
 
 **Goal:** LLM/hybrid profile per company collating scan data + sentiment using metrics/sources favored by professional investors (as available from free/bounded sources).
 
@@ -1891,7 +1891,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B9 |
-| Planned sprint | 12 |
+| Planned sprint | 13 |
 
 **Goal:** Configurable source list and prompt templates for ASX scan/profile/sentiment.
 
@@ -1916,7 +1916,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B73 |
-| Planned sprint | 13 |
+| Planned sprint | 14 |
 
 **Goal:** Structured list of actionable recommendations generated from company profiles.
 
@@ -1940,7 +1940,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B75 |
-| Planned sprint | 13 |
+| Planned sprint | 14 |
 
 **Goal:** Separate page tracking a **paper** portfolio of trades from recommendations (or manual), marked-to-market from scan prices.
 
@@ -1968,7 +1968,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B76 |
-| Planned sprint | 13 |
+| Planned sprint | 14 |
 
 **Goal:** Settings for paper trading assumptions (cash, fees, AUD, cosmetic broker label).
 
@@ -1988,22 +1988,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B1 |
-| Sprint | 11 (current) — **first story** |
+| Sprint | 11 (current) — **only story** |
 
 **Goal:** From the dashboard (Settings → **Update**), pull the latest application code from git and confirm the running process **hot-reloads** when reload is enabled — so the operator can update Crawley without a manual terminal dance.
 
 **Acceptance criteria:**
 
-- [ ] Settings → **Update** section (or equally obvious dashboard control) with **Pull latest**
-- [ ] Runs git pull (or fetch + ff-only merge) on the app checkout; UI shows success / up-to-date / error
-- [ ] Documents and/or enables `CRAWLEY_RELOAD=1` (uvicorn reload on `src/crawley/` changes) as the supported path
-- [ ] Demonstrates/tests that a pull changing watched files triggers reload (automated test preferred)
-- [ ] Localhost-minded safety (disable or strong warn when LAN bind); no secret leakage in UI logs
-- [ ] Architecture + README note; no scheduled auto-pull
+- [x] Settings → **Update** section (or equally obvious dashboard control) with **Pull latest**
+- [x] Runs git pull (or fetch + ff-only merge) on the app checkout; UI shows success / up-to-date / error
+- [x] Documents and/or enables `CRAWLEY_RELOAD=1` (uvicorn reload on `src/crawley/` changes) as the supported path
+- [x] Demonstrates/tests that a pull changing watched files triggers reload (automated test preferred)
+- [x] Localhost-minded safety (disable or strong warn when LAN bind); no secret leakage in UI logs
+- [x] Architecture + README note; no scheduled auto-pull
 
 **Out of scope:**
 
