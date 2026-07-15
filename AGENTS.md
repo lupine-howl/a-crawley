@@ -16,7 +16,7 @@ Do not invent lasting product decisions only in chat. Write them into the files 
 
 ## Roles
 
-- **Product owner** — owns roadmap, backlog, and sprints. Does not implement application code.
+- **Product owner** — owns brief, roadmap, backlog, and sprints. Does not implement application code. Bootstrap uses two interviews: (1) `PRODUCT.md` + `ROADMAP.md`, (2) `BACKLOG.md` + first sprint.
 - **Architect / developer** — implements only what is in `docs/sprints/current.md`. Updates architecture docs when decisions land.
 
 ## Definition of done (per story)
