@@ -141,18 +141,66 @@
     <p class="muted">{% if panel.auth.error %}{{ panel.auth.error }}{% else %}Calendar scope missing.{% endif %} Tokens: <code>{{ panel.auth.token_path }}</code>.</p>
     <p><a class="btn" href="/modules/gmail/oauth/start">Connect Google (read-only)</a></p>
     {% else %}
-    <p class="job job-done">Google connected (Calendar read-only).</p>
+    <p class="job job-done">Google connected (Calendar).</p>
     <form hx-post="/modules/calendar/run" hx-target="#panel-root" hx-swap="innerHTML">
       <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
         {% if panel.job.status == 'busy' %}Loading…{% else %}Skim next {{ panel.lookahead_days }} days (max {{ panel.max_events }}){% endif %}
       </button>
     </form>
-    <form class="run-form" hx-post="/modules/calendar/write-back/dry-run" hx-target="#panel-root" hx-swap="innerHTML">
-      <input type="hidden" name="action" value="insert_event">
-      <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>
-        Write-back dry-run (no insert)
-      </button>
+    {% if not panel.auth.calendar_write_ok %}
+    <p class="muted">Event insert needs Calendar events write scope (Gmail send is never requested).</p>
+    <p><a class="btn secondary" href="/modules/gmail/oauth/start?calendar_write=1">Reconnect for Calendar write</a></p>
+    {% endif %}
+    {% if panel.pending_draft %}
+    <div class="summary">
+      <h2>Pending draft</h2>
+      <p><strong>{{ panel.pending_draft.payload.summary }}</strong></p>
+      <p class="muted">{{ panel.pending_draft.payload.start }} → {{ panel.pending_draft.payload.end }}</p>
+      {% if panel.pending_draft.payload.description %}
+      <p>{{ panel.pending_draft.payload.description }}</p>
+      {% endif %}
+      <div class="actions">
+        <form hx-post="/modules/calendar/write-back/confirm" hx-target="#panel-root" hx-swap="innerHTML">
+          <input type="hidden" name="draft_id" value="{{ panel.pending_draft.draft_id }}">
+          <button type="submit" {% if not panel.auth.calendar_write_ok or panel.job.status == 'busy' %}disabled{% endif %}>Confirm insert</button>
+        </form>
+        <form hx-post="/modules/calendar/write-back/cancel" hx-target="#panel-root" hx-swap="innerHTML">
+          <input type="hidden" name="draft_id" value="{{ panel.pending_draft.draft_id }}">
+          <button type="submit" class="secondary">Cancel (no write)</button>
+        </form>
+      </div>
+    </div>
+    {% else %}
+    <form class="run-form" hx-post="/modules/calendar/write-back/propose" hx-target="#panel-root" hx-swap="innerHTML">
+      <div>
+        <label for="cal-summary">New event title</label>
+        <input id="cal-summary" name="summary" value="{{ panel.default_event.summary }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+      </div>
+      <div>
+        <label for="cal-start">Start (ISO UTC)</label>
+        <input id="cal-start" name="start" value="{{ panel.default_event.start }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+      </div>
+      <div>
+        <label for="cal-end">End (ISO UTC)</label>
+        <input id="cal-end" name="end" value="{{ panel.default_event.end }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+      </div>
+      <div>
+        <label for="cal-desc">Description</label>
+        <textarea id="cal-desc" name="description" rows="2" {% if panel.job.status == 'busy' %}disabled{% endif %}>{{ panel.default_event.description }}</textarea>
+      </div>
+      <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>Propose draft</button>
     </form>
+    {% endif %}
+    {% if panel.audit_entries %}
+    <details class="prompt-viewer">
+      <summary>Recent write-back audit</summary>
+      <ul class="muted">
+        {% for row in panel.audit_entries %}
+        <li>{{ row.at }} · {{ row.module_id }} · {{ row.action_summary or row.stage }}{% if row.success == false %} · failed{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endif %}
     {% endif %}
     <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
     {% if panel.job.summary %}
@@ -259,6 +307,73 @@
     {% if panel.job.summary %}
     <div class="summary">
       <h2>Priorities</h2>
+      <div class="summary-body">{{ panel.summary_html }}</div>
+    </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.prompt_system %}
+    <details class="prompt-viewer">
+      <summary>Last prompt sent to the LLM</summary>
+      <h3>System</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
+      <h3>User</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
+    </details>
+    {% endif %}
+  </div>
+  {% elif module.meta.id in ['co-parenting', 'diy', 'finance-taxes', 'coding-creative'] %}
+  <div
+    class="panel"
+    {% if panel.job.status == 'busy' %}
+    hx-get="/modules/{{ module.meta.id }}/status"
+    hx-trigger="every 1s"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    {% endif %}
+  >
+    {% if panel.disclaimer %}
+    <p class="job job-error">{{ panel.disclaimer }}</p>
+    {% endif %}
+    <p class="muted">Local notes (stored at <code>{{ panel.notes_path }}</code>).{% if panel.format_hint %} {{ panel.format_hint }}{% endif %}</p>
+    <form class="run-form">
+      <div>
+        <label for="notes-{{ module.meta.id }}">Notes</label>
+        <textarea id="notes-{{ module.meta.id }}" name="notes" rows="8" {% if panel.job.status == 'busy' %}disabled{% endif %}>{{ panel.notes }}</textarea>
+      </div>
+      {% if module.meta.id == 'coding-creative' %}
+      <label class="check">
+        <input type="checkbox" name="include_shared_context" id="shared-{{ module.meta.id }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        Include shared context in prompt
+      </label>
+      {% endif %}
+      <div class="actions">
+        <button
+          type="submit"
+          formaction="/modules/{{ module.meta.id }}/save"
+          formmethod="post"
+          hx-post="/modules/{{ module.meta.id }}/save"
+          hx-target="#panel-root"
+          hx-swap="innerHTML"
+          hx-include="#notes-{{ module.meta.id }}"
+          {% if panel.job.status == 'busy' %}disabled{% endif %}
+        >Save</button>
+        <button
+          type="submit"
+          formaction="/modules/{{ module.meta.id }}/run"
+          formmethod="post"
+          hx-post="/modules/{{ module.meta.id }}/run"
+          hx-target="#panel-root"
+          hx-swap="innerHTML"
+          hx-include="#notes-{{ module.meta.id }}{% if module.meta.id == 'coding-creative' %}, #shared-{{ module.meta.id }}{% endif %}"
+          {% if panel.job.status == 'busy' %}disabled{% endif %}
+        >
+          {% if panel.job.status == 'busy' %}Running…{% else %}Run{% endif %}
+        </button>
+      </div>
+    </form>
+    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Summary</h2>
       <div class="summary-body">{{ panel.summary_html }}</div>
     </div>
     {% endif %}

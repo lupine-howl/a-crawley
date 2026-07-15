@@ -2,7 +2,7 @@
 
 **Status:** Draft for implement (2026-07-15)  
 **Owner:** UX expert  
-**Sprint gate:** S6.0 / B65 — architects implement Sender Inbox (S6.1+) and ASX surfaces (S7–S8) against this file  
+**Sprint gate:** S11.0 / B65 — architects implement Sender Inbox (S11.1+) and ASX surfaces (S12–S13) against this file  
 **Shell:** FastAPI + Jinja2 + HTMX; themes `paper` / `slate` / `ink` / `moss` per [`docs/ux.md`](../ux.md)  
 **Parent contract:** [`docs/ux.md`](../ux.md)
 
@@ -39,7 +39,7 @@ Topology unchanged: sidebar brand + modules + Settings; main = banner + panel.
 | Nav entry | Live surfaces (pivot) |
 |-----------|------------------------|
 | **Gmail** | Sender Inbox list → sender detail; ingest progress; legacy skim/run may remain as a secondary control or collapse under a disclosure until removed — **do not** make chronological stream the default |
-| **Investment** | ASX desk (universe + scanner) → company profile; sub-routes for **Recommendations** and **Paper portfolio** (Sprint 8) |
+| **Investment** | ASX desk (universe + scanner) → company profile; sub-routes for **Recommendations** and **Paper portfolio** (Sprint 13) |
 | Other modules | Unchanged |
 
 **Investment sub-nav** (secondary strip under panel title — text links or quiet segmented control, not pill clusters):
@@ -49,10 +49,10 @@ Desk  ·  Recommendations  ·  Paper portfolio
 ```
 
 - Active segment uses existing active-nav contrast pattern adapted to inline links (`--ink` weight / underline or `--nav-active-*` on a compact control).
-- **Desk** is the default Investment landing (Sprint 7+).
+- **Desk** is the default Investment landing (Sprint 12+).
 - Legacy Investment “run search / summary” PoC may live as a disclosure on Desk (“Classic search”) — not competing for first viewport.
 
-**Gmail sub-nav** (optional, Sprint 6):
+**Gmail sub-nav** (optional, Sprint 11):
 
 ```
 Senders  ·  (optional) Classic summary
@@ -202,7 +202,7 @@ Background worker: **one email at a time**, hard stop ~20.
 
 ---
 
-## 4. ASX desk (Sprint 7)
+## 4. ASX desk (Sprint 12)
 
 ### 4.1 First viewport — universe + scanner
 
@@ -292,7 +292,7 @@ Accessible from Desk header disclosure or Settings section **Investment sources*
 
 ---
 
-## 5. Recommendations list (Sprint 8)
+## 5. Recommendations list (Sprint 13)
 
 **Job:** Structured simulation ideas from profiles — actionable rows, not a blog.
 
@@ -321,7 +321,7 @@ Accessible from Desk header disclosure or Settings section **Investment sources*
 | Urgency / confidence | Single muted qualifier |
 | Rationale | One line; expand disclosure for full text |
 | Generated | Relative time (optional column) |
-| Act | **Paper trade** secondary control → portfolio create flow with fields prefilled (Sprint 8) |
+| Act | **Paper trade** secondary control → portfolio create flow with fields prefilled (Sprint 13) |
 
 **States:** empty (no profiles yet → link Desk), generating, ready, error. Always show non-advice sentence under the title or as footer.
 
@@ -329,7 +329,7 @@ Accessible from Desk header disclosure or Settings section **Investment sources*
 
 ---
 
-## 6. Paper portfolio (Sprint 8)
+## 6. Paper portfolio (Sprint 13)
 
 **Job:** Readable simulation ledger — cash, positions, simple P&L; never brokerage orders.
 
@@ -430,8 +430,8 @@ Do **not** introduce purple accents, glow, or cream/terracotta marketing palette
 
 | Sprint / story | UX surfaces locked here |
 |----------------|-------------------------|
-| S6.0 / B65 | This file + pointer in `docs/ux.md` |
-| S6.1–S6.5 | §3 Sender Inbox (list, progress, detail, profile, todos, cap) |
+| S11.0 / B65 | This file + pointer in `docs/ux.md` |
+| S11.1–S6.5 | §3 Sender Inbox (list, progress, detail, profile, todos, cap) |
 | S7.1–S7.4 | §4 ASX desk, profile, sources/prompts entry |
 | S8.1–S8.3 | §5 Recommendations, §6 Paper portfolio + simulation settings |
 
@@ -474,5 +474,5 @@ Challenge these only if implementation cost or product docs disagree.
 
 Architects: implement against this file + [`docs/ux.md`](../ux.md). Do not invent a second UI stack. Material technical choices (schema, paths, store) go in `docs/architecture.md`.
 
-Stakeholder: treat status **Draft for implement** as accepted for S6.0 unless vetoed; further polish can land mid-sprint without reopening IA.
+Stakeholder: treat status **Draft for implement** as accepted for S11.0 unless vetoed; further polish can land mid-sprint without reopening IA.
 

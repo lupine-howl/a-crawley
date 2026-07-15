@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–5 closed; **Sprint 6 ready** = Sender Inbox PoC pivot; B19–B64 shelved; B65–B77 Next
+**Status:** Sprints 1–10 closed; **Sprint 11 ready** = Sender Inbox PoC pivot; former planned 11–40 depth/platform queue shelved; B65–B77 Next
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -145,7 +145,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B15 |
-| Planned sprint | 3 |
+| Sprint | 3–4 |
 
 **Goal:** Calendar is a live module: bounded upcoming events → Markdown summary via shared Google read-only OAuth.
 
@@ -153,7 +153,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 - [x] Calendar nav entry opens Coming soon / stub panel
 
-**Acceptance criteria (Sprint 3):**
+**Acceptance criteria (Sprint 3–4):**
 
 - [x] Read-only Calendar fetch for a bounded upcoming window
 - [x] LLM Markdown summary; job busy/done/error; empty state honest
@@ -278,7 +278,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B4 |
-| Planned sprint | 4 |
+| Sprint | 3–4 |
 
 **Goal:** Richer bounded sources, cache, clearer advice Markdown, better errors — still manual action only.
 
@@ -304,7 +304,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B5, B15 |
-| Planned sprint | 3 |
+| Sprint | 3–4 |
 
 **Goal:** Better Gmail skim quality and auth/error UX on shared Google credentials (Calendar is B6).
 
@@ -329,7 +329,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 4 |
+| Sprint | 3–4 |
 
 **Goal:** Fitness lite: goal/context in → LLM introductory plan Markdown out; not medical care.
 
@@ -355,7 +355,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B1 |
-| Planned sprint | 5 |
+| Sprint | 5 |
 
 **Goal:** Same browser UI on LAN only when consciously enabled; localhost default.
 
@@ -380,7 +380,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B5 |
-| Planned sprint | 3 |
+| Sprint | 3–4 |
 
 **Goal:** One Google identity; Gmail + Calendar readonly scopes; reconsent if upgrading from Gmail-only.
 
@@ -405,7 +405,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14 |
-| Planned sprint | 4 |
+| Sprint | 3–4 |
 
 **Goal:** Extend At a glance as modules go live (Fitness required in Sprint 4; Calendar expected from Sprint 3 store).
 
@@ -429,7 +429,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 5 |
+| Sprint | 5 |
 
 **Goal:** Work domain live: local tasks/notes → LLM prioritization Markdown.
 
@@ -453,7 +453,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B6, B5 |
-| Planned sprint | 5 |
+| Sprint | 5 |
 
 **Goal:** Lock how write-back will work before implementing mutations.
 
@@ -474,21 +474,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Sprint | 6 (current) |
+| Sprint | 6 |
 
 **Goal:** Leave Coming soon with a local co-parenting schedule (handoffs / custody windows) the operator maintains, plus an LLM Markdown skim of what’s next — not a multi-user family product.
 
 **Acceptance criteria:**
 
-- [ ] Co-parenting leaves Coming soon; local schedule entries (dates/windows + short notes) persist under `data/`
-- [ ] Run → Markdown “what’s next / conflicts to watch” summary (bounded window)
-- [ ] Job status + success snapshot for home glance
-- [ ] Clear empty state; no fake demo custody data
-- [ ] Copy stays personal planning — no third-party co-parent accounts
+- [x] Co-parenting leaves Coming soon; local schedule entries (dates/windows + short notes) persist under `data/`
+- [x] Run → Markdown “what’s next / conflicts to watch” summary (bounded window)
+- [x] Job status + success snapshot for home glance
+- [x] Clear empty state; no fake demo custody data
+- [x] Copy stays personal planning — no third-party co-parent accounts
 
 **Out of scope:**
 
@@ -502,20 +502,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Sprint | 6 (current) |
+| Sprint | 6 |
 
 **Goal:** DIY domain live: local project notes / punch list → LLM next-steps Markdown.
 
 **Acceptance criteria:**
 
-- [ ] DIY leaves Coming soon; operator can save one or more project notes (title + free text / checklist)
-- [ ] Run → Markdown suggested next steps / materials-to-consider framing (manual action only)
-- [ ] Job status + success snapshot for home glance
-- [ ] No e-commerce checkout or vendor scrape required
+- [x] DIY leaves Coming soon; operator can save one or more project notes (title + free text / checklist)
+- [x] Run → Markdown suggested next steps / materials-to-consider framing (manual action only)
+- [x] Job status + success snapshot for home glance
+- [x] No e-commerce checkout or vendor scrape required
 
 **Out of scope:**
 
@@ -528,19 +528,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B14, B19, B20 |
-| Sprint | 6 (current) |
+| Sprint | 6 |
 
 **Goal:** Extend At a glance when Co-parenting and DIY go live; keep one composition.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Co-parenting and DIY snapshots when present
-- [ ] Prior module snapshots retained; long bodies truncated; no stub filler
-- [ ] Participating modules list updated in `docs/architecture.md`
+- [x] Home shows last Co-parenting and DIY snapshots when present
+- [x] Prior module snapshots retained; long bodies truncated; no stub filler
+- [x] Participating modules list updated in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -552,20 +552,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** Finance/Taxes leaves Coming soon with a safe personal planning path: local notes/context → LLM structured overview — not a brokerage or tax-filing product.
 
 **Acceptance criteria:**
 
-- [ ] Finance/Taxes leaves Coming soon; local context capture (notes / categories / questions)
-- [ ] Run → Markdown planning summary (topics to review, questions for advisor, reminders) with explicit “not professional tax/financial advice” disclaimer
-- [ ] Job status + success snapshot for home glance
-- [ ] No brokerage/bank OAuth; no automated filing or payments
+- [x] Finance/Taxes leaves Coming soon; local context capture (notes / categories / questions)
+- [x] Run → Markdown planning summary (topics to review, questions for advisor, reminders) with explicit “not professional tax/financial advice” disclaimer
+- [x] Job status + success snapshot for home glance
+- [x] No brokerage/bank OAuth; no automated filing or payments
 
 **Out of scope:**
 
@@ -578,21 +578,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B6, B10, B14 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** One composed morning pull on home: combine last (or freshly runnable) Calendar + Gmail signals into a short day brief — habit/pull without a second UI stack.
 
 **Acceptance criteria:**
 
-- [ ] Home (or a single At a glance section) can show a **Day brief** Markdown composed from Calendar + Gmail snapshot inputs
-- [ ] Operator can refresh brief from existing successful snapshots without inventing data when a module has never succeeded
-- [ ] Empty/partial states honest (e.g. Calendar only, Gmail only, neither)
-- [ ] Stays one composition — not a widget dump; truncates long bodies
-- [ ] Approach noted in `docs/architecture.md`
+- [x] Home (or a single At a glance section) can show a **Day brief** Markdown composed from Calendar + Gmail snapshot inputs
+- [x] Operator can refresh brief from existing successful snapshots without inventing data when a module has never succeeded
+- [x] Empty/partial states honest (e.g. Calendar only, Gmail only, neither)
+- [x] Stays one composition — not a widget dump; truncates long bodies
+- [x] Approach noted in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -605,18 +605,18 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B14, B22 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** Add Finance snapshot to At a glance when Finance lite ships.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Finance snapshot when present
-- [ ] Glance list updated in architecture.md; composition rules preserved
+- [x] Home shows last Finance snapshot when present
+- [x] Glance list updated in architecture.md; composition rules preserved
 
 **Out of scope:**
 
@@ -628,22 +628,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B6, B15, B18 |
-| Planned sprint | 8 |
+| Sprint | 8 |
 
-**Goal:** First real mutation path: propose a Calendar event draft → show draft/diff → explicit confirm → insert via Google API → local audit entry. Implements Sprint 5 ADR stages for one surface only.
+**Goal:** First real mutation path: propose a Calendar event draft → show draft/diff → explicit confirm → insert via Google API → local audit entry. Implements ADR-006 stages for one surface only.
 
 **Acceptance criteria:**
 
-- [ ] Calendar (or shared write UI) can propose an event draft from operator input and/or LLM suggestion
-- [ ] Confirm step required; cancel leaves no remote write
-- [ ] On confirm: Calendar insert with appropriate write scope; success/failure clear in UI
-- [ ] Local audit log entry (what, when, outcome) under `data/`
-- [ ] Reconsent path if current token lacks write scope; no silent scope creep into Gmail send
-- [ ] UX/ADR stages match Sprint 5 design (propose → confirm → execute → audit)
+- [x] Calendar (or shared write UI) can propose an event draft from operator input and/or LLM suggestion
+- [x] Confirm step required; cancel leaves no remote write
+- [x] On confirm: Calendar insert with appropriate write scope; success/failure clear in UI
+- [x] Local audit log entry (what, when, outcome) under `data/`
+- [x] Reconsent path if current token lacks write scope; no silent scope creep into Gmail send
+- [x] UX/ADR stages match Sprint 5 design (propose → confirm → execute → audit)
 
 **Out of scope:**
 
@@ -657,19 +657,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Next |
 | Depends on | B25 |
-| Planned sprint | 8 |
+| Sprint | 8 |
 
 **Goal:** Operator can skim recent write-back attempts without opening raw files.
 
 **Acceptance criteria:**
 
-- [ ] Settings or Calendar panel lists recent audit entries (bounded, newest first)
-- [ ] Shows timestamp, module, action summary, success/failure
-- [ ] No edit/replay of mutations required this sprint
+- [x] Settings or Calendar panel lists recent audit entries (bounded, newest first)
+- [x] Shows timestamp, module, action summary, success/failure
+- [x] No edit/replay of mutations required this sprint
 
 **Out of scope:**
 
@@ -681,22 +681,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Later → scheduled |
 | Depends on | B3, B8 |
-| Planned sprint | 9 |
+| Sprint | 9 |
 
 **Goal:** Prove the path off cloud for core advice: a local Llama-class (or compatible) provider works behind the existing LLM interface when the operator has a local runtime.
 
 **Acceptance criteria:**
 
-- [ ] `LocalLlama` (or named local provider) implements the provider interface against a documented local runtime (e.g. Ollama HTTP — architect chooses; document in ADR/architecture)
-- [ ] Settings: select local provider, configure base URL / model id; **Test connection** works
-- [ ] Modules use the active provider after save (hot-reload vs restart documented)
-- [ ] Clear errors when daemon unreachable, model missing, or timeout
-- [ ] README covers install/run assumptions for the stakeholder machine; OpenAI remains available as fallback choice
-- [ ] PoC success metric “path to local LLM” advanced — cloud not deleted
+- [x] `LocalLlama` (or named local provider) implements the provider interface against a documented local runtime (e.g. Ollama HTTP — architect chooses; document in ADR/architecture)
+- [x] Settings: select local provider, configure base URL / model id; **Test connection** works
+- [x] Modules use the active provider after save (hot-reload vs restart documented)
+- [x] Clear errors when daemon unreachable, model missing, or timeout
+- [x] README covers install/run assumptions for the stakeholder machine; OpenAI remains available as fallback choice
+- [x] PoC success metric “path to local LLM” advanced — cloud not deleted
 
 **Out of scope:**
 
@@ -706,24 +706,50 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ---
 
+### B31 — Local provider bounds & module-run errors
+
+| Field | Value |
+|-------|-------|
+| Status | done |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B27 |
+| Sprint | 9 |
+
+**Goal:** Local LLM runs must fail loudly and predictably — timeouts/bounds and distinct mid-job daemon errors so busy state never hangs silently.
+
+**Acceptance criteria:**
+
+- [x] Documented timeouts / max output bounds suitable for local hardware
+- [x] Module run surfaces distinct errors for daemon-down mid-job vs timeout vs cloud-path failures
+- [x] No silent hang in busy state; cancel-or-fail path documented
+- [x] Architecture notes local-vs-cloud latency expectations
+
+**Out of scope:**
+
+- Auto GPU installers
+- Per-module provider overrides
+
+---
+
 ### B28 — Coding / Creative projects lite
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Later → scheduled |
 | Depends on | B2, B13 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Coding/Creative leaves Coming soon: local project notes / focus context → LLM next-steps Markdown for personal creative/coding work.
 
 **Acceptance criteria:**
 
-- [ ] Coding/Creative leaves Coming soon; local notes/context persist under `data/`
-- [ ] Run → Markdown priorities / next experiments (manual action)
-- [ ] Job status + success snapshot for home glance
-- [ ] No mandatory GitHub/GitLab OAuth this sprint
+- [x] Coding/Creative leaves Coming soon; local notes/context persist under `data/`
+- [x] Run → Markdown priorities / next experiments (manual action)
+- [x] Job status + success snapshot for home glance
+- [x] No mandatory GitHub/GitLab OAuth this sprint
 
 **Out of scope:**
 
@@ -736,21 +762,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Later → scheduled |
 | Depends on | B14, B23 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Stronger local organisation: a thin **shared context** store modules/home can read (recent snapshots + optional short operator “standing notes”) so LLM prompts can cite cross-domain signal without a second product.
 
 **Acceptance criteria:**
 
-- [ ] Documented shared-context bundle (files/DuckDB — architect chooses) built from recent successful snapshots + optional standing notes
-- [ ] At least one module path and/or Day brief can optionally include a bounded slice of shared context in the LLM prompt
-- [ ] Hard caps on context size; secrets/tokens never injected into prompts from this store
-- [ ] Architecture ADR or section: what is in/out of shared context; opt-in vs default
-- [ ] Home or Settings can view/edit standing notes (minimal)
+- [x] Documented shared-context bundle (files/DuckDB — architect chooses) built from recent successful snapshots + optional standing notes
+- [x] At least one module path and/or Day brief can optionally include a bounded slice of shared context in the LLM prompt
+- [x] Hard caps on context size; secrets/tokens never injected into prompts from this store
+- [x] Architecture ADR or section: what is in/out of shared context; opt-in vs default
+- [x] Home or Settings can view/edit standing notes (minimal)
 
 **Out of scope:**
 
@@ -764,18 +790,18 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Later → scheduled |
 | Depends on | B14, B28 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Coding/Creative snapshot appears on At a glance when present.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Coding/Creative snapshot when present
-- [ ] Glance participants list updated in architecture.md
+- [x] Home shows last Coding/Creative snapshot when present
+- [x] Glance participants list updated in architecture.md
 
 **Out of scope:**
 
@@ -783,30 +809,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ---
 
-### B31 — Gmail write-back (confirm-first send)
-
-| Field | Value |
-|-------|-------|
-| Status | shelved |
-| Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
-| Depends on | B18, B25, B15 |
-| Planned sprint | 11 |
-
-**Goal:** Confirm-first Gmail send (draft → confirm → execute → audit), reusing Sprint 8 write-back patterns.
-
-**Acceptance criteria:**
-
-- [ ] Propose → draft/diff → confirm → send → audit
-- [ ] Cancel performs no send; reconsent for write scope when needed
-- [ ] Audit visible via existing viewer patterns
-- [ ] No silent/auto sends; no bulk label product
-
-**Out of scope:**
-
-- Multi-account, mailing-list automation
-
----
+## Shelved backlog (former planned Sprints 11–40)
 
 ### B32 — Native desktop shell wrapper
 
@@ -814,7 +817,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B1 |
 | Planned sprint | 12 |
 
@@ -839,7 +842,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B23 |
 | Planned sprint | 13 |
 
@@ -864,7 +867,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B19, B25 |
 | Planned sprint | 14 |
 
@@ -889,7 +892,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B14 |
 | Planned sprint | 15 |
 
@@ -913,7 +916,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B29, B35 |
 | Planned sprint | 15 |
 
@@ -937,7 +940,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B11 |
 | Planned sprint | 16 |
 
@@ -961,7 +964,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B22 |
 | Planned sprint | 17 |
 
@@ -985,7 +988,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B9 |
 | Planned sprint | 18 |
 
@@ -1009,7 +1012,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B12 |
 | Planned sprint | 19 |
 
@@ -1033,7 +1036,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B1 |
 | Planned sprint | 19 |
 
@@ -1057,7 +1060,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B23, B29 |
 | Planned sprint | 20 |
 
@@ -1082,7 +1085,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B7 |
 | Planned sprint | 20 |
 
@@ -1107,7 +1110,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B10, B15 |
 | Planned sprint | 21 |
 
@@ -1134,7 +1137,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B9, B39 |
 | Planned sprint | 22 |
 
@@ -1161,7 +1164,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B10 |
 | Planned sprint | 23 |
 
@@ -1187,7 +1190,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B39, B9 |
 | Planned sprint | 24 |
 
@@ -1214,7 +1217,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B31, B18 |
 | Planned sprint | 25 |
 
@@ -1240,7 +1243,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B45, B39 |
 | Planned sprint | 26 |
 
@@ -1267,7 +1270,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B10 |
 | Planned sprint | 27 |
 
@@ -1293,7 +1296,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B39 |
 | Planned sprint | 28 |
 
@@ -1320,7 +1323,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B44 |
 | Planned sprint | 29 |
 
@@ -1346,7 +1349,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B9, B24 |
 | Planned sprint | 30 |
 
@@ -1372,7 +1375,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B44, B46 |
 | Planned sprint | 31 |
 
@@ -1398,7 +1401,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B45, B49 |
 | Planned sprint | 32 |
 
@@ -1425,7 +1428,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B23, B50 |
 | Planned sprint | 33 |
 
@@ -1451,7 +1454,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B39, B47 |
 | Planned sprint | 34 |
 
@@ -1477,7 +1480,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B25, B31 |
 | Planned sprint | 35 |
 
@@ -1503,7 +1506,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B39 |
 | Planned sprint | 36 |
 
@@ -1529,7 +1532,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B46, B44 |
 | Planned sprint | 37 |
 
@@ -1555,7 +1558,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B45, B53 |
 | Planned sprint | 38 |
 
@@ -1581,7 +1584,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B49, B39, B54 |
 | Planned sprint | 39 |
 
@@ -1609,7 +1612,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B50, B39, B45 |
 | Planned sprint | 40 |
 
@@ -1634,7 +1637,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 |-------|-------|
 | Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
+| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
 | Depends on | B63 |
 | Planned sprint | 40 |
 
@@ -1653,6 +1656,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ---
 
+## Active pivot backlog (Sprints 11–13)
 
 ### B65 — UX: Sender Inbox + ASX dashboards
 
@@ -1662,7 +1666,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B7 |
-| Sprint | 6 (current) |
+| Sprint | 11 (current) |
 
 **Goal:** UX expert design contract for Sender-grouped Inbox and ASX research desk (profiles, recommendations, paper portfolio pages) before implementation.
 
@@ -1690,7 +1694,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B5, B10, B65 |
-| Sprint | 6 (current) |
+| Sprint | 11 (current) |
 
 **Goal:** Polite background process pulls **one email at a time** and LLM-categorizes each on a useful metric schema.
 
@@ -1715,7 +1719,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66, B65 |
-| Sprint | 6 (current) |
+| Sprint | 11 (current) |
 
 **Goal:** Default Inbox UI grouped by **sender**, not a chronological stream.
 
@@ -1739,7 +1743,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B67 |
-| Sprint | 6 (current) |
+| Sprint | 11 (current) |
 
 **Goal:** Per-sender LLM profile describing interaction history from ingested mail.
 
@@ -1763,7 +1767,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B68 |
-| Sprint | 6 (current) |
+| Sprint | 11 (current) |
 
 **Goal:** Extract actionable todos from each sender’s ingested emails; local open/done.
 
@@ -1787,7 +1791,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66 |
-| Sprint | 6 (current) |
+| Sprint | 11 (current) |
 
 **Goal:** Hard PoC bound of ~20 ingested emails with clear UI and reset path.
 
@@ -1811,7 +1815,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B65 |
-| Planned sprint | 7 |
+| Planned sprint | 12 |
 
 **Goal:** Ship a large curated ASX company list; PoC processes a 20-company slice.
 
@@ -1835,7 +1839,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B71 |
-| Planned sprint | 7 |
+| Planned sprint | 12 |
 
 **Goal:** Slow background process scans price movement, market data, and news/sentiment per company.
 
@@ -1859,7 +1863,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B72, B74 |
-| Planned sprint | 7 |
+| Planned sprint | 12 |
 
 **Goal:** LLM/hybrid profile per company collating scan data + sentiment using metrics/sources favored by professional investors (as available from free/bounded sources).
 
@@ -1887,7 +1891,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B9 |
-| Planned sprint | 7 |
+| Planned sprint | 12 |
 
 **Goal:** Configurable source list and prompt templates for ASX scan/profile/sentiment.
 
@@ -1912,7 +1916,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B73 |
-| Planned sprint | 8 |
+| Planned sprint | 13 |
 
 **Goal:** Structured list of actionable recommendations generated from company profiles.
 
@@ -1936,7 +1940,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B75 |
-| Planned sprint | 8 |
+| Planned sprint | 13 |
 
 **Goal:** Separate page tracking a **paper** portfolio of trades from recommendations (or manual), marked-to-market from scan prices.
 
@@ -1964,7 +1968,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B76 |
-| Planned sprint | 8 |
+| Planned sprint | 13 |
 
 **Goal:** Settings for paper trading assumptions (cash, fees, AUD, cosmetic broker label).
 

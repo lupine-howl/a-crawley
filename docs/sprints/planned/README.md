@@ -1,19 +1,24 @@
 # Planned sprints index
 
-**Active / next delivery:** [`../current.md`](../current.md) — **Sprint 6 Sender Inbox PoC** (pivot).  
-**Shelved (do not start):** [`../shelved/README.md`](../shelved/README.md) — former sprints 6–40.  
-**Closed:** [`../archive/`](../archive/).
+**Active / next delivery:** [`../current.md`](../current.md) — **Sprint 11 Sender Inbox PoC** (pivot).  
+**Closed through 10:** [`../archive/`](../archive/) including [`../archive/sprint-6-10-life-modules-llm-context.md`](../archive/sprint-6-10-life-modules-llm-context.md).  
+**Shelved former 11–40 plans:** [`../shelved/README.md`](../shelved/README.md).
 
 ## Active pivot track
 
 | Sprint | Theme | File | Backlog |
 |--------|-------|------|---------|
-| 6 | Sender Inbox PoC + UX contract | [`../current.md`](../current.md) / [`sprint-6-sender-inbox.md`](sprint-6-sender-inbox.md) | B65–B70 |
-| 7 | ASX scanner + company profiles PoC | [`sprint-7-asx-profiles.md`](sprint-7-asx-profiles.md) | B71–B74 |
-| 8 | ASX recommendations + paper portfolio | [`sprint-8-asx-paper-portfolio.md`](sprint-8-asx-paper-portfolio.md) | B75–B77 |
+| 11 | Sender Inbox PoC + UX contract | [`../current.md`](../current.md) / [`sprint-11-sender-inbox.md`](sprint-11-sender-inbox.md) | B65–B70 |
+| 12 | ASX scanner + company profiles PoC | [`sprint-12-asx-profiles.md`](sprint-12-asx-profiles.md) | B71–B74 |
+| 13 | ASX recommendations + paper portfolio | [`sprint-13-asx-paper-portfolio.md`](sprint-13-asx-paper-portfolio.md) | B75–B77 |
 
-## Shelved files (still on disk)
+## Closed (index)
 
-Old `sprint-6.md` … `sprint-40.md` and [`email-investment-depth-21-40.md`](email-investment-depth-21-40.md) are **shelved**. Prefer the pivot filenames above for Next work.
+| Sprint | Theme | File |
+|--------|-------|------|
+| 1–5 | PoC shell through LAN/write-back design | [`../archive/`](../archive/) |
+| 6–10 | Life modules → Day brief → Calendar write-back → LocalLlama → shared context | [`../archive/sprint-6-10-life-modules-llm-context.md`](../archive/sprint-6-10-life-modules-llm-context.md) |
 
-**UX:** Sprint 6 story S6.0 (`@ux-expert`) is a hard gate before Sender Inbox implementation; ASX UI follows the same contract in Sprints 7–8.
+**UX:** Sprint 11 story S11.0 (`@ux-expert`) gates Sender Inbox implementation; ASX UI follows the same contract in Sprints 12–13 (`docs/ux/sender-inbox-asx.md`).
+
+**Note:** Bare `sprint-11.md`…`sprint-40.md` filenames are **shelved legacy plans**, not the active pivot.

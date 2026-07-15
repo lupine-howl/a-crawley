@@ -1,6 +1,6 @@
 # Sprint 36 — Investment local in-panel alerts (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B59  
 **Depends on:** B39, B13 scheduler patterns preferred  

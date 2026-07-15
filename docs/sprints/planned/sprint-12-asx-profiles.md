@@ -1,11 +1,11 @@
-# Sprint 7 — ASX company scanner + profiles PoC (planned)
+# Sprint 12 — ASX company scanner + profiles PoC (planned)
 
-**Status:** planned (activates after Sprint 6 Sender Inbox PoC / shared UX contract)  
+**Status:** planned (activates after Sprint 11 Sender Inbox PoC / shared UX contract)
 **Duration:** one symbolic week  
 **Backlog refs:** B71, B72, B73, B74  
 **Depends on:** B65 UX ASX dashboard contract; B4/B9 Investment module exists  
-**Architecture:** background worker patterns from Sprint 6 email ingest; sources + prompt registry  
-**UX:** Implement ASX dashboard per `docs/ux.md` / `docs/ux/sender-inbox-asx.md` (locked in Sprint 6)
+**Architecture:** background worker patterns from Sprint 11 email ingest; sources + prompt registry  
+**UX:** Implement ASX dashboard per `docs/ux.md` / `docs/ux/sender-inbox-asx.md` (locked in Sprint 11)
 
 ## Goal
 
@@ -23,7 +23,7 @@ Operator can:
 
 ## Committed
 
-### S7.1 — ASX universe list (B71)
+### S12.1 — ASX universe list (B71)
 
 | Field | Value |
 |-------|-------|
@@ -38,7 +38,7 @@ Operator can:
 
 ---
 
-### S7.2 — Background ASX scanner (B72)
+### S12.2 — Background ASX scanner (B72)
 
 | Field | Value |
 |-------|-------|
@@ -54,7 +54,7 @@ Operator can:
 
 ---
 
-### S7.3 — Company profiles (B73)
+### S12.3 — Company profiles (B73)
 
 | Field | Value |
 |-------|-------|
@@ -70,7 +70,7 @@ Operator can:
 
 ---
 
-### S7.4 — Sources registry + prompt library (B74)
+### S12.4 — Sources registry + prompt library (B74)
 
 | Field | Value |
 |-------|-------|
@@ -86,7 +86,7 @@ Operator can:
 **Out of scope (sprint):**
 
 - Live order placement
-- Paper portfolio UI (Sprint 8)
+- Paper portfolio UI (Sprint 13)
 - Full fundamental data warehouse / paid terminal replacement
 
 ## Parking lot

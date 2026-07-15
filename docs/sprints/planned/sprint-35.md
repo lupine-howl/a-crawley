@@ -1,6 +1,6 @@
 # Sprint 35 — Gmail confirm-first archive/trash batch (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B58  
 **Depends on:** B25, B31, B33 helpful  

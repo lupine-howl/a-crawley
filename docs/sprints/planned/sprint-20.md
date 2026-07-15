@@ -1,6 +1,6 @@
 # Sprint 20 — Weekly review + shell polish (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B42, B43  
 **Depends on:** B23, B29  

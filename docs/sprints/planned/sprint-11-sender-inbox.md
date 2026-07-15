@@ -1,9 +1,9 @@
-# Sprint 6 — Sender Inbox PoC (+ UX contract)
+# Sprint 11 — Sender Inbox PoC (+ UX contract)
 
-**Status:** promoted to [`../current.md`](../current.md)  
+**Status:** promoted to [`../current.md`](../current.md) (Sprint 11 ready)
 **Duration:** one symbolic week  
 **Backlog refs:** B65–B70  
-**Previous shelved:** Co-parenting/DIY sprint filed as shelved `sprint-6.md`  
+**Previous shelved:** Co-parenting/DIY sprint filed as shelved `sprint-11.md`  
 **Architecture:** background worker + Gmail read; DuckDB/files for categories/profiles/todos  
 **UX:** `@ux-expert` locks Sender Inbox + ASX dashboard contracts before implement stories
 

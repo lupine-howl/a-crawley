@@ -1,10 +1,10 @@
 # Sprint 9 — Local LLM operable (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** closed (delivered in Sprint 6–10 bundle)  
 **Duration:** one symbolic week  
-**Backlog refs:** B27  
+**Backlog refs:** B27, B31  
 **Depends on:** Sprint 2 LLM settings + Test connection (B8); provider interface (B3)  
-**Architecture:** [`docs/architecture.md`](../architecture.md) + ADR for local runtime choice  
+**Architecture:** [`docs/architecture.md`](../architecture.md) + new ADR for local runtime choice  
 **UX:** Light Settings copy pass for local provider URL/model/test states (follow Sprint 2 Settings patterns)
 
 ## Goal
@@ -18,7 +18,7 @@ Operator can:
 1. Run a local LLM runtime (documented, e.g. Ollama) with a chosen model
 2. In Settings, select the local provider, set base URL / model, Save
 3. **Test connection** succeeds when the daemon is up; fails clearly when unreachable or model missing
-4. Run at least one existing module summary (e.g. Investment or Day brief inputs) via the local provider
+4. Run at least one existing module summary via the local provider, with clear busy/timeout behavior
 5. Switch back to OpenAI if desired; both remain first-class choices
 
 ## Committed
@@ -32,20 +32,42 @@ Operator can:
 
 **Acceptance criteria:**
 
-- [ ] Local provider implements the existing LLM interface (architect picks runtime — prefer HTTP-local like Ollama; record in ADR)
+- [ ] Local provider implements the existing LLM interface (prefer HTTP-local like Ollama; record in ADR)
 - [ ] Settings: provider select, base URL, model id; secrets/local URL stay gitignored as appropriate
 - [ ] **Test connection** success / failure / unreachable / missing-model states
 - [ ] Modules honor active provider after save (hot-reload vs restart documented)
-- [ ] README: stakeholder install/run assumptions; timeouts/bounds sensible for local hardware
-- [ ] OpenAI remains selectable; no forced cutover
+- [ ] README: stakeholder install/run assumptions; OpenAI remains selectable
 - [ ] Architecture updated: LocalLlama no longer “placeholder only”
+
+---
+
+### S9.2 — Local provider bounds & module-run errors (B31)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B31 |
+| Depends on | S9.1 |
+
+**Acceptance criteria:**
+
+- [ ] Documented timeouts / max output bounds suitable for local hardware (not unbounded waits)
+- [ ] Module run surfaces distinct errors when local daemon dies mid-job vs model timeout vs OpenAI path errors
+- [ ] No silent hang in busy state; cancel-or-fail path documented
+- [ ] Architecture notes local-vs-cloud latency expectations for the operator
 
 **Out of scope (sprint):**
 
 - Shipping model weights in-repo
 - Auto GPU installer / hardware advisor product
 - Multi-provider ensemble routing
-- New life-domain modules (those stay on Sprint 6–8 / 10 tracks)
+- New life-domain modules (Sprint 6–8 / 10 tracks)
+
+## Architect notes
+
+- Prefer **Ollama HTTP** (or compatible) over embedding a model runtime in-process — keeps Crawley’s single-process shape and matches ADR-003.
+- Do not auto-switch providers mid-job; active provider is sticky per Settings save.
+- Leave Coding/Creative for Sprint 10 so this sprint stays a focused Later-theme spike.
 
 ## Parking lot
 

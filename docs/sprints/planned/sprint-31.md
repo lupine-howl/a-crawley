@@ -1,6 +1,6 @@
 # Sprint 31 — Gmail follow-up tracker (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B54  
 **Depends on:** B44, B46  

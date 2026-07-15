@@ -1,6 +1,6 @@
 # Sprint 21 — Gmail thread digests (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B44  
 **Depends on:** B10, B15; Sprint 11 write-back helpful but not required for read  

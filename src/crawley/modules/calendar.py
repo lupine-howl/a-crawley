@@ -1,8 +1,10 @@
-"""Calendar read-only upcoming events + LLM summary."""
+"""Calendar upcoming events + LLM summary + confirm-first event insert."""
 
 from __future__ import annotations
 
+import json
 import logging
+import uuid
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
@@ -24,11 +26,13 @@ from crawley.modules.contract import (
 )
 from crawley.prompts import build_calendar_user_message
 from crawley.settings import load_settings
+from crawley.writeback import read_audit_entries, record_audit
 
 logger = logging.getLogger(__name__)
 
 MAX_EVENTS = 12
 LOOKAHEAD_DAYS = 7
+DRAFTS_PATH = CALENDAR_DIR / "pending_drafts.json"
 
 
 def _format_http_error(exc: HttpError) -> str:
@@ -118,26 +122,44 @@ def fetch_upcoming_events(
     return rows
 
 
+def _load_drafts() -> dict[str, dict[str, Any]]:
+    ensure_data_dirs()
+    if not DRAFTS_PATH.exists():
+        return {}
+    try:
+        raw = json.loads(DRAFTS_PATH.read_text(encoding="utf-8"))
+        return raw if isinstance(raw, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _save_drafts(drafts: dict[str, dict[str, Any]]) -> None:
+    ensure_data_dirs()
+    CALENDAR_DIR.mkdir(parents=True, exist_ok=True)
+    DRAFTS_PATH.write_text(json.dumps(drafts, indent=2) + "\n", encoding="utf-8")
+
+
 class CalendarModule(Module):
     meta = ModuleMeta(
         id="calendar",
         title="Calendar",
         kind=ModuleKind.LIVE,
         nav_order=30,
-        description="Read-only upcoming events skim and summary (lite PoC).",
+        description="Upcoming events skim; confirm-first event insert (ADR-006).",
     )
     write_back_capability = WriteBackCapability(
         supported=True,
-        dry_run_only=True,
-        label="Future: create event drafts (not implemented)",
+        dry_run_only=False,
+        label="Create calendar event (confirm required)",
     )
 
     def __init__(self) -> None:
         self.job = JobState(
             status="idle",
-            message="Connect Google (read-only), then skim the next week of events.",
+            message="Connect Google, skim the next week, or propose an event draft.",
         )
         self._executor = None
+        self.pending_draft: dict[str, Any] | None = None
 
     def bind_executor(self, executor) -> None:
         self._executor = executor
@@ -157,16 +179,207 @@ class CalendarModule(Module):
             "auth": self.auth_status(),
             "max_events": MAX_EVENTS,
             "lookahead_days": LOOKAHEAD_DAYS,
+            "pending_draft": self.pending_draft,
+            "audit_entries": read_audit_entries(limit=12),
+            "default_event": {
+                "summary": "Crawley reminder",
+                "start": (datetime.now(UTC) + timedelta(hours=2))
+                .replace(minute=0, second=0, microsecond=0)
+                .isoformat()
+                .replace("+00:00", "Z"),
+                "end": (datetime.now(UTC) + timedelta(hours=3))
+                .replace(minute=0, second=0, microsecond=0)
+                .isoformat()
+                .replace("+00:00", "Z"),
+                "description": "",
+            },
         }
 
     def propose_write_back(self, payload: dict[str, Any]) -> dict[str, Any]:
-        return {
+        draft_id = str(uuid.uuid4())
+        summary = (payload.get("summary") or "Untitled").strip() or "Untitled"
+        start = (payload.get("start") or "").strip()
+        end = (payload.get("end") or "").strip()
+        description = (payload.get("description") or "").strip()
+        draft = {
+            "draft_id": draft_id,
             "module_id": "calendar",
-            "action": payload.get("action") or "insert_event",
-            "payload": payload,
-            "would_mutate": False,
-            "api": "calendar.events.insert (not called)",
+            "action": "insert_event",
+            "payload": {
+                "summary": summary,
+                "start": start,
+                "end": end,
+                "description": description,
+                "calendar_id": "primary",
+            },
+            "would_mutate": True,
+            "api": "calendar.events.insert",
         }
+        drafts = _load_drafts()
+        drafts[draft_id] = draft
+        _save_drafts(drafts)
+        self.pending_draft = draft
+        record_audit(
+            module_id="calendar",
+            stage="propose",
+            draft=draft,
+            note="Draft stored pending confirm",
+            dry_run=False,
+            success=None,
+        )
+        return draft
+
+    def cancel_write_back(self, draft_id: str) -> ModuleOutput:
+        drafts = _load_drafts()
+        draft = drafts.pop(draft_id, None)
+        _save_drafts(drafts)
+        if self.pending_draft and self.pending_draft.get("draft_id") == draft_id:
+            self.pending_draft = None
+        if draft is None:
+            return ModuleOutput(error="Draft not found or already cleared.")
+        record_audit(
+            module_id="calendar",
+            stage="cancel",
+            draft=draft,
+            note="Cancelled — no remote write",
+            dry_run=False,
+            success=True,
+        )
+        self.job = JobState(
+            status="idle",
+            message="Draft cancelled. No remote write.",
+        )
+        return ModuleOutput(summary="cancelled", details={"draft_id": draft_id})
+
+    def write_back(self, payload: dict[str, Any]) -> ModuleOutput:
+        """Confirm-first live insert, or dry-run when explicitly requested."""
+        action = (payload.get("action") or "insert_event").strip()
+        if action == "dry_run":
+            draft = self.propose_write_back(payload)
+            draft["would_mutate"] = False
+            entry = record_audit(
+                module_id="calendar",
+                stage="dry_run",
+                draft=draft,
+                note="Explicit dry-run; no remote mutation",
+                dry_run=True,
+                success=True,
+            )
+            return ModuleOutput(
+                summary="Write-back dry-run recorded (no remote mutation).",
+                details={"audit": entry, "draft": draft, "dry_run": True},
+            )
+
+        if action == "propose":
+            draft = self.propose_write_back(payload)
+            self.job = JobState(
+                status="idle",
+                message="Draft ready — review and Confirm to insert, or Cancel.",
+                details={"draft": draft},
+            )
+            return ModuleOutput(summary="proposed", details={"draft": draft})
+
+        if action != "confirm":
+            return ModuleOutput(error=f"Unknown write-back action: {action}")
+
+        draft_id = (payload.get("draft_id") or "").strip()
+        drafts = _load_drafts()
+        draft = drafts.get(draft_id)
+        if not draft:
+            return ModuleOutput(error="Draft missing or expired. Propose again.")
+
+        auth = self.auth_status()
+        if not auth.get("calendar_write_ok"):
+            msg = (
+                "Calendar write scope missing. Reconnect Google with Calendar events "
+                "write permission (Gmail send is not requested)."
+            )
+            record_audit(
+                module_id="calendar",
+                stage="execute",
+                draft=draft,
+                note=msg,
+                dry_run=False,
+                success=False,
+            )
+            return ModuleOutput(error=msg)
+
+        try:
+            creds = load_credentials()
+            if not creds:
+                return ModuleOutput(error="Google token missing. Reconnect Google.")
+            body_payload = draft["payload"]
+            body = {
+                "summary": body_payload["summary"],
+                "description": body_payload.get("description") or "",
+                "start": {"dateTime": body_payload["start"], "timeZone": "UTC"},
+                "end": {"dateTime": body_payload["end"], "timeZone": "UTC"},
+            }
+            service = build("calendar", "v3", credentials=creds, cache_discovery=False)
+            created = (
+                service.events()
+                .insert(calendarId="primary", body=body)
+                .execute()
+            )
+            drafts.pop(draft_id, None)
+            _save_drafts(drafts)
+            self.pending_draft = None
+            result_draft = {
+                **draft,
+                "remote_event_id": created.get("id"),
+                "html_link": created.get("htmlLink"),
+            }
+            entry = record_audit(
+                module_id="calendar",
+                stage="execute",
+                draft=result_draft,
+                note="Inserted into primary calendar",
+                dry_run=False,
+                success=True,
+            )
+            self.job = JobState(
+                status="done",
+                message=f"Event inserted: {body_payload['summary']}",
+                summary=(
+                    f"## Event created\n\n"
+                    f"**{body_payload['summary']}**\n\n"
+                    f"- Start: {body_payload['start']}\n"
+                    f"- End: {body_payload['end']}\n"
+                    + (
+                        f"- [Open in Calendar]({created.get('htmlLink')})\n"
+                        if created.get("htmlLink")
+                        else ""
+                    )
+                ),
+                details={"audit": entry, "event": created},
+            )
+            return ModuleOutput(
+                summary="Event inserted.",
+                details={"audit": entry, "event_id": created.get("id")},
+            )
+        except HttpError as exc:
+            msg = _format_http_error(exc)
+            record_audit(
+                module_id="calendar",
+                stage="execute",
+                draft=draft,
+                note=msg,
+                dry_run=False,
+                success=False,
+            )
+            return ModuleOutput(error=msg)
+        except Exception as exc:  # noqa: BLE001
+            logger.exception("Calendar write-back failed")
+            msg = f"Calendar insert failed: {exc}"
+            record_audit(
+                module_id="calendar",
+                stage="execute",
+                draft=draft,
+                note=msg,
+                dry_run=False,
+                success=False,
+            )
+            return ModuleOutput(error=msg)
 
     def run(self, inputs: dict[str, Any] | None = None) -> ModuleOutput:
         if self.job.status == "busy":

@@ -1,6 +1,6 @@
 # Sprint 10 — Coding/Creative lite + shared context (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** closed (delivered in Sprint 6–10 bundle)  
 **Duration:** one symbolic week  
 **Backlog refs:** B28, B29, B30  
 **Depends on:** Sprint 2 home glance; Sprint 7 Day brief preferred as first consumer of shared context  
@@ -77,12 +77,16 @@ Operator can:
 - Native desktop shell (remains unscheduled Later)
 - Gmail write-back, automated trading, multi-user
 
+## Architect notes
+
+- Shared context is a **read model over snapshots + standing notes**, not a second brain service. Start with filesystem JSON + hard char/token caps.
+- Prefer **opt-in** include-checkbox for context injection so Day brief stays cheap when empty/partial.
+- After this sprint, top-tier nav should have no Coming soon stubs left from the original registry set.
+
 ## Parking lot (after Sprint 10)
 
-- Gmail draft-then-send write-back → **[Sprint 11](sprint-11.md)**
-- Optional **native desktop shell** → **[Sprint 12](sprint-12.md)**
-- Scheduled overnight Day brief → **[Sprint 13](sprint-13.md)**
-- Co-parenting ↔ Calendar sync → **[Sprint 14](sprint-14.md)**
-- Deeper shared memory / history → **[Sprint 15](sprint-15.md)**
-- Wearables / finance import / watchlist → Sprints **16–18**; LAN gate + weekly review → **19–20** ([index](README.md))
-- Brokerage / automated trading remain **Icebox**
+- Optional **native desktop shell** wrapping the web UI
+- Gmail draft-then-send write-back
+- Scheduled overnight Day brief
+- Wearables / brokerage integrations as explicit Later bets
+- Deeper shared memory (searchable history, embeddings) if seed proves useful

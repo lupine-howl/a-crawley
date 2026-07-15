@@ -1,18 +1,18 @@
-# Sprint 6 — Sender Inbox PoC (+ UX contract)
+# Sprint 11 — Sender Inbox PoC (+ UX contract)
 
-**Status:** ready (next delivery; pivot replaces shelved co-parenting Sprint 6)  
+**Status:** ready (next delivery after Sprints 6–10 closed)  
 **Duration:** one symbolic week  
 **Backlog refs:** B65, B66, B67, B68, B69, B70  
-**Depends on:** Sprint 5 Gmail OAuth + Markdown + jobs; UX pass for dashboards  
+**Depends on:** Sprints 1–10 Gmail/Investment shell; UX pass for dashboards  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
 **UX contract:** [`docs/ux.md`](../ux.md) + [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
-**Previous:** [`archive/sprint-5-lan-work-writeback.md`](archive/sprint-5-lan-work-writeback.md)  
-**Planned source:** [`planned/sprint-6-sender-inbox.md`](planned/sprint-6-sender-inbox.md)  
-**Shelved prior queue:** [`shelved/README.md`](shelved/README.md)
+**Previous:** [`archive/sprint-6-10-life-modules-llm-context.md`](archive/sprint-6-10-life-modules-llm-context.md)  
+**Planned source:** [`planned/sprint-11-sender-inbox.md`](planned/sprint-11-sender-inbox.md)  
+**Shelved former 11–40 queue:** [`shelved/README.md`](shelved/README.md)
 
 ## Goal
 
-Ship a **Sender Inbox PoC**: a polite background process ingests ~20 Gmail messages one-by-one with LLM categorization; the UI shows **senders (not a flat stream)**, each with an LLM **profile** and a **todo list** of actionable items. In the same sprint, lock UX for this inbox **and** the forthcoming ASX desk (Sprint 7–8).
+Ship a **Sender Inbox PoC**: a polite background process ingests ~20 Gmail messages one-by-one with LLM categorization; the UI shows **senders (not a flat stream)**, each with an LLM **profile** and a **todo list** of actionable items. In the same sprint, lock UX for this inbox **and** the forthcoming ASX desk (Sprint 12–13).
 
 Inspired by people-centric inboxes (e.g. ChatInbox / Talanoa / Shortwave-style bundling) — adapted to Crawley’s local HTMX shell.
 
@@ -28,9 +28,9 @@ Operator can:
 
 ## Committed
 
-Implement **in order** (S6.0 → … → S6.5). **Do not implement S6.1+ until S6.0 UX is confirmed** (or stakeholder waives in writing on the story).
+Implement **in order** (S11.0 → … → S11.5). **Do not implement S11.1+ until S11.0 UX is confirmed** (or stakeholder waives in writing on the story).
 
-### S6.0 — UX contract: Sender Inbox + ASX dashboards (B65)
+### S11.0 — UX contract: Sender Inbox + ASX dashboards (B65)
 
 | Field | Value |
 |-------|-------|
@@ -43,20 +43,22 @@ Implement **in order** (S6.0 → … → S6.5). **Do not implement S6.1+ until S
 - [ ] `docs/ux/sender-inbox-asx.md` (and pointers in `docs/ux.md`) specifies IA, primary layouts, empty/loading/progress states for:
   - Sender-grouped Inbox (list → sender detail → profile + todos)
   - ASX desk (universe / scanner progress / company profile)
-  - Recommendations list + paper portfolio page (Sprint 8 surfaces)
+  - Recommendations list + paper portfolio page (Sprint 13 surfaces)
 - [ ] Respects shell themes/tokens; one composition; no card soup; brand present
 - [ ] Stakeholder confirmed (or explicitly accepted as draft-for-implement)
 - [ ] Parking lot for ideas that would expand sprint scope
 
+*Note: Draft UX contract already written — confirm or amend before S11.1.*
+
 ---
 
-### S6.1 — Background email ingest + LLM categorize (B66)
+### S11.1 — Background email ingest + LLM categorize (B66)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B66 |
-| Depends on | S6.0 |
+| Depends on | S11.0 |
 
 **Acceptance criteria:**
 
@@ -68,13 +70,13 @@ Implement **in order** (S6.0 → … → S6.5). **Do not implement S6.1+ until S
 
 ---
 
-### S6.2 — Sender-grouped Inbox view (B67)
+### S11.2 — Sender-grouped Inbox view (B67)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B67 |
-| Depends on | S6.0, S6.1 |
+| Depends on | S11.0, S11.1 |
 
 **Acceptance criteria:**
 
@@ -85,13 +87,13 @@ Implement **in order** (S6.0 → … → S6.5). **Do not implement S6.1+ until S
 
 ---
 
-### S6.3 — LLM sender profiles (B68)
+### S11.3 — LLM sender profiles (B68)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B68 |
-| Depends on | S6.2 |
+| Depends on | S11.2 |
 
 **Acceptance criteria:**
 
@@ -101,13 +103,13 @@ Implement **in order** (S6.0 → … → S6.5). **Do not implement S6.1+ until S
 
 ---
 
-### S6.4 — Actionable todos from sender bundles (B69)
+### S11.4 — Actionable todos from sender bundles (B69)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B69 |
-| Depends on | S6.3 |
+| Depends on | S11.3 |
 
 **Acceptance criteria:**
 
@@ -117,13 +119,13 @@ Implement **in order** (S6.0 → … → S6.5). **Do not implement S6.1+ until S
 
 ---
 
-### S6.5 — PoC cap ~20 emails (B70)
+### S11.5 — PoC cap ~20 emails (B70)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B70 |
-| Depends on | S6.1 |
+| Depends on | S11.1 |
 
 **Acceptance criteria:**
 
@@ -133,13 +135,13 @@ Implement **in order** (S6.0 → … → S6.5). **Do not implement S6.1+ until S
 
 ## Explicitly out of sprint
 
-- ASX scanner/profiles implementation → **Sprint 7**
-- Recommendations + paper portfolio → **Sprint 8**
+- ASX scanner/profiles implementation → **Sprint 12**
+- Recommendations + paper portfolio → **Sprint 13**
 - Full mailbox crawl, multi-account, silent Gmail mutations
-- Shelved sprints 6–40 life/depth items ([shelved](shelved/README.md))
+- Shelved former sprint plans ([shelved](shelved/README.md))
 
 ## Parking lot
 
 - Offline full-text search across categorized mail
 - Merge Shortwave-like newsletter bundles as a sender class
-- Un-shelve VIP rules (old B46) once PoC scales
+- Un-shelve VIP rules / Gmail send from former planned queue once PoC scales

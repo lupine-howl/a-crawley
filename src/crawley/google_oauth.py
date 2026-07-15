@@ -20,6 +20,10 @@ SCOPES = [
 ]
 GMAIL_SCOPE = SCOPES[0]
 CALENDAR_SCOPE = SCOPES[1]
+# Narrow write scope for Calendar event insert (Sprint 8). Never add Gmail send here.
+CALENDAR_EVENTS_SCOPE = "https://www.googleapis.com/auth/calendar.events"
+SCOPES_WITH_CALENDAR_WRITE = [*SCOPES, CALENDAR_EVENTS_SCOPE]
+ALL_TOKEN_SCOPES = SCOPES_WITH_CALENDAR_WRITE
 
 # Keep the historical Gmail callback path so existing Google Cloud redirect URIs keep working.
 OAUTH_REDIRECT_PATH = "/modules/gmail/oauth/callback"
@@ -130,7 +134,7 @@ def load_credentials() -> Credentials | None:
     path = next((p for p in _token_candidates() if p.exists()), None)
     if path is None:
         return None
-    creds = Credentials.from_authorized_user_file(str(path), SCOPES)
+    creds = Credentials.from_authorized_user_file(str(path), ALL_TOKEN_SCOPES)
     if creds and creds.expired and creds.refresh_token:
         creds.refresh(Request())
         save_credentials(creds)
@@ -146,15 +150,26 @@ def save_credentials(creds: Credentials) -> None:
     LEGACY_TOKEN_PATH.write_text(creds.to_json(), encoding="utf-8")
 
 
-def build_auth_flow(request_base: str) -> Flow:
+def build_auth_flow(
+    request_base: str,
+    *,
+    include_calendar_write: bool = False,
+) -> Flow:
     _allow_local_http_oauth(request_base)
-    flow = Flow.from_client_config(client_config(), scopes=SCOPES)
+    scopes = SCOPES_WITH_CALENDAR_WRITE if include_calendar_write else SCOPES
+    flow = Flow.from_client_config(client_config(), scopes=scopes)
     flow.redirect_uri = redirect_uri(request_base)
     return flow
 
 
-def authorization_url(request_base: str) -> tuple[str, str]:
-    flow = build_auth_flow(request_base)
+def authorization_url(
+    request_base: str,
+    *,
+    include_calendar_write: bool = False,
+) -> tuple[str, str]:
+    flow = build_auth_flow(
+        request_base, include_calendar_write=include_calendar_write
+    )
     url, state = flow.authorization_url(
         access_type="offline",
         include_granted_scopes="true",
@@ -168,6 +183,11 @@ def authorization_url(request_base: str) -> tuple[str, str]:
         code_verifier=verifier,
         redirect=flow.redirect_uri,
     )
+    # Remember which scope set was requested for finish_oauth.
+    ensure_data_dirs()
+    pending = json.loads(PENDING_OAUTH_PATH.read_text(encoding="utf-8"))
+    pending["include_calendar_write"] = include_calendar_write
+    PENDING_OAUTH_PATH.write_text(json.dumps(pending), encoding="utf-8")
     return url, state
 
 
@@ -178,7 +198,8 @@ def finish_oauth(request_base: str, authorization_response: str) -> Credentials:
     if returned_state != pending["state"]:
         raise RuntimeError("OAuth state mismatch. Click Connect Google again.")
 
-    flow = build_auth_flow(request_base)
+    include_write = bool(pending.get("include_calendar_write"))
+    flow = build_auth_flow(request_base, include_calendar_write=include_write)
     flow.redirect_uri = pending.get("redirect_uri") or flow.redirect_uri
     flow.code_verifier = pending["code_verifier"]
     flow.fetch_token(authorization_response=authorization_response)
@@ -202,6 +223,7 @@ def google_auth_status() -> dict[str, Any]:
             "connected": False,
             "gmail_ok": False,
             "calendar_ok": False,
+            "calendar_write_ok": False,
             "needs_reconsent": False,
             "error": client_error,
             "token_path": str(TOKEN_PATH),
@@ -215,6 +237,7 @@ def google_auth_status() -> dict[str, Any]:
             "connected": False,
             "gmail_ok": False,
             "calendar_ok": False,
+            "calendar_write_ok": False,
             "needs_reconsent": False,
             "error": f"Saved token could not be loaded: {exc}",
             "token_path": str(TOKEN_PATH),
@@ -223,6 +246,7 @@ def google_auth_status() -> dict[str, Any]:
     connected = bool(creds and creds.valid)
     gmail_ok = connected and has_scope(creds, GMAIL_SCOPE)
     calendar_ok = connected and has_scope(creds, CALENDAR_SCOPE)
+    calendar_write_ok = connected and has_scope(creds, CALENDAR_EVENTS_SCOPE)
     needs_reconsent = connected and (not gmail_ok or not calendar_ok)
 
     error = None
@@ -239,6 +263,7 @@ def google_auth_status() -> dict[str, Any]:
         "connected": connected,
         "gmail_ok": gmail_ok,
         "calendar_ok": calendar_ok,
+        "calendar_write_ok": calendar_write_ok,
         "needs_reconsent": needs_reconsent,
         "error": error,
         "token_path": str(TOKEN_PATH),

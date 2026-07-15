@@ -1,15 +1,15 @@
 # Sprint 8 — Confirm-first Calendar write-back (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** closed (delivered in Sprint 6–10 bundle)  
 **Duration:** one symbolic week  
 **Backlog refs:** B25, B26  
-**Depends on:** Sprint 5 write-back design (B18); Sprint 3 shared Google + Calendar read (B15, B6)  
-**Architecture:** [`docs/architecture.md`](../architecture.md) + Sprint 5 write-back ADR  
-**UX:** **Schedule `@ux-expert`** for propose → confirm → result states (draft/diff clarity, danger of accidental writes); bind to ADR stages
+**Depends on:** ADR-006 + Sprint 5 write-back dry-run (B18); Sprint 3 shared Google + Calendar read (B15, B6)  
+**Architecture:** [`docs/architecture.md`](../architecture.md) + [`docs/adr/006-write-back-confirm.md`](../adr/006-write-back-confirm.md)  
+**UX:** **Schedule `@ux-expert`** for propose → confirm → result states (draft/diff clarity; accidental-write risk)
 
 ## Goal
 
-Ship the first **real** mutation: Calendar event insert with explicit user confirmation, draft-first UX, and a local audit trail — proving the Sprint 5 design without opening Gmail send or silent automation.
+Ship the first **real** mutation: Calendar event insert with explicit user confirmation, draft-first UX, and a local audit trail — proving ADR-006 without opening Gmail send or silent automation.
 
 ## Demo
 
@@ -35,10 +35,10 @@ Operator can:
 
 - [ ] Propose → show draft/diff → confirm → execute → audit stages implemented for Calendar insert
 - [ ] Cancel path performs no remote write
-- [ ] Google write scope requested only when needed; reconsent documented; Gmail send scope not added casually
+- [ ] Google **Calendar write** scope requested only when needed; reconsent documented; **Gmail send scope not added**
 - [ ] Success/failure UI states; primary calendar target documented if multi-calendar exists
-- [ ] Local audit record under `data/` for each attempt
-- [ ] Aligns with accepted Sprint 5 ADR (no silent automation)
+- [ ] Local audit record under `data/` for each attempt (extend `writeback_audit.jsonl` or successor)
+- [ ] Aligns with ADR-006 (no silent automation); `WriteBackCapability` flips from dry-run-only for Calendar insert path
 
 ---
 
@@ -61,6 +61,12 @@ Operator can:
 - Gmail send / label mutation
 - Bulk calendar sync tools, recurring-series advanced editor
 - LocalLlama hosting, desktop wrapper
+
+## Architect notes
+
+- Keep OAuth scope additive and **narrow**: Calendar events write only; leave Gmail readonly. Document reconsent and token file impact.
+- Prefer a session-scoped draft token (UUID) so Confirm always binds to a specific propose result — prevents double-submit against a stale form.
+- Update ADR-006 status note or add ADR-007 if execute-path trade-offs need a separate decision (e.g. primary calendar selection).
 
 ## Parking lot
 

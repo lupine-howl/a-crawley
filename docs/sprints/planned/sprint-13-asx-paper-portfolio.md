@@ -1,6 +1,6 @@
-# Sprint 8 — ASX recommendations + paper portfolio (planned)
+# Sprint 13 — ASX recommendations + paper portfolio (planned)
 
-**Status:** planned (activates after Sprint 7)  
+**Status:** planned (activates after Sprint 12)
 **Duration:** one symbolic week  
 **Backlog refs:** B75, B76, B77  
 **Depends on:** B73 company profiles; B65 UX for recommendations + portfolio pages  
@@ -22,7 +22,7 @@ Operator can:
 
 ## Committed
 
-### S8.1 — Structured recommendations (B75)
+### S13.1 — Structured recommendations (B75)
 
 | Field | Value |
 |-------|-------|
@@ -38,7 +38,7 @@ Operator can:
 
 ---
 
-### S8.2 — Simulated portfolio tracker (B76)
+### S13.2 — Simulated portfolio tracker (B76)
 
 | Field | Value |
 |-------|-------|
@@ -55,7 +55,7 @@ Operator can:
 
 ---
 
-### S8.3 — Brokerage / simulation settings (B77)
+### S13.3 — Brokerage / simulation settings (B77)
 
 | Field | Value |
 |-------|-------|

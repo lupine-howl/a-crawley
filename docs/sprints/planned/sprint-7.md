@@ -1,11 +1,11 @@
 # Sprint 7 — Finance lite + Day brief (planned)
 
-**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
+**Status:** closed (delivered in Sprint 6–10 bundle)  
 **Duration:** one symbolic week  
 **Backlog refs:** B22, B23, B24  
-**Depends on:** Sprint 3 Calendar + Gmail harden (for Day brief inputs); Sprint 2 home glance  
+**Depends on:** Sprint 3 Calendar + Gmail (Day brief inputs); Sprint 2 home glance  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
-**UX:** Optional pass for Day brief composition on home (keep “one composition”; do not turn home into a widget dump)
+**UX:** Optional pass for Day brief composition on home (keep one composition; no widget dump)
 
 ## Goal
 
@@ -75,6 +75,12 @@ Operator can:
 - Portfolio charts, brokerage APIs, automated trading
 - Real write-back mutations (Sprint 8)
 - Overnight scheduled digests
+
+## Architect notes
+
+- Day brief should compose from **persisted snapshots** first (cheap reopen); optional “regenerate brief” can re-LLM those texts without re-fetching Google unless operator re-runs modules.
+- Keep Day brief above or instead of dumping every module body on home — protect glance readability as stub set shrinks.
+- Finance disclaimer belongs in panel + prompt + rendered footer (same pattern as Fitness medical disclaimer).
 
 ## Parking lot
 

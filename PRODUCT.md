@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; **Sprints 1–5 closed**; **Pivot** — Sender Inbox + ASX PoCs are Next (former sprints 6–40 [shelved](docs/sprints/shelved/README.md))
+**Status:** Brief confirmed; **Sprints 1–10 closed**; **Sprint 11 ready** — Sender Inbox + ASX PoCs (former planned 11–40 [shelved](docs/sprints/shelved/README.md))
 
 ## Problem
 
@@ -101,25 +101,19 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 ## Decisions log (Sprints 1–5 close + 11–20 planning)
 
 - **Verdict:** PoC goals met; continue delivery (see retrospective)
-- Sprint 5 formally archived; **Sprint 6** promoted to `docs/sprints/current.md`
-- Sprints **11–20** schedule Later themes: Gmail write-back → desktop shell → scheduled Day brief → co-parenting Calendar publish → history/memory → Fitness/Finance/Investment depth → LAN gate/backup → weekly review/polish
-- Icebox stays out (trading, multi-user, SaaS, e-file) without PRODUCT revision
-- Native desktop shell moved from “after 10 unscheduled” to **Sprint 12**
+- Sprints **6–10 delivered** (bundled); next delivery number is **11**
+- Former planned **11–20 / 21–40** packages later **shelved** for Sender Inbox + ASX pivot
+- Icebox stays out (live brokerage orders, multi-user, SaaS, e-file) without PRODUCT revision
 
 ## Decisions log (Sprints 21–40 — Email/Investment depth)
 
-- Stakeholder priority: **deep functionality for Gmail and Investment** after Sprint 20
-- Alternating email/investment sprints ending with bridge (39) + playbooks/polish (40)
-- **Holdings journal is manual** (no brokerage OAuth); alerts are in-panel/local only
-- Mutations stay **confirm-first** (labels, archive/trash); no silent automation
-- **Automated trading remains Icebox**
-- **Superseded 2026-07-15:** arc **shelved**; replaced by Sender Inbox + ASX PoC pivot below
+- Former depth arc (old 21–40) **shelved**; pivot supersedes for near-term Email/Investment work
+- **Automated trading / live brokerage orders remain Icebox**; paper portfolio allowed in Sprint 13
 
 ## Decisions log (Pivot — Sender Inbox + ASX PoCs)
 
-- **Shelve** prior Next/Later sprint queue (old 6–40 / B19–B64); restore later selectively
-- **Gmail Next:** background one-email-at-a-time LLM categorization; UI **grouped by sender** with LLM **sender profiles** + **todos**; PoC **~20 emails**
-- **Investment Next:** **ASX-first**; large universe list; background scan (price/market/news sentiment); per-company **profiles**; configurable **sources + prompts**; PoC **~20 companies**
-- **Paper portfolio** tracks simulated trades from recommendations with brokerage fee settings — **not** live order placement (Icebox)
-- UX expert designs both dashboards before/at Sprint 6 implement gate
-- Reference inspirations (not clones): people-centric inboxes; ASX profile/scanner tools; portfolio trackers for paper mode clarity
+- After **Sprints 6–10 delivered**, next number is **Sprint 11** (not a reset to 6)
+- **Shelve** former planned Sprints 11–40 depth/platform queue (B32–B64); restore later selectively
+- **Gmail Next (11):** background one-email-at-a-time LLM categorization; UI **grouped by sender** with LLM **sender profiles** + **todos**; PoC **~20 emails**
+- **Investment Next (12–13):** **ASX-first**; large universe; background scan; per-company **profiles**; sources + prompts; structured **recommendations**; **paper portfolio** (not live orders)
+- UX expert designs both dashboards at Sprint 11 gate (`docs/ux/sender-inbox-asx.md`)
