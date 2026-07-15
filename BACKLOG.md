@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–5 closed; Sprints 6–10 proposed under `docs/sprints/planned/`
+**Status:** Sprints 1–10 closed (6–10 delivered as one bundle)
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -474,21 +474,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 6 |
+| Sprint | 6 |
 
 **Goal:** Leave Coming soon with a local co-parenting schedule (handoffs / custody windows) the operator maintains, plus an LLM Markdown skim of what’s next — not a multi-user family product.
 
 **Acceptance criteria:**
 
-- [ ] Co-parenting leaves Coming soon; local schedule entries (dates/windows + short notes) persist under `data/`
-- [ ] Run → Markdown “what’s next / conflicts to watch” summary (bounded window)
-- [ ] Job status + success snapshot for home glance
-- [ ] Clear empty state; no fake demo custody data
-- [ ] Copy stays personal planning — no third-party co-parent accounts
+- [x] Co-parenting leaves Coming soon; local schedule entries (dates/windows + short notes) persist under `data/`
+- [x] Run → Markdown “what’s next / conflicts to watch” summary (bounded window)
+- [x] Job status + success snapshot for home glance
+- [x] Clear empty state; no fake demo custody data
+- [x] Copy stays personal planning — no third-party co-parent accounts
 
 **Out of scope:**
 
@@ -502,20 +502,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 6 |
+| Sprint | 6 |
 
 **Goal:** DIY domain live: local project notes / punch list → LLM next-steps Markdown.
 
 **Acceptance criteria:**
 
-- [ ] DIY leaves Coming soon; operator can save one or more project notes (title + free text / checklist)
-- [ ] Run → Markdown suggested next steps / materials-to-consider framing (manual action only)
-- [ ] Job status + success snapshot for home glance
-- [ ] No e-commerce checkout or vendor scrape required
+- [x] DIY leaves Coming soon; operator can save one or more project notes (title + free text / checklist)
+- [x] Run → Markdown suggested next steps / materials-to-consider framing (manual action only)
+- [x] Job status + success snapshot for home glance
+- [x] No e-commerce checkout or vendor scrape required
 
 **Out of scope:**
 
@@ -528,19 +528,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14, B19, B20 |
-| Planned sprint | 6 |
+| Sprint | 6 |
 
 **Goal:** Extend At a glance when Co-parenting and DIY go live; keep one composition.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Co-parenting and DIY snapshots when present
-- [ ] Prior module snapshots retained; long bodies truncated; no stub filler
-- [ ] Participating modules list updated in `docs/architecture.md`
+- [x] Home shows last Co-parenting and DIY snapshots when present
+- [x] Prior module snapshots retained; long bodies truncated; no stub filler
+- [x] Participating modules list updated in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -552,20 +552,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** Finance/Taxes leaves Coming soon with a safe personal planning path: local notes/context → LLM structured overview — not a brokerage or tax-filing product.
 
 **Acceptance criteria:**
 
-- [ ] Finance/Taxes leaves Coming soon; local context capture (notes / categories / questions)
-- [ ] Run → Markdown planning summary (topics to review, questions for advisor, reminders) with explicit “not professional tax/financial advice” disclaimer
-- [ ] Job status + success snapshot for home glance
-- [ ] No brokerage/bank OAuth; no automated filing or payments
+- [x] Finance/Taxes leaves Coming soon; local context capture (notes / categories / questions)
+- [x] Run → Markdown planning summary (topics to review, questions for advisor, reminders) with explicit “not professional tax/financial advice” disclaimer
+- [x] Job status + success snapshot for home glance
+- [x] No brokerage/bank OAuth; no automated filing or payments
 
 **Out of scope:**
 
@@ -578,21 +578,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B6, B10, B14 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** One composed morning pull on home: combine last (or freshly runnable) Calendar + Gmail signals into a short day brief — habit/pull without a second UI stack.
 
 **Acceptance criteria:**
 
-- [ ] Home (or a single At a glance section) can show a **Day brief** Markdown composed from Calendar + Gmail snapshot inputs
-- [ ] Operator can refresh brief from existing successful snapshots without inventing data when a module has never succeeded
-- [ ] Empty/partial states honest (e.g. Calendar only, Gmail only, neither)
-- [ ] Stays one composition — not a widget dump; truncates long bodies
-- [ ] Approach noted in `docs/architecture.md`
+- [x] Home (or a single At a glance section) can show a **Day brief** Markdown composed from Calendar + Gmail snapshot inputs
+- [x] Operator can refresh brief from existing successful snapshots without inventing data when a module has never succeeded
+- [x] Empty/partial states honest (e.g. Calendar only, Gmail only, neither)
+- [x] Stays one composition — not a widget dump; truncates long bodies
+- [x] Approach noted in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -605,18 +605,18 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14, B22 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** Add Finance snapshot to At a glance when Finance lite ships.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Finance snapshot when present
-- [ ] Glance list updated in architecture.md; composition rules preserved
+- [x] Home shows last Finance snapshot when present
+- [x] Glance list updated in architecture.md; composition rules preserved
 
 **Out of scope:**
 
@@ -628,22 +628,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B6, B15, B18 |
-| Planned sprint | 8 |
+| Sprint | 8 |
 
 **Goal:** First real mutation path: propose a Calendar event draft → show draft/diff → explicit confirm → insert via Google API → local audit entry. Implements ADR-006 stages for one surface only.
 
 **Acceptance criteria:**
 
-- [ ] Calendar (or shared write UI) can propose an event draft from operator input and/or LLM suggestion
-- [ ] Confirm step required; cancel leaves no remote write
-- [ ] On confirm: Calendar insert with appropriate write scope; success/failure clear in UI
-- [ ] Local audit log entry (what, when, outcome) under `data/`
-- [ ] Reconsent path if current token lacks write scope; no silent scope creep into Gmail send
-- [ ] UX/ADR stages match Sprint 5 design (propose → confirm → execute → audit)
+- [x] Calendar (or shared write UI) can propose an event draft from operator input and/or LLM suggestion
+- [x] Confirm step required; cancel leaves no remote write
+- [x] On confirm: Calendar insert with appropriate write scope; success/failure clear in UI
+- [x] Local audit log entry (what, when, outcome) under `data/`
+- [x] Reconsent path if current token lacks write scope; no silent scope creep into Gmail send
+- [x] UX/ADR stages match Sprint 5 design (propose → confirm → execute → audit)
 
 **Out of scope:**
 
@@ -657,19 +657,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B25 |
-| Planned sprint | 8 |
+| Sprint | 8 |
 
 **Goal:** Operator can skim recent write-back attempts without opening raw files.
 
 **Acceptance criteria:**
 
-- [ ] Settings or Calendar panel lists recent audit entries (bounded, newest first)
-- [ ] Shows timestamp, module, action summary, success/failure
-- [ ] No edit/replay of mutations required this sprint
+- [x] Settings or Calendar panel lists recent audit entries (bounded, newest first)
+- [x] Shows timestamp, module, action summary, success/failure
+- [x] No edit/replay of mutations required this sprint
 
 **Out of scope:**
 
@@ -681,22 +681,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B3, B8 |
-| Planned sprint | 9 |
+| Sprint | 9 |
 
 **Goal:** Prove the path off cloud for core advice: a local Llama-class (or compatible) provider works behind the existing LLM interface when the operator has a local runtime.
 
 **Acceptance criteria:**
 
-- [ ] `LocalLlama` (or named local provider) implements the provider interface against a documented local runtime (e.g. Ollama HTTP — architect chooses; document in ADR/architecture)
-- [ ] Settings: select local provider, configure base URL / model id; **Test connection** works
-- [ ] Modules use the active provider after save (hot-reload vs restart documented)
-- [ ] Clear errors when daemon unreachable, model missing, or timeout
-- [ ] README covers install/run assumptions for the stakeholder machine; OpenAI remains available as fallback choice
-- [ ] PoC success metric “path to local LLM” advanced — cloud not deleted
+- [x] `LocalLlama` (or named local provider) implements the provider interface against a documented local runtime (e.g. Ollama HTTP — architect chooses; document in ADR/architecture)
+- [x] Settings: select local provider, configure base URL / model id; **Test connection** works
+- [x] Modules use the active provider after save (hot-reload vs restart documented)
+- [x] Clear errors when daemon unreachable, model missing, or timeout
+- [x] README covers install/run assumptions for the stakeholder machine; OpenAI remains available as fallback choice
+- [x] PoC success metric “path to local LLM” advanced — cloud not deleted
 
 **Out of scope:**
 
@@ -710,20 +710,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B27 |
-| Planned sprint | 9 |
+| Sprint | 9 |
 
 **Goal:** Local LLM runs must fail loudly and predictably — timeouts/bounds and distinct mid-job daemon errors so busy state never hangs silently.
 
 **Acceptance criteria:**
 
-- [ ] Documented timeouts / max output bounds suitable for local hardware
-- [ ] Module run surfaces distinct errors for daemon-down mid-job vs timeout vs cloud-path failures
-- [ ] No silent hang in busy state; cancel-or-fail path documented
-- [ ] Architecture notes local-vs-cloud latency expectations
+- [x] Documented timeouts / max output bounds suitable for local hardware
+- [x] Module run surfaces distinct errors for daemon-down mid-job vs timeout vs cloud-path failures
+- [x] No silent hang in busy state; cancel-or-fail path documented
+- [x] Architecture notes local-vs-cloud latency expectations
 
 **Out of scope:**
 
@@ -736,20 +736,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B2, B13 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Coding/Creative leaves Coming soon: local project notes / focus context → LLM next-steps Markdown for personal creative/coding work.
 
 **Acceptance criteria:**
 
-- [ ] Coding/Creative leaves Coming soon; local notes/context persist under `data/`
-- [ ] Run → Markdown priorities / next experiments (manual action)
-- [ ] Job status + success snapshot for home glance
-- [ ] No mandatory GitHub/GitLab OAuth this sprint
+- [x] Coding/Creative leaves Coming soon; local notes/context persist under `data/`
+- [x] Run → Markdown priorities / next experiments (manual action)
+- [x] Job status + success snapshot for home glance
+- [x] No mandatory GitHub/GitLab OAuth this sprint
 
 **Out of scope:**
 
@@ -762,21 +762,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B14, B23 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Stronger local organisation: a thin **shared context** store modules/home can read (recent snapshots + optional short operator “standing notes”) so LLM prompts can cite cross-domain signal without a second product.
 
 **Acceptance criteria:**
 
-- [ ] Documented shared-context bundle (files/DuckDB — architect chooses) built from recent successful snapshots + optional standing notes
-- [ ] At least one module path and/or Day brief can optionally include a bounded slice of shared context in the LLM prompt
-- [ ] Hard caps on context size; secrets/tokens never injected into prompts from this store
-- [ ] Architecture ADR or section: what is in/out of shared context; opt-in vs default
-- [ ] Home or Settings can view/edit standing notes (minimal)
+- [x] Documented shared-context bundle (files/DuckDB — architect chooses) built from recent successful snapshots + optional standing notes
+- [x] At least one module path and/or Day brief can optionally include a bounded slice of shared context in the LLM prompt
+- [x] Hard caps on context size; secrets/tokens never injected into prompts from this store
+- [x] Architecture ADR or section: what is in/out of shared context; opt-in vs default
+- [x] Home or Settings can view/edit standing notes (minimal)
 
 **Out of scope:**
 
@@ -790,18 +790,18 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B14, B28 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Coding/Creative snapshot appears on At a glance when present.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Coding/Creative snapshot when present
-- [ ] Glance participants list updated in architecture.md
+- [x] Home shows last Coding/Creative snapshot when present
+- [x] Glance participants list updated in architecture.md
 
 **Out of scope:**
 

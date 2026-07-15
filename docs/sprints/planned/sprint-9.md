@@ -1,6 +1,6 @@
 # Sprint 9 — Local LLM operable (planned)
 
-**Status:** proposed (architect) — activates after Sprint 8 closes  
+**Status:** done (shipped in bundled Sprints 6–10 — see [`../current.md`](../current.md))
 **Duration:** one symbolic week  
 **Backlog refs:** B27, B31  
 **Depends on:** Sprint 2 LLM settings + Test connection (B8); provider interface (B3)  

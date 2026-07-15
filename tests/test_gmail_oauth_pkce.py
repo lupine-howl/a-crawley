@@ -24,13 +24,16 @@ def test_authorization_url_persists_pkce(monkeypatch: pytest.MonkeyPatch, tmp_pa
             self.code_verifier = "verifier-abc"
             return "https://accounts.google.com/o/oauth2/auth?x=1", "state-xyz"
 
-    monkeypatch.setattr(google_oauth, "build_auth_flow", lambda base: FakeFlow())
+    monkeypatch.setattr(
+        google_oauth, "build_auth_flow", lambda base, **kwargs: FakeFlow()
+    )
     url, state = google_oauth.authorization_url("http://127.0.0.1:8000")
     assert "accounts.google.com" in url
     assert state == "state-xyz"
     saved = json.loads(pending.read_text(encoding="utf-8"))
     assert saved["code_verifier"] == "verifier-abc"
     assert saved["state"] == "state-xyz"
+    assert saved.get("include_calendar_write") is False
 
 
 def test_finish_oauth_requires_saved_verifier(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
@@ -82,7 +85,9 @@ def test_finish_oauth_restores_verifier(monkeypatch: pytest.MonkeyPatch, tmp_pat
             assert self.code_verifier == "verifier-abc"
             assert "code=abc" in authorization_response
 
-    monkeypatch.setattr(google_oauth, "build_auth_flow", lambda base: FakeFlow())
+    monkeypatch.setattr(
+        google_oauth, "build_auth_flow", lambda base, **kwargs: FakeFlow()
+    )
     creds = google_oauth.finish_oauth(
         "http://127.0.0.1:8000",
         "http://127.0.0.1:8000/modules/gmail/oauth/callback?code=abc&state=state-xyz",
@@ -96,3 +101,5 @@ def test_finish_oauth_restores_verifier(monkeypatch: pytest.MonkeyPatch, tmp_pat
 def test_scopes_include_gmail_and_calendar() -> None:
     assert "gmail.readonly" in google_oauth.SCOPES[0]
     assert "calendar.readonly" in google_oauth.SCOPES[1]
+    assert "calendar.events" in google_oauth.CALENDAR_EVENTS_SCOPE
+    assert google_oauth.CALENDAR_EVENTS_SCOPE in google_oauth.SCOPES_WITH_CALENDAR_WRITE

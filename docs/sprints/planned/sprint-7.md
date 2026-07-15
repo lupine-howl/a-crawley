@@ -1,6 +1,6 @@
 # Sprint 7 — Finance lite + Day brief (planned)
 
-**Status:** proposed (architect) — activates after Sprint 6 closes  
+**Status:** done (shipped in bundled Sprints 6–10 — see [`../current.md`](../current.md))
 **Duration:** one symbolic week  
 **Backlog refs:** B22, B23, B24  
 **Depends on:** Sprint 3 Calendar + Gmail (Day brief inputs); Sprint 2 home glance  

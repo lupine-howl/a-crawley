@@ -19,7 +19,9 @@ uv run python -m crawley
 
 Open http://127.0.0.1:8000 in your browser.
 
-**Settings:** Theme (Paper / Slate / Ink / Moss), LLM provider/model/key, and editable summary prompts live under **Settings**. Theme applies immediately (cookie). Saved LLM settings are stored in `data/secrets/settings.json` and **override** `.env` when a key is saved there; leave the key blank to keep the stored/env value. Changes apply on the next request (no restart). Use **Test connection** to verify the provider.
+**Settings:** Theme (Paper / Slate / Ink / Moss), LLM provider/model/key (or LocalLlama base URL/timeout), editable summary prompts, and write-back audit live under **Settings**. Theme applies immediately (cookie). Saved LLM settings are stored in `data/secrets/settings.json` and **override** `.env` when a key is saved there; leave the key blank to keep the stored/env value. Changes apply on the next request (no restart). Use **Test connection** to verify the provider.
+
+**Local LLM (Ollama):** install/run [Ollama](https://ollama.com/), `ollama pull llama3.2` (or your model), then Settings → Provider **LocalLlama** → base URL `http://127.0.0.1:11434` → model id → **Test connection**. OpenAI remains selectable anytime.
 
 Secrets stay local:
 
@@ -40,7 +42,7 @@ Default bind is localhost only (`127.0.0.1:8000`). To reach a phone on the same 
 
 **Dev hot reload:** set `CRAWLEY_RELOAD=1` in `.env` and restart once. Uvicorn then restarts the app when files under `src/crawley/` change (including after `git pull`). Leave it off for day-to-day phone/LAN use.
 
-**Google OAuth notes:** redirect URI used is `http://127.0.0.1:8000/modules/gmail/oauth/callback` — add it under **Authorized redirect URIs** (not JavaScript origins). Enable **Gmail API** and **Google Calendar API**. Scopes are read-only for both. If you previously connected Gmail only, use **Connect Google** again to grant Calendar. Local HTTP is allowed automatically for `127.0.0.1` / `localhost`.
+**Google OAuth notes:** redirect URI used is `http://127.0.0.1:8000/modules/gmail/oauth/callback` — add it under **Authorized redirect URIs** (not JavaScript origins). Enable **Gmail API** and **Google Calendar API**. Default scopes are Gmail + Calendar **read-only**. Calendar event insert uses an optional `calendar.events` write scope — use **Reconnect for Calendar write** on the Calendar panel (never requests Gmail send). Local HTTP is allowed automatically for `127.0.0.1` / `localhost`.
 
 ## Agent roles
 
@@ -64,7 +66,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprint 1** — local shell + lite Investment & Gmail (closed): [`docs/sprints/archive/sprint-1-local-shell.md`](./docs/sprints/archive/sprint-1-local-shell.md)
 - **Sprint 2** — themes, LLM settings, Markdown, home glance (closed): [`docs/sprints/archive/sprint-2-themes-settings-glance.md`](./docs/sprints/archive/sprint-2-themes-settings-glance.md)
 - **Sprints 3–4** — Calendar + shared Google; Investment depth + Fitness (closed): [`docs/sprints/archive/sprint-3-4-google-investment-fitness.md`](./docs/sprints/archive/sprint-3-4-google-investment-fitness.md)
-- **Sprint 5** — LAN + Work lite + write-back design (done): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprint 5** — LAN + Work lite + write-back design (closed): [`docs/sprints/archive/sprint-5-lan-work-writeback.md`](./docs/sprints/archive/sprint-5-lan-work-writeback.md)
+- **Sprints 6–10** — life modules, Day brief, Calendar write-back, local LLM, shared context (closed): [`docs/sprints/current.md`](./docs/sprints/current.md)
 
 ## Bootstrap sequence (complete)
 
@@ -88,6 +91,6 @@ Ongoing: PO plans the next sprint in `docs/sprints/current.md`; UX expert may lo
 
 These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-developer`, or `@ux-expert` in Agent chat, then confirm via the context ring → **Rules**.
 
-## After Sprint 5
+## After Sprint 10
 
-PO sequences Next work (e.g. co-parenting, live write-back). Archive `docs/sprints/current.md` when closing Sprint 5 formally.
+PO sequences Later work (e.g. Gmail write-back, desktop shell, deeper shared memory). Archive `docs/sprints/current.md` when promoting the next sprint.

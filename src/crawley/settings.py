@@ -24,6 +24,8 @@ class LLMSettings:
     provider: str = "openai"
     model: str = "gpt-4o-mini"
     api_key: str = ""
+    base_url: str = "http://127.0.0.1:11434"
+    timeout_s: float = 60.0
 
 
 @dataclass
@@ -64,12 +66,23 @@ def load_settings() -> AppSettings:
         return AppSettings()
     llm_raw = raw.get("llm") or {}
     net_raw = raw.get("network") or {}
+    timeout_raw = llm_raw.get("timeout_s", 60.0)
+    try:
+        timeout_s = float(timeout_raw)
+    except (TypeError, ValueError):
+        timeout_s = 60.0
+    timeout_s = max(5.0, min(timeout_s, 600.0))
     return AppSettings(
         theme=_normalize_theme(raw.get("theme")),
         llm=LLMSettings(
             provider=(llm_raw.get("provider") or "openai").strip().lower() or "openai",
             model=(llm_raw.get("model") or "gpt-4o-mini").strip() or "gpt-4o-mini",
             api_key=(llm_raw.get("api_key") or "").strip(),
+            base_url=(
+                (llm_raw.get("base_url") or "http://127.0.0.1:11434").strip()
+                or "http://127.0.0.1:11434"
+            ),
+            timeout_s=timeout_s,
         ),
         prompts=prompts_from_dict(raw.get("prompts")),
         network=NetworkSettings(
@@ -118,11 +131,33 @@ def resolved_openai_model() -> str:
     return os.environ.get("OPENAI_MODEL", "gpt-4o-mini").strip() or "gpt-4o-mini"
 
 
+def resolved_local_base_url() -> str:
+    settings = load_settings()
+    return (
+        settings.llm.base_url.strip()
+        or os.environ.get("CRAWLEY_LOCAL_LLM_URL", "http://127.0.0.1:11434").strip()
+        or "http://127.0.0.1:11434"
+    )
+
+
+def resolved_local_model() -> str:
+    settings = load_settings()
+    if settings.llm.provider in {"local_llama", "local", "llama"} and settings.llm.model:
+        return settings.llm.model.strip()
+    return os.environ.get("CRAWLEY_LOCAL_LLM_MODEL", "llama3.2").strip() or "llama3.2"
+
+
+def resolved_local_timeout_s() -> float:
+    return float(load_settings().llm.timeout_s)
+
+
 def update_llm_settings(
     *,
     provider: str,
     model: str,
     api_key: str | None,
+    base_url: str | None = None,
+    timeout_s: float | None = None,
 ) -> AppSettings:
     """
     Persist LLM settings. Blank api_key means keep the previously stored key.
@@ -132,49 +167,21 @@ def update_llm_settings(
     current.llm.model = (model or "gpt-4o-mini").strip() or "gpt-4o-mini"
     if api_key is not None and api_key.strip():
         current.llm.api_key = api_key.strip()
+    if base_url is not None and base_url.strip():
+        current.llm.base_url = base_url.strip().rstrip("/")
+    if timeout_s is not None:
+        current.llm.timeout_s = max(5.0, min(float(timeout_s), 600.0))
     save_settings(current)
     return current
 
 
-def update_prompt_settings(
-    *,
-    investment_system: str,
-    investment_user_footer: str,
-    gmail_system: str,
-    gmail_user_header: str,
-    calendar_system: str | None = None,
-    calendar_user_header: str | None = None,
-    fitness_system: str | None = None,
-    fitness_user_header: str | None = None,
-    work_system: str | None = None,
-    work_user_header: str | None = None,
-) -> AppSettings:
+def update_prompt_settings(**fields: str) -> AppSettings:
     current = load_settings()
-    prev = current.prompts
-    current.prompts = prompts_from_dict(
-        {
-            "investment_system": investment_system,
-            "investment_user_footer": investment_user_footer,
-            "gmail_system": gmail_system,
-            "gmail_user_header": gmail_user_header,
-            "calendar_system": calendar_system
-            if calendar_system is not None
-            else prev.calendar_system,
-            "calendar_user_header": calendar_user_header
-            if calendar_user_header is not None
-            else prev.calendar_user_header,
-            "fitness_system": fitness_system
-            if fitness_system is not None
-            else prev.fitness_system,
-            "fitness_user_header": fitness_user_header
-            if fitness_user_header is not None
-            else prev.fitness_user_header,
-            "work_system": work_system if work_system is not None else prev.work_system,
-            "work_user_header": work_user_header
-            if work_user_header is not None
-            else prev.work_user_header,
-        }
-    )
+    merged = current.prompts.to_dict()
+    for key, value in fields.items():
+        if key in merged and value is not None:
+            merged[key] = value
+    current.prompts = prompts_from_dict(merged)
     save_settings(current)
     return current
 

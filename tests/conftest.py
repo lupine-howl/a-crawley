@@ -29,6 +29,10 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     monkeypatch.setattr(paths, "CALENDAR_DIR", data / "calendar")
     monkeypatch.setattr(paths, "FITNESS_DIR", data / "fitness")
     monkeypatch.setattr(paths, "WORK_DIR", data / "work")
+    monkeypatch.setattr(paths, "CO_PARENTING_DIR", data / "co_parenting")
+    monkeypatch.setattr(paths, "DIY_DIR", data / "diy")
+    monkeypatch.setattr(paths, "FINANCE_DIR", data / "finance")
+    monkeypatch.setattr(paths, "CODING_DIR", data / "coding_creative")
     monkeypatch.setattr(paths, "DUCKDB_PATH", data / "crawley.duckdb")
     monkeypatch.setattr(duck, "DUCKDB_PATH", data / "crawley.duckdb")
     monkeypatch.setattr(inv_fetch, "INVESTMENT_DIR", data / "investment")
@@ -46,9 +50,24 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     monkeypatch.setattr(fitness_mod, "FITNESS_DIR", data / "fitness")
     monkeypatch.setattr(fitness_mod, "LAST_GOAL_PATH", data / "fitness" / "last_goal.txt")
     import crawley.modules.work as work_mod
+    import crawley.modules.co_parenting as co_mod
+    import crawley.modules.diy as diy_mod
+    import crawley.modules.finance as finance_mod
+    import crawley.modules.coding_creative as coding_mod
+    import crawley.modules.calendar as calendar_mod
+    import crawley.shared_context as shared_ctx
 
     monkeypatch.setattr(work_mod, "WORK_DIR", data / "work")
     monkeypatch.setattr(work_mod, "NOTES_PATH", data / "work" / "notes.txt")
+    monkeypatch.setattr(co_mod, "CO_PARENTING_DIR", data / "co_parenting")
+    monkeypatch.setattr(co_mod, "SCHEDULE_PATH", data / "co_parenting" / "schedule.json")
+    monkeypatch.setattr(diy_mod, "NOTES_DIR", data / "diy")
+    monkeypatch.setattr(finance_mod, "NOTES_DIR", data / "finance")
+    monkeypatch.setattr(coding_mod, "NOTES_DIR", data / "coding_creative")
+    monkeypatch.setattr(calendar_mod, "CALENDAR_DIR", data / "calendar")
+    monkeypatch.setattr(calendar_mod, "DRAFTS_PATH", data / "calendar" / "pending_drafts.json")
+    monkeypatch.setattr(shared_ctx, "DATA_DIR", data)
+    monkeypatch.setattr(shared_ctx, "STANDING_NOTES_PATH", data / "standing_notes.txt")
     monkeypatch.setattr(settings, "SECRETS_DIR", data / "secrets")
     monkeypatch.setattr(settings, "SETTINGS_PATH", data / "secrets" / "settings.json")
     monkeypatch.setattr(snapshots, "DATA_DIR", data)

@@ -1,6 +1,6 @@
 # Sprint 6 — Co-parenting + DIY lite (planned)
 
-**Status:** proposed (architect) — activates after PO acceptance / Sprint 5 close  
+**Status:** done (shipped in bundled Sprints 6–10 — see [`../current.md`](../current.md))
 **Duration:** one symbolic week  
 **Backlog refs:** B19, B20, B21  
 **Depends on:** Sprint 2 Markdown/home; Sprint 5 Work lite as template for local-note modules  

@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; Sprints 1–5 closed; Sprints 6–10 proposed (life modules → Day brief → Calendar write-back → local LLM → shared context)
+**Status:** Brief confirmed; Sprints 1–10 closed (6–10 delivered as one bundle: life modules → Day brief → Calendar write-back → local LLM → shared context)
 
 ## Problem
 

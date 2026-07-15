@@ -42,6 +42,36 @@ class PromptSettings:
         "Assume a single operator; no ticket-system writes. Under 250 words."
     )
     work_user_header: str = "This week’s notes / tasks:"
+    co_parenting_system: str = (
+        "You help one parent skim their co-parenting handoff schedule. "
+        "Markdown with ## What's next and ## Watch-outs. Sole-operator planning; "
+        "not legal advice. Under 220 words."
+    )
+    co_parenting_user_header: str = "Upcoming handoff windows (bounded):"
+    diy_system: str = (
+        "You help plan a DIY/home project from notes. Markdown with "
+        "## Next steps and ## Materials to consider. Manual shopping only; "
+        "no checkout links. Under 250 words."
+    )
+    diy_user_header: str = "DIY project notes:"
+    finance_system: str = (
+        "You help with personal finance/tax planning notes. Markdown with "
+        "## Topics to review, ## Questions for an advisor, ## Reminders. "
+        "Not professional tax or financial advice. Under 250 words."
+    )
+    finance_user_header: str = "Finance / tax planning notes:"
+    coding_system: str = (
+        "You help prioritize personal coding/creative project notes. "
+        "Markdown with ## Focus now, ## Next experiments, ## Parking. "
+        "No CI or forge writes. Under 250 words."
+    )
+    coding_user_header: str = "Coding / creative project notes:"
+    day_brief_system: str = (
+        "Compose a short morning Day brief from Calendar and Gmail snapshot texts. "
+        "Markdown with ## Today and ## Follow-ups. Do not invent events or emails "
+        "that are not in the inputs. Under 200 words."
+    )
+    day_brief_user_header: str = "Snapshot inputs for today’s brief:"
 
     def to_dict(self) -> dict[str, str]:
         return asdict(self)
@@ -56,18 +86,7 @@ def prompts_from_dict(raw: dict | None) -> PromptSettings:
         return (raw.get(key) or default).strip() or default
 
     return PromptSettings(
-        investment_system=pick("investment_system", base.investment_system),
-        investment_user_footer=pick(
-            "investment_user_footer", base.investment_user_footer
-        ),
-        gmail_system=pick("gmail_system", base.gmail_system),
-        gmail_user_header=pick("gmail_user_header", base.gmail_user_header),
-        calendar_system=pick("calendar_system", base.calendar_system),
-        calendar_user_header=pick("calendar_user_header", base.calendar_user_header),
-        fitness_system=pick("fitness_system", base.fitness_system),
-        fitness_user_header=pick("fitness_user_header", base.fitness_user_header),
-        work_system=pick("work_system", base.work_system),
-        work_user_header=pick("work_user_header", base.work_user_header),
+        **{field: pick(field, getattr(base, field)) for field in base.to_dict()}
     )
 
 
@@ -95,3 +114,7 @@ def build_fitness_user_message(*, header: str, goal: str) -> str:
 
 def build_work_user_message(*, header: str, notes: str) -> str:
     return f"{header.rstrip()}\n{notes.strip()}\n"
+
+
+def build_co_parenting_user_message(*, header: str, schedule_lines: list[str]) -> str:
+    return header.rstrip() + "\n" + "\n".join(schedule_lines)

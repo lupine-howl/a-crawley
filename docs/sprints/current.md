@@ -1,81 +1,86 @@
-# Sprint 5 — LAN reach, Work lite, write-back design
+# Sprints 6–10 — Life modules, Day brief, write-back, local LLM, shared context (bundled)
 
-**Status:** done  
-**Duration:** one symbolic week  
-**Backlog refs:** B12, B17, B18  
-**Depends on:** Sprint 2–4 shell and modules  
-**Architecture:** [`docs/architecture.md`](../architecture.md) + [`docs/adr/006-write-back-confirm.md`](../adr/006-write-back-confirm.md)  
-**Previous:** [`archive/sprint-3-4-google-investment-fitness.md`](archive/sprint-3-4-google-investment-fitness.md)  
-**Planned source:** [`planned/sprint-5.md`](planned/sprint-5.md)
+**Status:** done (delivered as one implementation bundle)  
+**Duration:** one symbolic compound sprint  
+**Backlog refs:** B19–B31  
+**Depends on:** Sprint 5 (LAN, Work, ADR-006)  
+**Architecture:** [`docs/architecture.md`](../architecture.md) + ADR-007 / ADR-008  
+**Previous:** [`archive/sprint-5-lan-work-writeback.md`](archive/sprint-5-lan-work-writeback.md)  
+**Planned sources:** [`planned/sprint-6.md`](planned/sprint-6.md) … [`planned/sprint-10.md`](planned/sprint-10.md)
 
 ## Goal
 
-Make Crawley reachable on the **local network only when consciously enabled**, land **Work** lite, and **design** (not ship) write-back with an ADR + dry-run hooks.
+Finish the original top-tier module set, ship a morning **Day brief**, land the first **confirm-first Calendar insert**, make **LocalLlama (Ollama HTTP)** operable, and seed **shared context** across modules.
 
 ## Demo
 
-1. Enable LAN bind from Settings; see warning; restart; open from phone on trusted LAN
-2. Use Work: save notes/tasks → LLM prioritization → home snapshot
-3. Read ADR-006 + architecture write-back stages; dry-run hooks only (no live mutations)
+1. Use Co-parenting / DIY / Finance / Coding-Creative lite panels (Save + Run → Markdown + home glance)
+2. Refresh Day brief on home from Calendar + Gmail snapshots (optional LLM + shared context)
+3. Propose → Confirm/Cancel a Calendar event; skim write-back audit in Settings
+4. Settings → LocalLlama base URL/model → Test connection; module runs honor timeouts
+5. Edit standing notes; optionally include shared context on Coding/Creative or Day brief
 
 ## Committed
 
-### S5.1 — Phone-on-LAN access pattern (B12)
+### S6 — Co-parenting + DIY (B19–B21)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B12 |
 
-**Acceptance criteria:**
+- [x] Co-parenting leaves Coming soon; local schedule JSON; bounded window Markdown; snapshot
+- [x] DIY leaves Coming soon; notes → next-steps Markdown; snapshot
+- [x] Home glance slots for both
 
-- [x] Default bind remains `127.0.0.1`
-- [x] Settings toggle + optional `CRAWLEY_HOST` env; **restart required**
-- [x] UI warning when LAN enabled; README firewall/WSL notes
-- [x] Decision: **no auth; trusted LAN only** (documented)
-- [x] Disable → localhost-only after restart
-
----
-
-### S5.2 — Work module lite (B17)
+### S7 — Finance + Day brief (B22–B24)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B17 |
 
-**Acceptance criteria:**
+- [x] Finance/Taxes lite with non-advice disclaimer; snapshot
+- [x] Day brief from Calendar + Gmail snapshots; partial/empty honest; optional LLM refresh
+- [x] Finance glance slot
 
-- [x] Work leaves Coming soon
-- [x] Local notes file under `data/work/notes.txt`; Save + Prioritize
-- [x] Run → LLM Markdown prioritization / next-actions summary
-- [x] Job status + snapshot on home glance
-- [x] No third-party work suite OAuth
-
----
-
-### S5.3 — Write-back design (B18)
+### S8 — Calendar write-back (B25–B26)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B18 |
 
-**Acceptance criteria:**
+- [x] Propose → confirm → execute → audit for Calendar insert; cancel performs no remote write
+- [x] Calendar events write scope only (reconnect path); no Gmail send
+- [x] Audit viewer in Settings + Calendar panel
 
-- [x] ADR-006 accepted: confirm; draft-first; per-module capability flags
-- [x] Module contract dry-run `write_back()`; Gmail/Calendar exercise buttons; audit `data/writeback_audit.jsonl`
-- [x] Architecture outlines propose → draft → confirm → execute → audit
-- [x] Out of scope: silent automation, multi-user ACLs, live Gmail/Calendar mutations
+### S9 — Local LLM (B27, B31)
 
-## Out of scope (sprint)
+| Field | Value |
+|-------|-------|
+| Status | done |
 
-- Actual Gmail send / Calendar insert
-- LocalLlama production hosting
+- [x] LocalLlama via Ollama HTTP; Settings base URL / model / timeout; Test connection
+- [x] Distinct unreachable / timeout / missing-model errors; OpenAI remains selectable
+- [x] ADR-007
+
+### S10 — Coding/Creative + shared context (B28–B30)
+
+| Field | Value |
+|-------|-------|
+| Status | done |
+
+- [x] Coding/Creative lite; snapshot on home
+- [x] Standing notes + capped snapshot shared-context seed; opt-in injection
+- [x] ADR-008
+
+## Out of scope (bundle)
+
+- Gmail send / label mutation
 - Native desktop wrapper
-- Co-parenting / DIY / Finance live modules
+- Vector DB / embeddings RAG
+- Automated trading / bank OAuth
 
 ## Parking lot
 
-- Sprints 6–10 proposed under [`planned/`](planned/) (Co-parenting/DIY → Finance/Day brief → Calendar write-back → Local LLM → Coding/Creative + shared context)
-- Optional LAN shared-secret gate (deferred; trusted LAN policy for now)
+- Gmail draft-then-send after Calendar soak
+- Scheduled overnight Day brief
+- Optional native desktop shell

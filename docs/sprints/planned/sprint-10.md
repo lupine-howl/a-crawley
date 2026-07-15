@@ -1,6 +1,6 @@
 # Sprint 10 — Coding/Creative lite + shared context (planned)
 
-**Status:** proposed (architect) — activates after Sprint 9 closes  
+**Status:** done (shipped in bundled Sprints 6–10 — see [`../current.md`](../current.md))
 **Duration:** one symbolic week  
 **Backlog refs:** B28, B29, B30  
 **Depends on:** Sprint 2 home glance; Sprint 7 Day brief preferred as first consumer of shared context  

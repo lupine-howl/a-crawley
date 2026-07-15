@@ -12,6 +12,10 @@ from fastapi import FastAPI
 from crawley.data.duck import init_schema
 from crawley.data.paths import ensure_data_dirs
 from crawley.modules.calendar import CalendarModule
+from crawley.modules.coding_creative import CodingCreativeModule
+from crawley.modules.co_parenting import CoParentingModule
+from crawley.modules.diy import DiyModule
+from crawley.modules.finance import FinanceModule
 from crawley.modules.fitness import FitnessModule
 from crawley.modules.gmail import GmailModule
 from crawley.modules.investment import InvestmentModule
@@ -27,6 +31,10 @@ _LIVE_WITH_EXECUTOR = (
     CalendarModule,
     FitnessModule,
     WorkModule,
+    CoParentingModule,
+    DiyModule,
+    FinanceModule,
+    CodingCreativeModule,
 )
 
 

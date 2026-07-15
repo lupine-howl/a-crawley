@@ -29,20 +29,8 @@ Shared Google OAuth; **Calendar** live; harden Gmail; deepen **Investment**; **F
 ### Sprint 5 (closed) — Reach + Work + write-back design
 **Phone-on-LAN** (opt-in); **Work** lite; write-back **ADR/dry-run only** — [`docs/sprints/current.md`](docs/sprints/current.md)
 
-### Sprint 6 (proposed) — Co-parenting + DIY lite
-Local schedule + project notes → LLM Markdown; home glance slots — [`docs/sprints/planned/sprint-6.md`](docs/sprints/planned/sprint-6.md)
-
-### Sprint 7 (proposed) — Finance lite + Day brief
-Finance/Taxes planning path (non-advice); Calendar+Gmail **Day brief** on home — [`docs/sprints/planned/sprint-7.md`](docs/sprints/planned/sprint-7.md)
-
-### Sprint 8 (proposed) — Confirm-first Calendar write-back
-First real mutation after ADR-006 soak; audit log viewer — [`docs/sprints/planned/sprint-8.md`](docs/sprints/planned/sprint-8.md)
-
-### Sprint 9 (proposed) — Local LLM operable
-LocalLlama (or equivalent) behind existing provider interface; OpenAI remains selectable — [`docs/sprints/planned/sprint-9.md`](docs/sprints/planned/sprint-9.md)
-
-### Sprint 10 (proposed) — Coding/Creative + shared context seed
-Last top-tier lite module; thin cross-module context for prompts — [`docs/sprints/planned/sprint-10.md`](docs/sprints/planned/sprint-10.md)
+### Sprints 6–10 (closed, bundled) — Life coverage + write-back + local LLM + shared context
+Co-parenting/DIY/Finance/Coding-Creative lite; Day brief; Calendar confirm-first insert; LocalLlama (Ollama); shared context seed — [`docs/sprints/current.md`](docs/sprints/current.md)
 
 ### After Sprint 10 (unscheduled)
 - Optional **native desktop shell** (wrap existing UI)
@@ -58,7 +46,7 @@ Last top-tier lite module; thin cross-module context for prompts — [`docs/spri
 - Deeper shared memory (searchable history, optional embeddings) after Sprint 10 seed.
 - Broader integrations as needed: workout wearables, tax/finance depth, co-parenting ↔ Calendar sync.
 - Additional selective write-back (e.g. Gmail) with the same confirm-first discipline.
-- *(Local LLM path and remaining top-tier lite modules are proposed in Sprints 9–10 above.)*
+- *(Local LLM path and top-tier lite modules shipped in Sprints 6–10.)*
 
 ## Icebox
 

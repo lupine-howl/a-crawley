@@ -1,6 +1,6 @@
 # Sprint 8 — Confirm-first Calendar write-back (planned)
 
-**Status:** proposed (architect) — activates after Sprint 7 closes; requires Sprint 5 ADR soak  
+**Status:** done (shipped in bundled Sprints 6–10 — see [`../current.md`](../current.md))
 **Duration:** one symbolic week  
 **Backlog refs:** B25, B26  
 **Depends on:** ADR-006 + Sprint 5 write-back dry-run (B18); Sprint 3 shared Google + Calendar read (B15, B6)  
