@@ -9,7 +9,11 @@ from crawley.app import create_app
 from crawley.llm.base import LLMError
 from crawley.llm.factory import get_llm_provider, llm_status
 from crawley.llm.local_llama import LocalLlamaProvider
-from crawley.llm.openai_provider import OpenAIProvider
+from crawley.llm.openai_provider import (
+    OpenAIProvider,
+    completion_token_kwargs,
+    uses_max_completion_tokens,
+)
 from crawley.modules.registry import build_registry, nav_modules
 
 
@@ -29,9 +33,21 @@ EXPECTED_NAV = [
 def test_registry_top_tier_nav_order() -> None:
     registry = build_registry()
     assert [m.meta.id for m in nav_modules(registry)] == EXPECTED_NAV
-    assert registry["calendar"].panel_context()["coming_soon"] is True
-    assert registry["fitness"].panel_context()["coming_soon"] is True
+    assert registry["calendar"].panel_context()["coming_soon"] is False
+    assert registry["fitness"].panel_context()["coming_soon"] is False
     assert registry["investment"].panel_context()["coming_soon"] is False
+    assert registry["work"].panel_context()["coming_soon"] is False
+    assert registry["diy"].panel_context()["coming_soon"] is True
+
+
+def test_completion_token_param_by_model() -> None:
+    assert uses_max_completion_tokens("gpt-5.4-mini")
+    assert uses_max_completion_tokens("o3-mini")
+    assert not uses_max_completion_tokens("gpt-4o-mini")
+    assert completion_token_kwargs("gpt-5.4-mini", 256) == {
+        "max_completion_tokens": 256
+    }
+    assert completion_token_kwargs("gpt-4o-mini", 256) == {"max_tokens": 256}
 
 
 def test_openai_missing_key(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -58,14 +74,30 @@ def test_dashboard_and_stub_panel(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "Crawley" in home.text
     assert "Investment" in home.text
     assert "Calendar" in home.text
+    assert "Last Fitness" in home.text
 
     cal = client.get("/modules/calendar")
     assert cal.status_code == 200
-    assert "Coming soon" in cal.text
+    assert "Coming soon" not in cal.text
+    assert "Skim next" in cal.text or "Connect Google" in cal.text
+
+    fit = client.get("/modules/fitness")
+    assert fit.status_code == 200
+    assert "Coming soon" not in fit.text
+    assert "not medical" in fit.text.lower() or "Not medical" in fit.text
 
     inv = client.get("/modules/investment")
     assert inv.status_code == 200
     assert "Coming soon" not in inv.text
+
+    work = client.get("/modules/work")
+    assert work.status_code == 200
+    assert "Coming soon" not in work.text
+    assert "Prioritize" in work.text
+
+    stub = client.get("/modules/diy")
+    assert stub.status_code == 200
+    assert "Coming soon" in stub.text
 
 
 def test_get_llm_openai_requires_key(monkeypatch: pytest.MonkeyPatch) -> None:

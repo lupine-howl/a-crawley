@@ -1,4 +1,4 @@
-"""Investment module — lite bounded search + LLM synthesis."""
+"""Investment module — bounded search + cache + LLM synthesis."""
 
 from __future__ import annotations
 
@@ -12,7 +12,10 @@ from crawley.llm.factory import get_llm_provider
 from crawley.modules.contract import Module, ModuleKind, ModuleMeta, ModuleOutput
 from crawley.modules.investment_fetch import (
     MAX_ITEMS,
+    InvestmentEmptyError,
     InvestmentFetchError,
+    InvestmentNetworkError,
+    InvestmentParseError,
     fetch_rss_items,
     persist_artifacts,
     recent_artifacts,
@@ -47,9 +50,10 @@ class InvestmentModule(Module):
             "coming_soon": False,
             "description": self.meta.description,
             "job": self.job.to_dict(),
-            "recent": recent_artifacts(5),
+            "recent": recent_artifacts(8),
             "default_query": "US stock market outlook",
             "max_items": MAX_ITEMS,
+            "use_cache_default": True,
         }
 
     def run(self, inputs: dict[str, Any] | None = None) -> ModuleOutput:
@@ -58,6 +62,12 @@ class InvestmentModule(Module):
         if not query:
             return ModuleOutput(error="Query is required.")
 
+        use_cache_raw = inputs.get("use_cache", True)
+        if isinstance(use_cache_raw, str):
+            use_cache = use_cache_raw.lower() in {"1", "true", "on", "yes"}
+        else:
+            use_cache = bool(use_cache_raw)
+
         if self.job.status == "busy":
             return ModuleOutput(error="Investment job already running.")
 
@@ -65,23 +75,22 @@ class InvestmentModule(Module):
             return ModuleOutput(error="Executor not configured.")
 
         self.job = JobState(status="busy", message="Fetching sources…")
-        self._executor.submit(self._job_body, query)
+        self._executor.submit(self._job_body, query, use_cache)
         return ModuleOutput(summary="started", details={"status": "busy"})
 
-    def _job_body(self, query: str) -> None:
+    def _job_body(self, query: str, use_cache: bool = True) -> None:
         try:
             self.job = JobState(status="busy", message="Fetching news headlines…")
-            items = fetch_rss_items(query)
-            if not items:
-                self.job = JobState(
-                    status="error",
-                    message="No headlines returned. Try a different query.",
-                )
-                return
+            items, fetch_meta = fetch_rss_items(query, use_cache=use_cache)
+            cache_note = (
+                f" (cache hit from {fetch_meta.get('cached_at', '?')})"
+                if fetch_meta.get("cache_hit") == "true"
+                else ""
+            )
 
             self.job = JobState(
                 status="busy",
-                message=f"Saving {len(items)} sources and calling LLM…",
+                message=f"Saving {len(items)} sources and calling LLM…{cache_note}",
             )
             rows = persist_artifacts(query, items)
             prompt = self._build_prompt(query, rows)
@@ -93,18 +102,21 @@ class InvestmentModule(Module):
                     ChatMessage(role="system", content=system),
                     ChatMessage(role="user", content=prompt),
                 ],
-                max_tokens=400,
+                max_tokens=450,
             )
             self.job = JobState(
                 status="done",
-                message=f"Done — {len(rows)} sources (query: {query}).",
+                message=f"Done — {len(rows)} sources (query: {query}){cache_note}.",
                 summary=result.content,
                 details={
                     "query": query,
                     "sources": len(rows),
                     "model": result.model,
+                    "cache_hit": fetch_meta.get("cache_hit"),
+                    "cached_at": fetch_meta.get("cached_at"),
                     "prompt_system": system,
                     "prompt_user": prompt,
+                    "source_titles": [r["title"] for r in rows],
                 },
             )
             try:
@@ -113,10 +125,16 @@ class InvestmentModule(Module):
                 save_snapshot("investment", result.content)
             except Exception:  # noqa: BLE001
                 logger.exception("Failed to persist investment snapshot")
+        except InvestmentEmptyError as exc:
+            self.job = JobState(status="error", message=f"Empty results: {exc}")
+        except InvestmentNetworkError as exc:
+            self.job = JobState(status="error", message=f"Network: {exc}")
+        except InvestmentParseError as exc:
+            self.job = JobState(status="error", message=f"Parse: {exc}")
         except InvestmentFetchError as exc:
             self.job = JobState(status="error", message=str(exc))
         except LLMError as exc:
-            self.job = JobState(status="error", message=str(exc))
+            self.job = JobState(status="error", message=f"LLM: {exc}")
         except Exception as exc:  # noqa: BLE001
             logger.exception("Investment job failed")
             self.job = JobState(status="error", message=f"Investment run failed: {exc}")
@@ -124,9 +142,17 @@ class InvestmentModule(Module):
     @staticmethod
     def _build_prompt(query: str, rows: list[dict[str, str]]) -> str:
         prompts = load_settings().prompts
-        lines = [
-            f"- {row['title']} ({row['url']}): {row['snippet'][:300]}" for row in rows
-        ]
+        lines = []
+        for row in rows:
+            meta = []
+            if row.get("publisher"):
+                meta.append(row["publisher"])
+            if row.get("published"):
+                meta.append(row["published"])
+            meta_s = f" [{'; '.join(meta)}]" if meta else ""
+            lines.append(
+                f"- {row['title']}{meta_s} ({row['url']}): {row['snippet'][:300]}"
+            )
         return build_investment_user_message(
             query=query,
             source_lines=lines,

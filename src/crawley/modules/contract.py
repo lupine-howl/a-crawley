@@ -1,4 +1,4 @@
-"""Module contract: lifecycle, config hooks, I/O; write-back reserved."""
+"""Module contract: lifecycle, config hooks, I/O; write-back dry-run only."""
 
 from __future__ import annotations
 
@@ -22,6 +22,15 @@ class ModuleMeta:
     description: str = ""
 
 
+@dataclass(frozen=True)
+class WriteBackCapability:
+    """Per-module write-back flags (ADR-006). Live mutation stays off."""
+
+    supported: bool = False
+    dry_run_only: bool = True
+    label: str = ""
+
+
 @dataclass
 class ModuleOutput:
     """Structured result a module can return to the shell."""
@@ -35,6 +44,7 @@ class Module(ABC):
     """Stable contract for life-domain modules."""
 
     meta: ModuleMeta
+    write_back_capability: WriteBackCapability = WriteBackCapability()
 
     def configure(self, config: dict[str, Any]) -> None:
         """Optional config / credential hooks. Default: no-op."""
@@ -53,8 +63,49 @@ class Module(ABC):
         """Execute a read/analyze path. Stubs raise; live modules override."""
         raise NotImplementedError(f"{self.meta.id} does not implement run()")
 
+    def propose_write_back(self, payload: dict[str, Any]) -> dict[str, Any]:
+        """Build a draft description for confirm UI / dry-run audit. Override when supported."""
+        return {
+            "module_id": self.meta.id,
+            "action": "unspecified",
+            "payload": payload,
+            "would_mutate": False,
+        }
+
     def write_back(self, payload: dict[str, Any]) -> ModuleOutput:
-        """Reserved for later. Must not be used in Sprint 1."""
-        raise NotImplementedError(
-            f"write-back is reserved; not enabled for {self.meta.id}"
+        """
+        Write-back entrypoint (ADR-006).
+
+        Until a later sprint ships live mutations, this only records a **dry-run**
+        when ``write_back_capability.supported`` is True. Never calls Gmail send /
+        Calendar insert APIs.
+        """
+        cap = self.write_back_capability
+        if not cap.supported:
+            return ModuleOutput(
+                error=(
+                    f"write-back is not enabled for {self.meta.id}. "
+                    "See ADR-006 for the confirm → mutate design."
+                )
+            )
+        if not cap.dry_run_only:
+            return ModuleOutput(
+                error=(
+                    f"{self.meta.id} declared live write-back, but live mutation "
+                    "is not implemented yet. Forcing dry-run-only."
+                )
+            )
+
+        draft = self.propose_write_back(payload)
+        from crawley.writeback import record_dry_run
+
+        entry = record_dry_run(
+            module_id=self.meta.id,
+            stage="dry_run",
+            draft=draft,
+            note=cap.label or "dry-run only; no remote mutation",
+        )
+        return ModuleOutput(
+            summary="Write-back dry-run recorded (no remote mutation).",
+            details={"audit": entry, "draft": draft, "dry_run": True},
         )

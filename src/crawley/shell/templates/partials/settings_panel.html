@@ -32,6 +32,44 @@
   <p class="muted">Current theme: <strong>{{ theme_label }}</strong>. Preference is stored in a cookie and settings file.</p>
 </div>
 
+<div class="panel panel-tight settings-section" id="network">
+  <h2 class="section-title">Network / LAN</h2>
+  <p class="muted">
+    Default bind is <code>127.0.0.1</code> (this machine only). Enabling LAN listens on
+    <code>0.0.0.0</code> so phones on your <strong>trusted</strong> local network can open the UI.
+    There is <strong>no login gate</strong> — do not expose beyond a trusted LAN. See README for WSL/firewall notes.
+  </p>
+  {% if network_settings.lan_enabled or bind_exposes_lan %}
+  <p class="job job-error">
+    LAN reach is preferred or bound. Anyone on the same network who can hit the port can use Crawley
+    (including Settings and local tokens). Disable and restart to return to localhost-only.
+  </p>
+  {% endif %}
+  {% if env_host_override %}
+  <p class="job job-error">
+    <code>CRAWLEY_HOST={{ env_host_override }}</code> is set in the environment and overrides the Settings toggle until cleared.
+  </p>
+  {% endif %}
+  <form
+    class="settings-form"
+    hx-post="/settings/network"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+  >
+    <label>
+      <input type="checkbox" name="lan_enabled" value="on" {% if network_settings.lan_enabled %}checked{% endif %}>
+      Allow LAN access (bind <code>0.0.0.0</code> after restart)
+    </label>
+    <p class="muted">Effective preference resolves to <code>{{ bind_host }}:{{ bind_port }}</code>. <strong>Restart required</strong> for bind changes.</p>
+    <div class="actions">
+      <button type="submit">Save network</button>
+    </div>
+    {% if network_notice %}
+    <p class="job job-done">{{ network_notice }}</p>
+    {% endif %}
+  </form>
+</div>
+
 <div class="panel panel-tight settings-section" id="llm">
   <h2 class="section-title">Language model</h2>
   <form
@@ -103,7 +141,7 @@
 
 <div class="panel panel-tight settings-section" id="prompts">
   <h2 class="section-title">Summary prompts</h2>
-  <p class="muted">Edit the system instructions and fixed user-message framing used by Investment and Gmail. Dynamic content (sources / inbox lines) is still assembled at run time. After a run, open the module panel to inspect the full prompt that was sent.</p>
+  <p class="muted">Edit the system instructions and fixed user-message framing used by live modules. Dynamic content is still assembled at run time. After a run, open the module panel to inspect the full prompt that was sent.</p>
   <form
     class="settings-form"
     hx-post="/settings/prompts"
@@ -125,6 +163,30 @@
     <div class="field wide">
       <label for="gmail-header">Gmail · user header <span class="muted">(before inbox lines)</span></label>
       <textarea id="gmail-header" name="gmail_user_header" rows="2">{{ prompt_settings.gmail_user_header }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="calendar-system">Calendar · system</label>
+      <textarea id="calendar-system" name="calendar_system" rows="3">{{ prompt_settings.calendar_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="calendar-header">Calendar · user header</label>
+      <textarea id="calendar-header" name="calendar_user_header" rows="2">{{ prompt_settings.calendar_user_header }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="fitness-system">Fitness · system</label>
+      <textarea id="fitness-system" name="fitness_system" rows="3">{{ prompt_settings.fitness_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="fitness-header">Fitness · user header</label>
+      <textarea id="fitness-header" name="fitness_user_header" rows="2">{{ prompt_settings.fitness_user_header }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="work-system">Work · system</label>
+      <textarea id="work-system" name="work_system" rows="3">{{ prompt_settings.work_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="work-header">Work · user header</label>
+      <textarea id="work-header" name="work_user_header" rows="2">{{ prompt_settings.work_user_header }}</textarea>
     </div>
     <div class="actions">
       <button type="submit">Save prompts</button>

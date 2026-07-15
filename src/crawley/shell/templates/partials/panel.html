@@ -31,17 +31,31 @@
         <label for="inv-query">Search query</label>
         <input id="inv-query" name="query" type="text" value="{{ panel.default_query }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
       </div>
+      <div class="field-inline">
+        <label>
+          <input type="checkbox" name="use_cache" value="on" {% if panel.use_cache_default %}checked{% endif %} {% if panel.job.status == 'busy' %}disabled{% endif %}>
+          Use cached feed when fresh (1h)
+        </label>
+      </div>
       <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
         {% if panel.job.status == 'busy' %}Running…{% else %}Run search{% endif %}
       </button>
     </form>
-    <p class="muted">Bounded to {{ panel.max_items }} news sources · artifacts under <code>data/investment/</code></p>
+    <p class="muted">Bounded to {{ panel.max_items }} news sources · no trading · artifacts under <code>data/investment/</code></p>
     <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
     {% if panel.job.summary %}
     <div class="summary">
       <h2>Summary</h2>
       <div class="summary-body">{{ panel.summary_html }}</div>
     </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.source_titles %}
+    <h2>Sources this run</h2>
+    <ul class="src-list">
+      {% for title in panel.job.details.source_titles %}
+      <li><strong>{{ title }}</strong></li>
+      {% endfor %}
+    </ul>
     {% endif %}
     {% if panel.job.details and panel.job.details.prompt_system %}
     <details class="prompt-viewer">
@@ -74,15 +88,21 @@
   >
     {% if not panel.auth.client_ok %}
     <p class="job job-error">{{ panel.auth.error }}</p>
-    <p class="muted">Create OAuth Desktop credentials in Google Cloud, enable Gmail API, then set <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> in <code>.env</code>.</p>
-    {% elif not panel.auth.connected %}
-    <p class="muted">Not connected. Tokens will be stored at <code>{{ panel.auth.token_path }}</code> (gitignored).</p>
-    <p><a class="btn" href="/modules/gmail/oauth/start">Connect Gmail (read-only)</a></p>
+    <p class="muted">Create OAuth Desktop credentials in Google Cloud, enable <strong>Gmail API</strong> and <strong>Google Calendar API</strong>, then set <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> in <code>.env</code>.</p>
+    {% elif not panel.auth.connected or panel.auth.needs_reconsent %}
+    <p class="muted">{% if panel.auth.error %}{{ panel.auth.error }}{% else %}Not connected.{% endif %} Tokens: <code>{{ panel.auth.token_path }}</code> (gitignored).</p>
+    <p><a class="btn" href="/modules/gmail/oauth/start">Connect Google (Gmail + Calendar read-only)</a></p>
     {% else %}
-    <p class="job job-done">Gmail connected (read-only).</p>
+    <p class="job job-done">Google connected (Gmail read-only).</p>
     <form hx-post="/modules/gmail/run" hx-target="#panel-root" hx-swap="innerHTML">
       <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
         {% if panel.job.status == 'busy' %}Scanning…{% else %}Scan inbox (max {{ panel.max_messages }}){% endif %}
+      </button>
+    </form>
+    <form class="run-form" hx-post="/modules/gmail/write-back/dry-run" hx-target="#panel-root" hx-swap="innerHTML">
+      <input type="hidden" name="action" value="draft_reply">
+      <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        Write-back dry-run (no send)
       </button>
     </form>
     {% endif %}
@@ -97,6 +117,154 @@
     <details class="prompt-viewer">
       <summary>Last prompt sent to the LLM</summary>
       <p class="muted">Editable templates live in <a href="/settings#prompts">Settings → Summary prompts</a>.</p>
+      <h3>System</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
+      <h3>User</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
+    </details>
+    {% endif %}
+  </div>
+  {% elif module.meta.id == 'calendar' %}
+  <div
+    class="panel"
+    {% if panel.job.status == 'busy' %}
+    hx-get="/modules/calendar/status"
+    hx-trigger="every 1s"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    {% endif %}
+  >
+    {% if not panel.auth.client_ok %}
+    <p class="job job-error">{{ panel.auth.error }}</p>
+    <p class="muted">Same Google OAuth as Gmail. Enable Calendar API and reconnect if needed.</p>
+    {% elif not panel.auth.connected or panel.auth.needs_reconsent %}
+    <p class="muted">{% if panel.auth.error %}{{ panel.auth.error }}{% else %}Calendar scope missing.{% endif %} Tokens: <code>{{ panel.auth.token_path }}</code>.</p>
+    <p><a class="btn" href="/modules/gmail/oauth/start">Connect Google (read-only)</a></p>
+    {% else %}
+    <p class="job job-done">Google connected (Calendar read-only).</p>
+    <form hx-post="/modules/calendar/run" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        {% if panel.job.status == 'busy' %}Loading…{% else %}Skim next {{ panel.lookahead_days }} days (max {{ panel.max_events }}){% endif %}
+      </button>
+    </form>
+    <form class="run-form" hx-post="/modules/calendar/write-back/dry-run" hx-target="#panel-root" hx-swap="innerHTML">
+      <input type="hidden" name="action" value="insert_event">
+      <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        Write-back dry-run (no insert)
+      </button>
+    </form>
+    {% endif %}
+    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Calendar summary</h2>
+      <div class="summary-body">{{ panel.summary_html }}</div>
+    </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.prompt_system %}
+    <details class="prompt-viewer">
+      <summary>Last prompt sent to the LLM</summary>
+      <h3>System</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
+      <h3>User</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
+    </details>
+    {% endif %}
+  </div>
+  {% elif module.meta.id == 'fitness' %}
+  <div
+    class="panel"
+    {% if panel.job.status == 'busy' %}
+    hx-get="/modules/fitness/status"
+    hx-trigger="every 1s"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    {% endif %}
+  >
+    <p class="job job-error">{{ panel.disclaimer }}</p>
+    <form
+      class="run-form"
+      hx-post="/modules/fitness/run"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <div>
+        <label for="fit-goal">Goal / context</label>
+        <textarea id="fit-goal" name="goal" rows="3" {% if panel.job.status == 'busy' %}disabled{% endif %}>{{ panel.default_goal }}</textarea>
+      </div>
+      <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        {% if panel.job.status == 'busy' %}Drafting…{% else %}Draft plan{% endif %}
+      </button>
+    </form>
+    <p class="muted">Personal planning only · no wearables required this sprint.</p>
+    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Plan</h2>
+      <div class="summary-body">{{ panel.summary_html }}</div>
+    </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.prompt_system %}
+    <details class="prompt-viewer">
+      <summary>Last prompt sent to the LLM</summary>
+      <h3>System</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
+      <h3>User</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
+    </details>
+    {% endif %}
+  </div>
+  {% elif module.meta.id == 'work' %}
+  <div
+    class="panel"
+    {% if panel.job.status == 'busy' %}
+    hx-get="/modules/work/status"
+    hx-trigger="every 1s"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    {% endif %}
+  >
+    <p class="muted">Local notes only (stored at <code>{{ panel.notes_path }}</code>). No work-suite OAuth.</p>
+    <form class="run-form">
+      <div>
+        <label for="work-notes">This week’s notes / tasks</label>
+        <textarea id="work-notes" name="notes" rows="8" {% if panel.job.status == 'busy' %}disabled{% endif %}>{{ panel.notes }}</textarea>
+      </div>
+      <div class="actions">
+        <button
+          type="submit"
+          formaction="/modules/work/save"
+          formmethod="post"
+          hx-post="/modules/work/save"
+          hx-target="#panel-root"
+          hx-swap="innerHTML"
+          hx-include="#work-notes"
+          {% if panel.job.status == 'busy' %}disabled{% endif %}
+        >Save notes</button>
+        <button
+          type="submit"
+          formaction="/modules/work/run"
+          formmethod="post"
+          hx-post="/modules/work/run"
+          hx-target="#panel-root"
+          hx-swap="innerHTML"
+          hx-include="#work-notes"
+          {% if panel.job.status == 'busy' %}disabled{% endif %}
+        >
+          {% if panel.job.status == 'busy' %}Prioritizing…{% else %}Prioritize{% endif %}
+        </button>
+      </div>
+    </form>
+    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Priorities</h2>
+      <div class="summary-body">{{ panel.summary_html }}</div>
+    </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.prompt_system %}
+    <details class="prompt-viewer">
+      <summary>Last prompt sent to the LLM</summary>
       <h3>System</h3>
       <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
       <h3>User</h3>

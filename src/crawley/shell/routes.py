@@ -5,26 +5,33 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
+import os
 
 from fastapi import APIRouter, Form, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from crawley.bind import host_exposes_lan, resolve_bind_host, resolve_bind_port
 from crawley.data.snapshots import get_snapshot
+from crawley.google_oauth import authorization_url, finish_oauth, google_auth_status
 from crawley.jobs import JobState
 from crawley.llm.factory import llm_status, test_llm_connection
 from crawley.llm.models_catalog import ensure_model_in_options, list_openai_models
 from crawley.markdown_render import render_markdown
+from crawley.modules.calendar import CalendarModule
 from crawley.modules.contract import Module
-from crawley.modules.gmail import GmailModule, authorization_url, finish_oauth
+from crawley.modules.fitness import FitnessModule
+from crawley.modules.gmail import GmailModule
 from crawley.modules.investment import InvestmentModule
 from crawley.modules.registry import nav_modules
+from crawley.modules.work import WorkModule
 from crawley.settings import (
     THEME_COOKIE,
     THEME_IDS,
     load_settings,
     resolve_theme,
     update_llm_settings,
+    update_network_settings,
     update_prompt_settings,
     update_theme_setting,
 )
@@ -108,12 +115,16 @@ def _settings_context(
     save_notice: str | None = None,
     test_result: dict | None = None,
     prompts_notice: str | None = None,
+    network_notice: str | None = None,
     refresh_models: bool = False,
 ) -> dict[str, Any]:
     registry: dict[str, Module] = request.app.state.registry
     settings = load_settings()
     catalog = list_openai_models(force_refresh=refresh_models)
     models = ensure_model_in_options(settings.llm.model, list(catalog["models"]))  # type: ignore[arg-type]
+    bind_host = resolve_bind_host(lan_enabled=settings.network.lan_enabled)
+    # Reflect what the *running* process would use after restart vs env override
+    env_host = os.environ.get("CRAWLEY_HOST", "").strip()
     ctx = _base_context(request, registry)
     ctx.update(
         {
@@ -121,9 +132,15 @@ def _settings_context(
             "themes": THEME_META,
             "llm_settings": settings.llm,
             "prompt_settings": settings.prompts,
+            "network_settings": settings.network,
+            "bind_host": bind_host,
+            "bind_port": resolve_bind_port(),
+            "bind_exposes_lan": host_exposes_lan(bind_host),
+            "env_host_override": env_host or None,
             "has_stored_key": bool(settings.llm.api_key),
             "save_notice": save_notice,
             "prompts_notice": prompts_notice,
+            "network_notice": network_notice,
             "test_result": test_result,
             "model_options": models,
             "models_error": catalog.get("error"),
@@ -152,16 +169,32 @@ def dashboard(request: Request) -> HTMLResponse:
 
     inv = get_snapshot("investment")
     gmail = get_snapshot("gmail")
-    gmail_module = registry.get("gmail")
-    auth = gmail_module.auth_status() if isinstance(gmail_module, GmailModule) else {}
+    calendar = get_snapshot("calendar")
+    fitness = get_snapshot("fitness")
+    work = get_snapshot("work")
+    auth = google_auth_status()
+    settings = load_settings()
+    bind_host = resolve_bind_host(lan_enabled=settings.network.lan_enabled)
+
+    def md(snap):
+        return render_markdown(snap.summary_md) if snap else None
 
     ctx.update(
         {
             "investment_snapshot": inv,
-            "investment_html": render_markdown(inv.summary_md) if inv else None,
+            "investment_html": md(inv),
             "gmail_snapshot": gmail,
-            "gmail_html": render_markdown(gmail.summary_md) if gmail else None,
+            "gmail_html": md(gmail),
+            "calendar_snapshot": calendar,
+            "calendar_html": md(calendar),
+            "fitness_snapshot": fitness,
+            "fitness_html": md(fitness),
+            "work_snapshot": work,
+            "work_html": md(work),
+            "google_auth": auth,
             "gmail_auth": auth,
+            "lan_enabled": settings.network.lan_enabled,
+            "bind_exposes_lan": host_exposes_lan(bind_host),
             "error": None,
         }
     )
@@ -218,6 +251,24 @@ def settings_models_refresh(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(request, "settings.html", ctx)
 
 
+@router.post("/settings/network", response_class=HTMLResponse)
+def settings_network_save(
+    request: Request,
+    lan_enabled: str | None = Form(None),
+) -> HTMLResponse:
+    update_network_settings(lan_enabled=lan_enabled == "on")
+    ctx = _settings_context(
+        request,
+        network_notice=(
+            "Network preference saved. Restart Crawley for the bind address to change. "
+            "Trusted LAN only — there is no login gate."
+        ),
+    )
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
 @router.post("/settings/prompts", response_class=HTMLResponse)
 def settings_prompts_save(
     request: Request,
@@ -225,16 +276,28 @@ def settings_prompts_save(
     investment_user_footer: str = Form(""),
     gmail_system: str = Form(""),
     gmail_user_header: str = Form(""),
+    calendar_system: str = Form(""),
+    calendar_user_header: str = Form(""),
+    fitness_system: str = Form(""),
+    fitness_user_header: str = Form(""),
+    work_system: str = Form(""),
+    work_user_header: str = Form(""),
 ) -> HTMLResponse:
     update_prompt_settings(
         investment_system=investment_system,
         investment_user_footer=investment_user_footer,
         gmail_system=gmail_system,
         gmail_user_header=gmail_user_header,
+        calendar_system=calendar_system,
+        calendar_user_header=calendar_user_header,
+        fitness_system=fitness_system,
+        fitness_user_header=fitness_user_header,
+        work_system=work_system,
+        work_user_header=work_user_header,
     )
     ctx = _settings_context(
         request,
-        prompts_notice="Prompts saved. The next Investment / Gmail run will use them.",
+        prompts_notice="Prompts saved. The next module run will use them.",
     )
     if request.headers.get("hx-request") == "true":
         return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
@@ -263,11 +326,15 @@ def module_panel(request: Request, module_id: str) -> HTMLResponse:
 
 
 @router.post("/modules/investment/run", response_class=HTMLResponse)
-def investment_run(request: Request, query: str = Form("US stock market outlook")) -> HTMLResponse:
+def investment_run(
+    request: Request,
+    query: str = Form("US stock market outlook"),
+    use_cache: str | None = Form(None),
+) -> HTMLResponse:
     registry: dict[str, Module] = request.app.state.registry
     module = registry["investment"]
     assert isinstance(module, InvestmentModule)
-    result = module.run({"query": query})
+    result = module.run({"query": query, "use_cache": use_cache == "on"})
     if result.error and module.job.status != "busy":
         module.job.status = "error"
         module.job.message = result.error
@@ -297,6 +364,95 @@ def gmail_status(request: Request) -> HTMLResponse:
     return _module_response(request, module)
 
 
+@router.post("/modules/calendar/run", response_class=HTMLResponse)
+def calendar_run(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["calendar"]
+    assert isinstance(module, CalendarModule)
+    result = module.run({})
+    if result.error and module.job.status != "busy":
+        module.job.status = "error"
+        module.job.message = result.error
+    return _module_response(request, module)
+
+
+@router.get("/modules/calendar/status", response_class=HTMLResponse)
+def calendar_status(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["calendar"]
+    return _module_response(request, module)
+
+
+@router.post("/modules/fitness/run", response_class=HTMLResponse)
+def fitness_run(
+    request: Request,
+    goal: str = Form(""),
+) -> HTMLResponse:
+    module = request.app.state.registry["fitness"]
+    assert isinstance(module, FitnessModule)
+    result = module.run({"goal": goal})
+    if result.error and module.job.status != "busy":
+        module.job.status = "error"
+        module.job.message = result.error
+    return _module_response(request, module)
+
+
+@router.get("/modules/fitness/status", response_class=HTMLResponse)
+def fitness_status(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["fitness"]
+    return _module_response(request, module)
+
+
+@router.post("/modules/work/save", response_class=HTMLResponse)
+def work_save(request: Request, notes: str = Form("")) -> HTMLResponse:
+    module = request.app.state.registry["work"]
+    assert isinstance(module, WorkModule)
+    result = module.save_only(notes)
+    if result.error:
+        module.job.status = "error"
+        module.job.message = result.error
+    return _module_response(request, module)
+
+
+@router.post("/modules/work/run", response_class=HTMLResponse)
+def work_run(request: Request, notes: str = Form("")) -> HTMLResponse:
+    module = request.app.state.registry["work"]
+    assert isinstance(module, WorkModule)
+    result = module.run({"notes": notes})
+    if result.error and module.job.status != "busy":
+        module.job.status = "error"
+        module.job.message = result.error
+    return _module_response(request, module)
+
+
+@router.get("/modules/work/status", response_class=HTMLResponse)
+def work_status(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["work"]
+    return _module_response(request, module)
+
+
+@router.post("/modules/{module_id}/write-back/dry-run", response_class=HTMLResponse)
+def module_write_back_dry_run(
+    request: Request,
+    module_id: str,
+    action: str = Form("preview"),
+) -> HTMLResponse:
+    """Exercise ADR-006 dry-run hook (no remote mutation)."""
+    registry: dict[str, Module] = request.app.state.registry
+    module = registry.get(module_id)
+    if module is None:
+        return HTMLResponse("Unknown module", status_code=404)
+    result = module.write_back({"action": action, "source": "settings_or_panel"})
+    if isinstance(module, (GmailModule, CalendarModule)) and hasattr(module, "job"):
+        if result.error:
+            module.job = JobState(status="error", message=result.error)
+        else:
+            module.job = JobState(
+                status="idle",
+                message=result.summary or "Dry-run recorded.",
+                details=result.details,
+            )
+    return _module_response(request, module)
+
+
 @router.get("/modules/gmail/oauth/start")
 def gmail_oauth_start(request: Request) -> RedirectResponse:
     module = request.app.state.registry["gmail"]
@@ -314,12 +470,26 @@ def gmail_oauth_start(request: Request) -> RedirectResponse:
 def gmail_oauth_callback(request: Request) -> RedirectResponse:
     module = request.app.state.registry["gmail"]
     assert isinstance(module, GmailModule)
+    calendar = request.app.state.registry.get("calendar")
     try:
         finish_oauth(_base_url(request), str(request.url))
+        msg = (
+            "Google connected (Gmail + Calendar read-only). "
+            "You can skim inbox or upcoming events."
+        )
         module.job.status = "idle"
-        module.job.message = "Gmail connected (read-only). You can run an inbox skim."
+        module.job.message = msg
         module.job.summary = ""
+        if isinstance(calendar, CalendarModule):
+            calendar.job.status = "idle"
+            calendar.job.message = msg
+            calendar.job.summary = ""
+        # Optional ?next= module redirect
+        next_path = request.query_params.get("next") or "/modules/gmail"
+        if next_path not in {"/modules/gmail", "/modules/calendar"}:
+            next_path = "/modules/gmail"
+        return RedirectResponse(next_path, status_code=303)
     except Exception as exc:  # noqa: BLE001
         module.job.status = "error"
         module.job.message = f"OAuth failed: {exc}"
-    return RedirectResponse("/modules/gmail", status_code=303)
+        return RedirectResponse("/modules/gmail", status_code=303)
