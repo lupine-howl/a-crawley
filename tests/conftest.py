@@ -15,8 +15,10 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     monkeypatch.setenv("OPENAI_API_KEY", "")
     import crawley.data.duck as duck
     import crawley.data.paths as paths
+    import crawley.data.snapshots as snapshots
     import crawley.modules.gmail as gmail_mod
     import crawley.modules.investment_fetch as inv_fetch
+    import crawley.settings as settings
 
     data = tmp_path / "data"
     monkeypatch.setattr(paths, "DATA_DIR", data)
@@ -32,6 +34,10 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     monkeypatch.setattr(
         gmail_mod, "PENDING_OAUTH_PATH", data / "secrets" / "gmail_oauth_pending.json"
     )
+    monkeypatch.setattr(settings, "SECRETS_DIR", data / "secrets")
+    monkeypatch.setattr(settings, "SETTINGS_PATH", data / "secrets" / "settings.json")
+    monkeypatch.setattr(snapshots, "DATA_DIR", data)
+    monkeypatch.setattr(snapshots, "SNAPSHOTS_PATH", data / "snapshots.json")
 
     ensure_data_dirs()
     init_schema()

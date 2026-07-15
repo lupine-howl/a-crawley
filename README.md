@@ -12,12 +12,14 @@ Requires [uv](https://docs.astral.sh/uv/) (installs/uses Python 3.12+ for you �
 # From the repo root
 uv sync
 cp .env.example .env
-# Set OPENAI_API_KEY for Investment / Gmail summaries
+# Set OPENAI_API_KEY for Investment / Gmail summaries (or configure in Settings after start)
 # Set GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET for Gmail (Desktop OAuth app; Gmail API enabled)
 uv run python -m crawley
 ```
 
 Open http://127.0.0.1:8000 in your browser.
+
+**Settings:** Theme (Paper / Slate / Ink / Moss) and LLM provider/model/key live under **Settings**. Theme applies immediately (cookie). Saved LLM settings are stored in `data/secrets/settings.json` and **override** `.env` when a key is saved there; leave the key blank to keep the stored/env value. Changes apply on the next request (no restart). Use **Test connection** to verify the provider.
 
 Secrets stay local:
 
@@ -51,7 +53,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 - **Sprint 0** — bootstrap (archived): [`docs/sprints/archive/sprint-0-bootstrap.md`](./docs/sprints/archive/sprint-0-bootstrap.md)
 - **Sprint 1** — local shell + lite Investment & Gmail (closed): [`docs/sprints/archive/sprint-1-local-shell.md`](./docs/sprints/archive/sprint-1-local-shell.md)
-- **Sprint 2** — themes & LLM settings (active): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprint 2** — themes, LLM settings, Markdown, home glance (active): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 3–5** — planned: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
 
 ## Bootstrap sequence (complete)
 

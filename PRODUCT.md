@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; Sprint 1 PoC closed; Sprint 2 planned (themes, LLM settings, MD summaries, home glance)
+**Status:** Brief confirmed; Sprint 2 in delivery; Sprints 3–5 planned (Calendar/Google → Investment/Fitness → LAN/Work/write-back design)
 
 ## Problem
 

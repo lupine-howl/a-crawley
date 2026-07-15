@@ -40,8 +40,18 @@
     {% if panel.job.summary %}
     <div class="summary">
       <h2>Summary</h2>
-      <pre>{{ panel.job.summary }}</pre>
+      <div class="summary-body">{{ panel.summary_html }}</div>
     </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.prompt_system %}
+    <details class="prompt-viewer">
+      <summary>Last prompt sent to the LLM</summary>
+      <p class="muted">Editable templates live in <a href="/settings#prompts">Settings → Summary prompts</a>.</p>
+      <h3>System</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
+      <h3>User</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
+    </details>
     {% endif %}
     {% if panel.recent %}
     <h2>Recent sources</h2>
@@ -80,8 +90,18 @@
     {% if panel.job.summary %}
     <div class="summary">
       <h2>Inbox summary</h2>
-      <pre>{{ panel.job.summary }}</pre>
+      <div class="summary-body">{{ panel.summary_html }}</div>
     </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.prompt_system %}
+    <details class="prompt-viewer">
+      <summary>Last prompt sent to the LLM</summary>
+      <p class="muted">Editable templates live in <a href="/settings#prompts">Settings → Summary prompts</a>.</p>
+      <h3>System</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
+      <h3>User</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
+    </details>
     {% endif %}
   </div>
   {% else %}

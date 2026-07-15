@@ -69,7 +69,12 @@ Implement Sprint 2 stories **in order** (S2.1 → S2.2 → S2.3 → S2.4) unless
 | Language | Python 3.12+ | Hard requirement for core, modules, crawl, analysis, LLM calls |
 | Packaging / run | `uv` | `uv run python -m crawley` (or equivalent entrypoint) |
 | HTTP / UI | FastAPI + Jinja2 + HTMX | Server-rendered local browser UI; optional native wrapper Later |
-| UI styling | Custom CSS variables in shell templates | Sprint 1 baseline; Sprint 2 adds themes (B7). No Node/Tailwind CDN in tree today |
+| UI styling | Custom CSS variables + `data-theme` | Four themes (`paper`/`slate`/`ink`/`moss`); no Node/Tailwind build |
+| Operator settings | `data/secrets/settings.json` | Theme + LLM provider/model/key; gitignored |
+| Theme persistence | Cookie `crawley_theme` + settings file | Cookie wins for immediate apply / first paint |
+| LLM config precedence | Settings key overrides `.env` when set | Blank Settings key keeps `OPENAI_API_KEY`; hot-reload per request |
+| Markdown | `markdown-it-py` + `bleach` | Safe subset for summaries / home glance |
+| Snapshots | `data/snapshots.json` | Last successful Investment/Gmail summaries for home |
 | Process | Single process | Uvicorn hosts the app; I/O concurrency via threads |
 | Crawl / fetch | `ThreadPoolExecutor` (or equivalent) | Multi-thread for I/O-bound work; no separate worker service in Sprint 1 |
 | Analytical store | DuckDB | Local file DB under `data/`; sorting, joins, ML feature pulls |
@@ -157,8 +162,8 @@ Use `docs/adr/` for full write-ups when a choice has lasting impact. Summarize h
 | **DuckDB + threads** | Write lock in data helpers; keep ownership rules clear as modules grow. |
 | **Nav density** | Nine top-tier stubs may feel crowded; shortening labels is OK without dropping registry entries. |
 | **Calendar / shared Google auth** | Real Calendar read may later share OAuth with Gmail; do not request Calendar scopes until B6/B10 commit them. |
-| **Theme persistence** | Sprint 2 must pick cookie / localStorage / local config and document it (S2.1). |
-| **LLM settings vs `.env`** | Clarify precedence when both dashboard settings and env exist (S2.2). |
+| **Theme persistence** | Cookie `crawley_theme` + `settings.json` (documented). |
+| **LLM settings vs `.env`** | Settings API key overrides env when non-empty; blank Keep/env fallback; hot-reload per request. |
 | **HTMX UX ceiling** | Fine for Now; SPA migration Later if needed — not a second UI stack. |
 | **Write-back** | Contract reserves hooks; no write scopes or mutations until a later sprint commits them. |
 | **LAN / phone access** | Out of Now; if enabled later, bind/auth defaults must stay intrusion-minded. |

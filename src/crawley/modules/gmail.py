@@ -22,6 +22,8 @@ from crawley.jobs import JobState
 from crawley.llm.base import ChatMessage, LLMError
 from crawley.llm.factory import get_llm_provider
 from crawley.modules.contract import Module, ModuleKind, ModuleMeta, ModuleOutput
+from crawley.prompts import build_gmail_user_message
+from crawley.settings import load_settings
 
 logger = logging.getLogger(__name__)
 
@@ -318,20 +320,17 @@ class GmailModule(Module):
             lines = [
                 f"- From {r['from']}: {r['subject']} — {r['snippet'][:200]}" for r in rows
             ]
+            prompts = load_settings().prompts
+            system = prompts.gmail_system
+            user = build_gmail_user_message(
+                header=prompts.gmail_user_header,
+                inbox_lines=lines,
+            )
             provider = get_llm_provider()
             result = provider.complete(
                 [
-                    ChatMessage(
-                        role="system",
-                        content=(
-                            "Summarize a skim of the user's recent inbox into a short "
-                            "digest they can act on manually. No send/reply. Under 200 words."
-                        ),
-                    ),
-                    ChatMessage(
-                        role="user",
-                        content="Recent inbox (bounded):\n" + "\n".join(lines),
-                    ),
+                    ChatMessage(role="system", content=system),
+                    ChatMessage(role="user", content=user),
                 ],
                 max_tokens=350,
             )
@@ -339,8 +338,19 @@ class GmailModule(Module):
                 status="done",
                 message=f"Done — skimmed {len(rows)} messages.",
                 summary=result.content,
-                details={"count": len(rows), "model": result.model},
+                details={
+                    "count": len(rows),
+                    "model": result.model,
+                    "prompt_system": system,
+                    "prompt_user": user,
+                },
             )
+            try:
+                from crawley.data.snapshots import save_snapshot
+
+                save_snapshot("gmail", result.content)
+            except Exception:  # noqa: BLE001
+                logger.exception("Failed to persist gmail snapshot")
         except HttpError as exc:
             self.job = JobState(
                 status="error",

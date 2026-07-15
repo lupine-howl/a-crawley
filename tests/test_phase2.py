@@ -41,7 +41,7 @@ def test_openai_missing_key(monkeypatch: pytest.MonkeyPatch) -> None:
         OpenAIProvider(api_key="")
     status = llm_status()
     assert status["ok"] is False
-    assert "missing" in str(status["message"]).lower()
+    assert "api key" in str(status["message"]).lower() or "missing" in str(status["message"]).lower()
 
 
 def test_local_llama_placeholder() -> None:
