@@ -20,8 +20,7 @@ class OpenAIProvider(LLMProvider):
         key = (api_key if api_key is not None else os.environ.get("OPENAI_API_KEY", "")).strip()
         if not key:
             raise LLMError(
-                "OpenAI API key is missing. Set OPENAI_API_KEY in your .env file "
-                "(see .env.example)."
+                "OpenAI API key is missing. Add one in Settings or set OPENAI_API_KEY in .env."
             )
         self._client = OpenAI(api_key=key)
         self._model = model or os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
@@ -41,7 +40,7 @@ class OpenAIProvider(LLMProvider):
             )
         except AuthenticationError as exc:
             raise LLMError(
-                "OpenAI API key is invalid or revoked. Check OPENAI_API_KEY in .env."
+                "OpenAI API key is invalid or revoked. Check the key in Settings or .env."
             ) from exc
         except APIError as exc:
             raise LLMError(f"OpenAI API error: {exc.message or exc}") from exc

@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprint 1 closed 2026-07-15; Sprint 2 active (B7, B8, B13, B14)
+**Status:** Sprint 2 active; Sprints 3–5 planned under `docs/sprints/planned/`
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -137,28 +137,32 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 ---
 
-### B6 — Calendar module (stub in Sprint 1; real read Later/Next)
+### B6 — Calendar module (read-only lite)
 
 | Field | Value |
 |-------|-------|
 | Status | ready |
 | Priority | P1 |
-| Roadmap theme | Now (stub done) / Next (real) |
-| Depends on | B2 |
+| Roadmap theme | Next |
+| Depends on | B2, B15 |
+| Planned sprint | 3 |
 
-**Goal:** Calendar appears as a first-class nav entry; Sprint 1 is Coming soon (or stub). Real read-only Calendar summary is a follow-on.
+**Goal:** Calendar is a live module: bounded upcoming events → Markdown summary via shared Google read-only OAuth.
 
-**Acceptance criteria (Sprint 1):**
+**Acceptance criteria (Sprint 1 stub — done):**
 
 - [x] Calendar nav entry opens Coming soon / stub panel
 
-**Acceptance criteria (later — not Sprint 1):**
+**Acceptance criteria (Sprint 3):**
 
-- [ ] Read-only Calendar fetch + skim/summary (may share Google OAuth with Gmail)
+- [ ] Read-only Calendar fetch for a bounded upcoming window
+- [ ] LLM Markdown summary; job busy/done/error; empty state honest
+- [ ] Success snapshot for home glance
+- [ ] Clear errors for missing Calendar scope / auth failure
 
-**Out of scope (Sprint 1):**
+**Out of scope:**
 
-- Real Calendar API calls
+- Write-back, full sync, multi-calendar UX complexity
 
 ---
 
@@ -270,58 +274,76 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | idea |
+| Status | ready |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B4 |
+| Planned sprint | 4 |
 
-**Goal:** Richer sources, clearer advice presentation, better caching/error handling after lite PoC proves the path.
+**Goal:** Richer bounded sources, cache, clearer advice Markdown, better errors — still manual action only.
 
 **Acceptance criteria:**
 
-- [ ] TBD in a later planning pass
+- [ ] Cache/reuse fetch artifacts for identical (or TTL) re-runs
+- [ ] Bounded richer source metadata; hard caps preserved
+- [ ] Improved advice Markdown structure; source list + summary in panel
+- [ ] Clearer network/parse/LLM/empty error handling
+- [ ] No trading/order affordances
 
 **Out of scope:**
 
-- Automated trading
+- Automated trading, brokerage APIs, portfolio accounting product
 
 ---
 
-### B10 — Harden Gmail + add Calendar read summary
+### B10 — Harden Gmail (read-only)
 
 | Field | Value |
 |-------|-------|
-| Status | idea |
+| Status | ready |
 | Priority | P1 |
 | Roadmap theme | Next |
-| Depends on | B5, B6 |
+| Depends on | B5, B15 |
+| Planned sprint | 3 |
 
-**Goal:** Deeper mail summary quality; Calendar read-only summary beside Gmail.
+**Goal:** Better Gmail skim quality and auth/error UX on shared Google credentials (Calendar is B6).
 
 **Acceptance criteria:**
 
-- [ ] TBD in a later planning pass
+- [ ] Clearer Markdown summary structure (priorities / follow-ups)
+- [ ] Better auth expiry, quota, and empty-inbox handling
+- [ ] Still bounded; uses shared Google OAuth from B15
+- [ ] No write-back
 
 **Out of scope:**
 
-- Write-back
+- Send/labels mutation, full-history sync, multi-account
 
 ---
 
-### B11 — Fitness beyond stub
+### B11 — Fitness beyond stub (lite)
 
 | Field | Value |
 |-------|-------|
-| Status | idea |
-| Priority | P2 |
+| Status | ready |
+| Priority | P1 |
 | Roadmap theme | Next |
-| Depends on | B2 |
+| Depends on | B2, B13 |
+| Planned sprint | 4 |
 
-**Goal:** Fitness module that does more than Coming soon (goals breakdown / source TBD).
+**Goal:** Fitness lite: goal/context in → LLM introductory plan Markdown out; not medical care.
 
 **Acceptance criteria:**
 
-- [ ] TBD
+- [ ] Fitness leaves Coming soon; form for goal/context
+- [ ] LLM Markdown breakdown; disclaimer not medical advice
+- [ ] Job status + snapshot for home
+- [ ] No wearable API required
+
+**Out of scope:**
+
+- Diagnosis, prescriptions, regulated health product claims
+- Mandatory device integrations
 
 ---
 
@@ -329,17 +351,123 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | idea |
-| Priority | P2 |
+| Status | ready |
+| Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B1 |
+| Planned sprint | 5 |
 
-**Goal:** Same browser UI reachable on LAN only when consciously enabled; intrusion-minded defaults.
+**Goal:** Same browser UI on LAN only when consciously enabled; localhost default.
 
 **Acceptance criteria:**
 
-- [ ] TBD
+- [ ] Default bind localhost; explicit LAN enable with warning
+- [ ] Documented WSL/firewall test path; disable returns to localhost
+- [ ] Auth posture decided and documented (minimal gate **or** trusted-LAN-only)
+- [ ] Settings and/or env control
+
+**Out of scope:**
+
+- Public internet exposure, reverse proxies as product feature
 
 ---
 
-<!-- Add new items above this line, highest priority first. Keep sprint detail in docs/sprints/current.md -->
+### B15 — Shared Google OAuth (Gmail + Calendar read-only)
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next |
+| Depends on | B5 |
+| Planned sprint | 3 |
+
+**Goal:** One Google identity; Gmail + Calendar readonly scopes; reconsent if upgrading from Gmail-only.
+
+**Acceptance criteria:**
+
+- [ ] Installed-app OAuth with both readonly scopes
+- [ ] Local tokens; upgrade/reconsent path
+- [ ] Connected/reconnect surfaced in UI minimally
+- [ ] No write scopes
+
+**Out of scope:**
+
+- Multi-account Google, Workspace admin features
+
+---
+
+### B16 — Home glance: additional module slots
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Next |
+| Depends on | B14 |
+| Planned sprint | 4 |
+
+**Goal:** Extend At a glance as modules go live (Fitness required in Sprint 4; Calendar expected from Sprint 3 store).
+
+**Acceptance criteria:**
+
+- [ ] Home shows last Fitness snapshot when present
+- [ ] Keeps prior module snapshots; still one composition / truncate long bodies
+- [ ] Participating modules listed in architecture.md
+
+**Out of scope:**
+
+- Full history browser
+
+---
+
+### B17 — Work module lite
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next |
+| Depends on | B2, B13 |
+| Planned sprint | 5 |
+
+**Goal:** Work domain live: local tasks/notes → LLM prioritization Markdown.
+
+**Acceptance criteria:**
+
+- [ ] Work leaves Coming soon; local task/note capture
+- [ ] Run → Markdown next-actions / prioritization
+- [ ] Snapshot on home; no third-party OAuth required
+
+**Out of scope:**
+
+- Jira/Linear/Google Tasks sync (Later candidates)
+
+---
+
+### B18 — Write-back design (ADR + dry-run hooks)
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next |
+| Depends on | B2, B6, B5 |
+| Planned sprint | 5 |
+
+**Goal:** Lock how write-back will work before implementing mutations.
+
+**Acceptance criteria:**
+
+- [ ] ADR: confirm-before-write, draft-first, audit locally
+- [ ] Contract hooks documented; dry-run/no-op only in app
+- [ ] Architecture stages: propose → confirm → execute
+- [ ] No live Gmail send / Calendar insert
+
+**Out of scope:**
+
+- Actual write API calls
+
+---
+
+<!-- Add new items above this line. Planned sprints: docs/sprints/planned/ -->

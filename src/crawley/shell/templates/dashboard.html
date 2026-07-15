@@ -1,9 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Crawley{% endblock %}
 {% block content %}
-  <h1>Dashboard</h1>
-  <p class="muted">Pick a module from the left. Investment and Gmail are live shells; everything else is Coming soon until later sprints.</p>
+  <h1>At a glance</h1>
+  <p class="muted">Last successful runs and system readiness. Open a module for the full panel.</p>
+
   {% if error %}
   <div class="panel"><p class="coming">{{ error }}</p></div>
+  {% else %}
+  <div class="glance-status">
+    {% if llm.ok %}
+    <a class="chip ok" href="/settings#llm">LLM · {{ llm.provider }} ready</a>
+    {% else %}
+    <a class="chip bad" href="/settings#llm">LLM · needs setup</a>
+    {% endif %}
+    {% if gmail_auth.client_ok and gmail_auth.connected %}
+    <a class="chip ok" href="/modules/gmail">Gmail · connected</a>
+    {% elif gmail_auth.client_ok %}
+    <a class="chip bad" href="/modules/gmail">Gmail · not connected</a>
+    {% else %}
+    <a class="chip bad" href="/modules/gmail">Gmail · needs setup</a>
+    {% endif %}
+    <span class="chip">Theme · {{ theme_label }}</span>
+  </div>
+
+  <div class="glance-grid">
+    <section class="panel panel-tight glance-card">
+      <h2 class="section-title">Last Investment</h2>
+      {% if investment_snapshot %}
+      <p class="muted">{{ investment_snapshot.updated_at }}</p>
+      <div class="summary-body">{{ investment_html }}</div>
+      <p><a class="btn secondary" href="/modules/investment">Open Investment</a></p>
+      {% else %}
+      <p class="muted">No successful run yet.</p>
+      <p><a class="btn secondary" href="/modules/investment">Run Investment</a></p>
+      {% endif %}
+    </section>
+
+    <section class="panel panel-tight glance-card">
+      <h2 class="section-title">Last Gmail</h2>
+      {% if gmail_snapshot %}
+      <p class="muted">{{ gmail_snapshot.updated_at }}</p>
+      <div class="summary-body">{{ gmail_html }}</div>
+      <p><a class="btn secondary" href="/modules/gmail">Open Gmail</a></p>
+      {% else %}
+      <p class="muted">No successful run yet.</p>
+      <p><a class="btn secondary" href="/modules/gmail">Open Gmail</a></p>
+      {% endif %}
+    </section>
+  </div>
   {% endif %}
 {% endblock %}

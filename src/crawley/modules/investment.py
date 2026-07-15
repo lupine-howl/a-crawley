@@ -17,6 +17,8 @@ from crawley.modules.investment_fetch import (
     persist_artifacts,
     recent_artifacts,
 )
+from crawley.prompts import build_investment_user_message
+from crawley.settings import load_settings
 
 logger = logging.getLogger(__name__)
 
@@ -83,18 +85,12 @@ class InvestmentModule(Module):
             )
             rows = persist_artifacts(query, items)
             prompt = self._build_prompt(query, rows)
+            prompts = load_settings().prompts
+            system = prompts.investment_system
             provider = get_llm_provider()
             result = provider.complete(
                 [
-                    ChatMessage(
-                        role="system",
-                        content=(
-                            "You are a careful personal research assistant. "
-                            "Summarize findings into short, actionable notes the user "
-                            "can apply manually. Not professional financial advice. "
-                            "Keep under 250 words."
-                        ),
-                    ),
+                    ChatMessage(role="system", content=system),
                     ChatMessage(role="user", content=prompt),
                 ],
                 max_tokens=400,
@@ -103,8 +99,20 @@ class InvestmentModule(Module):
                 status="done",
                 message=f"Done — {len(rows)} sources (query: {query}).",
                 summary=result.content,
-                details={"query": query, "sources": len(rows), "model": result.model},
+                details={
+                    "query": query,
+                    "sources": len(rows),
+                    "model": result.model,
+                    "prompt_system": system,
+                    "prompt_user": prompt,
+                },
             )
+            try:
+                from crawley.data.snapshots import save_snapshot
+
+                save_snapshot("investment", result.content)
+            except Exception:  # noqa: BLE001
+                logger.exception("Failed to persist investment snapshot")
         except InvestmentFetchError as exc:
             self.job = JobState(status="error", message=str(exc))
         except LLMError as exc:
@@ -115,11 +123,12 @@ class InvestmentModule(Module):
 
     @staticmethod
     def _build_prompt(query: str, rows: list[dict[str, str]]) -> str:
-        chunks = [f"Query: {query}", "Sources (bounded):"]
-        for row in rows:
-            chunks.append(f"- {row['title']} ({row['url']}): {row['snippet'][:300]}")
-        chunks.append(
-            "Write a brief summary and 2–4 practical notes. Manual action only; "
-            "no trade orders."
+        prompts = load_settings().prompts
+        lines = [
+            f"- {row['title']} ({row['url']}): {row['snippet'][:300]}" for row in rows
+        ]
+        return build_investment_user_message(
+            query=query,
+            source_lines=lines,
+            footer=prompts.investment_user_footer,
         )
-        return "\n".join(chunks)

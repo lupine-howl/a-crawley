@@ -10,6 +10,7 @@ Shared rules for every agent working in this repo. Role-specific behavior lives 
 | Themes / outcomes | `ROADMAP.md` |
 | Prioritized work | `BACKLOG.md` |
 | Active sprint | `docs/sprints/current.md` |
+| Planned sprints | `docs/sprints/planned/` |
 | Technical decisions | `docs/architecture.md` |
 | UX / visual & interaction design | `docs/ux.md` |
 
