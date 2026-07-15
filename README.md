@@ -21,7 +21,7 @@ Open http://127.0.0.1:8000 in your browser.
 
 **Settings:** Theme (Paper / Slate / Ink / Moss), Network/LAN, **Update** (git pull), LLM provider/model/key (or LocalLlama base URL/timeout), editable summary prompts, and write-back audit live under **Settings**. Theme applies immediately (cookie). Saved LLM settings are stored in `data/secrets/settings.json` and **override** `.env` when a key is saved there; leave the key blank to keep the stored/env value. Changes apply on the next request (no restart). Use **Test connection** to verify the provider.
 
-**Update (git pull):** Settings → **Update** → **Pull latest** runs `git fetch` + fast-forward-only merge of the **current branch’s upstream**. Disabled while LAN bind is active. For hot reload after a pull that changes `src/crawley/`, set `CRAWLEY_RELOAD=1` and restart once beforehand. Merge conflicts / diverged history must be fixed in a terminal — the UI will not resolve them.
+**Update (git pull):** Settings → **Update** → **Pull latest** runs `git fetch` + fast-forward-only merge of the **current branch’s upstream**. Allowed on localhost and trusted LAN/Tailscale (warns when LAN-bound — there is still no login gate). For hot reload after a pull that changes `src/crawley/`, set `CRAWLEY_RELOAD=1` and restart once beforehand. Merge conflicts / diverged history must be fixed in a terminal — the UI will not resolve them.
 
 **Local LLM (Ollama):** install/run [Ollama](https://ollama.com/), `ollama pull llama3.2` (or your model), then Settings → Provider **LocalLlama** → base URL `http://127.0.0.1:11434` → model id → **Test connection**. OpenAI remains selectable anytime.
 
@@ -33,20 +33,20 @@ Secrets stay local:
 | `data/` | DuckDB, caches, crawl/mail/calendar artifacts (gitignored except `.gitkeep`) |
 | `data/secrets/` | OAuth tokens (`google_token.json`; legacy `gmail_token.json`) and `settings.json` |
 
-Default bind is localhost only (`127.0.0.1:8000`). To reach a phone on the same LAN:
+Default bind is localhost only (`127.0.0.1:8000`). To reach a phone on the same LAN or over **Tailscale**:
 
-1. Settings → **Network / LAN** → enable “Allow LAN access” → **Save** → **restart** the process  
+1. Settings → **Network / LAN** → enable “Allow LAN / Tailscale access” → **Save** → **restart** the process  
    (or set `CRAWLEY_HOST=0.0.0.0` in `.env` and restart).
-2. Open `http://<your-lan-ip>:8000` from the phone (WSL2: publish/forward the port from Windows if needed).
-3. **Trusted LAN only — there is no login.** Disable LAN in Settings (or clear `CRAWLEY_HOST`) and restart to return to localhost-only.
+2. Open `http://<lan-or-tailscale-ip>:8000` from the other device. On startup, Crawley prints **Try also** URLs when LAN-bound.
+3. **Trusted network only — there is no login.** Disable LAN in Settings (or clear `CRAWLEY_HOST`) and restart to return to localhost-only.
 
-`CRAWLEY_HOST` in the environment overrides the Settings toggle until removed.
+**Tailscale / WSL tip:** Tailscale must run in the **same** environment as Crawley. If Crawley is in WSL and Tailscale is only on Windows, the Windows Tailscale IP often will not reach the WSL process — install Tailscale inside that WSL distro, or forward the Windows port to WSL. `CRAWLEY_HOST` in the environment overrides the Settings toggle until removed.
 
 **Dev hot reload:** set `CRAWLEY_RELOAD=1` in `.env` and restart once. Uvicorn then restarts the app when files under `src/crawley/` change (including after Settings → **Pull latest**). Leave it off for day-to-day phone/LAN use.
 
 **Manual proof (Sprint 11):** With `CRAWLEY_RELOAD=1`, open Settings → Update, note the short SHA, pull a commit that touches `src/crawley/` (or pull after pushing such a commit), watch the server log for a reload, and confirm the Settings page shows the new SHA / “Pulled … hot reload should apply”.
 
-**Google OAuth notes:** redirect URI used is `http://127.0.0.1:8000/modules/gmail/oauth/callback` — add it under **Authorized redirect URIs** (not JavaScript origins). Enable **Gmail API** and **Google Calendar API**. Default scopes are Gmail + Calendar **read-only**. Calendar event insert uses an optional `calendar.events` write scope — use **Reconnect for Calendar write** on the Calendar panel (never requests Gmail send). Local HTTP is allowed automatically for `127.0.0.1` / `localhost`.
+**Google OAuth notes:** redirect URI used is `http://127.0.0.1:8000/modules/gmail/oauth/callback` — add it under **Authorized redirect URIs** (not JavaScript origins). Enable **Gmail API** and **Google Calendar API**. Default scopes are Gmail + Calendar **read-only**. Calendar event insert uses an optional `calendar.events` write scope — use **Reconnect for Calendar write** on the Calendar panel (never requests Gmail send). Local HTTP is allowed automatically for `127.0.0.1` / `localhost` and for trusted personal LAN/Tailscale hosts when you connect that way (add matching redirect URIs in Google Cloud if you use those hosts).
 
 ## Agent roles
 

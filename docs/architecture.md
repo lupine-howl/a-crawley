@@ -39,7 +39,7 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Shipped:** Investment, Gmail, Calendar (read + confirm-first insert), Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative; Day brief; shared context seed; LocalLlama (Ollama HTTP); themable shell.  
 **UX:** [`docs/ux.md`](ux.md) Sprint 2 design contract (later modules reuse form/snapshot patterns).  
 **Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.  
-**Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Disabled when LAN-bound. Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI.
+**Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.
 
 ## Sprint delivery maps
 
@@ -47,7 +47,7 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 
 | Story | Architecture touchpoints |
 |-------|--------------------------|
-| **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · localhost-minded · `CRAWLEY_RELOAD` |
+| **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · LAN/Tailscale allowed + warn · `CRAWLEY_RELOAD` |
 
 ### Sprint 12+ (planned) — Sender Inbox / ASX
 

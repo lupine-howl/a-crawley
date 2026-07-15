@@ -11,7 +11,12 @@ from fastapi import APIRouter, Form, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from crawley.bind import host_exposes_lan, resolve_bind_host, resolve_bind_port
+from crawley.bind import (
+    guess_reachable_urls,
+    host_exposes_lan,
+    resolve_bind_host,
+    resolve_bind_port,
+)
 from crawley.data.snapshots import get_snapshot
 from crawley.day_brief import compose_day_brief_markdown, regenerate_day_brief_llm
 from crawley.git_update import git_status, pull_latest, reload_enabled
@@ -54,10 +59,14 @@ THEME_META = (
 
 
 def _base_url(request: Request) -> str:
+    """Public base URL for OAuth redirects — preserve Tailscale/LAN Host headers."""
     url = str(request.base_url).rstrip("/")
     parsed = urlparse(url)
     host = parsed.hostname or "127.0.0.1"
-    if host in {"0.0.0.0", "localhost"}:
+    # Only rewrite the wildcard bind name; keep Tailscale/LAN hosts intact.
+    if host == "0.0.0.0":
+        host = "127.0.0.1"
+    elif host == "localhost":
         host = "127.0.0.1"
     port = parsed.port
     netloc = f"{host}:{port}" if port else host
@@ -155,8 +164,9 @@ def _settings_context(
             "audit_entries": read_audit_entries(limit=20),
             "git_status": gstat,
             "reload_enabled": reload_enabled(),
-            "update_pull_allowed": bool(gstat.is_repo and not lan),
+            "update_pull_allowed": bool(gstat.is_repo),
             "update_result": update_result,
+            "reachable_urls": guess_reachable_urls(resolve_bind_port()) if lan else [],
         }
     )
     return ctx
@@ -347,6 +357,7 @@ def settings_update_pull(request: Request) -> HTMLResponse:
         "after_sha": result.after_sha,
         "changed_watched": result.changed_watched,
         "reload_enabled": result.reload_enabled,
+        "lan_warn": result.lan_warn,
     }
     ctx = _settings_context(request, update_result=update_result)
     if request.headers.get("hx-request") == "true":

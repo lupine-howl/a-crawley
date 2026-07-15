@@ -34,11 +34,16 @@ LEGACY_PENDING_PATH = SECRETS_DIR / "gmail_oauth_pending.json"
 
 
 def _allow_local_http_oauth(request_base: str) -> None:
-    """oauthlib blocks http://; localhost PoC requires an explicit allow."""
+    """oauthlib blocks http://; allow trusted personal hosts (localhost / Tailscale / LAN)."""
+    from urllib.parse import urlparse
+
+    from crawley.bind import is_trusted_personal_host
+
     base = request_base.lower()
     if base.startswith("https://"):
         return
-    if "127.0.0.1" in base or "localhost" in base:
+    host = (urlparse(base).hostname or "").lower()
+    if is_trusted_personal_host(host):
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 

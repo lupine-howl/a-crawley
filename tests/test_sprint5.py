@@ -4,7 +4,12 @@ from __future__ import annotations
 
 from fastapi.testclient import TestClient
 
-from crawley.bind import host_exposes_lan, resolve_bind_host
+from crawley.bind import (
+    host_exposes_lan,
+    is_tailscale_host,
+    is_trusted_personal_host,
+    resolve_bind_host,
+)
 from crawley.data.snapshots import save_snapshot
 from crawley.llm.base import ChatResult
 from crawley.modules.registry import build_registry
@@ -29,6 +34,17 @@ def test_env_host_overrides_settings(monkeypatch) -> None:
     update_network_settings(lan_enabled=False)
     monkeypatch.setenv("CRAWLEY_HOST", "0.0.0.0")
     assert resolve_bind_host() == "0.0.0.0"
+
+
+def test_tailscale_and_trusted_personal_hosts() -> None:
+    assert is_tailscale_host("100.64.1.2")
+    assert is_tailscale_host("host.tailscale.net")
+    assert is_tailscale_host("machine.ts.net")
+    assert not is_tailscale_host("192.168.1.10")
+    assert is_trusted_personal_host("100.101.0.5")
+    assert is_trusted_personal_host("192.168.1.10")
+    assert is_trusted_personal_host("127.0.0.1")
+    assert not is_trusted_personal_host("8.8.8.8")
 
 
 def test_settings_network_toggle(client: TestClient) -> None:
