@@ -16,8 +16,8 @@ Do not invent lasting product decisions only in chat. Write them into the files 
 
 ## Roles
 
-- **Product owner** — owns brief, roadmap, backlog, and sprints. Does not implement application code. Bootstrap uses two interviews: (1) `PRODUCT.md` + `ROADMAP.md`, (2) `BACKLOG.md` + first sprint.
-- **Architect / developer** — implements only what is in `docs/sprints/current.md`. Updates architecture docs when decisions land.
+- **Product owner** — owns brief, roadmap, backlog, and sprints. Does not implement application code. Bootstrap uses two interviews: (1) `PRODUCT.md` + `ROADMAP.md`, (2) `BACKLOG.md` + Planned Sprint 1.
+- **Architect / developer** — bootstrap uses two interviews: (1) author `docs/architecture.md`, (2) implement Sprint 1 in `docs/sprints/current.md`. Later sprints: implement only what’s in the current sprint file; keep architecture docs current.
 
 ## Definition of done (per story)
 
