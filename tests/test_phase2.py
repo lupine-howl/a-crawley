@@ -37,7 +37,10 @@ def test_registry_top_tier_nav_order() -> None:
     assert registry["fitness"].panel_context()["coming_soon"] is False
     assert registry["investment"].panel_context()["coming_soon"] is False
     assert registry["work"].panel_context()["coming_soon"] is False
-    assert registry["diy"].panel_context()["coming_soon"] is True
+    assert registry["diy"].panel_context()["coming_soon"] is False
+    assert registry["co-parenting"].panel_context()["coming_soon"] is False
+    assert registry["finance-taxes"].panel_context()["coming_soon"] is False
+    assert registry["coding-creative"].panel_context()["coming_soon"] is False
 
 
 def test_completion_token_param_by_model() -> None:
@@ -60,9 +63,9 @@ def test_openai_missing_key(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "api key" in str(status["message"]).lower() or "missing" in str(status["message"]).lower()
 
 
-def test_local_llama_placeholder() -> None:
-    provider = LocalLlamaProvider()
-    with pytest.raises(LLMError, match="placeholder"):
+def test_local_llama_unreachable() -> None:
+    provider = LocalLlamaProvider(base_url="http://127.0.0.1:9", timeout_s=1)
+    with pytest.raises(LLMError, match="unreachable|timed out|Local LLM"):
         provider.complete([])
 
 
@@ -95,9 +98,10 @@ def test_dashboard_and_stub_panel(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "Coming soon" not in work.text
     assert "Prioritize" in work.text
 
-    stub = client.get("/modules/diy")
-    assert stub.status_code == 200
-    assert "Coming soon" in stub.text
+    diy = client.get("/modules/diy")
+    assert diy.status_code == 200
+    assert "Coming soon" not in diy.text
+    assert "Save" in diy.text
 
 
 def test_get_llm_openai_requires_key(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -82,11 +82,15 @@
       <label for="llm-provider">Provider</label>
       <select id="llm-provider" name="provider">
         <option value="openai" {% if llm_settings.provider == 'openai' %}selected{% endif %}>OpenAI</option>
-        <option value="local_llama" {% if llm_settings.provider == 'local_llama' %}selected{% endif %}>LocalLlama (not ready)</option>
+        <option value="local_llama" {% if llm_settings.provider == 'local_llama' %}selected{% endif %}>LocalLlama (Ollama HTTP)</option>
       </select>
     </div>
     <div class="field">
       <label for="llm-model">Model</label>
+      {% if llm_settings.provider == 'local_llama' %}
+      <input id="llm-model" name="model" value="{{ llm_settings.model }}" placeholder="llama3.2">
+      <p class="muted">Local model id as known to Ollama (e.g. <code>llama3.2</code>).</p>
+      {% else %}
       <div class="model-row">
         <select id="llm-model" name="model">
           {% for mid in model_options %}
@@ -99,7 +103,6 @@
           hx-post="/settings/llm/models/refresh"
           hx-target="#panel-root"
           hx-swap="innerHTML"
-          {% if llm_settings.provider == 'local_llama' %}disabled{% endif %}
         >Refresh models</button>
       </div>
       {% if models_error %}
@@ -107,25 +110,39 @@
       {% else %}
       <p class="muted">Loaded from OpenAI models API{% if models_source == 'cache' %} (cached){% endif %}.</p>
       {% endif %}
+      {% endif %}
     </div>
+    {% if llm_settings.provider == 'local_llama' %}
+    <div class="field">
+      <label for="llm-base-url">Local base URL</label>
+      <input id="llm-base-url" name="base_url" value="{{ llm_settings.base_url }}" placeholder="http://127.0.0.1:11434">
+    </div>
+    <div class="field">
+      <label for="llm-timeout">Timeout (seconds)</label>
+      <input id="llm-timeout" name="timeout_s" value="{{ llm_settings.timeout_s }}" inputmode="numeric">
+      <p class="muted">Local runs can be slower than cloud; busy state fails loudly on timeout.</p>
+    </div>
+    {% else %}
+    <input type="hidden" name="base_url" value="{{ llm_settings.base_url }}">
+    <input type="hidden" name="timeout_s" value="{{ llm_settings.timeout_s }}">
     <div class="field">
       <label for="llm-key">API key</label>
       <input id="llm-key" name="api_key" type="password" value="" autocomplete="off" placeholder="{% if has_stored_key %}Leave blank to keep existing{% else %}Set via Settings or .env{% endif %}">
     </div>
+    {% endif %}
     <div class="actions">
       <button type="submit">Save settings</button>
       <button
         type="button"
         class="secondary"
-        {% if llm_settings.provider == 'local_llama' %}disabled{% endif %}
         hx-post="/settings/llm/test"
         hx-target="#test-result"
         hx-swap="innerHTML"
-        {% if llm_settings.provider == 'local_llama' %}{% else %}hx-disabled-elt="this"{% endif %}
+        hx-disabled-elt="this"
       >Test connection</button>
     </div>
     {% if llm_settings.provider == 'local_llama' %}
-    <p class="muted">LocalLlama is a placeholder for a later sprint — Test is disabled.</p>
+    <p class="muted">Requires a local Ollama-compatible daemon. OpenAI remains selectable anytime.</p>
     {% endif %}
     {% if save_notice %}
     <p class="job job-done">{{ save_notice }}</p>
@@ -188,6 +205,46 @@
       <label for="work-header">Work · user header</label>
       <textarea id="work-header" name="work_user_header" rows="2">{{ prompt_settings.work_user_header }}</textarea>
     </div>
+    <div class="field wide">
+      <label for="co-parenting-system">Co-parenting · system</label>
+      <textarea id="co-parenting-system" name="co_parenting_system" rows="3">{{ prompt_settings.co_parenting_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="co-parenting-header">Co-parenting · user header</label>
+      <textarea id="co-parenting-header" name="co_parenting_user_header" rows="2">{{ prompt_settings.co_parenting_user_header }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="diy-system">DIY · system</label>
+      <textarea id="diy-system" name="diy_system" rows="3">{{ prompt_settings.diy_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="diy-header">DIY · user header</label>
+      <textarea id="diy-header" name="diy_user_header" rows="2">{{ prompt_settings.diy_user_header }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="finance-system">Finance · system</label>
+      <textarea id="finance-system" name="finance_system" rows="3">{{ prompt_settings.finance_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="finance-header">Finance · user header</label>
+      <textarea id="finance-header" name="finance_user_header" rows="2">{{ prompt_settings.finance_user_header }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="coding-system">Coding/Creative · system</label>
+      <textarea id="coding-system" name="coding_system" rows="3">{{ prompt_settings.coding_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="coding-header">Coding/Creative · user header</label>
+      <textarea id="coding-header" name="coding_user_header" rows="2">{{ prompt_settings.coding_user_header }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="day-brief-system">Day brief · system</label>
+      <textarea id="day-brief-system" name="day_brief_system" rows="3">{{ prompt_settings.day_brief_system }}</textarea>
+    </div>
+    <div class="field wide">
+      <label for="day-brief-header">Day brief · user header</label>
+      <textarea id="day-brief-header" name="day_brief_user_header" rows="2">{{ prompt_settings.day_brief_user_header }}</textarea>
+    </div>
     <div class="actions">
       <button type="submit">Save prompts</button>
     </div>
@@ -195,4 +252,18 @@
     <p class="job job-done">{{ prompts_notice }}</p>
     {% endif %}
   </form>
+</div>
+
+<div class="panel panel-tight settings-section" id="writeback-audit">
+  <h2 class="section-title">Write-back audit</h2>
+  <p class="muted">Recent dry-run and live mutation attempts (newest first).</p>
+  {% if audit_entries %}
+  <ul class="muted">
+    {% for row in audit_entries %}
+    <li>{{ row.at }} · {{ row.module_id }} · {{ row.action_summary or row.stage }}{% if row.dry_run %} · dry-run{% elif row.success == false %} · failed{% elif row.success == true %} · ok{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No audit entries yet.</p>
+  {% endif %}
 </div>

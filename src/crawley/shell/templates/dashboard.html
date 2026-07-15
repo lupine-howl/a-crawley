@@ -30,66 +30,58 @@
     <span class="chip">Theme · {{ theme_label }}</span>
   </div>
 
+  <section class="panel panel-tight" id="day-brief">
+    <h2 class="section-title">Day brief</h2>
+    <p class="muted">Composed from Calendar + Gmail snapshots. Partial states stay honest.</p>
+    {% if day_brief_updated_at %}
+    <p class="muted">{{ day_brief_updated_at }}</p>
+    {% endif %}
+    <div class="summary-body">{{ day_brief_html }}</div>
+    <form class="run-form" method="post" action="/day-brief/refresh">
+      <label class="check">
+        <input type="checkbox" name="use_llm"> Regenerate with LLM
+      </label>
+      <label class="check">
+        <input type="checkbox" name="include_shared_context"> Include shared context
+      </label>
+      <button type="submit" class="secondary">Refresh Day brief</button>
+    </form>
+  </section>
+
+  <section class="panel panel-tight" id="standing-notes">
+    <h2 class="section-title">Standing notes</h2>
+    <p class="muted">Optional cross-module context (size-capped; never includes secrets).</p>
+    <form method="post" action="/standing-notes" class="run-form">
+      <textarea name="notes" rows="4" placeholder="Things the model may cite when shared context is enabled…">{{ standing_notes }}</textarea>
+      <button type="submit" class="secondary">Save standing notes</button>
+    </form>
+  </section>
+
   <div class="glance-grid">
+    {% set cards = [
+      ('investment', investment_snapshot, investment_html, 'Investment'),
+      ('gmail', gmail_snapshot, gmail_html, 'Gmail'),
+      ('calendar', calendar_snapshot, calendar_html, 'Calendar'),
+      ('fitness', fitness_snapshot, fitness_html, 'Fitness'),
+      ('co-parenting', co_parenting_snapshot, co_parenting_html, 'Co-parenting'),
+      ('diy', diy_snapshot, diy_html, 'DIY'),
+      ('work', work_snapshot, work_html, 'Work'),
+      ('finance-taxes', finance_taxes_snapshot, finance_taxes_html, 'Finance/Taxes'),
+      ('coding-creative', coding_creative_snapshot, coding_creative_html, 'Coding/Creative'),
+    ] %}
+    {% for mid, snap, html, label in cards %}
     <section class="panel panel-tight glance-card">
-      <h2 class="section-title">Last Investment</h2>
-      {% if investment_snapshot %}
-      <p class="muted">{{ investment_snapshot.updated_at }}</p>
-      <div class="summary-body">{{ investment_html }}</div>
-      <p><a class="btn secondary" href="/modules/investment">Open Investment</a></p>
+      <h2 class="section-title">Last {{ label }}</h2>
+      {% if snap %}
+      <p class="muted">{{ snap.updated_at }}</p>
+      <div class="summary-body">{{ html }}</div>
+      <p><a class="btn secondary" href="/modules/{{ mid }}">Open {{ label }}</a></p>
       {% else %}
       <p class="muted">No successful run yet.</p>
-      <p><a class="btn secondary" href="/modules/investment">Run Investment</a></p>
+      <p><a class="btn secondary" href="/modules/{{ mid }}">Open {{ label }}</a></p>
       {% endif %}
     </section>
-
-    <section class="panel panel-tight glance-card">
-      <h2 class="section-title">Last Gmail</h2>
-      {% if gmail_snapshot %}
-      <p class="muted">{{ gmail_snapshot.updated_at }}</p>
-      <div class="summary-body">{{ gmail_html }}</div>
-      <p><a class="btn secondary" href="/modules/gmail">Open Gmail</a></p>
-      {% else %}
-      <p class="muted">No successful run yet.</p>
-      <p><a class="btn secondary" href="/modules/gmail">Open Gmail</a></p>
-      {% endif %}
-    </section>
-
-    <section class="panel panel-tight glance-card">
-      <h2 class="section-title">Last Calendar</h2>
-      {% if calendar_snapshot %}
-      <p class="muted">{{ calendar_snapshot.updated_at }}</p>
-      <div class="summary-body">{{ calendar_html }}</div>
-      <p><a class="btn secondary" href="/modules/calendar">Open Calendar</a></p>
-      {% else %}
-      <p class="muted">No successful run yet.</p>
-      <p><a class="btn secondary" href="/modules/calendar">Open Calendar</a></p>
-      {% endif %}
-    </section>
-
-    <section class="panel panel-tight glance-card">
-      <h2 class="section-title">Last Fitness</h2>
-      {% if fitness_snapshot %}
-      <p class="muted">{{ fitness_snapshot.updated_at }}</p>
-      <div class="summary-body">{{ fitness_html }}</div>
-      <p><a class="btn secondary" href="/modules/fitness">Open Fitness</a></p>
-      {% else %}
-      <p class="muted">No successful run yet.</p>
-      <p><a class="btn secondary" href="/modules/fitness">Open Fitness</a></p>
-      {% endif %}
-    </section>
-
-    <section class="panel panel-tight glance-card">
-      <h2 class="section-title">Last Work</h2>
-      {% if work_snapshot %}
-      <p class="muted">{{ work_snapshot.updated_at }}</p>
-      <div class="summary-body">{{ work_html }}</div>
-      <p><a class="btn secondary" href="/modules/work">Open Work</a></p>
-      {% else %}
-      <p class="muted">No successful run yet.</p>
-      <p><a class="btn secondary" href="/modules/work">Open Work</a></p>
-      {% endif %}
-    </section>
+    {% endfor %}
   </div>
   {% endif %}
 {% endblock %}

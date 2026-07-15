@@ -13,6 +13,7 @@ from fastapi.templating import Jinja2Templates
 
 from crawley.bind import host_exposes_lan, resolve_bind_host, resolve_bind_port
 from crawley.data.snapshots import get_snapshot
+from crawley.day_brief import compose_day_brief_markdown, regenerate_day_brief_llm
 from crawley.google_oauth import authorization_url, finish_oauth, google_auth_status
 from crawley.jobs import JobState
 from crawley.llm.factory import llm_status, test_llm_connection
@@ -35,6 +36,8 @@ from crawley.settings import (
     update_prompt_settings,
     update_theme_setting,
 )
+from crawley.shared_context import load_standing_notes, save_standing_notes
+from crawley.writeback import read_audit_entries
 
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
@@ -145,6 +148,7 @@ def _settings_context(
             "model_options": models,
             "models_error": catalog.get("error"),
             "models_source": catalog.get("source"),
+            "audit_entries": read_audit_entries(limit=20),
         }
     )
     return ctx
@@ -167,30 +171,46 @@ def dashboard(request: Request) -> HTMLResponse:
     ctx = _base_context(request, registry)
     ctx["active_id"] = None
 
-    inv = get_snapshot("investment")
-    gmail = get_snapshot("gmail")
-    calendar = get_snapshot("calendar")
-    fitness = get_snapshot("fitness")
-    work = get_snapshot("work")
+    glance_ids = (
+        "investment",
+        "gmail",
+        "calendar",
+        "fitness",
+        "co-parenting",
+        "diy",
+        "work",
+        "finance-taxes",
+        "coding-creative",
+    )
     auth = google_auth_status()
     settings = load_settings()
     bind_host = resolve_bind_host(lan_enabled=settings.network.lan_enabled)
+    include_shared = request.query_params.get("shared") == "1"
+    brief = compose_day_brief_markdown(include_shared_context=include_shared)
+    stored_brief = get_snapshot("day-brief")
 
     def md(snap):
         return render_markdown(snap.summary_md) if snap else None
 
+    glance: dict[str, Any] = {}
+    for mid in glance_ids:
+        snap = get_snapshot(mid)
+        key = mid.replace("-", "_")
+        glance[f"{key}_snapshot"] = snap
+        glance[f"{key}_html"] = md(snap)
+
     ctx.update(
         {
-            "investment_snapshot": inv,
-            "investment_html": md(inv),
-            "gmail_snapshot": gmail,
-            "gmail_html": md(gmail),
-            "calendar_snapshot": calendar,
-            "calendar_html": md(calendar),
-            "fitness_snapshot": fitness,
-            "fitness_html": md(fitness),
-            "work_snapshot": work,
-            "work_html": md(work),
+            **glance,
+            "day_brief_markdown": (
+                stored_brief.summary_md if stored_brief else brief["markdown"]
+            ),
+            "day_brief_html": render_markdown(
+                stored_brief.summary_md if stored_brief else brief["markdown"]
+            ),
+            "day_brief_meta": brief,
+            "day_brief_updated_at": stored_brief.updated_at if stored_brief else None,
+            "standing_notes": load_standing_notes(),
             "google_auth": auth,
             "gmail_auth": auth,
             "lan_enabled": settings.network.lan_enabled,
@@ -199,6 +219,30 @@ def dashboard(request: Request) -> HTMLResponse:
         }
     )
     return templates.TemplateResponse(request, "dashboard.html", ctx)
+
+
+@router.post("/day-brief/refresh", response_class=HTMLResponse)
+def day_brief_refresh(
+    request: Request,
+    use_llm: str | None = Form(None),
+    include_shared_context: str | None = Form(None),
+) -> HTMLResponse:
+    include_shared = include_shared_context == "on"
+    if use_llm == "on":
+        regenerate_day_brief_llm(include_shared_context=include_shared)
+    else:
+        brief = compose_day_brief_markdown(include_shared_context=include_shared)
+        if not brief["empty"]:
+            from crawley.data.snapshots import save_snapshot
+
+            save_snapshot("day-brief", brief["markdown"])
+    return RedirectResponse("/#day-brief", status_code=303)
+
+
+@router.post("/standing-notes", response_class=HTMLResponse)
+def standing_notes_save(request: Request, notes: str = Form("")) -> HTMLResponse:
+    save_standing_notes(notes)
+    return RedirectResponse("/#standing-notes", status_code=303)
 
 
 @router.get("/settings", response_class=HTMLResponse)
@@ -231,12 +275,24 @@ def settings_llm_save(
     provider: str = Form("openai"),
     model: str = Form("gpt-4o-mini"),
     api_key: str = Form(""),
+    base_url: str = Form("http://127.0.0.1:11434"),
+    timeout_s: str = Form("60"),
 ) -> HTMLResponse:
-    update_llm_settings(provider=provider, model=model, api_key=api_key)
+    try:
+        timeout_val = float(timeout_s or "60")
+    except ValueError:
+        timeout_val = 60.0
+    update_llm_settings(
+        provider=provider,
+        model=model,
+        api_key=api_key,
+        base_url=base_url,
+        timeout_s=timeout_val,
+    )
     ctx = _settings_context(
         request,
         save_notice="Settings saved. New requests use the updated LLM configuration.",
-        refresh_models=True,
+        refresh_models=provider == "openai",
     )
     if request.headers.get("hx-request") == "true":
         return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
@@ -270,31 +326,10 @@ def settings_network_save(
 
 
 @router.post("/settings/prompts", response_class=HTMLResponse)
-def settings_prompts_save(
-    request: Request,
-    investment_system: str = Form(""),
-    investment_user_footer: str = Form(""),
-    gmail_system: str = Form(""),
-    gmail_user_header: str = Form(""),
-    calendar_system: str = Form(""),
-    calendar_user_header: str = Form(""),
-    fitness_system: str = Form(""),
-    fitness_user_header: str = Form(""),
-    work_system: str = Form(""),
-    work_user_header: str = Form(""),
-) -> HTMLResponse:
-    update_prompt_settings(
-        investment_system=investment_system,
-        investment_user_footer=investment_user_footer,
-        gmail_system=gmail_system,
-        gmail_user_header=gmail_user_header,
-        calendar_system=calendar_system,
-        calendar_user_header=calendar_user_header,
-        fitness_system=fitness_system,
-        fitness_user_header=fitness_user_header,
-        work_system=work_system,
-        work_user_header=work_user_header,
-    )
+async def settings_prompts_save(request: Request) -> HTMLResponse:
+    form = await request.form()
+    fields = {str(k): str(v) for k, v in form.items() if isinstance(v, str)}
+    update_prompt_settings(**fields)
     ctx = _settings_context(
         request,
         prompts_notice="Prompts saved. The next module run will use them.",
@@ -429,6 +464,152 @@ def work_status(request: Request) -> HTMLResponse:
     return _module_response(request, module)
 
 
+def _notes_module_save(request: Request, module_id: str, notes: str) -> HTMLResponse:
+    module = request.app.state.registry[module_id]
+    result = module.save_only(notes)  # type: ignore[attr-defined]
+    if result.error:
+        module.job.status = "error"  # type: ignore[attr-defined]
+        module.job.message = result.error  # type: ignore[attr-defined]
+    return _module_response(request, module)
+
+
+def _notes_module_run(
+    request: Request,
+    module_id: str,
+    notes: str,
+    *,
+    include_shared_context: bool = False,
+) -> HTMLResponse:
+    module = request.app.state.registry[module_id]
+    payload: dict[str, Any] = {"notes": notes}
+    if include_shared_context:
+        payload["include_shared_context"] = True
+    result = module.run(payload)
+    if result.error and getattr(module, "job", None) is not None and module.job.status != "busy":
+        module.job.status = "error"
+        module.job.message = result.error
+    return _module_response(request, module)
+
+
+@router.post("/modules/co-parenting/save", response_class=HTMLResponse)
+def co_parenting_save(request: Request, notes: str = Form("")) -> HTMLResponse:
+    return _notes_module_save(request, "co-parenting", notes)
+
+
+@router.post("/modules/co-parenting/run", response_class=HTMLResponse)
+def co_parenting_run(request: Request, notes: str = Form("")) -> HTMLResponse:
+    return _notes_module_run(request, "co-parenting", notes)
+
+
+@router.get("/modules/co-parenting/status", response_class=HTMLResponse)
+def co_parenting_status(request: Request) -> HTMLResponse:
+    return _module_response(request, request.app.state.registry["co-parenting"])
+
+
+@router.post("/modules/diy/save", response_class=HTMLResponse)
+def diy_save(request: Request, notes: str = Form("")) -> HTMLResponse:
+    return _notes_module_save(request, "diy", notes)
+
+
+@router.post("/modules/diy/run", response_class=HTMLResponse)
+def diy_run(request: Request, notes: str = Form("")) -> HTMLResponse:
+    return _notes_module_run(request, "diy", notes)
+
+
+@router.get("/modules/diy/status", response_class=HTMLResponse)
+def diy_status(request: Request) -> HTMLResponse:
+    return _module_response(request, request.app.state.registry["diy"])
+
+
+@router.post("/modules/finance-taxes/save", response_class=HTMLResponse)
+def finance_save(request: Request, notes: str = Form("")) -> HTMLResponse:
+    return _notes_module_save(request, "finance-taxes", notes)
+
+
+@router.post("/modules/finance-taxes/run", response_class=HTMLResponse)
+def finance_run(request: Request, notes: str = Form("")) -> HTMLResponse:
+    return _notes_module_run(request, "finance-taxes", notes)
+
+
+@router.get("/modules/finance-taxes/status", response_class=HTMLResponse)
+def finance_status(request: Request) -> HTMLResponse:
+    return _module_response(request, request.app.state.registry["finance-taxes"])
+
+
+@router.post("/modules/coding-creative/save", response_class=HTMLResponse)
+def coding_save(request: Request, notes: str = Form("")) -> HTMLResponse:
+    return _notes_module_save(request, "coding-creative", notes)
+
+
+@router.post("/modules/coding-creative/run", response_class=HTMLResponse)
+def coding_run(
+    request: Request,
+    notes: str = Form(""),
+    include_shared_context: str | None = Form(None),
+) -> HTMLResponse:
+    return _notes_module_run(
+        request,
+        "coding-creative",
+        notes,
+        include_shared_context=include_shared_context == "on",
+    )
+
+
+@router.get("/modules/coding-creative/status", response_class=HTMLResponse)
+def coding_status(request: Request) -> HTMLResponse:
+    return _module_response(request, request.app.state.registry["coding-creative"])
+
+
+@router.post("/modules/calendar/write-back/propose", response_class=HTMLResponse)
+def calendar_write_propose(
+    request: Request,
+    summary: str = Form(""),
+    start: str = Form(""),
+    end: str = Form(""),
+    description: str = Form(""),
+) -> HTMLResponse:
+    module = request.app.state.registry["calendar"]
+    assert isinstance(module, CalendarModule)
+    result = module.write_back(
+        {
+            "action": "propose",
+            "summary": summary,
+            "start": start,
+            "end": end,
+            "description": description,
+        }
+    )
+    if result.error:
+        module.job = JobState(status="error", message=result.error)
+    return _module_response(request, module)
+
+
+@router.post("/modules/calendar/write-back/confirm", response_class=HTMLResponse)
+def calendar_write_confirm(
+    request: Request,
+    draft_id: str = Form(""),
+) -> HTMLResponse:
+    module = request.app.state.registry["calendar"]
+    assert isinstance(module, CalendarModule)
+    result = module.write_back({"action": "confirm", "draft_id": draft_id})
+    if result.error:
+        module.job = JobState(status="error", message=result.error)
+    return _module_response(request, module)
+
+
+@router.post("/modules/calendar/write-back/cancel", response_class=HTMLResponse)
+def calendar_write_cancel(
+    request: Request,
+    draft_id: str = Form(""),
+) -> HTMLResponse:
+    module = request.app.state.registry["calendar"]
+    assert isinstance(module, CalendarModule)
+    result = module.cancel_write_back(draft_id)
+    if result.error:
+        module.job = JobState(status="error", message=result.error)
+    return _module_response(request, module)
+
+
 @router.post("/modules/{module_id}/write-back/dry-run", response_class=HTMLResponse)
 def module_write_back_dry_run(
     request: Request,
@@ -440,7 +621,8 @@ def module_write_back_dry_run(
     module = registry.get(module_id)
     if module is None:
         return HTMLResponse("Unknown module", status_code=404)
-    result = module.write_back({"action": action, "source": "settings_or_panel"})
+    payload_action = "dry_run" if isinstance(module, CalendarModule) else action
+    result = module.write_back({"action": payload_action, "source": "settings_or_panel"})
     if isinstance(module, (GmailModule, CalendarModule)) and hasattr(module, "job"):
         if result.error:
             module.job = JobState(status="error", message=result.error)
@@ -457,8 +639,12 @@ def module_write_back_dry_run(
 def gmail_oauth_start(request: Request) -> RedirectResponse:
     module = request.app.state.registry["gmail"]
     assert isinstance(module, GmailModule)
+    include_write = request.query_params.get("calendar_write") == "1"
     try:
-        url, state = authorization_url(_base_url(request))
+        url, state = authorization_url(
+            _base_url(request),
+            include_calendar_write=include_write,
+        )
         module.oauth_state = state
         return RedirectResponse(url)
     except Exception as exc:  # noqa: BLE001

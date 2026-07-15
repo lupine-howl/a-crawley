@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; **Sprints 1–5 closed** ([retro](docs/sprints/archive/sprints-1-5-retrospective.md)); Sprint 6 ready; Sprints 7–40 planned (21–40 = Email/Investment depth)
+**Status:** Brief confirmed; Sprints 1–10 closed (6–10 delivered as one bundle: life modules → Day brief → Calendar write-back → local LLM → shared context)
 
 ## Problem
 

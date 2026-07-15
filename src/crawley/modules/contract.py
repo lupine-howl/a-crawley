@@ -76,9 +76,9 @@ class Module(ABC):
         """
         Write-back entrypoint (ADR-006).
 
-        Until a later sprint ships live mutations, this only records a **dry-run**
-        when ``write_back_capability.supported`` is True. Never calls Gmail send /
-        Calendar insert APIs.
+        Default path records a **dry-run** when ``supported`` and ``dry_run_only``.
+        Modules that ship live mutations (e.g. Calendar) override this method and
+        set ``dry_run_only=False``. Never call Gmail send from the default path.
         """
         cap = self.write_back_capability
         if not cap.supported:
@@ -91,8 +91,8 @@ class Module(ABC):
         if not cap.dry_run_only:
             return ModuleOutput(
                 error=(
-                    f"{self.meta.id} declared live write-back, but live mutation "
-                    "is not implemented yet. Forcing dry-run-only."
+                    f"{self.meta.id} declared live write-back; override write_back() "
+                    "on the module to implement confirm → execute."
                 )
             )
 

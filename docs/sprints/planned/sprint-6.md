@@ -1,11 +1,11 @@
 # Sprint 6 — Co-parenting + DIY lite (planned)
 
-**Status:** promoted to [`../current.md`](../current.md) (ready — next delivery)  
+**Status:** done (shipped in bundled Sprints 6–10 — see [`../current.md`](../current.md))
 **Duration:** one symbolic week  
 **Backlog refs:** B19, B20, B21  
-**Depends on:** Sprint 2 Markdown/home; Sprint 5 Work patterns preferred as template for local-note modules  
+**Depends on:** Sprint 2 Markdown/home; Sprint 5 Work lite as template for local-note modules  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
-**UX:** Short `@ux-expert` pass if Co-parenting schedule entry UX needs a form pattern beyond Work lite; else reuse Work/Fitness form + snapshot conventions
+**UX:** Short `@ux-expert` pass if Co-parenting schedule entry needs a form pattern beyond Work/Fitness; else reuse those conventions
 
 ## Goal
 
@@ -18,7 +18,7 @@ Operator can:
 1. Maintain a small local co-parenting schedule (handoff windows / notes) and run a “what’s next” Markdown skim
 2. Capture DIY project notes and get LLM next-steps Markdown
 3. See last Co-parenting and DIY snapshots on dashboard home alongside prior modules
-4. Never see fake custody/demo project data; stubs for untouched domains stay quiet
+4. Never see fake custody/demo project data; untouched stubs stay quiet
 
 ## Committed
 
@@ -63,21 +63,27 @@ Operator can:
 |-------|-------|
 | Status | todo |
 | Backlog ref | B21 |
-| Depends on | S6.1, S6.2, S2.4 store |
+| Depends on | S6.1, S6.2 |
 
 **Acceptance criteria:**
 
 - [ ] Home shows last Co-parenting and DIY when present
-- [ ] Prior snapshots retained; truncate long bodies; no stub filler cards
+- [ ] Prior snapshots retained; truncate long bodies; no stub filler
 - [ ] Glance participants documented in `docs/architecture.md`
 
 **Out of scope (sprint):**
 
-- Google Calendar sync for co-parenting (Later candidate)
+- Google Calendar sync for co-parenting (Later; local source of truth here)
 - Finance live module, Day brief, write-back mutations
 - LocalLlama ops, native desktop shell
 
+## Architect notes
+
+- Reuse Work/Fitness patterns: notes file under `data/<module>/`, LLM Markdown, snapshot id in home store.
+- Prefer a structured schedule store (JSON/DuckDB rows) over freeform-only for Co-parenting so “bounded window” filtering is trivial.
+- Do **not** request Calendar write scopes in this sprint.
+
 ## Parking lot
 
-- Import co-parenting windows from Calendar (after write-back / shared context)
+- Import co-parenting windows from Calendar (after shared context / write-back soak)
 - DIY photo attachments

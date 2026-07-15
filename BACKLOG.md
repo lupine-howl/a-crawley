@@ -145,7 +145,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B15 |
-| Planned sprint | 3 |
+| Sprint | 3–4 |
 
 **Goal:** Calendar is a live module: bounded upcoming events → Markdown summary via shared Google read-only OAuth.
 
@@ -153,7 +153,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 - [x] Calendar nav entry opens Coming soon / stub panel
 
-**Acceptance criteria (Sprint 3):**
+**Acceptance criteria (Sprint 3–4):**
 
 - [x] Read-only Calendar fetch for a bounded upcoming window
 - [x] LLM Markdown summary; job busy/done/error; empty state honest
@@ -278,7 +278,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B4 |
-| Planned sprint | 4 |
+| Sprint | 3–4 |
 
 **Goal:** Richer bounded sources, cache, clearer advice Markdown, better errors — still manual action only.
 
@@ -304,7 +304,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B5, B15 |
-| Planned sprint | 3 |
+| Sprint | 3–4 |
 
 **Goal:** Better Gmail skim quality and auth/error UX on shared Google credentials (Calendar is B6).
 
@@ -329,7 +329,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 4 |
+| Sprint | 3–4 |
 
 **Goal:** Fitness lite: goal/context in → LLM introductory plan Markdown out; not medical care.
 
@@ -355,7 +355,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B1 |
-| Planned sprint | 5 |
+| Sprint | 5 |
 
 **Goal:** Same browser UI on LAN only when consciously enabled; localhost default.
 
@@ -380,7 +380,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B5 |
-| Planned sprint | 3 |
+| Sprint | 3–4 |
 
 **Goal:** One Google identity; Gmail + Calendar readonly scopes; reconsent if upgrading from Gmail-only.
 
@@ -405,7 +405,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14 |
-| Planned sprint | 4 |
+| Sprint | 3–4 |
 
 **Goal:** Extend At a glance as modules go live (Fitness required in Sprint 4; Calendar expected from Sprint 3 store).
 
@@ -429,7 +429,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 5 |
+| Sprint | 5 |
 
 **Goal:** Work domain live: local tasks/notes → LLM prioritization Markdown.
 
@@ -453,7 +453,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B6, B5 |
-| Planned sprint | 5 |
+| Sprint | 5 |
 
 **Goal:** Lock how write-back will work before implementing mutations.
 
@@ -484,11 +484,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 **Acceptance criteria:**
 
-- [ ] Co-parenting leaves Coming soon; local schedule entries (dates/windows + short notes) persist under `data/`
-- [ ] Run → Markdown “what’s next / conflicts to watch” summary (bounded window)
-- [ ] Job status + success snapshot for home glance
-- [ ] Clear empty state; no fake demo custody data
-- [ ] Copy stays personal planning — no third-party co-parent accounts
+- [x] Co-parenting leaves Coming soon; local schedule entries (dates/windows + short notes) persist under `data/`
+- [x] Run → Markdown “what’s next / conflicts to watch” summary (bounded window)
+- [x] Job status + success snapshot for home glance
+- [x] Clear empty state; no fake demo custody data
+- [x] Copy stays personal planning — no third-party co-parent accounts
 
 **Out of scope:**
 
@@ -502,20 +502,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Sprint | 6 (current) |
+| Sprint | 6 |
 
 **Goal:** DIY domain live: local project notes / punch list → LLM next-steps Markdown.
 
 **Acceptance criteria:**
 
-- [ ] DIY leaves Coming soon; operator can save one or more project notes (title + free text / checklist)
-- [ ] Run → Markdown suggested next steps / materials-to-consider framing (manual action only)
-- [ ] Job status + success snapshot for home glance
-- [ ] No e-commerce checkout or vendor scrape required
+- [x] DIY leaves Coming soon; operator can save one or more project notes (title + free text / checklist)
+- [x] Run → Markdown suggested next steps / materials-to-consider framing (manual action only)
+- [x] Job status + success snapshot for home glance
+- [x] No e-commerce checkout or vendor scrape required
 
 **Out of scope:**
 
@@ -528,19 +528,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14, B19, B20 |
-| Sprint | 6 (current) |
+| Sprint | 6 |
 
 **Goal:** Extend At a glance when Co-parenting and DIY go live; keep one composition.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Co-parenting and DIY snapshots when present
-- [ ] Prior module snapshots retained; long bodies truncated; no stub filler
-- [ ] Participating modules list updated in `docs/architecture.md`
+- [x] Home shows last Co-parenting and DIY snapshots when present
+- [x] Prior module snapshots retained; long bodies truncated; no stub filler
+- [x] Participating modules list updated in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -552,20 +552,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** Finance/Taxes leaves Coming soon with a safe personal planning path: local notes/context → LLM structured overview — not a brokerage or tax-filing product.
 
 **Acceptance criteria:**
 
-- [ ] Finance/Taxes leaves Coming soon; local context capture (notes / categories / questions)
-- [ ] Run → Markdown planning summary (topics to review, questions for advisor, reminders) with explicit “not professional tax/financial advice” disclaimer
-- [ ] Job status + success snapshot for home glance
-- [ ] No brokerage/bank OAuth; no automated filing or payments
+- [x] Finance/Taxes leaves Coming soon; local context capture (notes / categories / questions)
+- [x] Run → Markdown planning summary (topics to review, questions for advisor, reminders) with explicit “not professional tax/financial advice” disclaimer
+- [x] Job status + success snapshot for home glance
+- [x] No brokerage/bank OAuth; no automated filing or payments
 
 **Out of scope:**
 
@@ -578,21 +578,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B6, B10, B14 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** One composed morning pull on home: combine last (or freshly runnable) Calendar + Gmail signals into a short day brief — habit/pull without a second UI stack.
 
 **Acceptance criteria:**
 
-- [ ] Home (or a single At a glance section) can show a **Day brief** Markdown composed from Calendar + Gmail snapshot inputs
-- [ ] Operator can refresh brief from existing successful snapshots without inventing data when a module has never succeeded
-- [ ] Empty/partial states honest (e.g. Calendar only, Gmail only, neither)
-- [ ] Stays one composition — not a widget dump; truncates long bodies
-- [ ] Approach noted in `docs/architecture.md`
+- [x] Home (or a single At a glance section) can show a **Day brief** Markdown composed from Calendar + Gmail snapshot inputs
+- [x] Operator can refresh brief from existing successful snapshots without inventing data when a module has never succeeded
+- [x] Empty/partial states honest (e.g. Calendar only, Gmail only, neither)
+- [x] Stays one composition — not a widget dump; truncates long bodies
+- [x] Approach noted in `docs/architecture.md`
 
 **Out of scope:**
 
@@ -605,18 +605,18 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14, B22 |
-| Planned sprint | 7 |
+| Sprint | 7 |
 
 **Goal:** Add Finance snapshot to At a glance when Finance lite ships.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Finance snapshot when present
-- [ ] Glance list updated in architecture.md; composition rules preserved
+- [x] Home shows last Finance snapshot when present
+- [x] Glance list updated in architecture.md; composition rules preserved
 
 **Out of scope:**
 
@@ -628,22 +628,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B6, B15, B18 |
-| Planned sprint | 8 |
+| Sprint | 8 |
 
-**Goal:** First real mutation path: propose a Calendar event draft → show draft/diff → explicit confirm → insert via Google API → local audit entry. Implements Sprint 5 ADR stages for one surface only.
+**Goal:** First real mutation path: propose a Calendar event draft → show draft/diff → explicit confirm → insert via Google API → local audit entry. Implements ADR-006 stages for one surface only.
 
 **Acceptance criteria:**
 
-- [ ] Calendar (or shared write UI) can propose an event draft from operator input and/or LLM suggestion
-- [ ] Confirm step required; cancel leaves no remote write
-- [ ] On confirm: Calendar insert with appropriate write scope; success/failure clear in UI
-- [ ] Local audit log entry (what, when, outcome) under `data/`
-- [ ] Reconsent path if current token lacks write scope; no silent scope creep into Gmail send
-- [ ] UX/ADR stages match Sprint 5 design (propose → confirm → execute → audit)
+- [x] Calendar (or shared write UI) can propose an event draft from operator input and/or LLM suggestion
+- [x] Confirm step required; cancel leaves no remote write
+- [x] On confirm: Calendar insert with appropriate write scope; success/failure clear in UI
+- [x] Local audit log entry (what, when, outcome) under `data/`
+- [x] Reconsent path if current token lacks write scope; no silent scope creep into Gmail send
+- [x] UX/ADR stages match Sprint 5 design (propose → confirm → execute → audit)
 
 **Out of scope:**
 
@@ -657,19 +657,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B25 |
-| Planned sprint | 8 |
+| Sprint | 8 |
 
 **Goal:** Operator can skim recent write-back attempts without opening raw files.
 
 **Acceptance criteria:**
 
-- [ ] Settings or Calendar panel lists recent audit entries (bounded, newest first)
-- [ ] Shows timestamp, module, action summary, success/failure
-- [ ] No edit/replay of mutations required this sprint
+- [x] Settings or Calendar panel lists recent audit entries (bounded, newest first)
+- [x] Shows timestamp, module, action summary, success/failure
+- [x] No edit/replay of mutations required this sprint
 
 **Out of scope:**
 
@@ -681,22 +681,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B3, B8 |
-| Planned sprint | 9 |
+| Sprint | 9 |
 
 **Goal:** Prove the path off cloud for core advice: a local Llama-class (or compatible) provider works behind the existing LLM interface when the operator has a local runtime.
 
 **Acceptance criteria:**
 
-- [ ] `LocalLlama` (or named local provider) implements the provider interface against a documented local runtime (e.g. Ollama HTTP — architect chooses; document in ADR/architecture)
-- [ ] Settings: select local provider, configure base URL / model id; **Test connection** works
-- [ ] Modules use the active provider after save (hot-reload vs restart documented)
-- [ ] Clear errors when daemon unreachable, model missing, or timeout
-- [ ] README covers install/run assumptions for the stakeholder machine; OpenAI remains available as fallback choice
-- [ ] PoC success metric “path to local LLM” advanced — cloud not deleted
+- [x] `LocalLlama` (or named local provider) implements the provider interface against a documented local runtime (e.g. Ollama HTTP — architect chooses; document in ADR/architecture)
+- [x] Settings: select local provider, configure base URL / model id; **Test connection** works
+- [x] Modules use the active provider after save (hot-reload vs restart documented)
+- [x] Clear errors when daemon unreachable, model missing, or timeout
+- [x] README covers install/run assumptions for the stakeholder machine; OpenAI remains available as fallback choice
+- [x] PoC success metric “path to local LLM” advanced — cloud not deleted
 
 **Out of scope:**
 
@@ -706,24 +706,50 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 ---
 
+### B31 — Local provider bounds & module-run errors
+
+| Field | Value |
+|-------|-------|
+| Status | done |
+| Priority | P1 |
+| Roadmap theme | Later → scheduled |
+| Depends on | B27 |
+| Sprint | 9 |
+
+**Goal:** Local LLM runs must fail loudly and predictably — timeouts/bounds and distinct mid-job daemon errors so busy state never hangs silently.
+
+**Acceptance criteria:**
+
+- [x] Documented timeouts / max output bounds suitable for local hardware
+- [x] Module run surfaces distinct errors for daemon-down mid-job vs timeout vs cloud-path failures
+- [x] No silent hang in busy state; cancel-or-fail path documented
+- [x] Architecture notes local-vs-cloud latency expectations
+
+**Out of scope:**
+
+- Auto GPU installers
+- Per-module provider overrides
+
+---
+
 ### B28 — Coding / Creative projects lite
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B2, B13 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Coding/Creative leaves Coming soon: local project notes / focus context → LLM next-steps Markdown for personal creative/coding work.
 
 **Acceptance criteria:**
 
-- [ ] Coding/Creative leaves Coming soon; local notes/context persist under `data/`
-- [ ] Run → Markdown priorities / next experiments (manual action)
-- [ ] Job status + success snapshot for home glance
-- [ ] No mandatory GitHub/GitLab OAuth this sprint
+- [x] Coding/Creative leaves Coming soon; local notes/context persist under `data/`
+- [x] Run → Markdown priorities / next experiments (manual action)
+- [x] Job status + success snapshot for home glance
+- [x] No mandatory GitHub/GitLab OAuth this sprint
 
 **Out of scope:**
 
@@ -736,21 +762,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B14, B23 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Stronger local organisation: a thin **shared context** store modules/home can read (recent snapshots + optional short operator “standing notes”) so LLM prompts can cite cross-domain signal without a second product.
 
 **Acceptance criteria:**
 
-- [ ] Documented shared-context bundle (files/DuckDB — architect chooses) built from recent successful snapshots + optional standing notes
-- [ ] At least one module path and/or Day brief can optionally include a bounded slice of shared context in the LLM prompt
-- [ ] Hard caps on context size; secrets/tokens never injected into prompts from this store
-- [ ] Architecture ADR or section: what is in/out of shared context; opt-in vs default
-- [ ] Home or Settings can view/edit standing notes (minimal)
+- [x] Documented shared-context bundle (files/DuckDB — architect chooses) built from recent successful snapshots + optional standing notes
+- [x] At least one module path and/or Day brief can optionally include a bounded slice of shared context in the LLM prompt
+- [x] Hard caps on context size; secrets/tokens never injected into prompts from this store
+- [x] Architecture ADR or section: what is in/out of shared context; opt-in vs default
+- [x] Home or Settings can view/edit standing notes (minimal)
 
 **Out of scope:**
 
@@ -764,892 +790,22 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Later → scheduled |
 | Depends on | B14, B28 |
-| Planned sprint | 10 |
+| Sprint | 10 |
 
 **Goal:** Coding/Creative snapshot appears on At a glance when present.
 
 **Acceptance criteria:**
 
-- [ ] Home shows last Coding/Creative snapshot when present
-- [ ] Glance participants list updated in architecture.md
+- [x] Home shows last Coding/Creative snapshot when present
+- [x] Glance participants list updated in architecture.md
 
 **Out of scope:**
 
 - Per-module pin/hide preferences UI
-
----
-
-### B31 — Gmail write-back (confirm-first send)
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B18, B25, B15 |
-| Planned sprint | 11 |
-
-**Goal:** Confirm-first Gmail send (draft → confirm → execute → audit), reusing Sprint 8 write-back patterns.
-
-**Acceptance criteria:**
-
-- [ ] Propose → draft/diff → confirm → send → audit
-- [ ] Cancel performs no send; reconsent for write scope when needed
-- [ ] Audit visible via existing viewer patterns
-- [ ] No silent/auto sends; no bulk label product
-
-**Out of scope:**
-
-- Multi-account, mailing-list automation
-
----
-
-### B32 — Native desktop shell wrapper
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B1 |
-| Planned sprint | 12 |
-
-**Goal:** Optional native window wrapping the existing web UI — one UI stack.
-
-**Acceptance criteria:**
-
-- [ ] Desktop launcher loads existing UI; browser path remains valid
-- [ ] ADR for technology choice; README run notes for stakeholder machine
-- [ ] Clear error if backend unavailable
-- [ ] No parallel native feature widgets
-
-**Out of scope:**
-
-- App-store shipping, auto-update SaaS, mobile binary
-
----
-
-### B33 — Opt-in scheduled Day brief
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B23 |
-| Planned sprint | 13 |
-
-**Goal:** Local opt-in schedule to refresh Day brief; default off; no scheduled write-back.
-
-**Acceptance criteria:**
-
-- [ ] Settings enable/disable + simple cadence; default off
-- [ ] Scheduled refresh of Day brief documented (what it may fetch)
-- [ ] No scheduled mutations (ADR-006)
-- [ ] Missed-run behavior documented
-
-**Out of scope:**
-
-- Push notifications off-machine
-
----
-
-### B34 — Co-parenting publish to Calendar
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B19, B25 |
-| Planned sprint | 14 |
-
-**Goal:** Confirm-first publish of selected co-parenting windows to Google Calendar.
-
-**Acceptance criteria:**
-
-- [ ] Select entries → draft events → confirm insert
-- [ ] Local schedule remains source of truth unless published
-- [ ] Audit entries; no silent sync loops
-- [ ] Sole-operator only
-
-**Out of scope:**
-
-- Other-parent accounts, family ACLs
-
----
-
-### B35 — Snapshot history browser
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B14 |
-| Planned sprint | 15 |
-
-**Goal:** Bounded history of successful summaries beyond last-only; browse/search locally.
-
-**Acceptance criteria:**
-
-- [ ] Persist bounded N histories per module
-- [ ] Simple history UI with safe Markdown view
-- [ ] Retention/prune documented
-
-**Out of scope:**
-
-- Cloud sync of history
-
----
-
-### B36 — Shared context depth (history pins)
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B29, B35 |
-| Planned sprint | 15 |
-
-**Goal:** Pin/select history into shared context with hard caps.
-
-**Acceptance criteria:**
-
-- [ ] Operator can pin history items into shared context
-- [ ] Hard caps; secrets never injected
-- [ ] Architecture updated
-
-**Out of scope:**
-
-- Full vector RAG platform
-
----
-
-### B37 — Fitness data import lite
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P2 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B11 |
-| Planned sprint | 16 |
-
-**Goal:** Bounded activity import to ground Fitness plans; keep non-medical framing.
-
-**Acceptance criteria:**
-
-- [ ] Import path for bounded activity artifact
-- [ ] Optional use in Fitness Run prompt
-- [ ] Disclaimer retained; bad file errors clear
-
-**Out of scope:**
-
-- Continuous wearable productization
-
----
-
-### B38 — Finance CSV import lite
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P2 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B22 |
-| Planned sprint | 17 |
-
-**Goal:** Local CSV import for Finance planning summaries — not brokerage or e-file.
-
-**Acceptance criteria:**
-
-- [ ] Bounded CSV import under `data/`
-- [ ] Planning Markdown + non-advice disclaimer
-- [ ] No bank/broker OAuth; no trading UI
-
-**Out of scope:**
-
-- Tax e-file, bank aggregation SaaS
-
----
-
-### B39 — Investment watchlist
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P2 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B9 |
-| Planned sprint | 18 |
-
-**Goal:** Local watchlist scoping Investment runs; still manual advice only.
-
-**Acceptance criteria:**
-
-- [ ] Edit/save watchlist under `data/`
-- [ ] Run can target watchlist within hard caps
-- [ ] No order/trade affordances
-
-**Out of scope:**
-
-- Automated trading (Icebox)
-
----
-
-### B40 — Optional LAN shared-secret gate
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B12 |
-| Planned sprint | 19 |
-
-**Goal:** Optional gate when LAN bind is enabled; localhost stays low-friction.
-
-**Acceptance criteria:**
-
-- [ ] Optional shared-secret (or basic gate) when LAN on
-- [ ] Trusted-LAN-only without gate remains an explicit choice
-- [ ] Documented in README + architecture
-
-**Out of scope:**
-
-- Enterprise SSO, public internet exposure features
-
----
-
-### B41 — Local backup / export
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B1 |
-| Planned sprint | 19 |
-
-**Goal:** Operator-triggered local backup/export of app data with explicit secrets handling.
-
-**Acceptance criteria:**
-
-- [ ] Export archive written locally
-- [ ] Secrets include/exclude choice documented
-- [ ] No cloud upload
-
-**Out of scope:**
-
-- Remote backup SaaS
-
----
-
-### B42 — Weekly review composition
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B23, B29 |
-| Planned sprint | 20 |
-
-**Goal:** Cross-module Weekly review Markdown the operator will reopen; one composition.
-
-**Acceptance criteria:**
-
-- [ ] Run Weekly review from bounded snapshots/shared context
-- [ ] Persist result; home or panel slot
-- [ ] Partial/empty honest; no fake data
-- [ ] One composition (no widget dump)
-
-**Out of scope:**
-
-- Push digests off-machine
-
----
-
-### B43 — Shell polish pass
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P2 |
-| Roadmap theme | Later → scheduled |
-| Depends on | B7 |
-| Planned sprint | 20 |
-
-**Goal:** Close 11–20 with a short prioritized UX/reliability polish list inside the existing design system.
-
-**Acceptance criteria:**
-
-- [ ] PO polish list recorded in sprint file before implement
-- [ ] Fixes use existing theme tokens / patterns
-- [ ] No new domain modules in this item
-
-**Out of scope:**
-
-- Full redesign / second UI stack
-
----
-
-
-### B44 — Gmail thread digests
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B10, B15 |
-| Planned sprint | 21 |
-
-**Goal:** Thread-level Gmail digests (bounded fetch + LLM asks/commitments).
-
-**Acceptance criteria:**
-
-- [ ] Gmail panel lists recent threads (bounded) or accepts a thread id/link from skim
-- [ ] Fetch bounded messages in thread → local artifacts
-- [ ] LLM Markdown digest: summary, asks, commitments, suggested next action (manual)
-- [ ] Job busy/done/error; success snapshot
-- [ ] No full-history sync; hard caps on messages/chars
-
-**Out of scope:**
-
-- Automated replies
-- Automated trading / order placement (Icebox)
-
----
-
-### B45 — Investment thesis & research notebook
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B9, B39 |
-| Planned sprint | 22 |
-
-**Goal:** Per-symbol/topic notebook and thesis notes seeding Investment LLM runs.
-
-**Acceptance criteria:**
-
-- [ ] Local notebook/thesis store per symbol or topic under data/
-- [ ] Panel UX to view/edit notes
-- [ ] Run can optionally include notebook slice in prompt (hard-capped)
-- [ ] Advice Markdown remains non-order
-- [ ] Empty notebook honest
-
-**Out of scope:**
-
-- Brokerage sync
-- Automated trading / order placement (Icebox)
-
----
-
-### B46 — Gmail VIP / local priority rules
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B10 |
-| Planned sprint | 23 |
-
-**Goal:** Local VIP/muted sender rules shaping Gmail prioritization.
-
-**Acceptance criteria:**
-
-- [ ] CRUD for local sender rules (VIP / muted / tags)
-- [ ] Skim + digest prompts honor rules
-- [ ] Clear UI for rules; no silent network calls beyond existing fetch
-- [ ] Rules stored under data/; gitignored appropriately
-
-**Out of scope:**
-
-- Google filter sync product
-- Automated trading / order placement (Icebox)
-
----
-
-### B47 — Investment watchlist news clustering
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B39, B9 |
-| Planned sprint | 24 |
-
-**Goal:** Cluster watchlist news into cited themes.
-
-**Acceptance criteria:**
-
-- [ ] Bounded fetch across watchlist symbols/topics
-- [ ] LLM or heuristic clustering into themes with source lists
-- [ ] Panel shows clusters + summary; hard caps preserved
-- [ ] No trade buttons; clear empty/error taxonomy
-
-**Out of scope:**
-
-- Streaming quotes product
-- Order tickets
-- Automated trading / order placement (Icebox)
-
----
-
-### B48 — Gmail labels confirm-first
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B31, B18 |
-| Planned sprint | 25 |
-
-**Goal:** Read labels; confirm-first apply/remove with audit.
-
-**Acceptance criteria:**
-
-- [ ] Read and display labels for messages/threads in panel
-- [ ] Propose apply/remove → draft → confirm → execute → audit
-- [ ] Reconsent if modify scope missing
-- [ ] No bulk silent labeling; no auto-rules engine yet
-
-**Out of scope:**
-
-- Silent auto-label loops
-- Automated trading / order placement (Icebox)
-
----
-
-### B49 — Investment manual holdings journal
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B45, B39 |
-| Planned sprint | 26 |
-
-**Goal:** Operator-entered holdings for advice context — not broker truth.
-
-**Acceptance criteria:**
-
-- [ ] Local holdings table/file under data/
-- [ ] Panel CRUD; validation for obvious junk rows
-- [ ] Optional include in LLM context with hard cap
-- [ ] UI states this is operator-entered, not broker-synced
-- [ ] No order/rebalance execution
-
-**Out of scope:**
-
-- Brokerage OAuth
-- Automated trading / order placement (Icebox)
-
----
-
-### B50 — Gmail saved searches
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B10 |
-| Planned sprint | 27 |
-
-**Goal:** Named Gmail queries + builder for bounded skims.
-
-**Acceptance criteria:**
-
-- [ ] Persist named queries under data/
-- [ ] Panel query builder or advanced string field with examples
-- [ ] Run bounded fetch for query; job status
-- [ ] Invalid query / API errors actionable
-
-**Out of scope:**
-
-- Full offline index (later)
-- Automated trading / order placement (Icebox)
-
----
-
-### B51 — Investment earnings & events skim
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B39 |
-| Planned sprint | 28 |
-
-**Goal:** Bounded earnings/events skim for watchlist.
-
-**Acceptance criteria:**
-
-- [ ] Bounded fetch of earnings/event-like sources for watchlist
-- [ ] Markdown table/list of upcoming/recent events + LLM wrap
-- [ ] Hard caps; cache where sensible
-- [ ] Honest empty state when no events found
-
-**Out of scope:**
-
-- Paid data vendor product
-- Auto trades
-- Automated trading / order placement (Icebox)
-
----
-
-### B52 — Gmail attachment skim
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B44 |
-| Planned sprint | 29 |
-
-**Goal:** Attachment metadata + opt-in bounded text extract for digests.
-
-**Acceptance criteria:**
-
-- [ ] List attachment metadata (name, type, size) for selected message/thread
-- [ ] Opt-in text extract for allowlisted types under size cap; store under data/
-- [ ] Never auto-exfiltrate; clear skip reasons for unsafe/huge files
-- [ ] Optional include snippets in digest prompt
-
-**Out of scope:**
-
-- Arbitrary binary preview
-- Automated trading / order placement (Icebox)
-
----
-
-### B53 — Investment citations & source quality
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B9, B24 |
-| Planned sprint | 30 |
-
-**Goal:** Structured citations and domain mute/quality tags.
-
-**Acceptance criteria:**
-
-- [ ] Structured source records in DuckDB/files (url, title, retrieved_at, quality tag)
-- [ ] Advice Markdown includes citations section
-- [ ] Operator can mute/exclude domains for future runs
-- [ ] Document quality rubric simply in architecture or module README
-
-**Out of scope:**
-
-- Paywall bypass product
-- Automated trading / order placement (Icebox)
-
----
-
-### B54 — Gmail follow-up tracker
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B44, B46 |
-| Planned sprint | 31 |
-
-**Goal:** Local pin/due follow-ups for threads; boost in skims.
-
-**Acceptance criteria:**
-
-- [ ] Local follow-up records (thread id, note, due optional, status)
-- [ ] Panel list + pin from thread digest
-- [ ] Optional boost in priority skim
-- [ ] No auto-send reminders off-machine
-
-**Out of scope:**
-
-- Off-machine push notifications
-- Automated trading / order placement (Icebox)
-
----
-
-### B55 — Investment scenario & risk check
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B45, B49 |
-| Planned sprint | 32 |
-
-**Goal:** Scenario/risk checklist runs from notebook/holdings/watchlist.
-
-**Acceptance criteria:**
-
-- [ ] Scenario Run mode distinct from news skim
-- [ ] Prompt template covers risks, invalidation, concentration (if holdings present)
-- [ ] Non-advice disclaimer
-- [ ] Snapshot for home/history
-
-**Out of scope:**
-
-- VaR product
-- Auto hedging
-- Automated trading / order placement (Icebox)
-
----
-
-### B56 — Gmail newsletter digest
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B23, B50 |
-| Planned sprint | 33 |
-
-**Goal:** Cluster newsletters/bulk mail into keep/drop digest (manual).
-
-**Acceptance criteria:**
-
-- [ ] Heuristic/LLM clustering of bulk/newsletter-like mail in bounded window
-- [ ] Markdown digest per sender/group with keep/unsubscribe/archive suggestions
-- [ ] No automatic unsubscribe HTTP calls unless confirm-first in a later story
-- [ ] Respect VIP rules (do not treat VIP as bulk)
-
-**Out of scope:**
-
-- Unconfirmed mass unsubscribe
-- Automated trading / order placement (Icebox)
-
----
-
-### B57 — Investment theme/sector baskets
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B39, B47 |
-| Planned sprint | 34 |
-
-**Goal:** Named baskets scoping Investment fetches/advice.
-
-**Acceptance criteria:**
-
-- [ ] Local basket CRUD under data/
-- [ ] Investment Run target: watchlist | basket | ad-hoc
-- [ ] Cluster/advice paths accept basket scope
-- [ ] No ETF auto-trading
-
-**Out of scope:**
-
-- Auto-rebalance
-- Automated trading / order placement (Icebox)
-
----
-
-### B58 — Gmail archive/trash batch
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B25, B31 |
-| Planned sprint | 35 |
-
-**Goal:** Multi-select confirm-first archive/trash with audit.
-
-**Acceptance criteria:**
-
-- [ ] Multi-select from recent skim/search results
-- [ ] Propose archive or trash → confirm → execute → audit
-- [ ] Clear irreversible copy for trash
-- [ ] Caps on batch size
-
-**Out of scope:**
-
-- Auto-delete without confirm
-- Automated trading / order placement (Icebox)
-
----
-
-### B59 — Investment local alerts
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B39 |
-| Planned sprint | 36 |
-
-**Goal:** In-panel/local alerts for watchlist conditions; informational only.
-
-**Acceptance criteria:**
-
-- [ ] Alert rule CRUD (symbol/topic, condition type: keyword / manual threshold note)
-- [ ] Evaluation on Run and/or opt-in schedule (reuse job patterns; default off)
-- [ ] Triggered alerts list in Investment panel; optional home chip
-- [ ] Explicit: alerts are informational; no trades
-
-**Out of scope:**
-
-- SMS push
-- Automated trading / order placement (Icebox)
-
----
-
-### B60 — Gmail people context
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B46, B44 |
-| Planned sprint | 37 |
-
-**Goal:** Frequent contacts + notes to improve digests/priority.
-
-**Acceptance criteria:**
-
-- [ ] Derive frequent contacts from bounded recent mail (local)
-- [ ] Operator notes per person; VIP link to rules
-- [ ] Optional inject into thread digest / priority skim (capped)
-- [ ] No CRM multi-user features
-
-**Out of scope:**
-
-- Full CRM
-- Automated trading / order placement (Icebox)
-
----
-
-### B61 — Investment comparative analysis
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B45, B53 |
-| Planned sprint | 38 |
-
-**Goal:** A vs B bounded compare with citations.
-
-**Acceptance criteria:**
-
-- [ ] UI to select two scopes (symbol/topic/basket)
-- [ ] Bounded dual fetch + comparison Markdown template
-- [ ] Citations/source quality reused
-- [ ] No winner-as-order framing; manual decision copy
-
-**Out of scope:**
-
-- Pair-trade execution
-- Automated trading / order placement (Icebox)
-
----
-
-### B62 — Email × Investment bridge
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B49, B39, B54 |
-| Planned sprint | 39 |
-
-**Goal:** Mail mentions of holdings/watchlist → bridge digest + deep links.
-
-**Acceptance criteria:**
-
-- [ ] Bounded scan: match sender/subject/body keywords to holdings/watchlist symbols
-- [ ] Bridge results Markdown + deep links
-- [ ] False-positive controls (min token length, allowlist tickers)
-- [ ] No auto-trading; no auto-send
-- [ ] Architecture note on matching approach
-
-**Out of scope:**
-
-- Broker statement as only source
-- Auto trades
-- Automated trading / order placement (Icebox)
-
----
-
-### B63 — Gmail & Investment operator playbooks
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B50, B39, B45 |
-| Planned sprint | 40 |
-
-**Goal:** Named playbooks binding module + scope + prompt for one-click deep runs.
-
-**Acceptance criteria:**
-
-- [ ] Named playbooks binding module + query/watchlist/basket + prompt template
-- [ ] One-click Run from Gmail/Investment or Settings
-- [ ] Playbooks stored locally; exportable with backup patterns if present
-
-**Out of scope:**
-
-- New domain modules
-- Automated trading
-
----
-
-### B64 — Gmail + Investment depth polish
-
-| Field | Value |
-|-------|-------|
-| Status | ready |
-| Priority | P2 |
-| Roadmap theme | Later → Email/Investment depth |
-| Depends on | B63 |
-| Planned sprint | 40 |
-
-**Goal:** PO-prioritized polish/reliability pass on deep email/investment surfaces.
-
-**Acceptance criteria:**
-
-- [ ] PO polish list for Gmail+Investment (errors, density, caps, empty states) recorded in sprint file
-- [ ] Address list within theme tokens
-- [ ] Update architecture module maps for deep email/investment surfaces
-
-**Out of scope:**
-
-- Full redesign
-- Icebox items
 
 ---
 

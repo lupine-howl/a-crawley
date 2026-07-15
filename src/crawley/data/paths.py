@@ -13,6 +13,10 @@ GMAIL_DIR = DATA_DIR / "gmail"
 CALENDAR_DIR = DATA_DIR / "calendar"
 FITNESS_DIR = DATA_DIR / "fitness"
 WORK_DIR = DATA_DIR / "work"
+CO_PARENTING_DIR = DATA_DIR / "co_parenting"
+DIY_DIR = DATA_DIR / "diy"
+FINANCE_DIR = DATA_DIR / "finance"
+CODING_DIR = DATA_DIR / "coding_creative"
 DUCKDB_PATH = DATA_DIR / "crawley.duckdb"
 
 
@@ -25,5 +29,9 @@ def ensure_data_dirs() -> None:
         CALENDAR_DIR,
         FITNESS_DIR,
         WORK_DIR,
+        CO_PARENTING_DIR,
+        DIY_DIR,
+        FINANCE_DIR,
+        CODING_DIR,
     ):
         path.mkdir(parents=True, exist_ok=True)

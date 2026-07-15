@@ -12,11 +12,11 @@ Crawley modules may eventually mutate Google (Gmail send/labels, Calendar insert
 1. **Explicit user confirm** is required before any live mutation. No background or scheduled writes in the personal OS PoC.
 2. **Draft-first stages:** propose → show diff/draft → confirm → execute → append a **local audit log**.
 3. **Per-module capability flags** (`WriteBackCapability`): `supported`, `dry_run_only`, human `label`.
-4. Until a dedicated implementation sprint: **`write_back()` is dry-run only** — records intent under `data/writeback_audit.jsonl` and **must not** call Gmail send / Calendar insert APIs.
-5. Out of scope: silent automation, multi-user ACLs, cloud secret managers.
+4. Per-module: Gmail remains **dry-run only**. Calendar insert is live after confirm (Sprint 8) with a session draft UUID; Cancel performs no remote write.
+5. Out of scope: silent automation, multi-user ACLs, cloud secret managers, Gmail send.
 
 ## Consequences
 
-- **Positive:** Modules can declare future write paths without shipping mutations; operators can exercise dry-run hooks now.
-- **Negative:** Confirm UI / diff rendering is deferred; dry-run is weaker than a full staged UX.
-- **Later:** Real write-back sprint after ADR soak; expand audit and confirm UI per module.
+- **Positive:** Confirm-first Calendar path proves the stages; audit trail covers dry-run and live attempts.
+- **Negative:** Gmail mutations still deferred; primary-calendar-only insert.
+- **Later:** Gmail draft-then-send; undo/delete from audit row.
