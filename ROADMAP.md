@@ -2,59 +2,64 @@
 
 Ordered outcomes (not tasks). Product owner owns this file.  
 **Working title:** Crawley  
-**Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)
+**Code check (2026-07-15):** Sprints **6–10 are implemented** in `src/crawley/` (verified modules + `tests/test_sprint6_10.py` green).  
+**Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)  
+**Pivot:** Sender Inbox + ASX PoCs start at **Sprint 11**. Former *planned* 11–40 depth/platform queue is [shelved](docs/sprints/shelved/README.md) — not the delivered 6–10 work.
 
 ## Now
 
-**PoC complete (Sprints 1–5 closed 2026-07-15)** — local modular shell with real signal.
+**Shipped through Sprint 10** (code + automated tests):
 
-- [x] Shared Python core + **stable module contract** (write-back designed; dry-run until live sprints).
-- [x] Local **browser** dashboard: themes, Settings, Markdown, home At a glance.
-- [x] **Investment** (lite → hardened) + **Gmail** + **Calendar** read paths with LLM summaries.
-- [x] **Fitness** + **Work** lite modules; remaining domains stubbed/planned.
-- [x] Opt-in **phone-on-LAN**; write-back **ADR-006** + dry-run hooks.
+- [x] Shared Python core + stable module contract (confirm-first write-back live for Calendar)
+- [x] Local browser dashboard: themes, Settings, Markdown, home At a glance, Day brief
+- [x] Investment + Gmail + Calendar (read); Calendar **confirm-first insert**
+- [x] Fitness, Work, Co-parenting, DIY, Finance/Taxes, Coding/Creative lite modules
+- [x] Opt-in phone-on-LAN; ADR-006 write-back model
+- [x] LocalLlama (Ollama HTTP) operable; ADR-007
+- [x] Shared context seed (standing notes + capped snapshots); ADR-008
 
-*Still out of Now:* local LLM ops, live mutations, native desktop wrapper, automated trading, multi-user, public hosting.
+*Still out of Now:* native desktop wrapper, Gmail send, public hosting, multi-user, **live brokerage order placement** (paper portfolio planned in Sprint 13)
 
 ## Next
 
-**Harden the personal OS and deepen the highest-value modules**
+**Sender Inbox + ASX depth PoCs**
 
-### Sprint 2 (closed) — Operable shell
-Themes, LLM settings/test, Markdown summaries, home At a glance — archived
+### Sprint 11 (ready) — Update-from-git + Sender Inbox PoC
+**First:** Settings → **Update** (git pull) with proven **hot reload**. **Then:** Sender Inbox PoC (~20 emails: categorize → by sender → profiles → todos).  
+[`docs/sprints/current.md`](docs/sprints/current.md) · B78, B65–B70 · UX: [`docs/ux/sender-inbox-asx.md`](docs/ux/sender-inbox-asx.md)
 
-### Sprint 3–4 (closed, bundled) — Google life reads + signal depth
-Shared Google OAuth; **Calendar** live; harden Gmail; deepen **Investment**; **Fitness** lite — archived
+### Sprint 12 (planned) — ASX company scanner + profiles PoC
+Large ASX universe; background scan; per-company profiles; sources + prompts; **~20 company** slice.  
+[`docs/sprints/planned/sprint-12-asx-profiles.md`](docs/sprints/planned/sprint-12-asx-profiles.md) · B71–B74
 
-### Sprint 5 (closed) — Reach + Work + write-back design
-**Phone-on-LAN** (opt-in); **Work** lite; write-back **ADR/dry-run only** — [`docs/sprints/current.md`](docs/sprints/current.md)
+### Sprint 13 (planned) — ASX recommendations + paper portfolio
+Structured recommendations; simulated portfolio page; brokerage/simulation settings (no live orders).  
+[`docs/sprints/planned/sprint-13-asx-paper-portfolio.md`](docs/sprints/planned/sprint-13-asx-paper-portfolio.md) · B75–B77
 
-### Sprints 6–10 (closed, bundled) — Life coverage + write-back + local LLM + shared context
-Co-parenting/DIY/Finance/Coding-Creative lite; Day brief; Calendar confirm-first insert; LocalLlama (Ollama); shared context seed — [`docs/sprints/current.md`](docs/sprints/current.md)
+### After Sprint 13
 
-### After Sprint 10 (unscheduled)
-- Optional **native desktop shell** (wrap existing UI)
-- Gmail draft-then-send write-back; further selective mutations
-- Scheduled overnight Day brief; deeper shared memory / search if seed proves useful
-- Wearables, brokerage, tax e-file — only if explicitly pulled from Icebox/Later bets
+- Scale beyond 20-email / 20-company PoC caps
+- Un-shelve selected former 11–40 items where useful ([shelved](docs/sprints/shelved/README.md))
 
-## Later
+## Closed
 
-**Thicker local intelligence and optional desktop chrome**
+| Sprints | Theme | Evidence |
+|---------|-------|----------|
+| 1 | Shell + Investment/Gmail lite | [archive](docs/sprints/archive/sprint-1-local-shell.md) |
+| 2 | Themes, settings, Markdown, glance | [archive](docs/sprints/archive/sprint-2-themes-settings-glance.md) |
+| 3–4 | Google + Investment/Fitness | [archive](docs/sprints/archive/sprint-3-4-google-investment-fitness.md) |
+| 5 | LAN + Work + write-back design | [archive](docs/sprints/archive/sprint-5-lan-work-writeback.md) |
+| 6–10 | Life modules, Day brief, Calendar write-back, LocalLlama, shared context | [archive](docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](docs/sprints/archive/sprint-6-10-code-verification.md) |
 
-- Optional **native desktop shell** wrapping the existing web UI (dock icon / window)—not a second UI stack.
-- Deeper shared memory (searchable history, optional embeddings) after Sprint 10 seed.
-- Broader integrations as needed: workout wearables, tax/finance depth, co-parenting ↔ Calendar sync.
-- Additional selective write-back (e.g. Gmail) with the same confirm-first discipline.
-- *(Local LLM path and top-tier lite modules shipped in Sprints 6–10.)*
+## Later (shelved — do not start)
+
+Former **planned** Sprints 11–40 (platform Later + Email/Investment depth arc) — filenames `planned/sprint-11.md`…`sprint-40.md` collide with pivot; use `sprint-11-sender-inbox.md` etc. for active work.
 
 ## Icebox
-
-Valuable or tempting, explicitly not sequenced:
 
 - Commercial productization or public hosting
 - Multi-user / family accounts
 - Dedicated mobile app store binary
-- **Automated trading / order placement**
-- Anything framed as professional medical or financial advice liability product
+- **Live automated trading / order placement** (paper portfolio ≠ this)
+- Professional medical/financial advice liability framing
 - Tax e-file / bank aggregation SaaS

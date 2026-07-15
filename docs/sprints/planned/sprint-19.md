@@ -1,6 +1,6 @@
 # Sprint 19 — LAN gate + local backup/export (planned)
 
-**Status:** planned (activates after Sprint 5 LAN)  
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B40, B41  
 **Depends on:** B12  

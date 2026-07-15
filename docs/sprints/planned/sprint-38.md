@@ -1,6 +1,6 @@
 # Sprint 38 — Investment comparative analysis (A vs B) (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B61  
 **Depends on:** B45, B53, B34 baskets helpful  

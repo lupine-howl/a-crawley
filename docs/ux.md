@@ -3,9 +3,27 @@
 UX expert owns this file. Update when a design pass lands.
 
 **Working title:** Crawley  
-**Status:** Confirmed — Sprint 2 design contract (2026-07-15)  
+**Status:** Confirmed — Sprint 2 design contract (2026-07-15); **Pivot UX** — Sender Inbox + ASX desk **Draft for implement** (2026-07-15)  
 **Surfaces:** Local browser dashboard + module panels (FastAPI / Jinja2 / HTMX; see `docs/architecture.md`)  
-**Sprint alignment:** S2.1 (themable UI), S2.2 (LLM settings & test connection); **S2.3** (Markdown summaries) and **S2.4** (home At a glance) added by PO after UX lock — see Component patterns + Key flows F6
+**Sprint alignment:** S2.1–S2.4 (shell themes, Settings LLM, Markdown, At a glance) remain in force; **S11.0 / B65** pivot dashboards → [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)
+
+## Pivot — Sender Inbox + ASX desk (Sprints 11–13)
+
+**Contract:** [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)  
+**Status:** Draft for implement (stakeholder intents locked via PO pivot; architects may proceed)
+
+| Surface | Module | Default unit |
+|---------|--------|--------------|
+| Sender Inbox | Gmail | **Sender** (not chronological stream) |
+| ASX desk | Investment | **Company** + scanner progress |
+| Recommendations | Investment sub-route | Structured action rows |
+| Paper portfolio | Investment sub-route | Simulated AUD ledger (not live trading) |
+
+**Shell rules still bind:** one composition, brand in chrome, four themes/tokens, no card soup, IBM Plex, HTMX/Jinja only.
+
+**Token extensions (optional for denser lists):** `--row-hover`, `--signal-border`, `--pos` / `--neg` (aliases of `--ok` / `--warn`), `--table-head`, optional `--space-6` — see pivot contract §8. Do not add purple/glow marketing accents.
+
+Parking-lot ideas that expand scope live in the pivot file §11 (not here as sprint AC).
 
 ## Principles
 
@@ -286,6 +304,9 @@ Trusted subset focus: headings, paragraphs, emphasis, lists, links. Architect ow
 | **S2.2** | Settings nav entry (+ banner deep-link); LLM fields + Save; Test connection states; missing key parity with banner |
 | **S2.3** | Markdown→HTML for Investment/Gmail summaries; tokenized `.summary` styles; safe sanitize (see Component patterns) |
 | **S2.4** | Home At a glance: status chips + persisted last Investment/Gmail MD snippets; one composition; empty honest hints (see F6) |
+| **S11.0 / B65** | Sender Inbox + ASX desk IA/layouts/states — [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) (Draft for implement) |
+| **S11.1–S6.5** | Implement Sender Inbox per pivot contract §3 |
+| **S12 / S13** | Implement ASX desk, recommendations, paper portfolio per pivot §§4–6 |
 
 Architect implements; optional markup snippets in PRs are fine. Do not change Product/Roadmap/backlog from this pass.
 
@@ -317,6 +338,7 @@ Made where questions were unanswered — challenge before lock:
 - Collapsible nav groups when module count grows  
 - Native desktop window chrome  
 - Marketing/landing page outside the app shell  
+- **Pivot desks:** multi-account Gmail, newsletter bundle classes, live brokerage, CGT/multi-currency, forum noise sources — see [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) §11  
 
 ## Open questions (resolve on lock)
 

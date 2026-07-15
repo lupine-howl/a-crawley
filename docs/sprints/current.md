@@ -1,86 +1,158 @@
-# Sprints 6–10 — Life modules, Day brief, write-back, local LLM, shared context (bundled)
+# Sprint 11 — Update-from-git + Sender Inbox PoC
 
-**Status:** done (delivered as one implementation bundle)  
-**Duration:** one symbolic compound sprint  
-**Backlog refs:** B19–B31  
-**Depends on:** Sprint 5 (LAN, Work, ADR-006)  
-**Architecture:** [`docs/architecture.md`](../architecture.md) + ADR-007 / ADR-008  
-**Previous:** [`archive/sprint-5-lan-work-writeback.md`](archive/sprint-5-lan-work-writeback.md)  
-**Planned sources:** [`planned/sprint-6.md`](planned/sprint-6.md) … [`planned/sprint-10.md`](planned/sprint-10.md)
+**Status:** ready (next delivery after Sprints 6–10 closed)  
+**Duration:** one symbolic week  
+**Backlog refs:** B78, B65, B66, B67, B68, B69, B70  
+**Depends on:** Sprints 1–10 shell; UX draft for Sender Inbox / ASX (`docs/ux/sender-inbox-asx.md`)  
+**Architecture:** [`docs/architecture.md`](../architecture.md) — document Update + reload behaviour  
+**UX:** Settings → **Update** control; Sender Inbox per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
+**Previous:** [`archive/sprint-6-10-life-modules-llm-context.md`](archive/sprint-6-10-life-modules-llm-context.md)  
+**Planned source:** [`planned/sprint-11-sender-inbox.md`](planned/sprint-11-sender-inbox.md)
 
 ## Goal
 
-Finish the original top-tier module set, ship a morning **Day brief**, land the first **confirm-first Calendar insert**, make **LocalLlama (Ollama HTTP)** operable, and seed **shared context** across modules.
+1. **First:** Let the operator pull latest app code from git via **Settings → Update** (or equivalent dashboard control) and **prove hot reload** picks up the change when `CRAWLEY_RELOAD` is enabled.  
+2. **Then:** Ship the **Sender Inbox PoC** (~20 emails): one-at-a-time categorize → grouped-by-sender → LLM profiles → todos.  
+3. ASX Investment PoC follows in **Sprints 12–13** (already planned).
 
 ## Demo
 
-1. Use Co-parenting / DIY / Finance / Coding-Creative lite panels (Save + Run → Markdown + home glance)
-2. Refresh Day brief on home from Calendar + Gmail snapshots (optional LLM + shared context)
-3. Propose → Confirm/Cancel a Calendar event; skim write-back audit in Settings
-4. Settings → LocalLlama base URL/model → Test connection; module runs honor timeouts
-5. Edit standing notes; optionally include shared context on Coding/Creative or Day brief
+Operator can:
+
+1. Open Settings → **Update**, run **Pull latest**, see clear success/failure (commit before/after or short log)
+2. With hot reload on (`CRAWLEY_RELOAD=1`), confirm the running app **reloads** after a pull that changes watched files (documented proof — e.g. UI notice + process reload, or test)
+3. Use Sender Inbox PoC: ingest ~20 mails one-by-one → sender groups → profile + todos
+4. Restart still shows categorized data / profiles / todos under `data/`
 
 ## Committed
 
-### S6 — Co-parenting + DIY (B19–B21)
+Implement **in order** (S11.0 → S11.1 → Sender Inbox stories). Architect may start S11.0 immediately; treat UX draft as accepted for Sender Inbox unless stakeholder revises `docs/ux/sender-inbox-asx.md`.
+
+### S11.0 — Settings Update: git pull + hot reload (B78)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
+| Status | todo |
+| Backlog ref | B78 |
+| Priority | first in sprint |
 
-- [x] Co-parenting leaves Coming soon; local schedule JSON; bounded window Markdown; snapshot
-- [x] DIY leaves Coming soon; notes → next-steps Markdown; snapshot
-- [x] Home glance slots for both
+**Acceptance criteria:**
 
-### S7 — Finance + Day brief (B22–B24)
+- [ ] **Settings → Update** (preferred) or equally discoverable dashboard control with section title **Update**
+- [ ] **Pull latest** action runs `git pull` (or equivalent fetch+merge/ff) in the app repo from the local process; shows result in UI (ok / already up to date / error with short reason)
+- [ ] Documented **precondition**: `CRAWLEY_RELOAD=1` (or Settings toggle that enables reload) so file changes under `src/crawley/` trigger Uvicorn reload after pull
+- [ ] **Proof of hot reload:** after a successful pull that touches watched paths, operator sees reload behaviour (e.g. brief “Reloading…” / new request served by restarted worker); covered by automated test *or* documented manual demo steps in README
+- [ ] Safe defaults: action available on **localhost** (disable or hard-warn on LAN bind); never logs secrets; fails cleanly if not a git checkout / no network / merge conflict
+- [ ] Brief note in `docs/architecture.md` + README Update section
+- [ ] No auto-pull on a schedule this sprint
 
-| Field | Value |
-|-------|-------|
-| Status | done |
+**Out of scope:**
 
-- [x] Finance/Taxes lite with non-advice disclaimer; snapshot
-- [x] Day brief from Calendar + Gmail snapshots; partial/empty honest; optional LLM refresh
-- [x] Finance glance slot
+- GitHub Apps / cloud deploy / CI from this button
+- Resolving merge conflicts in UI
+- Pulling while multiple remotes/branches without documenting the branch used (track current branch / `main` — document choice)
 
-### S8 — Calendar write-back (B25–B26)
+---
 
-| Field | Value |
-|-------|-------|
-| Status | done |
-
-- [x] Propose → confirm → execute → audit for Calendar insert; cancel performs no remote write
-- [x] Calendar events write scope only (reconnect path); no Gmail send
-- [x] Audit viewer in Settings + Calendar panel
-
-### S9 — Local LLM (B27, B31)
+### S11.1 — UX contract confirm (Sender Inbox + ASX) (B65)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
+| Status | todo |
+| Backlog ref | B65 |
+| Depends on | — (draft already exists) |
 
-- [x] LocalLlama via Ollama HTTP; Settings base URL / model / timeout; Test connection
-- [x] Distinct unreachable / timeout / missing-model errors; OpenAI remains selectable
-- [x] ADR-007
+**Acceptance criteria:**
 
-### S10 — Coding/Creative + shared context (B28–B30)
+- [ ] Stakeholder accepts `docs/ux/sender-inbox-asx.md` as implement contract (or lands small amendments)
+- [ ] Includes Settings → Update placement note (under Settings chrome; quiet, not a hero widget)
+- [ ] ASX surfaces remain specified for Sprints 12–13
+
+---
+
+### S11.2 — Background email ingest + LLM categorize (B66)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
+| Status | todo |
+| Backlog ref | B66 |
+| Depends on | S11.1 |
 
-- [x] Coding/Creative lite; snapshot on home
-- [x] Standing notes + capped snapshot shared-context seed; opt-in injection
-- [x] ADR-008
+**Acceptance criteria:**
 
-## Out of scope (bundle)
+- [ ] Background worker pulls **one email at a time**
+- [ ] Each message LLM-categorized onto a documented metric set (schema in architecture)
+- [ ] Progress visible; failures isolate one message
+- [ ] Existing Google read path; no write-back required
 
-- Gmail send / label mutation
-- Native desktop wrapper
-- Vector DB / embeddings RAG
-- Automated trading / bank OAuth
+---
+
+### S11.3 — Sender-grouped Inbox view (B67)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B67 |
+| Depends on | S11.2 |
+
+**Acceptance criteria:**
+
+- [ ] Primary Inbox surface **grouped by sender**
+- [ ] Drill-in to sender’s ingested messages; metric chips per UX
+- [ ] Theme tokens only
+
+---
+
+### S11.4 — LLM sender profiles (B68)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B68 |
+| Depends on | S11.3 |
+
+**Acceptance criteria:**
+
+- [ ] LLM profile per sender with ingested mail; regenerate on new mail or refresh
+- [ ] Persisted under `data/`; shown on sender detail
+
+---
+
+### S11.5 — Actionable todos from sender bundles (B69)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B69 |
+| Depends on | S11.4 |
+
+**Acceptance criteria:**
+
+- [ ] Todos extracted from sender bundle; open/done local toggle
+- [ ] No auto-send / auto-calendar
+
+---
+
+### S11.6 — PoC cap ~20 emails (B70)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B70 |
+| Depends on | S11.2 |
+
+**Acceptance criteria:**
+
+- [ ] Hard stop ~20; remaining capacity visible; reset path documented
+
+## Explicitly out of sprint
+
+- **ASX Investment PoC** → **Sprint 12** (profiles/scanner) then **Sprint 13** (recommendations + paper portfolio)
+- Full mailbox crawl; Gmail send; live brokerage orders
+- Shelved former planned 11–40 depth queue
 
 ## Parking lot
 
-- Gmail draft-then-send after Calendar soak
-- Scheduled overnight Day brief
-- Optional native desktop shell
+- “Update & restart” without relying on `CRAWLEY_RELOAD`
+- Show current git SHA in Settings footer always
+- Un-shelve Gmail confirm-first send after Sender Inbox PoC

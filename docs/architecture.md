@@ -3,9 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 6–10 closed (life modules, Day brief, Calendar write-back, local LLM, shared context)  
+**Status:** Sprints 1–10 closed; **Sprint 11** Sender Inbox PoC (+ ASX desk UX) ready
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprints 6–10 done)  
+**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 11 — git Update + Sender Inbox)  
+**Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
 ## Overview
@@ -36,9 +37,17 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Shape:** shared core + modules behind a stable contract.  
 **Shipped:** Investment, Gmail, Calendar (read + confirm-first insert), Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative; Day brief; shared context seed; LocalLlama (Ollama HTTP); themable shell.  
 **UX:** [`docs/ux.md`](ux.md) Sprint 2 design contract (later modules reuse form/snapshot patterns).  
-**Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.
+**Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.  
+**Sprint 11 (in progress):** Settings → Update will run local `git pull` and rely on `CRAWLEY_RELOAD=1` (Uvicorn reload for `src/crawley/`) — document exact branch, localhost safety, and reload proof in this file when S11.0 lands.
 
 ## Sprint delivery maps
+
+### Sprint 11 (active) — Update + Sender Inbox
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S11.0** git Update + hot reload | Settings action → subprocess git; UI result; interplay with `CRAWLEY_RELOAD` / Uvicorn |
+| **S11.2+** Sender Inbox | Background one-mail ingest; categorization store; sender UI; profiles; todos; ~20 cap |
 
 ### Sprints 6–10 (bundled, closed)
 

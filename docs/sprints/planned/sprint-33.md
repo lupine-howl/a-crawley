@@ -1,6 +1,6 @@
 # Sprint 33 — Gmail newsletter & bulk-mail digest (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B56  
 **Depends on:** B23, B50  

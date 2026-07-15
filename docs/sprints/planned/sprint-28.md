@@ -1,6 +1,6 @@
 # Sprint 28 — Investment earnings & events skim (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B51  
 **Depends on:** B39, B24 helpful  

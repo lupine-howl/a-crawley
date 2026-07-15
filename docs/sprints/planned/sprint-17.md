@@ -1,6 +1,6 @@
 # Sprint 17 — Finance import lite (planned)
 
-**Status:** planned (activates after Sprint 7 Finance lite)  
+**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B38  
 **Depends on:** B22  
