@@ -1,6 +1,6 @@
 # Sprint 7 — Finance lite + Day brief (planned)
 
-**Status:** planned (activates after Sprint 6 closes)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B22, B23, B24  
 **Depends on:** Sprint 3 Calendar + Gmail harden (for Day brief inputs); Sprint 2 home glance  

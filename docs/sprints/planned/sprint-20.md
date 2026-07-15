@@ -1,6 +1,6 @@
 # Sprint 20 — Weekly review + shell polish (planned)
 
-**Status:** planned (activates after Day brief + shared context; ideally after 15)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B42, B43  
 **Depends on:** B23, B29  

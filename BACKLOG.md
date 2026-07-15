@@ -2,9 +2,9 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–5 closed; Sprint 6 ready; Sprints 7–40 planned under `docs/sprints/planned/` (21–40 = Email/Investment depth)
+**Status:** Sprints 1–5 closed; **Sprint 6 ready** = Sender Inbox PoC pivot; B19–B64 shelved; B65–B77 Next
 
-Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
+Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ## Priority order
 
@@ -474,9 +474,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B2, B13 |
 | Sprint | 6 (current) |
 
@@ -502,9 +502,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B2, B13 |
 | Sprint | 6 (current) |
 
@@ -528,9 +528,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B14, B19, B20 |
 | Sprint | 6 (current) |
 
@@ -552,9 +552,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B2, B13 |
 | Planned sprint | 7 |
 
@@ -578,9 +578,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B6, B10, B14 |
 | Planned sprint | 7 |
 
@@ -605,9 +605,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B14, B22 |
 | Planned sprint | 7 |
 
@@ -628,9 +628,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B6, B15, B18 |
 | Planned sprint | 8 |
 
@@ -657,9 +657,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Next |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B25 |
 | Planned sprint | 8 |
 
@@ -681,9 +681,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B3, B8 |
 | Planned sprint | 9 |
 
@@ -710,9 +710,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B2, B13 |
 | Planned sprint | 10 |
 
@@ -736,9 +736,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B14, B23 |
 | Planned sprint | 10 |
 
@@ -764,9 +764,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B14, B28 |
 | Planned sprint | 10 |
 
@@ -787,9 +787,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B18, B25, B15 |
 | Planned sprint | 11 |
 
@@ -812,9 +812,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B1 |
 | Planned sprint | 12 |
 
@@ -837,9 +837,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B23 |
 | Planned sprint | 13 |
 
@@ -862,9 +862,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B19, B25 |
 | Planned sprint | 14 |
 
@@ -887,9 +887,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B14 |
 | Planned sprint | 15 |
 
@@ -911,9 +911,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B29, B35 |
 | Planned sprint | 15 |
 
@@ -935,9 +935,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B11 |
 | Planned sprint | 16 |
 
@@ -959,9 +959,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B22 |
 | Planned sprint | 17 |
 
@@ -983,9 +983,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B9 |
 | Planned sprint | 18 |
 
@@ -1007,9 +1007,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B12 |
 | Planned sprint | 19 |
 
@@ -1031,9 +1031,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B1 |
 | Planned sprint | 19 |
 
@@ -1055,9 +1055,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B23, B29 |
 | Planned sprint | 20 |
 
@@ -1080,9 +1080,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Later → scheduled |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B7 |
 | Planned sprint | 20 |
 
@@ -1105,9 +1105,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B10, B15 |
 | Planned sprint | 21 |
 
@@ -1132,9 +1132,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B9, B39 |
 | Planned sprint | 22 |
 
@@ -1159,9 +1159,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B10 |
 | Planned sprint | 23 |
 
@@ -1185,9 +1185,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B39, B9 |
 | Planned sprint | 24 |
 
@@ -1212,9 +1212,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B31, B18 |
 | Planned sprint | 25 |
 
@@ -1238,9 +1238,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B45, B39 |
 | Planned sprint | 26 |
 
@@ -1265,9 +1265,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B10 |
 | Planned sprint | 27 |
 
@@ -1291,9 +1291,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B39 |
 | Planned sprint | 28 |
 
@@ -1318,9 +1318,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B44 |
 | Planned sprint | 29 |
 
@@ -1344,9 +1344,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B9, B24 |
 | Planned sprint | 30 |
 
@@ -1370,9 +1370,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B44, B46 |
 | Planned sprint | 31 |
 
@@ -1396,9 +1396,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B45, B49 |
 | Planned sprint | 32 |
 
@@ -1423,9 +1423,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B23, B50 |
 | Planned sprint | 33 |
 
@@ -1449,9 +1449,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B39, B47 |
 | Planned sprint | 34 |
 
@@ -1475,9 +1475,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B25, B31 |
 | Planned sprint | 35 |
 
@@ -1501,9 +1501,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B39 |
 | Planned sprint | 36 |
 
@@ -1527,9 +1527,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B46, B44 |
 | Planned sprint | 37 |
 
@@ -1553,9 +1553,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B45, B53 |
 | Planned sprint | 38 |
 
@@ -1579,9 +1579,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B49, B39, B54 |
 | Planned sprint | 39 |
 
@@ -1607,9 +1607,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P1 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B50, B39, B45 |
 | Planned sprint | 40 |
 
@@ -1632,9 +1632,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | shelved |
 | Priority | P2 |
-| Roadmap theme | Later → Email/Investment depth |
+| Roadmap theme | Shelved (Sender Inbox + ASX pivot) |
 | Depends on | B63 |
 | Planned sprint | 40 |
 
@@ -1650,6 +1650,333 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 - Full redesign
 - Icebox items
+
+---
+
+
+### B65 — UX: Sender Inbox + ASX dashboards
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B7 |
+| Sprint | 6 (current) |
+
+**Goal:** UX expert design contract for Sender-grouped Inbox and ASX research desk (profiles, recommendations, paper portfolio pages) before implementation.
+
+**Acceptance criteria:**
+
+- [ ] `docs/ux/sender-inbox-asx.md` covers IA, layouts, states for Sender Inbox + ASX desk + recommendations + paper portfolio
+- [ ] Integrated into `docs/ux.md` (pointers / summary)
+- [ ] Uses existing theme tokens; one composition; implementable for HTMX/Jinja
+- [ ] Stakeholder confirmed or accepted as draft-for-implement
+
+**Out of scope:**
+
+- Implementing Python modules
+- Expanding into shelved sprint scope
+
+**Reference patterns:** people-centric inboxes (ChatInbox, Talanoa, Shortwave bundles); ASX research desks (company profiles / scanners akin to ASX Desk, Morningstar-style profile clarity, Sharesight-like portfolio readability for paper mode).
+
+---
+
+### B66 — Background email ingest + LLM categorization
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B5, B10, B65 |
+| Sprint | 6 (current) |
+
+**Goal:** Polite background process pulls **one email at a time** and LLM-categorizes each on a useful metric schema.
+
+**Acceptance criteria:**
+
+- [ ] One-at-a-time ingest with visible progress
+- [ ] Persisted category metrics per message (schema documented)
+- [ ] Isolated errors; uses existing Gmail read auth
+- [ ] No Gmail write-back required
+
+**Out of scope:**
+
+- Full-history sync; multi-account
+
+---
+
+### B67 — Sender-grouped Inbox view
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B66, B65 |
+| Sprint | 6 (current) |
+
+**Goal:** Default Inbox UI grouped by **sender**, not a chronological stream.
+
+**Acceptance criteria:**
+
+- [ ] Sender list as primary surface per UX
+- [ ] Drill-in to sender’s ingested messages
+- [ ] Metric chips / counts; theme tokens
+
+**Out of scope:**
+
+- Native mobile app; multi-user shared inbox
+
+---
+
+### B68 — LLM sender profiles
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B67 |
+| Sprint | 6 (current) |
+
+**Goal:** Per-sender LLM profile describing interaction history from ingested mail.
+
+**Acceptance criteria:**
+
+- [ ] Profile generated/updated from sender bundle
+- [ ] Persisted; shown on sender detail
+- [ ] Empty/low-data honest state
+
+**Out of scope:**
+
+- CRM multi-user; LinkedIn scraping
+
+---
+
+### B69 — Actionable todos from email bundles
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B68 |
+| Sprint | 6 (current) |
+
+**Goal:** Extract actionable todos from each sender’s ingested emails; local open/done.
+
+**Acceptance criteria:**
+
+- [ ] Todos extracted via LLM from sender bundle
+- [ ] List + open/done toggle locally
+- [ ] No auto-send / auto-calendar
+
+**Out of scope:**
+
+- Push notifications off-machine
+
+---
+
+### B70 — Sender Inbox PoC cap (~20 emails)
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B66 |
+| Sprint | 6 (current) |
+
+**Goal:** Hard PoC bound of ~20 ingested emails with clear UI and reset path.
+
+**Acceptance criteria:**
+
+- [ ] Cap enforced (~20)
+- [ ] Progress/remaining visible; reset documented
+- [ ] Path to raise cap later documented
+
+**Out of scope:**
+
+- Production-scale mailbox indexing
+
+---
+
+### B71 — ASX company universe list
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B65 |
+| Planned sprint | 7 |
+
+**Goal:** Ship a large curated ASX company list; PoC processes a 20-company slice.
+
+**Acceptance criteria:**
+
+- [ ] Large list in `data/` with provenance documented
+- [ ] Selectable PoC set of 20
+- [ ] Surfaced in ASX desk UI
+
+**Out of scope:**
+
+- Global equities coverage
+
+---
+
+### B72 — Background ASX scanner
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B71 |
+| Planned sprint | 7 |
+
+**Goal:** Slow background process scans price movement, market data, and news/sentiment per company.
+
+**Acceptance criteria:**
+
+- [ ] One-company-at-a-time (or similarly polite) cadence
+- [ ] Bounded fetches; progress UI; pause/resume
+- [ ] Artifacts under `data/`; rate limits respected
+
+**Out of scope:**
+
+- Paid terminal data contracts without ADR
+
+---
+
+### B73 — ASX company profiles (pro-investor style)
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B72, B74 |
+| Planned sprint | 7 |
+
+**Goal:** LLM/hybrid profile per company collating scan data + sentiment using metrics/sources favored by professional investors (as available from free/bounded sources).
+
+**Acceptance criteria:**
+
+- [ ] Profile view per UX with metrics + narrative + sentiment
+- [ ] Metric/source rubric documented; gaps called out honestly
+- [ ] Non-advice disclaimer
+- [ ] Regenerable after new scans
+
+**Out of scope:**
+
+- Licensed research product claims
+- Live trading
+
+**Reference patterns:** company-profile clarity (Morningstar / Simply Wall St / ASX Desk–style overviews) without cloning proprietary scores.
+
+---
+
+### B74 — Investment sources registry + prompt library
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B9 |
+| Planned sprint | 7 |
+
+**Goal:** Configurable source list and prompt templates for ASX scan/profile/sentiment.
+
+**Acceptance criteria:**
+
+- [ ] Source registry with enable flags + documented defaults
+- [ ] Prompt templates editable (scan / profile / sentiment / recommendations)
+- [ ] Architecture notes scan vs curated-source modes
+- [ ] Avoid TOS-hostile scraping targets
+
+**Out of scope:**
+
+- Bundling proprietary paid feeds in-repo
+
+---
+
+### B75 — Structured ASX actionable recommendations
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B73 |
+| Planned sprint | 8 |
+
+**Goal:** Structured list of actionable recommendations generated from company profiles.
+
+**Acceptance criteria:**
+
+- [ ] Structured rows (ticker, action, rationale, links, timestamps)
+- [ ] Regenerable from PoC set
+- [ ] Non-advice disclaimer; UX list layout
+
+**Out of scope:**
+
+- Auto-routing orders to a broker
+
+---
+
+### B76 — Simulated (paper) portfolio tracker
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B75 |
+| Planned sprint | 8 |
+
+**Goal:** Separate page tracking a **paper** portfolio of trades from recommendations (or manual), marked-to-market from scan prices.
+
+**Acceptance criteria:**
+
+- [ ] Separate portfolio surface per UX
+- [ ] Open paper positions from recommendations; local ledger
+- [ ] Simple P&L / cash using latest scanned prices
+- [ ] **No brokerage order API calls**
+
+**Out of scope:**
+
+- Live automated trading (Icebox)
+- Full CGT/tax engine (Sharesight-class) in PoC
+
+**Reference patterns:** portfolio readability inspired by Sharesight-style tracking — simulation only.
+
+---
+
+### B77 — Brokerage / simulation settings
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B76 |
+| Planned sprint | 8 |
+
+**Goal:** Settings for paper trading assumptions (cash, fees, AUD, cosmetic broker label).
+
+**Acceptance criteria:**
+
+- [ ] Settings persisted locally; applied to simulation math
+- [ ] Documented that settings never enable live trading
+- [ ] Clear UI copy
+
+**Out of scope:**
+
+- Real broker OAuth
 
 ---
 

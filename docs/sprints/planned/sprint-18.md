@@ -1,6 +1,6 @@
 # Sprint 18 — Investment watchlist (planned)
 
-**Status:** planned (activates after Sprint 4 Investment harden)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B39  
 **Depends on:** B9  

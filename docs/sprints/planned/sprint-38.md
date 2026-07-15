@@ -1,6 +1,6 @@
 # Sprint 38 — Investment comparative analysis (A vs B) (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B61  
 **Depends on:** B45, B53, B34 baskets helpful  

@@ -1,5 +1,7 @@
 # Arc — Email & Investment depth (Sprints 21–40)
 
+**Status:** shelved (deferred after Sender Inbox + ASX PoC pivot)
+
 **Stakeholder direction:** After Sprint 20, prioritize **deep functionality** for **Gmail** and **Investment**.  
 **Non-negotiables:** local-first; confirm-first mutations (ADR-006); **no automated trading / order placement**; advice remains manually applied; single Google identity.
 

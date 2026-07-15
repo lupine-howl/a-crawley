@@ -1,6 +1,6 @@
 # Sprint 17 — Finance import lite (planned)
 
-**Status:** planned (activates after Sprint 7 Finance lite)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B38  
 **Depends on:** B22  

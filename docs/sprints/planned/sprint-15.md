@@ -1,6 +1,6 @@
 # Sprint 15 — Snapshot history + deeper shared memory (planned)
 
-**Status:** planned (activates after Sprint 10 shared-context seed)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B35, B36  
 **Depends on:** B14, B29  

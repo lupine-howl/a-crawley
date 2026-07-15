@@ -1,6 +1,6 @@
 # Sprint 6 — Co-parenting + DIY lite (planned)
 
-**Status:** promoted to [`../current.md`](../current.md) (ready — next delivery)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B19, B20, B21  
 **Depends on:** Sprint 2 Markdown/home; Sprint 5 Work patterns preferred as template for local-note modules  

@@ -1,6 +1,6 @@
 # Sprint 13 — Scheduled Day brief / local jobs (planned)
 
-**Status:** planned (activates after Sprint 7 Day brief + Sprint 10 context preferred)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B33  
 **Depends on:** B23 (Day brief), B12 (LAN awareness — jobs must not widen exposure)  

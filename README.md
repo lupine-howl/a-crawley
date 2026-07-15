@@ -63,9 +63,9 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprint 0** — bootstrap (archived): [`docs/sprints/archive/sprint-0-bootstrap.md`](./docs/sprints/archive/sprint-0-bootstrap.md)
 - **Sprints 1–5** — PoC closed; retro: [`docs/sprints/archive/sprints-1-5-retrospective.md`](./docs/sprints/archive/sprints-1-5-retrospective.md)
 - **Sprint 5** — LAN + Work + write-back design (archived): [`docs/sprints/archive/sprint-5-lan-work-writeback.md`](./docs/sprints/archive/sprint-5-lan-work-writeback.md)
-- **Sprint 6** — Co-parenting + DIY lite (**ready**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprints 7–20** — planned: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
-- **Sprints 21–40** — Email/Investment depth arc: [`docs/sprints/planned/email-investment-depth-21-40.md`](./docs/sprints/planned/email-investment-depth-21-40.md)
+- **Sprint 6** — Sender Inbox PoC + UX (**ready**, pivot): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 7–8** — ASX profiles PoC → recommendations + paper portfolio: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
+- **Shelved** — former sprints 6–40: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 ## Bootstrap sequence (complete)
 

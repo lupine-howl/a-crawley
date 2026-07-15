@@ -1,6 +1,6 @@
 # Sprint 23 — Gmail VIP senders & local priority rules (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B46  
 **Depends on:** B10, B44 helpful  

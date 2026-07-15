@@ -1,6 +1,6 @@
 # Sprint 37 — Gmail people & frequent contacts context (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B60  
 **Depends on:** B46, B44  

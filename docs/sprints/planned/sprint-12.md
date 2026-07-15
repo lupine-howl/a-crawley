@@ -1,6 +1,6 @@
 # Sprint 12 — Native desktop shell wrapper (planned)
 
-**Status:** planned (activates after Sprint 11 preferred; may parallel if mutations delayed)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B32  
 **Depends on:** Stable local browser UI (Sprint 2+); localhost bind  

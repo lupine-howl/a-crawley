@@ -1,6 +1,6 @@
 # Sprint 10 — Coding/Creative lite + shared context (planned)
 
-**Status:** planned (activates after Sprint 9 closes)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B28, B29, B30  
 **Depends on:** Sprint 2 home glance; Sprint 7 Day brief preferred as first consumer of shared context  

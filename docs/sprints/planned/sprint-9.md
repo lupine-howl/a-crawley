@@ -1,6 +1,6 @@
 # Sprint 9 — Local LLM operable (planned)
 
-**Status:** planned (activates after Sprint 8 closes)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B27  
 **Depends on:** Sprint 2 LLM settings + Test connection (B8); provider interface (B3)  

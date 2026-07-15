@@ -1,6 +1,6 @@
 # Sprint 27 — Gmail saved searches & query builder (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B50  
 **Depends on:** B10, B23 helpful  

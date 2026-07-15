@@ -1,6 +1,6 @@
 # Sprint 40 — Gmail + Investment depth polish & playbooks (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B63, B64  
 **Depends on:** Sprints 21–39 primarily  

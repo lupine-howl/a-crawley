@@ -1,6 +1,6 @@
 # Sprint 14 — Co-parenting ↔ Calendar sync (confirm-first) (planned)
 
-**Status:** planned (activates after Sprint 6 Co-parenting + Sprint 8 Calendar write-back)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B34  
 **Depends on:** B19, B25  

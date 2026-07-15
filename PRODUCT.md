@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; **Sprints 1–5 closed** ([retro](docs/sprints/archive/sprints-1-5-retrospective.md)); Sprint 6 ready; Sprints 7–40 planned (21–40 = Email/Investment depth)
+**Status:** Brief confirmed; **Sprints 1–5 closed**; **Pivot** — Sender Inbox + ASX PoCs are Next (former sprints 6–40 [shelved](docs/sprints/shelved/README.md))
 
 ## Problem
 
@@ -113,3 +113,13 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 - **Holdings journal is manual** (no brokerage OAuth); alerts are in-panel/local only
 - Mutations stay **confirm-first** (labels, archive/trash); no silent automation
 - **Automated trading remains Icebox**
+- **Superseded 2026-07-15:** arc **shelved**; replaced by Sender Inbox + ASX PoC pivot below
+
+## Decisions log (Pivot — Sender Inbox + ASX PoCs)
+
+- **Shelve** prior Next/Later sprint queue (old 6–40 / B19–B64); restore later selectively
+- **Gmail Next:** background one-email-at-a-time LLM categorization; UI **grouped by sender** with LLM **sender profiles** + **todos**; PoC **~20 emails**
+- **Investment Next:** **ASX-first**; large universe list; background scan (price/market/news sentiment); per-company **profiles**; configurable **sources + prompts**; PoC **~20 companies**
+- **Paper portfolio** tracks simulated trades from recommendations with brokerage fee settings — **not** live order placement (Icebox)
+- UX expert designs both dashboards before/at Sprint 6 implement gate
+- Reference inspirations (not clones): people-centric inboxes; ASX profile/scanner tools; portfolio trackers for paper mode clarity

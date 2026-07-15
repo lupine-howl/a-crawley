@@ -1,6 +1,6 @@
 # Sprint 39 — Email × Investment signal bridge (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B62  
 **Depends on:** B49, B54, B27, B39  

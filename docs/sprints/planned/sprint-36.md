@@ -1,6 +1,6 @@
 # Sprint 36 — Investment local in-panel alerts (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B59  
 **Depends on:** B39, B13 scheduler patterns preferred  

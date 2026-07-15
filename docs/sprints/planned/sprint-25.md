@@ -1,6 +1,6 @@
 # Sprint 25 — Gmail labels (read + confirm-first mutate) (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B48  
 **Depends on:** B31, B18, B15  

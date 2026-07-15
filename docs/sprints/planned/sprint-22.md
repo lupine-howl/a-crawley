@@ -1,6 +1,6 @@
 # Sprint 22 — Investment research notebook + thesis (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B45  
 **Depends on:** B9, B39 (watchlist preferred)  

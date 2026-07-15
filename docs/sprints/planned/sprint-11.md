@@ -1,6 +1,6 @@
 # Sprint 11 — Gmail write-back (draft → confirm → send) (planned)
 
-**Status:** planned (activates after Sprint 10; requires Sprint 8 Calendar write-back soak)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B31  
 **Depends on:** B18 (ADR-006), B25 (Calendar write-back patterns), B15  

@@ -1,6 +1,6 @@
 # Sprint 8 — Confirm-first Calendar write-back (planned)
 
-**Status:** planned (activates after Sprint 7 closes; requires Sprint 5 ADR soak)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B25, B26  
 **Depends on:** Sprint 5 write-back design (B18); Sprint 3 shared Google + Calendar read (B15, B6)  

@@ -1,6 +1,6 @@
 # Sprint 19 — LAN gate + local backup/export (planned)
 
-**Status:** planned (activates after Sprint 5 LAN)  
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B40, B41  
 **Depends on:** B12  

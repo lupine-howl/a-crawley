@@ -1,6 +1,6 @@
 # Sprint 30 — Investment citations & source quality (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B53  
 **Depends on:** B9, B24  

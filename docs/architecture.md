@@ -3,10 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–5 closed; next delivery Sprint 6 (Co-parenting + DIY)  
+**Status:** Sprints 1–5 closed; **pivot** — Sprint 6 Sender Inbox PoC (+ ASX desk UX)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 6 ready)  
-**Prior sprints:** [`archive/`](sprints/archive/) · [1–5 retro](sprints/archive/sprints-1-5-retrospective.md)  
+**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 6 Sender Inbox)  
+**Prior sprints:** [`archive/`](sprints/archive/) · [1–5 retro](sprints/archive/sprints-1-5-retrospective.md) · [shelved](sprints/shelved/README.md)  
 
 ## Overview
 

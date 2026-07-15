@@ -1,6 +1,6 @@
 # Sprint 29 — Gmail attachments skim (bounded) (planned)
 
-**Status:** planned (Email/Investment depth arc; after Sprint 20)
+**Status:** shelved (deferred — Sender Inbox + ASX PoC pivot)  
 **Duration:** one symbolic week  
 **Backlog refs:** B52  
 **Depends on:** B44, B27 helpful  
