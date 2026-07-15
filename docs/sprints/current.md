@@ -1,84 +1,91 @@
-# Sprint 5 — LAN reach, Work lite, write-back design
+# Sprint 6 — Co-parenting + DIY lite
 
-**Status:** done  
+**Status:** ready (next delivery; Sprint 5 archived)  
 **Duration:** one symbolic week  
-**Backlog refs:** B12, B17, B18  
-**Depends on:** Sprint 2–4 shell and modules  
-**Architecture:** [`docs/architecture.md`](../architecture.md) + [`docs/adr/006-write-back-confirm.md`](../adr/006-write-back-confirm.md)  
-**Previous:** [`archive/sprint-3-4-google-investment-fitness.md`](archive/sprint-3-4-google-investment-fitness.md)  
-**Planned source:** [`planned/sprint-5.md`](planned/sprint-5.md)
+**Backlog refs:** B19, B20, B21  
+**Depends on:** Sprint 2 Markdown/home; Sprint 5 Work patterns preferred as template for local-note modules  
+**Architecture:** [`docs/architecture.md`](../architecture.md)  
+**UX:** Short `@ux-expert` pass if Co-parenting schedule entry UX needs a form pattern beyond Work lite; else reuse Work/Fitness form + snapshot conventions  
+**Previous:** [`archive/sprint-5-lan-work-writeback.md`](archive/sprint-5-lan-work-writeback.md)  
+**Planned source:** [`planned/sprint-6.md`](planned/sprint-6.md)  
+**1–5 retro:** [`archive/sprints-1-5-retrospective.md`](archive/sprints-1-5-retrospective.md)
 
 ## Goal
 
-Make Crawley reachable on the **local network only when consciously enabled**, land **Work** lite, and **design** (not ship) write-back with an ADR + dry-run hooks.
+Grow day-to-day life coverage: move **Co-parenting** and **DIY** past Coming soon with local-first lite paths (schedule windows + project notes → LLM Markdown), and show both on home At a glance — still sole-operator, no multi-user.
 
 ## Demo
 
-1. Enable LAN bind from Settings; see warning; restart; open from phone on trusted LAN
-2. Use Work: save notes/tasks → LLM prioritization → home snapshot
-3. Read ADR-006 + architecture write-back stages; dry-run hooks only (no live mutations)
+Operator can:
+
+1. Maintain a small local co-parenting schedule (handoff windows / notes) and run a “what’s next” Markdown skim
+2. Capture DIY project notes and get LLM next-steps Markdown
+3. See last Co-parenting and DIY snapshots on dashboard home alongside prior modules
+4. Never see fake custody/demo project data; stubs for untouched domains stay quiet
 
 ## Committed
 
-### S5.1 — Phone-on-LAN access pattern (B12)
+Implement **in order** (S6.1 → S6.2 → S6.3) unless dependencies already satisfied.
+
+### S6.1 — Co-parenting schedule lite (B19)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
-| Backlog ref | B12 |
+| Status | todo |
+| Backlog ref | B19 |
 
 **Acceptance criteria:**
 
-- [x] Default bind remains `127.0.0.1`
-- [x] Settings toggle + optional `CRAWLEY_HOST` env; **restart required**
-- [x] UI warning when LAN enabled; README firewall/WSL notes
-- [x] Decision: **no auth; trusted LAN only** (documented)
-- [x] Disable → localhost-only after restart
+- [ ] Co-parenting leaves Coming soon
+- [ ] Local schedule entries persist under `data/` (dates/windows + short notes)
+- [ ] Run → bounded-window Markdown summary (what’s next / conflicts to watch)
+- [ ] Job busy/done/error; honest empty state
+- [ ] Success snapshot for home glance
+- [ ] No other-parent accounts or shared login
 
 ---
 
-### S5.2 — Work module lite (B17)
+### S6.2 — DIY projects lite (B20)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
-| Backlog ref | B17 |
+| Status | todo |
+| Backlog ref | B20 |
 
 **Acceptance criteria:**
 
-- [x] Work leaves Coming soon
-- [x] Local notes file under `data/work/notes.txt`; Save + Prioritize
-- [x] Run → LLM Markdown prioritization / next-actions summary
-- [x] Job status + snapshot on home glance
-- [x] No third-party work suite OAuth
+- [ ] DIY leaves Coming soon
+- [ ] Operator can save project note(s) locally
+- [ ] Run → Markdown next steps / materials-to-consider (manual action only)
+- [ ] Job status + success snapshot for home
+- [ ] No vendor scrape or checkout flows
 
 ---
 
-### S5.3 — Write-back design (B18)
+### S6.3 — Home glance: Co-parenting + DIY (B21)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
-| Backlog ref | B18 |
+| Status | todo |
+| Backlog ref | B21 |
+| Depends on | S6.1, S6.2, S2.4 store |
 
 **Acceptance criteria:**
 
-- [x] ADR-006 accepted: confirm; draft-first; per-module capability flags
-- [x] Module contract dry-run `write_back()`; Gmail/Calendar exercise buttons; audit `data/writeback_audit.jsonl`
-- [x] Architecture outlines propose → draft → confirm → execute → audit
-- [x] Out of scope: silent automation, multi-user ACLs, live Gmail/Calendar mutations
+- [ ] Home shows last Co-parenting and DIY when present
+- [ ] Prior snapshots retained; truncate long bodies; no stub filler cards
+- [ ] Glance participants documented in `docs/architecture.md`
 
-## Out of scope (sprint)
+## Explicitly out of sprint
 
-- Actual Gmail send / Calendar insert → **Sprint 8** ([planned](planned/sprint-8.md)) for Calendar confirm-first; Gmail send later
-- LocalLlama production hosting → **Sprint 9** ([planned](planned/sprint-9.md))
-- Native desktop wrapper → After Sprint 10 / Later
-- Co-parenting / DIY / Finance live modules → **Sprints 6–7** ([index](planned/README.md))
+- Google Calendar sync for co-parenting → **Sprint 14** ([planned](planned/sprint-14.md))
+- Finance lite + Day brief → **Sprint 7** ([planned](planned/sprint-7.md))
+- Calendar write-back / Local LLM / Coding+context → Sprints **8–10** ([index](planned/README.md))
+- Native desktop shell, Gmail send, scheduled jobs → Sprints **11–13**
+- Automated trading, multi-user, public hosting → Icebox
 
 ## Parking lot
 
-- Co-parenting schedule module → **[Sprint 6](planned/sprint-6.md)**
-- Real write-back implementation after ADR soak → **[Sprint 8](planned/sprint-8.md)**
-- LocalLlama install path → **[Sprint 9](planned/sprint-9.md)**
-- Finance + Day brief / Coding+context → [Sprint 7](planned/sprint-7.md), [Sprint 10](planned/sprint-10.md)
-- Optional LAN shared-secret gate (deferred; trusted LAN policy for now)
+- Import co-parenting windows from Calendar (Sprint 14)
+- DIY photo attachments
+- Full planned index (incl. 11–20): [`planned/README.md`](planned/README.md)

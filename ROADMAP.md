@@ -1,64 +1,64 @@
 # Roadmap
 
 Ordered outcomes (not tasks). Product owner owns this file.  
-**Working title:** Crawley
+**Working title:** Crawley  
+**Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)
 
 ## Now
 
-**Local shell + proof that modules and real sources work** — *Sprint 1 closed 2026-07-15*
+**PoC complete (Sprints 1–5 closed 2026-07-15)** — local modular shell with real signal.
 
-- [x] Shared Python core with a **stable module contract** (lifecycle, config/credentials hooks, inputs/outputs; read paths first; **write-back reserved** for later).
-- [x] Local **browser** dashboard: navigate modules; click into panels.
-- [x] **Investment module PoC:** quick web search/crawl → LLM synthesis of findings into short advice/summary (OpenAI for prototyping).
-- [x] **Gmail PoC:** read-only connection → inbox summary the user can skim. *(Calendar remains stub until Sprint 3.)*
-- [x] **Fitness module:** visible stub (panel + contract compliance).
-- [x] Placeholders / registration for a sensible base set of other life modules (Coming soon panels).
+- [x] Shared Python core + **stable module contract** (write-back designed; dry-run until live sprints).
+- [x] Local **browser** dashboard: themes, Settings, Markdown, home At a glance.
+- [x] **Investment** (lite → hardened) + **Gmail** + **Calendar** read paths with LLM summaries.
+- [x] **Fitness** + **Work** lite modules; remaining domains stubbed/planned.
+- [x] Opt-in **phone-on-LAN**; write-back **ADR-006** + dry-run hooks.
 
-*Still out of Now:* local LLM hosting, write-back, desktop wrapper, automated trading, multi-user, public hosting.
+*Still out of Now:* local LLM ops, live mutations, native desktop wrapper, automated trading, multi-user, public hosting.
 
 ## Next
 
-**Harden the personal OS and deepen the highest-value modules**
+**Finish top-tier lite coverage, then mutations + local intelligence**
 
-### Sprint 2 (closed) — Operable shell
-Themes, LLM settings/test, Markdown summaries, home At a glance — archived
-
-### Sprint 3–4 (closed, bundled) — Google life reads + signal depth
-Shared Google OAuth; **Calendar** live; harden Gmail; deepen **Investment**; **Fitness** lite — archived
-
-### Sprint 5 (closed) — Reach + Work + write-back design
-**Phone-on-LAN** (opt-in); **Work** lite; write-back **ADR/dry-run only** — [`docs/sprints/current.md`](docs/sprints/current.md)
-
-### Sprint 6 (planned) — Co-parenting + DIY lite
-Local schedule + project notes → LLM Markdown; home glance slots — [`docs/sprints/planned/sprint-6.md`](docs/sprints/planned/sprint-6.md)
+### Sprint 6 (ready) — Co-parenting + DIY lite
+[`docs/sprints/current.md`](docs/sprints/current.md) · B19–B21
 
 ### Sprint 7 (planned) — Finance lite + Day brief
-Finance/Taxes planning path (non-advice); Calendar+Gmail **Day brief** on home — [`docs/sprints/planned/sprint-7.md`](docs/sprints/planned/sprint-7.md)
+[`docs/sprints/planned/sprint-7.md`](docs/sprints/planned/sprint-7.md) · B22–B24
 
 ### Sprint 8 (planned) — Confirm-first Calendar write-back
-First real mutation after Sprint 5 ADR soak; audit log viewer — [`docs/sprints/planned/sprint-8.md`](docs/sprints/planned/sprint-8.md)
+[`docs/sprints/planned/sprint-8.md`](docs/sprints/planned/sprint-8.md) · B25–B26
 
 ### Sprint 9 (planned) — Local LLM operable
-LocalLlama (or equivalent) behind existing provider interface; OpenAI remains selectable — [`docs/sprints/planned/sprint-9.md`](docs/sprints/planned/sprint-9.md)
+[`docs/sprints/planned/sprint-9.md`](docs/sprints/planned/sprint-9.md) · B27
 
 ### Sprint 10 (planned) — Coding/Creative + shared context seed
-Last top-tier lite module; thin cross-module context for prompts — [`docs/sprints/planned/sprint-10.md`](docs/sprints/planned/sprint-10.md)
+[`docs/sprints/planned/sprint-10.md`](docs/sprints/planned/sprint-10.md) · B28–B30
 
-### After Sprint 10 (unscheduled)
-- Optional **native desktop shell** (wrap existing UI)
-- Gmail draft-then-send write-back; further selective mutations
-- Scheduled overnight Day brief; deeper shared memory / search if seed proves useful
-- Wearables, brokerage, tax e-file — only if explicitly pulled from Icebox/Later bets
+## Later (scheduled — Sprints 11–20)
 
-## Later
+**Thicker mutations, desktop chrome, memory, and domain depth**
 
-**Thicker local intelligence and optional desktop chrome**
+| Sprint | Theme | File |
+|--------|-------|------|
+| 11 | Gmail confirm-first write-back | [sprint-11.md](docs/sprints/planned/sprint-11.md) |
+| 12 | Native desktop shell wrapper | [sprint-12.md](docs/sprints/planned/sprint-12.md) |
+| 13 | Opt-in scheduled Day brief | [sprint-13.md](docs/sprints/planned/sprint-13.md) |
+| 14 | Co-parenting → Calendar publish | [sprint-14.md](docs/sprints/planned/sprint-14.md) |
+| 15 | Snapshot history + context depth | [sprint-15.md](docs/sprints/planned/sprint-15.md) |
+| 16 | Fitness import lite | [sprint-16.md](docs/sprints/planned/sprint-16.md) |
+| 17 | Finance CSV import lite | [sprint-17.md](docs/sprints/planned/sprint-17.md) |
+| 18 | Investment watchlist | [sprint-18.md](docs/sprints/planned/sprint-18.md) |
+| 19 | LAN gate + local backup/export | [sprint-19.md](docs/sprints/planned/sprint-19.md) |
+| 20 | Weekly review + shell polish | [sprint-20.md](docs/sprints/planned/sprint-20.md) |
 
-- Optional **native desktop shell** wrapping the existing web UI (dock icon / window)—not a second UI stack.
-- Deeper shared memory (searchable history, optional embeddings) after Sprint 10 seed.
-- Broader integrations as needed: workout wearables, tax/finance depth, co-parenting ↔ Calendar sync.
-- Additional selective write-back (e.g. Gmail) with the same confirm-first discipline.
-- *(Local LLM path and top-tier lite modules are scheduled in Sprints 9–10 above.)*
+Index: [`docs/sprints/planned/README.md`](docs/sprints/planned/README.md)
+
+### After Sprint 20 (unscheduled)
+
+- Deeper embeddings/RAG only if Sprint 15 proves need
+- Broader integrations (only with explicit PRODUCT pull)
+- Revisit Icebox only via brief revision
 
 ## Icebox
 
@@ -69,3 +69,4 @@ Valuable or tempting, explicitly not sequenced:
 - Dedicated mobile app store binary
 - **Automated trading / order placement**
 - Anything framed as professional medical or financial advice liability product
+- Tax e-file / bank aggregation SaaS

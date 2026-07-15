@@ -3,10 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprint 5 closed (LAN + Work lite + write-back design)  
+**Status:** Sprints 1–5 closed; next delivery Sprint 6 (Co-parenting + DIY)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 5 done)  
-**Prior sprints:** [`archive/`](sprints/archive/)  
+**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 6 ready)  
+**Prior sprints:** [`archive/`](sprints/archive/) · [1–5 retro](sprints/archive/sprints-1-5-retrospective.md)  
 
 ## Overview
 
