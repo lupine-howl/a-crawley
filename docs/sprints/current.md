@@ -10,15 +10,15 @@ Lock product direction in Interview 1, then carve the first delivery sprint in I
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Owner | Product owner |
 
 **Acceptance criteria:**
 
-- [ ] Stakeholder interviewed on problem, users, goals, non-goals, constraints, metrics
-- [ ] `PRODUCT.md` written as the project brief
-- [ ] `ROADMAP.md` has Now / Next / Later themes
-- [ ] Stakeholder confirmed brief + roadmap
+- [x] Stakeholder interviewed on problem, users, goals, non-goals, constraints, metrics
+- [x] `PRODUCT.md` written as the project brief
+- [x] `ROADMAP.md` has Now / Next / Later themes
+- [x] Stakeholder confirmed brief + roadmap
 
 **Out of scope:**
 
