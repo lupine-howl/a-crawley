@@ -27,16 +27,25 @@ class LLMSettings:
 
 
 @dataclass
+class NetworkSettings:
+    """LAN reach preferences. Bind change requires process restart."""
+
+    lan_enabled: bool = False
+
+
+@dataclass
 class AppSettings:
     theme: str = DEFAULT_THEME
     llm: LLMSettings = field(default_factory=LLMSettings)
     prompts: PromptSettings = field(default_factory=PromptSettings)
+    network: NetworkSettings = field(default_factory=NetworkSettings)
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "theme": self.theme,
             "llm": asdict(self.llm),
             "prompts": self.prompts.to_dict(),
+            "network": asdict(self.network),
         }
 
 
@@ -54,6 +63,7 @@ def load_settings() -> AppSettings:
     except (OSError, json.JSONDecodeError):
         return AppSettings()
     llm_raw = raw.get("llm") or {}
+    net_raw = raw.get("network") or {}
     return AppSettings(
         theme=_normalize_theme(raw.get("theme")),
         llm=LLMSettings(
@@ -62,6 +72,9 @@ def load_settings() -> AppSettings:
             api_key=(llm_raw.get("api_key") or "").strip(),
         ),
         prompts=prompts_from_dict(raw.get("prompts")),
+        network=NetworkSettings(
+            lan_enabled=bool(net_raw.get("lan_enabled", False)),
+        ),
     )
 
 
@@ -129,14 +142,37 @@ def update_prompt_settings(
     investment_user_footer: str,
     gmail_system: str,
     gmail_user_header: str,
+    calendar_system: str | None = None,
+    calendar_user_header: str | None = None,
+    fitness_system: str | None = None,
+    fitness_user_header: str | None = None,
+    work_system: str | None = None,
+    work_user_header: str | None = None,
 ) -> AppSettings:
     current = load_settings()
+    prev = current.prompts
     current.prompts = prompts_from_dict(
         {
             "investment_system": investment_system,
             "investment_user_footer": investment_user_footer,
             "gmail_system": gmail_system,
             "gmail_user_header": gmail_user_header,
+            "calendar_system": calendar_system
+            if calendar_system is not None
+            else prev.calendar_system,
+            "calendar_user_header": calendar_user_header
+            if calendar_user_header is not None
+            else prev.calendar_user_header,
+            "fitness_system": fitness_system
+            if fitness_system is not None
+            else prev.fitness_system,
+            "fitness_user_header": fitness_user_header
+            if fitness_user_header is not None
+            else prev.fitness_user_header,
+            "work_system": work_system if work_system is not None else prev.work_system,
+            "work_user_header": work_user_header
+            if work_user_header is not None
+            else prev.work_user_header,
         }
     )
     save_settings(current)
@@ -146,5 +182,12 @@ def update_prompt_settings(
 def update_theme_setting(theme: str) -> AppSettings:
     current = load_settings()
     current.theme = _normalize_theme(theme)
+    save_settings(current)
+    return current
+
+
+def update_network_settings(*, lan_enabled: bool) -> AppSettings:
+    current = load_settings()
+    current.network.lan_enabled = bool(lan_enabled)
     save_settings(current)
     return current

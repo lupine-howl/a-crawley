@@ -1,4 +1,9 @@
-"""DuckDB helpers with a process-wide write lock."""
+"""DuckDB helpers with a process-wide connection lock.
+
+DuckDB rejects opening the same file with mixed configs (e.g. read_only vs
+read_write) while another connection is live. All access here uses one mode
+and is serialized under `_db_lock` so HTMX status polls cannot race a job write.
+"""
 
 from __future__ import annotations
 
@@ -10,21 +15,17 @@ import duckdb
 
 from crawley.data.paths import DUCKDB_PATH, ensure_data_dirs
 
-_write_lock = threading.Lock()
+_db_lock = threading.Lock()
 
 
 @contextmanager
 def duck_connection(*, read_only: bool = False) -> Iterator[duckdb.DuckDBPyConnection]:
+    """Open the shared DB. `read_only` is accepted for callers but ignored —
+    every connection uses the same read-write config under a process lock.
+    """
+    del read_only  # kept for API compatibility; mixed modes break DuckDB
     ensure_data_dirs()
-    if read_only:
-        con = duckdb.connect(str(DUCKDB_PATH), read_only=True)
-        try:
-            yield con
-        finally:
-            con.close()
-        return
-
-    with _write_lock:
+    with _db_lock:
         con = duckdb.connect(str(DUCKDB_PATH))
         try:
             yield con
@@ -56,6 +57,19 @@ def init_schema() -> None:
                 subject VARCHAR,
                 from_addr VARCHAR,
                 snippet VARCHAR
+            );
+            """
+        )
+        con.execute(
+            """
+            CREATE TABLE IF NOT EXISTS calendar_events (
+                id VARCHAR PRIMARY KEY,
+                fetched_at TIMESTAMP,
+                start_at VARCHAR,
+                end_at VARCHAR,
+                title VARCHAR,
+                location VARCHAR,
+                description VARCHAR
             );
             """
         )

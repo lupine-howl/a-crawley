@@ -1,4 +1,4 @@
-"""Gmail OAuth PKCE persistence tests."""
+"""Google OAuth PKCE persistence tests."""
 
 from __future__ import annotations
 
@@ -6,13 +6,13 @@ import json
 
 import pytest
 
-import crawley.modules.gmail as gmail_mod
+import crawley.google_oauth as google_oauth
 
 
 def test_authorization_url_persists_pkce(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
     pending = tmp_path / "pending.json"
-    monkeypatch.setattr(gmail_mod, "PENDING_OAUTH_PATH", pending)
-    monkeypatch.setattr(gmail_mod, "SECRETS_DIR", tmp_path)
+    monkeypatch.setattr(google_oauth, "PENDING_OAUTH_PATH", pending)
+    monkeypatch.setattr(google_oauth, "SECRETS_DIR", tmp_path)
     monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid.apps.googleusercontent.com")
     monkeypatch.setenv("GOOGLE_CLIENT_SECRET", "csecret")
 
@@ -24,8 +24,8 @@ def test_authorization_url_persists_pkce(monkeypatch: pytest.MonkeyPatch, tmp_pa
             self.code_verifier = "verifier-abc"
             return "https://accounts.google.com/o/oauth2/auth?x=1", "state-xyz"
 
-    monkeypatch.setattr(gmail_mod, "build_auth_flow", lambda base: FakeFlow())
-    url, state = gmail_mod.authorization_url("http://127.0.0.1:8000")
+    monkeypatch.setattr(google_oauth, "build_auth_flow", lambda base: FakeFlow())
+    url, state = google_oauth.authorization_url("http://127.0.0.1:8000")
     assert "accounts.google.com" in url
     assert state == "state-xyz"
     saved = json.loads(pending.read_text(encoding="utf-8"))
@@ -35,12 +35,13 @@ def test_authorization_url_persists_pkce(monkeypatch: pytest.MonkeyPatch, tmp_pa
 
 def test_finish_oauth_requires_saved_verifier(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
     pending = tmp_path / "pending.json"
-    monkeypatch.setattr(gmail_mod, "PENDING_OAUTH_PATH", pending)
+    monkeypatch.setattr(google_oauth, "PENDING_OAUTH_PATH", pending)
+    monkeypatch.setattr(google_oauth, "LEGACY_PENDING_PATH", tmp_path / "legacy.json")
     monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid.apps.googleusercontent.com")
     monkeypatch.setenv("GOOGLE_CLIENT_SECRET", "csecret")
 
     with pytest.raises(RuntimeError, match="missing"):
-        gmail_mod.finish_oauth(
+        google_oauth.finish_oauth(
             "http://127.0.0.1:8000",
             "http://127.0.0.1:8000/modules/gmail/oauth/callback?code=x&state=s",
         )
@@ -48,10 +49,12 @@ def test_finish_oauth_requires_saved_verifier(monkeypatch: pytest.MonkeyPatch, t
 
 def test_finish_oauth_restores_verifier(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
     pending = tmp_path / "pending.json"
-    token = tmp_path / "token.json"
-    monkeypatch.setattr(gmail_mod, "PENDING_OAUTH_PATH", pending)
-    monkeypatch.setattr(gmail_mod, "TOKEN_PATH", token)
-    monkeypatch.setattr(gmail_mod, "SECRETS_DIR", tmp_path)
+    token = tmp_path / "google_token.json"
+    legacy = tmp_path / "gmail_token.json"
+    monkeypatch.setattr(google_oauth, "PENDING_OAUTH_PATH", pending)
+    monkeypatch.setattr(google_oauth, "TOKEN_PATH", token)
+    monkeypatch.setattr(google_oauth, "LEGACY_TOKEN_PATH", legacy)
+    monkeypatch.setattr(google_oauth, "SECRETS_DIR", tmp_path)
     monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid.apps.googleusercontent.com")
     monkeypatch.setenv("GOOGLE_CLIENT_SECRET", "csecret")
 
@@ -79,11 +82,17 @@ def test_finish_oauth_restores_verifier(monkeypatch: pytest.MonkeyPatch, tmp_pat
             assert self.code_verifier == "verifier-abc"
             assert "code=abc" in authorization_response
 
-    monkeypatch.setattr(gmail_mod, "build_auth_flow", lambda base: FakeFlow())
-    creds = gmail_mod.finish_oauth(
+    monkeypatch.setattr(google_oauth, "build_auth_flow", lambda base: FakeFlow())
+    creds = google_oauth.finish_oauth(
         "http://127.0.0.1:8000",
         "http://127.0.0.1:8000/modules/gmail/oauth/callback?code=abc&state=state-xyz",
     )
     assert isinstance(creds, FakeCreds)
     assert token.exists()
+    assert legacy.exists()
     assert not pending.exists()
+
+
+def test_scopes_include_gmail_and_calendar() -> None:
+    assert "gmail.readonly" in google_oauth.SCOPES[0]
+    assert "calendar.readonly" in google_oauth.SCOPES[1]

@@ -16,7 +16,8 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     import crawley.data.duck as duck
     import crawley.data.paths as paths
     import crawley.data.snapshots as snapshots
-    import crawley.modules.gmail as gmail_mod
+    import crawley.google_oauth as google_oauth
+    import crawley.modules.fitness as fitness_mod
     import crawley.modules.investment_fetch as inv_fetch
     import crawley.settings as settings
 
@@ -25,19 +26,37 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     monkeypatch.setattr(paths, "SECRETS_DIR", data / "secrets")
     monkeypatch.setattr(paths, "INVESTMENT_DIR", data / "investment")
     monkeypatch.setattr(paths, "GMAIL_DIR", data / "gmail")
+    monkeypatch.setattr(paths, "CALENDAR_DIR", data / "calendar")
+    monkeypatch.setattr(paths, "FITNESS_DIR", data / "fitness")
+    monkeypatch.setattr(paths, "WORK_DIR", data / "work")
     monkeypatch.setattr(paths, "DUCKDB_PATH", data / "crawley.duckdb")
     monkeypatch.setattr(duck, "DUCKDB_PATH", data / "crawley.duckdb")
     monkeypatch.setattr(inv_fetch, "INVESTMENT_DIR", data / "investment")
-    monkeypatch.setattr(gmail_mod, "SECRETS_DIR", data / "secrets")
-    monkeypatch.setattr(gmail_mod, "GMAIL_DIR", data / "gmail")
-    monkeypatch.setattr(gmail_mod, "TOKEN_PATH", data / "secrets" / "gmail_token.json")
+    monkeypatch.setattr(google_oauth, "SECRETS_DIR", data / "secrets")
+    monkeypatch.setattr(google_oauth, "TOKEN_PATH", data / "secrets" / "google_token.json")
     monkeypatch.setattr(
-        gmail_mod, "PENDING_OAUTH_PATH", data / "secrets" / "gmail_oauth_pending.json"
+        google_oauth, "LEGACY_TOKEN_PATH", data / "secrets" / "gmail_token.json"
     )
+    monkeypatch.setattr(
+        google_oauth, "PENDING_OAUTH_PATH", data / "secrets" / "google_oauth_pending.json"
+    )
+    monkeypatch.setattr(
+        google_oauth, "LEGACY_PENDING_PATH", data / "secrets" / "gmail_oauth_pending.json"
+    )
+    monkeypatch.setattr(fitness_mod, "FITNESS_DIR", data / "fitness")
+    monkeypatch.setattr(fitness_mod, "LAST_GOAL_PATH", data / "fitness" / "last_goal.txt")
+    import crawley.modules.work as work_mod
+
+    monkeypatch.setattr(work_mod, "WORK_DIR", data / "work")
+    monkeypatch.setattr(work_mod, "NOTES_PATH", data / "work" / "notes.txt")
     monkeypatch.setattr(settings, "SECRETS_DIR", data / "secrets")
     monkeypatch.setattr(settings, "SETTINGS_PATH", data / "secrets" / "settings.json")
     monkeypatch.setattr(snapshots, "DATA_DIR", data)
     monkeypatch.setattr(snapshots, "SNAPSHOTS_PATH", data / "snapshots.json")
+    import crawley.writeback as writeback
+
+    monkeypatch.setattr(writeback, "DATA_DIR", data)
+    monkeypatch.setattr(writeback, "AUDIT_PATH", data / "writeback_audit.jsonl")
 
     ensure_data_dirs()
     init_schema()

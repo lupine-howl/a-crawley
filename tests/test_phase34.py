@@ -54,15 +54,18 @@ def test_persist_artifacts_writes_duckdb_and_files(tmp_path, monkeypatch) -> Non
 def test_investment_job_error_without_llm_key(client: TestClient, monkeypatch) -> None:
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-    def fake_items(query: str, *, limit: int = 3):
-        return [
-            {
-                "title": "T",
-                "url": "https://example.com",
-                "snippet": "s",
-                "body": "body",
-            }
-        ]
+    def fake_items(query: str, *, limit: int = 3, use_cache: bool = True):
+        return (
+            [
+                {
+                    "title": "T",
+                    "url": "https://example.com",
+                    "snippet": "s",
+                    "body": "body",
+                }
+            ],
+            {"cache_hit": "false"},
+        )
 
     monkeypatch.setattr(
         "crawley.modules.investment.fetch_rss_items",
@@ -94,9 +97,10 @@ def test_investment_job_success_with_mock_llm(client: TestClient, monkeypatch) -
 
     monkeypatch.setattr(
         "crawley.modules.investment.fetch_rss_items",
-        lambda query, limit=3: [
-            {"title": "T", "url": "https://example.com", "snippet": "s", "body": "b"}
-        ],
+        lambda query, limit=3, use_cache=True: (
+            [{"title": "T", "url": "https://example.com", "snippet": "s", "body": "b"}],
+            {"cache_hit": "false"},
+        ),
     )
     monkeypatch.setattr(
         "crawley.modules.investment.persist_artifacts",
