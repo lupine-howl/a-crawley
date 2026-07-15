@@ -2,6 +2,31 @@
 
 Greenfield project. Product direction and delivery are driven by markdown artifacts and two Cursor agent roles.
 
+**Working title:** Crawley — local-first personal assistant.
+
+## Run locally (WSL / Linux)
+
+Requires [uv](https://docs.astral.sh/uv/) (installs/uses Python 3.12+).
+
+```bash
+# From the repo root
+uv sync
+cp .env.example .env   # optional for Phase 1; required once LLM/Gmail stories land
+uv run python -m crawley
+```
+
+Open http://127.0.0.1:8000 in your browser.
+
+Secrets stay local:
+
+| Path | Purpose |
+|------|---------|
+| `.env` | API keys (gitignored; see `.env.example`) |
+| `data/` | DuckDB, caches, crawl/mail artifacts (gitignored except `.gitkeep`) |
+| `data/secrets/` | OAuth token files — create when needed (under gitignored `data/`) |
+
+Default bind is localhost only (`127.0.0.1:8000`). Override with `CRAWLEY_HOST` / `CRAWLEY_PORT` if needed.
+
 ## Agent roles
 
 | Role | Cursor rule | Does |

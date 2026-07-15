@@ -26,14 +26,14 @@ Implement **in order** (S1.1 → S1.5) unless dependencies already satisfied.
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B1 |
 
 **Acceptance criteria:**
 
-- [ ] `uv` project + `python -m crawley` (or equivalent) starts the server on localhost
-- [ ] `.env.example` + gitignored secrets path documented
-- [ ] Short run instructions for WSL/Linux
+- [x] `uv` project + `python -m crawley` (or equivalent) starts the server on localhost
+- [x] `.env.example` + gitignored secrets path documented
+- [x] Short run instructions for WSL/Linux
 
 ---
 

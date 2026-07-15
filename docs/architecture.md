@@ -88,30 +88,18 @@ Implement stories **in order** (S1.1 → S1.5) unless a later story’s dependen
 ### Proposed package layout (indicative)
 
 ```
-crawley/
+src/crawley/
   __main__.py          # python -m crawley
   app.py               # FastAPI app factory
-  shell/               # routes, templates, static
-  modules/
-    contract.py        # Protocol / ABC
-    registry.py
-    investment/        # S1.4 lite
-    gmail/             # S1.5 lite (read-only)
-    calendar_/         # stub (Coming soon); name as suits package rules
-    fitness/           # stub
-    …                  # other Coming soon stubs
-  llm/
-    base.py
-    openai_provider.py
-    local_llama.py     # placeholder only in Sprint 1
-  data/
-    duck.py
-    paths.py
+  shell/               # routes, templates, static (S1.2+)
+  modules/             # contract, registry, domains (S1.2+)
+  llm/                 # provider interface (S1.3+)
+  data/                # DuckDB helpers (S1.4+)
 data/                  # runtime, gitignored
 docs/
 ```
 
-Exact package names may shift during Sprint 1; boundaries above stay. Prefer **separate** `gmail` and calendar stub packages (Calendar is not a real fetch this sprint).
+Sprint 1 uses a `src/` layout via `uv`/`hatchling`. Boundaries above stay; subpackages land with later stories.
 
 ## Key flows
 
