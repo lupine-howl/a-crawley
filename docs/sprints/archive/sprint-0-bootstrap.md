@@ -1,7 +1,7 @@
 # Sprint 0 — Bootstrap (archived)
 
 **Archived:** 2026-07-15  
-**Promoted to:** [`docs/sprints/current.md`](../current.md) (Sprint 1)
+**Promoted to:** [`docs/sprints/archive/sprint-1-local-shell.md`](sprint-1-local-shell.md) (then Sprint 2 became current)
 
 ## Goal
 

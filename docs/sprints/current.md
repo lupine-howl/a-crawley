@@ -1,113 +1,84 @@
-# Sprint 1 — Local shell + lite Investment & Gmail
+# Sprint 2 — Themes & LLM operator settings
 
 **Duration:** one symbolic week  
-**Backlog refs:** B1–B5 (B6 stub only)  
+**Backlog refs:** B7, B8  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
-**Previous:** [`archive/sprint-0-bootstrap.md`](archive/sprint-0-bootstrap.md)
+**Previous:** [`archive/sprint-1-local-shell.md`](archive/sprint-1-local-shell.md)
 
 ## Goal
 
-Ship a runnable Crawley shell on localhost with a modular dashboard: **lite Investment** and **lite Gmail** produce real LLM-backed summaries from bounded fetches; other top-tier modules are clickable **Coming soon** stubs.
+Make the local dashboard feel more intentional and operable day-to-day: a **themable palette** across shell and panels, plus a dashboard control to **configure the LLM** and **test the connection** without relying only on raw `.env` edits.
 
 ## Demo (definition of done for the sprint)
 
 Operator can:
 
-1. Run the app and open the dashboard in a browser
-2. Trigger a small investment search/scrape and see a summary/advice panel
-3. Complete Gmail read-only OAuth (if needed) and see an inbox skim/summary
-4. Open other top-tier modules and see Coming soon (no crashes)
+1. Switch theme (or palette) from the dashboard and see it apply across shell + module panels; choice persists across reload
+2. Open settings, choose/configure the active LLM model (PoC), save locally
+3. Run **Test connection** and see a clear success or failure result in the UI
+4. Use Investment or Gmail summary path still working with the configured model settings
 
 ## Committed
 
-Implement **in order** (S1.1 → S1.5) unless dependencies already satisfied.
+Implement **in order** (S2.1 → S2.2) unless dependencies already satisfied.
 
-### S1.1 — Project skeleton & local run (B1)
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B1 |
-
-**Acceptance criteria:**
-
-- [x] `uv` project + `python -m crawley` (or equivalent) starts the server on localhost
-- [x] `.env.example` + gitignored secrets path documented
-- [x] Short run instructions for WSL/Linux
-
----
-
-### S1.2 — Dashboard shell, contract, registry & stubs (B2, B6 stub)
+### S2.1 — Themable UI & design polish (B7)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
-| Backlog ref | B2, B6 |
-| Depends on | S1.1 |
+| Backlog ref | B7 |
+| Depends on | Sprint 1 shell |
 
 **Acceptance criteria:**
 
-- [ ] FastAPI + Jinja2/HTMX dashboard with module navigation
-- [ ] Module contract + explicit registry
-- [ ] Top-tier nav: Investment, Gmail, Calendar, Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative
-- [ ] Non-implemented modules (including Calendar & Fitness in this sprint) show Coming soon
+- [ ] Theme tokens (colors; type/spacing as needed) live in one place and apply across shell + module panels
+- [ ] Operator can switch theme from the dashboard; selection persists locally
+- [ ] Styling approach decided and recorded in `docs/architecture.md` (evolve Sprint 1 custom CSS vs introduce a build later)
+- [ ] Stub / Coming soon panels match the updated system
+- [ ] Optional: incorporate UX designer suggestions if available this sprint; otherwise ship a clean interim theme set
+
+**Out of scope:**
+
+- Full brand/marketing site
+- Native desktop chrome
+- Node/Tailwind build unless explicitly chosen in architecture note
 
 ---
 
-### S1.3 — OpenAI LLM provider (B3)
+### S2.2 — LLM settings & connection test (B8)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
-| Backlog ref | B3 |
-| Depends on | S1.1 |
+| Backlog ref | B8 |
+| Depends on | S2.1 recommended (shared settings chrome OK to land with S2.2); B3 done |
 
 **Acceptance criteria:**
 
-- [ ] LLM provider interface + OpenAI implementation via env
-- [ ] LocalLlama placeholder only
-- [ ] Clear error when API key missing/invalid
+- [ ] Settings entry point on the dashboard (button/nav → settings panel)
+- [ ] Configure active model / related PoC LLM settings; secrets stay local and gitignored
+- [ ] **Test connection** reports success/failure clearly in the UI
+- [ ] Modules use configured settings after save (document restart-required vs hot-reload in README or architecture)
+- [ ] Missing/invalid key still surfaces clearly (parity with Sprint 1 banner behavior)
 
----
+**Out of scope:**
 
-### S1.4 — Investment lite (B4)
-
-| Field | Value |
-|-------|-------|
-| Status | todo |
-| Backlog ref | B4 |
-| Depends on | S1.2, S1.3 |
-
-**Acceptance criteria:**
-
-- [ ] Bounded search/scrape → `data/` artifacts + DuckDB rows
-- [ ] LLM synthesis shown on Investment panel
-- [ ] Simple job/status (busy / done / error)
-
----
-
-### S1.5 — Gmail lite read-only (B5)
-
-| Field | Value |
-|-------|-------|
-| Status | todo |
-| Backlog ref | B5 |
-| Depends on | S1.2, S1.3 |
-
-**Acceptance criteria:**
-
-- [ ] OAuth installed-app on WSL/Linux; tokens local/gitignored; read-only scope
-- [ ] Bounded inbox scan → email summary on Gmail panel
-- [ ] Clear auth/API error states
+- Multi-user settings profiles
+- LocalLlama install/ops beyond selecting a non-ready provider placeholder
+- Cloud billing dashboards
+- Redesigning Investment/Gmail domain logic (B9–B10)
 
 ## Explicitly out of sprint
 
-- Real Calendar fetch (stub only)
-- Fitness beyond stub
-- Write-back, local LLM, LAN/phone, automated trading
-- Deepening investment/mail UX (B7–B8)
+- Calendar real fetch (B6 later / B10)
+- Harden investment or Gmail depth (B9–B10)
+- Fitness beyond stub (B11)
+- Phone-on-LAN (B12)
+- Write-back, local LLM ops, automated trading
 
 ## Parking lot
 
-- Calendar read may share Google OAuth with Gmail when B6/B8 are pulled forward
-- Exact list of stub labels can be shortened in UI if nav feels crowded
+- UX designer theme proposals may arrive mid-sprint — fold into S2.1 if timely; else backlog follow-up
+- Settings chrome may later hold Google / module credentials UI — keep LLM-only this sprint unless trivial
+- Persist theme via cookie, localStorage, or small local config file — architect chooses; document in architecture.md

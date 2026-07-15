@@ -3,9 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Aligned to Sprint 1 (S0.3 close-out, 2026-07-15)  
+**Status:** Sprint 1 closed 2026-07-15; aligned to Sprint 2  
 **Host (Now):** WSL2 / Linux personal machine, localhost by default  
-**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 1)
+**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 2 — themes & LLM settings)  
+**Prior sprint:** [`docs/sprints/archive/sprint-1-local-shell.md`](sprints/archive/sprint-1-local-shell.md)
 
 ## Overview
 
@@ -33,10 +34,13 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 ```
 
 **Shape:** shared core + modules behind a stable contract (read paths first; write-back reserved).  
-**Sprint 1 slice:** runnable shell + contract/registry + OpenAI provider + **lite Investment** + **lite Gmail**; Calendar and other top-tier domains are **Coming soon** stubs.  
-**Not in Sprint 1 / PoC:** public hosting, multi-user, local LLM ops, native desktop shell, automated trading, write-back, real Calendar fetch.
+**Shipped (Sprint 1):** runnable shell + contract/registry + OpenAI provider + **lite Investment** + **lite Gmail**; Calendar and other top-tier domains are **Coming soon** stubs; shell UI uses **custom CSS variables** (no Tailwind CDN).  
+**Sprint 2 slice:** themable palette (B7) + dashboard LLM settings & connection test (B8).  
+**Not in PoC yet:** public hosting, multi-user, local LLM ops, native desktop shell, automated trading, write-back, real Calendar fetch.
 
-## Sprint 1 delivery map
+## Sprint delivery maps
+
+### Sprint 1 (closed)
 
 | Story | Architecture touchpoints |
 |-------|--------------------------|
@@ -46,7 +50,14 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 | **S1.4** Investment lite | Threaded bounded fetch → `data/` artifacts + DuckDB rows → LLM synthesis on Investment panel; busy/done/error status |
 | **S1.5** Gmail lite (read-only) | Installed-app OAuth (Gmail read-only scope only); bounded inbox scan → panel summary; local tokens |
 
-Implement stories **in order** (S1.1 → S1.5) unless a later story’s dependencies are already met.
+### Sprint 2 (active)
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S2.1** Themable UI | Centralize theme tokens; dashboard theme switch + local persistence; document CSS approach (evolve custom tokens; Node build only if chosen) |
+| **S2.2** LLM settings & test | Settings surface in shell; persist model/provider PoC settings locally; test-connection endpoint/action; hot-reload vs restart policy documented |
+
+Implement Sprint 2 stories **in order** (S2.1 → S2.2) unless dependencies already met.
 
 ## Stack
 
@@ -55,6 +66,7 @@ Implement stories **in order** (S1.1 → S1.5) unless a later story’s dependen
 | Language | Python 3.12+ | Hard requirement for core, modules, crawl, analysis, LLM calls |
 | Packaging / run | `uv` | `uv run python -m crawley` (or equivalent entrypoint) |
 | HTTP / UI | FastAPI + Jinja2 + HTMX | Server-rendered local browser UI; optional native wrapper Later |
+| UI styling | Custom CSS variables in shell templates | Sprint 1 baseline; Sprint 2 adds themes (B7). No Node/Tailwind CDN in tree today |
 | Process | Single process | Uvicorn hosts the app; I/O concurrency via threads |
 | Crawl / fetch | `ThreadPoolExecutor` (or equivalent) | Multi-thread for I/O-bound work; no separate worker service in Sprint 1 |
 | Analytical store | DuckDB | Local file DB under `data/`; sorting, joins, ML feature pulls |
@@ -137,11 +149,13 @@ Use `docs/adr/` for full write-ups when a choice has lasting impact. Summarize h
 
 | Item | Notes |
 |------|-------|
-| **Google OAuth on WSL** | Browser redirect/localhost callback must work on the stakeholder’s setup (S1.5); document the happy path briefly. |
-| **OpenAI cost / rate limits** | Bound fetches and prompt size (B3/B4/B5); no silent unbounded crawl→LLM loops. |
-| **DuckDB + threads** | Shared-state access from worker threads needs clear ownership (queue to main, or documented connection rules) before S1.4 lands rows from background work. |
-| **Nav density** | Nine top-tier stubs may feel crowded; shortening labels is OK (Parking lot / PO) without dropping registry entries. |
-| **Calendar / shared Google auth** | Real Calendar read may later share OAuth with Gmail; do not request Calendar scopes in Sprint 1. |
-| **HTMX UX ceiling** | Fine for Sprint 1; SPA migration Later if needed — not a second UI stack in this sprint. |
+| **Google OAuth on WSL** | Happy path documented in README; residual risk for Windows browser → WSL port forwarding. Manual verify recommended; no live E2E test. |
+| **OpenAI cost / rate limits** | Bound fetches and prompt size (B3/B4/B5); no silent unbounded crawl→LLM loops. Sprint 2 settings (B8) must not remove bounds. |
+| **DuckDB + threads** | Write lock in data helpers; keep ownership rules clear as modules grow. |
+| **Nav density** | Nine top-tier stubs may feel crowded; shortening labels is OK without dropping registry entries. |
+| **Calendar / shared Google auth** | Real Calendar read may later share OAuth with Gmail; do not request Calendar scopes until B6/B10 commit them. |
+| **Theme persistence** | Sprint 2 must pick cookie / localStorage / local config and document it (S2.1). |
+| **LLM settings vs `.env`** | Clarify precedence when both dashboard settings and env exist (S2.2). |
+| **HTMX UX ceiling** | Fine for Now; SPA migration Later if needed — not a second UI stack. |
 | **Write-back** | Contract reserves hooks; no write scopes or mutations until a later sprint commits them. |
-| **LAN / phone access** | Out of Sprint 1; if enabled later, bind/auth defaults must stay intrusion-minded. |
+| **LAN / phone access** | Out of Now; if enabled later, bind/auth defaults must stay intrusion-minded. |
