@@ -29,15 +29,15 @@ Do **not** collapse these into one session unless the stakeholder explicitly ask
 4. Confirm with the stakeholder before closing. Leave `BACKLOG.md` and sprint delivery stories for Interview 2.
 5. Update `docs/sprints/current.md` only to mark Interview 1 complete (Sprint 0 checklist).
 
-### Interview 2 — Backlog & sprint
+### Interview 2 — Backlog & Planned Sprint 1
 
-**Goal:** Turn the roadmap into *what we build next*.
+**Goal:** Turn the roadmap into *what we build next*. Do not author architecture or replace Sprint 0 yet.
 
 1. Read `PRODUCT.md`, `ROADMAP.md`, `BACKLOG.md`, and `docs/sprints/current.md`.
 2. Interview the stakeholder about near-term priorities, sequencing, risks, and a realistic first delivery chunk.
 3. Write/update `BACKLOG.md` with prioritized items (each: goal, acceptance criteria, out of scope, dependencies).
-4. Replace Sprint 0 with Sprint 1 in `docs/sprints/current.md`: one sprint goal + committed stories drawn from the backlog.
-5. Confirm with the stakeholder, then hand off to the architect.
+4. Fill the **Planned Sprint 1** section in `docs/sprints/current.md` (goal + committed stories). Leave Sprint 0 in place until Architect Interview 1 finishes.
+5. Confirm with the stakeholder, then hand off to the architect for architecture Interview 1.
 
 ## Ongoing workflow
 
@@ -56,6 +56,4 @@ Do **not** collapse these into one session unless the stakeholder explicitly ask
 
 ## Handoff to architect
 
-When Sprint 1 (or later) is ready, tell the stakeholder to start an Architect session with:
-
-> Implement only what is in `docs/sprints/current.md`. Read `AGENTS.md` and `docs/architecture.md` first.
+After Interview 2 (Planned Sprint 1 confirmed), tell the stakeholder to start **Architect Interview 1** (architecture only), then **Architect Interview 2** (implement Sprint 1). See `README.md` for prompts.

@@ -7,9 +7,16 @@ Greenfield project. Product direction and delivery are driven by markdown artifa
 | Role | Cursor rule | Does |
 |------|-------------|------|
 | Product owner | `.cursor/rules/product-owner.mdc` | Brief, roadmap, backlog, sprints |
-| Architect / developer | `.cursor/rules/architect-developer.mdc` | Implements `docs/sprints/current.md` |
+| Architect / developer | `.cursor/rules/architect-developer.mdc` | Architecture doc, then implements sprint |
 
 Shared contract: [`AGENTS.md`](./AGENTS.md)
+
+## Bootstrap sequence
+
+1. **PO Interview 1** — `PRODUCT.md` + `ROADMAP.md`
+2. **PO Interview 2** — `BACKLOG.md` + Planned Sprint 1 (still in Sprint 0)
+3. **Architect Interview 1** — `docs/architecture.md` (no app code)
+4. **Architect Interview 2** — implement Sprint 1
 
 ## Product docs
 
@@ -34,22 +41,28 @@ To change how a rule attaches later: **Customize → Rules** (or open the `.mdc`
 
 ### 1. Product owner — Interview 1 (brief & roadmap)
 
-Enable the **Product owner** rule, then:
+`@product-owner`, then:
 
 > You are the product owner. Run Interview 1 only. Read PRODUCT.md and ROADMAP.md, interview me about the project, then write PRODUCT.md (project brief) and ROADMAP.md. Do not write the backlog or Sprint 1 yet. Do not write application code.
 
-### 2. Product owner — Interview 2 (backlog & sprint)
+### 2. Product owner — Interview 2 (backlog & Planned Sprint 1)
 
-Same rule, preferably a **new** PO chat (or continue after Interview 1 is confirmed):
+`@product-owner`, then:
 
-> You are the product owner. Run Interview 2 only. Read PRODUCT.md and ROADMAP.md (already filled). Interview me about near-term priorities, then write BACKLOG.md and replace docs/sprints/current.md with Sprint 1. Do not write application code.
+> You are the product owner. Run Interview 2 only. Read PRODUCT.md and ROADMAP.md. Interview me about near-term priorities, then write BACKLOG.md and fill the Planned Sprint 1 section in docs/sprints/current.md. Do not replace Sprint 0 yet. Do not write architecture or application code.
 
-### 3. Architect — implement sprint
+### 3. Architect — Interview 1 (architecture)
 
-Enable the **Architect / developer** rule, then:
+`@architect-developer`, then:
 
-> You are the senior architect/developer. Read AGENTS.md, docs/architecture.md, and docs/sprints/current.md. Implement the sprint in order. If AC is unclear, mark the story blocked and stop.
+> You are the senior architect/developer. Run Interview 1 only. Read PRODUCT.md, ROADMAP.md, BACKLOG.md, and the Planned Sprint 1 section in docs/sprints/current.md. Interview me about technical constraints and stack, then write docs/architecture.md. When confirmed, archive Sprint 0 and promote Planned Sprint 1 to docs/sprints/current.md. Do not implement Sprint 1 yet.
 
-### 4. Review
+### 4. Architect — Interview 2 (implement Sprint 1)
 
-PO (or you) checks the diff against sprint acceptance criteria, then archives/starts the next sprint.
+`@architect-developer`, then:
+
+> You are the senior architect/developer. Run Interview 2. Read AGENTS.md, docs/architecture.md, and docs/sprints/current.md. Implement Sprint 1 in order. If AC is unclear, mark the story blocked and stop.
+
+### 5. Review
+
+PO (or you) checks the diff against sprint acceptance criteria, then plans the next sprint.
