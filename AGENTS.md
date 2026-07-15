@@ -1,0 +1,34 @@
+# Agent contract
+
+Shared rules for every agent working in this repo. Role-specific behavior lives in `.cursor/rules/`.
+
+## Source of truth
+
+| Concern | File |
+|---------|------|
+| Product vision & constraints | `PRODUCT.md` |
+| Themes / outcomes | `ROADMAP.md` |
+| Prioritized work | `BACKLOG.md` |
+| Active sprint | `docs/sprints/current.md` |
+| Technical decisions | `docs/architecture.md` |
+
+Do not invent lasting product decisions only in chat. Write them into the files above.
+
+## Roles
+
+- **Product owner** — owns roadmap, backlog, and sprints. Does not implement application code.
+- **Architect / developer** — implements only what is in `docs/sprints/current.md`. Updates architecture docs when decisions land.
+
+## Definition of done (per story)
+
+- Acceptance criteria in the sprint file are met
+- Behavior is covered by automated tests when the story implies logic worth protecting
+- Relevant docs updated (`docs/architecture.md` for material design changes)
+- No silent scope expansion; new ideas go to Parking lot or `BACKLOG.md`
+
+## Working agreements
+
+1. Prefer small, reviewable changes aligned to one sprint story at a time.
+2. If requirements are ambiguous or blocked, stop, record the blocker on the story, and ask the human stakeholder.
+3. Keep `AGENTS.md` behavioral and short — product state belongs in the product docs.
+4. Never commit secrets, credentials, or `.env` files.
