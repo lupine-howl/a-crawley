@@ -8,7 +8,7 @@
 
 | Sprint | Theme | File | Backlog |
 |--------|-------|------|---------|
-| 11 | Sender Inbox PoC + UX contract | [`../current.md`](../current.md) / [`sprint-11-sender-inbox.md`](sprint-11-sender-inbox.md) | B65–B70 |
+| 11 | Update-from-git + Sender Inbox PoC | [`../current.md`](../current.md) / [`sprint-11-sender-inbox.md`](sprint-11-sender-inbox.md) | B78, B65–B70 |
 | 12 | ASX scanner + company profiles PoC | [`sprint-12-asx-profiles.md`](sprint-12-asx-profiles.md) | B71–B74 |
 | 13 | ASX recommendations + paper portfolio | [`sprint-13-asx-paper-portfolio.md`](sprint-13-asx-paper-portfolio.md) | B75–B77 |
 

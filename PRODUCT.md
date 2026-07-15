@@ -116,6 +116,7 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 - **Code-verified:** Sprints 6–10 are implemented (`tests/test_sprint6_10.py` green; modules in registry) — see [`docs/sprints/archive/sprint-6-10-code-verification.md`](docs/sprints/archive/sprint-6-10-code-verification.md)
 - Next number is **Sprint 11** (do not renumber pivot back to 6)
 - **Shelve** only former *planned* post-10 queue (B32–B64 / old `sprint-11.md`…`40.md`); never shelve delivered 6–10
-- **Gmail Next (11):** one-at-a-time categorize; sender-grouped inbox; profiles; todos; ~20 email PoC
+- **Sprint 11 first:** Settings → **Update** (git pull) + proven **hot reload** (`CRAWLEY_RELOAD`) — B78
+- **Gmail Next (11 rest):** one-at-a-time categorize; sender-grouped inbox; profiles; todos; ~20 email PoC
 - **Investment Next (12–13):** ASX-first scan/profiles/recommendations + **paper** portfolio (not live orders)
-- UX gate: `docs/ux/sender-inbox-asx.md` (S11.0)
+- UX: `docs/ux/sender-inbox-asx.md` (confirm in S11.1); Update control lives quietly under Settings

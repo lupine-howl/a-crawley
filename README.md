@@ -64,7 +64,7 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 - **Sprints 1–5** — PoC closed; retro: [`docs/sprints/archive/sprints-1-5-retrospective.md`](./docs/sprints/archive/sprints-1-5-retrospective.md)
 - **Sprints 6–10** — **implemented** (life modules, Day brief, Calendar write-back, LocalLlama, shared context): [`docs/sprints/archive/sprint-6-10-life-modules-llm-context.md`](./docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](./docs/sprints/archive/sprint-6-10-code-verification.md)
-- **Sprint 11** — Sender Inbox PoC + UX (**ready**, pivot): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprint 11** — Settings Update (git pull + hot reload) then Sender Inbox PoC (**ready**): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Sprints 12–13** — ASX profiles → recommendations + paper portfolio: [`docs/sprints/planned/`](./docs/sprints/planned/README.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
@@ -91,6 +91,6 @@ Ongoing: PO plans the next sprint in `docs/sprints/current.md`; UX expert may lo
 
 These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-developer`, or `@ux-expert` in Agent chat, then confirm via the context ring → **Rules**.
 
-## After Sprint 10
+## Next delivery
 
-PO sequences Later work (e.g. Gmail write-back, desktop shell, deeper shared memory). Archive `docs/sprints/current.md` when promoting the next sprint.
+`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 11**) **in order**: **S11.0** Settings → Update (git pull + hot reload), then Sender Inbox PoC. UX draft: `docs/ux/sender-inbox-asx.md`. ASX PoC is Sprints **12–13**.

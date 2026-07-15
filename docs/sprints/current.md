@@ -1,147 +1,158 @@
-# Sprint 11 — Sender Inbox PoC (+ UX contract)
+# Sprint 11 — Update-from-git + Sender Inbox PoC
 
 **Status:** ready (next delivery after Sprints 6–10 closed)  
 **Duration:** one symbolic week  
-**Backlog refs:** B65, B66, B67, B68, B69, B70  
-**Depends on:** Sprints 1–10 Gmail/Investment shell; UX pass for dashboards  
-**Architecture:** [`docs/architecture.md`](../architecture.md)  
-**UX contract:** [`docs/ux.md`](../ux.md) + [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
+**Backlog refs:** B78, B65, B66, B67, B68, B69, B70  
+**Depends on:** Sprints 1–10 shell; UX draft for Sender Inbox / ASX (`docs/ux/sender-inbox-asx.md`)  
+**Architecture:** [`docs/architecture.md`](../architecture.md) — document Update + reload behaviour  
+**UX:** Settings → **Update** control; Sender Inbox per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
 **Previous:** [`archive/sprint-6-10-life-modules-llm-context.md`](archive/sprint-6-10-life-modules-llm-context.md)  
-**Planned source:** [`planned/sprint-11-sender-inbox.md`](planned/sprint-11-sender-inbox.md)  
-**Shelved former 11–40 queue:** [`shelved/README.md`](shelved/README.md)
+**Planned source:** [`planned/sprint-11-sender-inbox.md`](planned/sprint-11-sender-inbox.md)
 
 ## Goal
 
-Ship a **Sender Inbox PoC**: a polite background process ingests ~20 Gmail messages one-by-one with LLM categorization; the UI shows **senders (not a flat stream)**, each with an LLM **profile** and a **todo list** of actionable items. In the same sprint, lock UX for this inbox **and** the forthcoming ASX desk (Sprint 12–13).
-
-Inspired by people-centric inboxes (e.g. ChatInbox / Talanoa / Shortwave-style bundling) — adapted to Crawley’s local HTMX shell.
+1. **First:** Let the operator pull latest app code from git via **Settings → Update** (or equivalent dashboard control) and **prove hot reload** picks up the change when `CRAWLEY_RELOAD` is enabled.  
+2. **Then:** Ship the **Sender Inbox PoC** (~20 emails): one-at-a-time categorize → grouped-by-sender → LLM profiles → todos.  
+3. ASX Investment PoC follows in **Sprints 12–13** (already planned).
 
 ## Demo
 
 Operator can:
 
-1. Confirm UX contract exists for Sender Inbox + ASX dashboards (`docs/ux/sender-inbox-asx.md`)
-2. Start background ingest; watch progress as emails categorize one-at-a-time (stop at ~20)
-3. Open **Sender Inbox**: groups by sender; no primary chronological flood
-4. Open a sender → profile (LLM history sketch) + emails in bundle + **todos** extracted from that bundle
-5. Restart app; categorized data + profiles + todos still present under `data/`
+1. Open Settings → **Update**, run **Pull latest**, see clear success/failure (commit before/after or short log)
+2. With hot reload on (`CRAWLEY_RELOAD=1`), confirm the running app **reloads** after a pull that changes watched files (documented proof — e.g. UI notice + process reload, or test)
+3. Use Sender Inbox PoC: ingest ~20 mails one-by-one → sender groups → profile + todos
+4. Restart still shows categorized data / profiles / todos under `data/`
 
 ## Committed
 
-Implement **in order** (S11.0 → … → S11.5). **Do not implement S11.1+ until S11.0 UX is confirmed** (or stakeholder waives in writing on the story).
+Implement **in order** (S11.0 → S11.1 → Sender Inbox stories). Architect may start S11.0 immediately; treat UX draft as accepted for Sender Inbox unless stakeholder revises `docs/ux/sender-inbox-asx.md`.
 
-### S11.0 — UX contract: Sender Inbox + ASX dashboards (B65)
+### S11.0 — Settings Update: git pull + hot reload (B78)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B78 |
+| Priority | first in sprint |
+
+**Acceptance criteria:**
+
+- [ ] **Settings → Update** (preferred) or equally discoverable dashboard control with section title **Update**
+- [ ] **Pull latest** action runs `git pull` (or equivalent fetch+merge/ff) in the app repo from the local process; shows result in UI (ok / already up to date / error with short reason)
+- [ ] Documented **precondition**: `CRAWLEY_RELOAD=1` (or Settings toggle that enables reload) so file changes under `src/crawley/` trigger Uvicorn reload after pull
+- [ ] **Proof of hot reload:** after a successful pull that touches watched paths, operator sees reload behaviour (e.g. brief “Reloading…” / new request served by restarted worker); covered by automated test *or* documented manual demo steps in README
+- [ ] Safe defaults: action available on **localhost** (disable or hard-warn on LAN bind); never logs secrets; fails cleanly if not a git checkout / no network / merge conflict
+- [ ] Brief note in `docs/architecture.md` + README Update section
+- [ ] No auto-pull on a schedule this sprint
+
+**Out of scope:**
+
+- GitHub Apps / cloud deploy / CI from this button
+- Resolving merge conflicts in UI
+- Pulling while multiple remotes/branches without documenting the branch used (track current branch / `main` — document choice)
+
+---
+
+### S11.1 — UX contract confirm (Sender Inbox + ASX) (B65)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B65 |
-| Owner | UX expert |
+| Depends on | — (draft already exists) |
 
 **Acceptance criteria:**
 
-- [ ] `docs/ux/sender-inbox-asx.md` (and pointers in `docs/ux.md`) specifies IA, primary layouts, empty/loading/progress states for:
-  - Sender-grouped Inbox (list → sender detail → profile + todos)
-  - ASX desk (universe / scanner progress / company profile)
-  - Recommendations list + paper portfolio page (Sprint 13 surfaces)
-- [ ] Respects shell themes/tokens; one composition; no card soup; brand present
-- [ ] Stakeholder confirmed (or explicitly accepted as draft-for-implement)
-- [ ] Parking lot for ideas that would expand sprint scope
-
-*Note: Draft UX contract already written — confirm or amend before S11.1.*
+- [ ] Stakeholder accepts `docs/ux/sender-inbox-asx.md` as implement contract (or lands small amendments)
+- [ ] Includes Settings → Update placement note (under Settings chrome; quiet, not a hero widget)
+- [ ] ASX surfaces remain specified for Sprints 12–13
 
 ---
 
-### S11.1 — Background email ingest + LLM categorize (B66)
+### S11.2 — Background email ingest + LLM categorize (B66)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B66 |
-| Depends on | S11.0 |
+| Depends on | S11.1 |
 
 **Acceptance criteria:**
 
-- [ ] Background worker pulls **one email at a time** (readable cadence; no burst hammering Gmail)
-- [ ] Each message LLM-categorized onto a documented metric set (e.g. urgency, requires_reply, category/topic, sentiment, actionability, vip_hint — exact schema in architecture)
-- [ ] Categories persisted locally; job progress visible (processed / cap)
-- [ ] Failures skip/isolate one message without killing the worker
-- [ ] Uses existing Google read path; no write-back required this sprint
+- [ ] Background worker pulls **one email at a time**
+- [ ] Each message LLM-categorized onto a documented metric set (schema in architecture)
+- [ ] Progress visible; failures isolate one message
+- [ ] Existing Google read path; no write-back required
 
 ---
 
-### S11.2 — Sender-grouped Inbox view (B67)
+### S11.3 — Sender-grouped Inbox view (B67)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B67 |
-| Depends on | S11.0, S11.1 |
+| Depends on | S11.2 |
 
 **Acceptance criteria:**
 
-- [ ] Primary Gmail/Inbox surface is **grouped by sender** (not a chronological stream as the default)
-- [ ] Sender row shows counts / latest activity / high-signal metric chips per UX
-- [ ] Drill-in shows that sender’s ingested messages
-- [ ] Matches UX contract; theme tokens only
+- [ ] Primary Inbox surface **grouped by sender**
+- [ ] Drill-in to sender’s ingested messages; metric chips per UX
+- [ ] Theme tokens only
 
 ---
 
-### S11.3 — LLM sender profiles (B68)
+### S11.4 — LLM sender profiles (B68)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B68 |
-| Depends on | S11.2 |
+| Depends on | S11.3 |
 
 **Acceptance criteria:**
 
-- [ ] Each sender with ≥1 ingested mail gets an LLM profile summarizing interaction history (relationship, typical topics, open loops)
-- [ ] Profile regenerates when new mail for that sender is ingested (or explicit refresh)
-- [ ] Persisted under `data/`; shown on sender detail per UX
+- [ ] LLM profile per sender with ingested mail; regenerate on new mail or refresh
+- [ ] Persisted under `data/`; shown on sender detail
 
 ---
 
-### S11.4 — Actionable todos from sender bundles (B69)
+### S11.5 — Actionable todos from sender bundles (B69)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B69 |
-| Depends on | S11.3 |
+| Depends on | S11.4 |
 
 **Acceptance criteria:**
 
-- [ ] LLM extracts actionable todos from the sender’s ingested bundle
-- [ ] Todo list on sender detail; open/done toggle (local only)
-- [ ] No auto-send / auto-calendar without confirm-first later stories
+- [ ] Todos extracted from sender bundle; open/done local toggle
+- [ ] No auto-send / auto-calendar
 
 ---
 
-### S11.5 — PoC cap ~20 emails (B70)
+### S11.6 — PoC cap ~20 emails (B70)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
 | Backlog ref | B70 |
-| Depends on | S11.1 |
+| Depends on | S11.2 |
 
 **Acceptance criteria:**
 
-- [ ] Hard stop (or clear pause) around **20** ingested emails for PoC
-- [ ] UI states remaining capacity; Settings or panel control to reset PoC data (dev-friendly)
-- [ ] Documented how to raise the cap later without redesign
+- [ ] Hard stop ~20; remaining capacity visible; reset path documented
 
 ## Explicitly out of sprint
 
-- ASX scanner/profiles implementation → **Sprint 12**
-- Recommendations + paper portfolio → **Sprint 13**
-- Full mailbox crawl, multi-account, silent Gmail mutations
-- Shelved former sprint plans ([shelved](shelved/README.md))
+- **ASX Investment PoC** → **Sprint 12** (profiles/scanner) then **Sprint 13** (recommendations + paper portfolio)
+- Full mailbox crawl; Gmail send; live brokerage orders
+- Shelved former planned 11–40 depth queue
 
 ## Parking lot
 
-- Offline full-text search across categorized mail
-- Merge Shortwave-like newsletter bundles as a sender class
-- Un-shelve VIP rules / Gmail send from former planned queue once PoC scales
+- “Update & restart” without relying on `CRAWLEY_RELOAD`
+- Show current git SHA in Settings footer always
+- Un-shelve Gmail confirm-first send after Sender Inbox PoC

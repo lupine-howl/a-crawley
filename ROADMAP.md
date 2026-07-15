@@ -24,9 +24,9 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 **Sender Inbox + ASX depth PoCs**
 
-### Sprint 11 (ready) — Sender Inbox PoC (+ UX contract)
-Background one-at-a-time email categorize; inbox **grouped by sender**; LLM sender profiles; actionable todos; **~20 email** cap.  
-[`docs/sprints/current.md`](docs/sprints/current.md) · B65–B70 · UX: [`docs/ux/sender-inbox-asx.md`](docs/ux/sender-inbox-asx.md)
+### Sprint 11 (ready) — Update-from-git + Sender Inbox PoC
+**First:** Settings → **Update** (git pull) with proven **hot reload**. **Then:** Sender Inbox PoC (~20 emails: categorize → by sender → profiles → todos).  
+[`docs/sprints/current.md`](docs/sprints/current.md) · B78, B65–B70 · UX: [`docs/ux/sender-inbox-asx.md`](docs/ux/sender-inbox-asx.md)
 
 ### Sprint 12 (planned) — ASX company scanner + profiles PoC
 Large ASX universe; background scan; per-company profiles; sources + prompts; **~20 company** slice.  

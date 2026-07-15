@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–10 closed; **Sprint 11 ready** = Sender Inbox PoC pivot; former planned 11–40 depth/platform queue shelved; B65–B77 Next
+**Status:** Sprints 1–10 closed; **Sprint 11 ready** = Settings Update (git pull + hot reload) then Sender Inbox PoC; Sprints 12–13 ASX; former planned 11–40 depth queue shelved; B65–B78
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -1666,7 +1666,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B7 |
-| Sprint | 11 (current) |
+| Sprint | 11 (current) — after B78 |
 
 **Goal:** UX expert design contract for Sender-grouped Inbox and ASX research desk (profiles, recommendations, paper portfolio pages) before implementation.
 
@@ -1981,6 +1981,34 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 **Out of scope:**
 
 - Real broker OAuth
+
+---
+
+### B78 — Settings Update: git pull + hot reload
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B1 |
+| Sprint | 11 (current) — **first story** |
+
+**Goal:** From the dashboard (Settings → **Update**), pull the latest application code from git and confirm the running process **hot-reloads** when reload is enabled — so the operator can update Crawley without a manual terminal dance.
+
+**Acceptance criteria:**
+
+- [ ] Settings → **Update** section (or equally obvious dashboard control) with **Pull latest**
+- [ ] Runs git pull (or fetch + ff-only merge) on the app checkout; UI shows success / up-to-date / error
+- [ ] Documents and/or enables `CRAWLEY_RELOAD=1` (uvicorn reload on `src/crawley/` changes) as the supported path
+- [ ] Demonstrates/tests that a pull changing watched files triggers reload (automated test preferred)
+- [ ] Localhost-minded safety (disable or strong warn when LAN bind); no secret leakage in UI logs
+- [ ] Architecture + README note; no scheduled auto-pull
+
+**Out of scope:**
+
+- Cloud deploy, CI triggers, conflict resolution UI
+- Pulling unrelated repos
 
 ---
 
