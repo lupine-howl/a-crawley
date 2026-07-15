@@ -172,7 +172,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 | Depends on | B1, B2 |
 | Sprint | 2 |
 
-**Goal:** Evolve Sprint 1 custom CSS tokens into a clearer visual system with a **themable palette** (light/dark or named themes), informed by a UX pass if available.
+**Goal:** Evolve Sprint 1 custom CSS tokens into a clearer visual system with a **themable palette** (light/dark or named themes), informed by a UX expert pass (`docs/ux.md`) if available.
 
 **Acceptance criteria:**
 
