@@ -81,6 +81,6 @@ Optional design pass first — `@ux-expert` (see prompt under Agent roles).
 
 Then `@architect-developer`:
 
-> Read AGENTS.md, docs/architecture.md, docs/ux.md (if filled), and docs/sprints/current.md. Implement Sprint 2 (S2.1 themes, then S2.2 LLM settings & connection test) in order. If AC is unclear, mark the story blocked and stop. Do not expand into B9–B12.
+> Read AGENTS.md, docs/architecture.md, docs/ux.md, and docs/sprints/current.md. Implement Sprint 2 in order: S2.1 themes, S2.2 LLM settings & connection test, S2.3 Markdown summaries, S2.4 home At a glance (persisted last runs). If AC is unclear, mark the story blocked and stop. Do not expand into B9–B12.
 
 PO review when done: check demo bar in `docs/sprints/current.md`, then archive and plan Sprint 3.

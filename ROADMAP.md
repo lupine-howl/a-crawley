@@ -16,14 +16,16 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 *Still out of Now:* local LLM hosting, write-back, desktop wrapper, automated trading, multi-user, public hosting.
 
-**In flight (Sprint 2):** themable palette + LLM operator settings / connection test — see **Next**.
+**In flight (Sprint 2):** themes + LLM settings/test + Markdown summaries + home At a glance — see **Next**.
 
 ## Next
 
 **Harden the personal OS and deepen the highest-value modules**
 
-- **Design polish (Sprint 2):** themable palette / better styling (UX pass welcome; evolve custom CSS tokens — no Tailwind CDN in tree today).
-- **Operator settings (Sprint 2):** dashboard control to configure the active LLM (model/provider settings) and **test the connection**.
+- **Design polish (Sprint 2):** themable palette / better styling per `docs/ux.md` (custom CSS tokens; no Node).
+- **Operator settings (Sprint 2):** dashboard control to configure the active LLM and **test the connection**.
+- **Readable summaries (Sprint 2):** Markdown rendering in Investment/Gmail panels (safe HTML; theme-aware).
+- **Home At a glance (Sprint 2):** persisted last Investment/Gmail summaries + status chips on dashboard home (habit / reopen pull).
 - Strengthen investment and mail/calendar modules (richer analysis, clearer advice UX, better error/auth handling).
 - Real **Calendar** read-only summary (may share Google OAuth with Gmail).
 - Flesh out fitness beyond stub if it’s still pulling attention.

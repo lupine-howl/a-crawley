@@ -35,7 +35,8 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 
 **Shape:** shared core + modules behind a stable contract (read paths first; write-back reserved).  
 **Shipped (Sprint 1):** runnable shell + contract/registry + OpenAI provider + **lite Investment** + **lite Gmail**; Calendar and other top-tier domains are **Coming soon** stubs; shell UI uses **custom CSS variables** (no Tailwind CDN).  
-**Sprint 2 slice:** themable palette (B7) + dashboard LLM settings & connection test (B8).  
+**Sprint 2 slice:** themable palette (B7) + LLM settings & connection test (B8) + Markdown summaries (B13) + **home At a glance with persisted last runs (B14)**.  
+**UX:** [`docs/ux.md`](ux.md) is the Sprint 2 design contract (S2.1–S2.2); S2.3–S2.4 detailed in the sprint file.  
 **Not in PoC yet:** public hosting, multi-user, local LLM ops, native desktop shell, automated trading, write-back, real Calendar fetch.
 
 ## Sprint delivery maps
@@ -54,10 +55,12 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 
 | Story | Architecture touchpoints |
 |-------|--------------------------|
-| **S2.1** Themable UI | Centralize theme tokens; dashboard theme switch + local persistence; document CSS approach (evolve custom tokens; Node build only if chosen) |
-| **S2.2** LLM settings & test | Settings surface in shell; persist model/provider PoC settings locally; test-connection endpoint/action; hot-reload vs restart policy documented |
+| **S2.1** Themable UI | Centralize theme tokens; four named themes; Settings Appearance picker; persist choice; document CSS approach |
+| **S2.2** LLM settings & test | Settings surface; persist model/provider PoC settings; test-connection action; hot-reload vs restart policy |
+| **S2.3** Markdown summaries | Python MD→HTML for panel summaries; sanitize; tokenized `.summary` styles |
+| **S2.4** Home At a glance | Persist last successful Investment/Gmail summaries; status chips on `/`; reuse MD renderer |
 
-Implement Sprint 2 stories **in order** (S2.1 → S2.2) unless dependencies already met.
+Implement Sprint 2 stories **in order** (S2.1 → S2.2 → S2.3 → S2.4) unless dependencies already met.
 
 ## Stack
 

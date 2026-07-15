@@ -3,9 +3,9 @@
 UX expert owns this file. Update when a design pass lands.
 
 **Working title:** Crawley  
-**Status:** Draft — Sprint 2 design pass (pending stakeholder lock)  
+**Status:** Confirmed — Sprint 2 design contract (2026-07-15)  
 **Surfaces:** Local browser dashboard + module panels (FastAPI / Jinja2 / HTMX; see `docs/architecture.md`)  
-**Sprint alignment:** S2.1 (themable UI), S2.2 (LLM settings & test connection)
+**Sprint alignment:** S2.1 (themable UI), S2.2 (LLM settings & test connection); **S2.3** (Markdown summaries) and **S2.4** (home At a glance) added by PO after UX lock — see Component patterns + Key flows F6
 
 ## Principles
 
@@ -207,6 +207,16 @@ Respect `prefers-reduced-motion: reduce` (disable transitions).
 
 Busy / done / error job lines continue to use `--accent` / `--ok` / `--warn`. Theme must not wash out these states.
 
+### F6 — Dashboard home At a glance (S2.4 — PO add)
+
+1. Operator opens **Crawley** brand / Dashboard (`/`).  
+2. Sees one calm composition: short **status row** (LLM, Gmail auth) + **Last Investment** + **Last Gmail**.  
+3. Successful module runs update those sections; restart still shows last success.  
+4. Empty: muted hint + link into the module — never placeholder prose that looks like a model answer.  
+5. Deep link from unhealthy LLM chip → Settings (LLM).  
+
+Keep chrome brand-first; glance content is the single job of the home panel — no stub-module cards, stats strips, or promo tiles.
+
 ## Component patterns
 
 ### LLM status banner
@@ -253,7 +263,20 @@ Busy / done / error job lines continue to use `--accent` / `--ok` / `--warn`. Th
 ### Job / summary blocks
 
 - Status line: `.job-busy` / `.job-done` / `.job-error` → token colors.  
-- Summaries: prose in panel; `pre` wraps with inheriting font (keep current readability).
+- Summaries: **rendered Markdown → HTML** in `.summary` (Sprint 2.3) — not a monospace `<pre>` dump of raw model text.  
+- Prose inherits `--font-sans` / `--ink`; headings may use `--font-display` at small sizes; lists and paragraphs use `--space-*` rhythm.  
+- Code/pre inside Markdown (if present): muted panel-tint background, still tokenized — keep readable, not neon.  
+- Do not style summaries as marketing cards; one `.summary` region inside the panel is enough.
+
+### Summary Markdown (S2.3 — PO add after UX lock)
+
+| State | Behavior |
+|-------|----------|
+| Success with body | Safe MD→HTML in `.summary` |
+| Empty / no job | No summary region |
+| Error | Job error line only; do not MD-render stack traces |
+
+Trusted subset focus: headings, paragraphs, emphasis, lists, links. Architect owns sanitize library choice (Python, no Node).
 
 ## Sprint alignment
 
@@ -261,6 +284,8 @@ Busy / done / error job lines continue to use `--accent` / `--ok` / `--warn`. Th
 |-------|-------------|
 | **S2.1** | Four themes via tokens above; Settings Appearance picker; immediate apply + persist; stubs/panels/banner consume tokens; custom CSS variables (no Node build) |
 | **S2.2** | Settings nav entry (+ banner deep-link); LLM fields + Save; Test connection states; missing key parity with banner |
+| **S2.3** | Markdown→HTML for Investment/Gmail summaries; tokenized `.summary` styles; safe sanitize (see Component patterns) |
+| **S2.4** | Home At a glance: status chips + persisted last Investment/Gmail MD snippets; one composition; empty honest hints (see F6) |
 
 Architect implements; optional markup snippets in PRs are fine. Do not change Product/Roadmap/backlog from this pass.
 
@@ -300,4 +325,4 @@ Made where questions were unanswered — challenge before lock:
 3. Confirm quiet “Coming soon” copy is fine as-is.  
 4. Any veto on keeping IBM Plex?
 
-Once you confirm (or adjust), this file’s status should move to **Confirmed — Sprint 2 design contract** for the architect session.
+Once stakeholder lock: status = **Confirmed — Sprint 2 design contract**. (Locked 2026-07-15; S2.3 Markdown + S2.4 home glance added by PO without reopening theme decisions.)
