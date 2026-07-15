@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; **Sprints 1–10 closed**; **Sprint 11 ready** — Sender Inbox + ASX PoCs (former planned 11–40 [shelved](docs/sprints/shelved/README.md))
+**Status:** Brief confirmed; **Sprints 1–11 closed** (11 = Settings Update); **Sprint 12 ready** — Sender Inbox PoC; ASX → Sprints 13–14 (former planned 11–40 [shelved](docs/sprints/shelved/README.md))
 
 ## Problem
 

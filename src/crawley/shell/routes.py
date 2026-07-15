@@ -14,6 +14,7 @@ from fastapi.templating import Jinja2Templates
 from crawley.bind import host_exposes_lan, resolve_bind_host, resolve_bind_port
 from crawley.data.snapshots import get_snapshot
 from crawley.day_brief import compose_day_brief_markdown, regenerate_day_brief_llm
+from crawley.git_update import git_status, pull_latest, reload_enabled
 from crawley.google_oauth import authorization_url, finish_oauth, google_auth_status
 from crawley.jobs import JobState
 from crawley.llm.factory import llm_status, test_llm_connection
@@ -119,6 +120,7 @@ def _settings_context(
     test_result: dict | None = None,
     prompts_notice: str | None = None,
     network_notice: str | None = None,
+    update_result: dict | None = None,
     refresh_models: bool = False,
 ) -> dict[str, Any]:
     registry: dict[str, Module] = request.app.state.registry
@@ -128,6 +130,8 @@ def _settings_context(
     bind_host = resolve_bind_host(lan_enabled=settings.network.lan_enabled)
     # Reflect what the *running* process would use after restart vs env override
     env_host = os.environ.get("CRAWLEY_HOST", "").strip()
+    lan = host_exposes_lan(bind_host)
+    gstat = git_status()
     ctx = _base_context(request, registry)
     ctx.update(
         {
@@ -138,7 +142,7 @@ def _settings_context(
             "network_settings": settings.network,
             "bind_host": bind_host,
             "bind_port": resolve_bind_port(),
-            "bind_exposes_lan": host_exposes_lan(bind_host),
+            "bind_exposes_lan": lan,
             "env_host_override": env_host or None,
             "has_stored_key": bool(settings.llm.api_key),
             "save_notice": save_notice,
@@ -149,6 +153,10 @@ def _settings_context(
             "models_error": catalog.get("error"),
             "models_source": catalog.get("source"),
             "audit_entries": read_audit_entries(limit=20),
+            "git_status": gstat,
+            "reload_enabled": reload_enabled(),
+            "update_pull_allowed": bool(gstat.is_repo and not lan),
+            "update_result": update_result,
         }
     )
     return ctx
@@ -320,6 +328,27 @@ def settings_network_save(
             "Trusted LAN only — there is no login gate."
         ),
     )
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
+@router.post("/settings/update/pull", response_class=HTMLResponse)
+def settings_update_pull(request: Request) -> HTMLResponse:
+    settings = load_settings()
+    bind_host = resolve_bind_host(lan_enabled=settings.network.lan_enabled)
+    result = pull_latest(lan_bound=host_exposes_lan(bind_host))
+    update_result = {
+        "ok": result.ok,
+        "state": result.state,
+        "message": result.message,
+        "branch": result.branch,
+        "before_sha": result.before_sha,
+        "after_sha": result.after_sha,
+        "changed_watched": result.changed_watched,
+        "reload_enabled": result.reload_enabled,
+    }
+    ctx = _settings_context(request, update_result=update_result)
     if request.headers.get("hx-request") == "true":
         return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
     return templates.TemplateResponse(request, "settings.html", ctx)

@@ -2,7 +2,7 @@
 
 **Status:** Draft for implement (2026-07-15)  
 **Owner:** UX expert  
-**Sprint gate:** S11.0 / B65 — architects implement Sender Inbox (S11.1+) and ASX surfaces (S12–S13) against this file  
+**Sprint gate:** Sprint **12** (Sender Inbox) / B65; ASX surfaces Sprints **13–14**. Sprint **11** is Settings → Update only (see §2.3).  
 **Shell:** FastAPI + Jinja2 + HTMX; themes `paper` / `slate` / `ink` / `moss` per [`docs/ux.md`](../ux.md)  
 **Parent contract:** [`docs/ux.md`](../ux.md)
 
@@ -52,7 +52,7 @@ Desk  ·  Recommendations  ·  Paper portfolio
 - **Desk** is the default Investment landing (Sprint 12+).
 - Legacy Investment “run search / summary” PoC may live as a disclosure on Desk (“Classic search”) — not competing for first viewport.
 
-**Gmail sub-nav** (optional, Sprint 11):
+**Gmail sub-nav** (optional, Sprint 12):
 
 ```
 Senders  ·  (optional) Classic summary
@@ -60,7 +60,33 @@ Senders  ·  (optional) Classic summary
 
 Default = **Senders**. Chronological flood is never the primary.
 
-### 2.2 Routes (suggested — architect owns final paths)
+### 2.3 Settings → Update (Sprint 11 / B78)
+
+Quiet operator utility under Settings chrome — **not** a home hero, chip, or banner promo.
+
+```
+┌─ Settings ─────────────────────────────────────────────────┐
+│ … Theme / LLM / Network / Prompts …                        │
+│                                                            │
+│ Update                                                     │
+│ Pull latest application code from git. Requires            │
+│ CRAWLEY_RELOAD=1 for the process to hot-reload after       │
+│ files under src/crawley/ change.                           │
+│ Branch · main · abc1234                                    │
+│ [Pull latest]     Status: up to date / pulled / error      │
+└────────────────────────────────────────────────────────────┘
+```
+
+| Rule | Treatment |
+|------|-----------|
+| Placement | Own Settings section **Update**, below Network (or after Prompts); same `.panel-tight.settings-section` pattern |
+| Title | **Update** — `--font-display` section title, not an `h1` that outranks Crawley |
+| Primary control | Single **Pull latest** button |
+| Copy | One muted sentence + reload precondition; short result line (ok / up to date / error) |
+| Safety | Prefer localhost; hard-warn or disable when LAN bind is active |
+| Not | Floating badge, dashboard widget, auto-pull schedule |
+
+### 2.4 Routes (suggested — architect owns final paths)
 
 | Surface | Suggested path |
 |---------|----------------|

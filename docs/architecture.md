@@ -3,9 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–10 closed; **Sprint 11** Sender Inbox PoC (+ ASX desk UX) ready
+**Status:** Sprints 1–11 closed (11 = Settings Update: git pull + hot reload)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 11 — git Update + Sender Inbox)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 11 done)  
+**Next planned:** Sender Inbox (12) · ASX profiles (13) · ASX paper (14)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -38,16 +39,22 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Shipped:** Investment, Gmail, Calendar (read + confirm-first insert), Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative; Day brief; shared context seed; LocalLlama (Ollama HTTP); themable shell.  
 **UX:** [`docs/ux.md`](ux.md) Sprint 2 design contract (later modules reuse form/snapshot patterns).  
 **Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.  
-**Sprint 11 (in progress):** Settings → Update will run local `git pull` and rely on `CRAWLEY_RELOAD=1` (Uvicorn reload for `src/crawley/`) — document exact branch, localhost safety, and reload proof in this file when S11.0 lands.
+**Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Disabled when LAN-bound. Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI.
 
 ## Sprint delivery maps
 
-### Sprint 11 (active) — Update + Sender Inbox
+### Sprint 11 (closed) — Settings Update
 
 | Story | Architecture touchpoints |
 |-------|--------------------------|
-| **S11.0** git Update + hot reload | Settings action → subprocess git; UI result; interplay with `CRAWLEY_RELOAD` / Uvicorn |
-| **S11.2+** Sender Inbox | Background one-mail ingest; categorization store; sender UI; profiles; todos; ~20 cap |
+| **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · localhost-minded · `CRAWLEY_RELOAD` |
+
+### Sprint 12+ (planned) — Sender Inbox / ASX
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S12** Sender Inbox | Background one-mail ingest; categorization store; sender UI; profiles; todos; ~20 cap |
+| **S13–14** ASX | Universe scan, company profiles, recommendations, paper ledger |
 
 ### Sprints 6–10 (bundled, closed)
 
