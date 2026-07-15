@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+from crawley.modules.calendar import CalendarModule
 from crawley.modules.contract import Module, ModuleKind, ModuleMeta
+from crawley.modules.fitness import FitnessModule
 from crawley.modules.gmail import GmailModule
 from crawley.modules.investment import InvestmentModule
 from crawley.modules.stubs import make_stub
+from crawley.modules.work import WorkModule
 
 
 def build_registry() -> dict[str, Module]:
@@ -13,24 +16,8 @@ def build_registry() -> dict[str, Module]:
     modules: list[Module] = [
         InvestmentModule(),
         GmailModule(),
-        make_stub(
-            ModuleMeta(
-                id="calendar",
-                title="Calendar",
-                kind=ModuleKind.STUB,
-                nav_order=30,
-                description="Read-only calendar summary comes later.",
-            )
-        ),
-        make_stub(
-            ModuleMeta(
-                id="fitness",
-                title="Fitness",
-                kind=ModuleKind.STUB,
-                nav_order=40,
-                description="Goals and fitness sources come later.",
-            )
-        ),
+        CalendarModule(),
+        FitnessModule(),
         make_stub(
             ModuleMeta(
                 id="co-parenting",
@@ -49,15 +36,7 @@ def build_registry() -> dict[str, Module]:
                 description="DIY project tracking comes later.",
             )
         ),
-        make_stub(
-            ModuleMeta(
-                id="work",
-                title="Work",
-                kind=ModuleKind.STUB,
-                nav_order=70,
-                description="Work tasks come later.",
-            )
-        ),
+        WorkModule(),
         make_stub(
             ModuleMeta(
                 id="finance-taxes",

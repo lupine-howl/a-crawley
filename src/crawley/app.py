@@ -11,12 +11,23 @@ from fastapi import FastAPI
 
 from crawley.data.duck import init_schema
 from crawley.data.paths import ensure_data_dirs
+from crawley.modules.calendar import CalendarModule
+from crawley.modules.fitness import FitnessModule
 from crawley.modules.gmail import GmailModule
 from crawley.modules.investment import InvestmentModule
 from crawley.modules.registry import build_registry
+from crawley.modules.work import WorkModule
 from crawley.shell.routes import router as shell_router
 
 ROOT = Path(__file__).resolve().parents[2]
+
+_LIVE_WITH_EXECUTOR = (
+    InvestmentModule,
+    GmailModule,
+    CalendarModule,
+    FitnessModule,
+    WorkModule,
+)
 
 
 def create_app() -> FastAPI:
@@ -27,7 +38,7 @@ def create_app() -> FastAPI:
     executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="crawley")
     registry = build_registry()
     for module in registry.values():
-        if isinstance(module, (InvestmentModule, GmailModule)):
+        if isinstance(module, _LIVE_WITH_EXECUTOR):
             module.bind_executor(executor)
         module.startup()
 

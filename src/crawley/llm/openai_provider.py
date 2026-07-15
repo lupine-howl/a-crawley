@@ -13,6 +13,21 @@ DEFAULT_MAX_TOKENS = 512
 MAX_ALLOWED_TOKENS = 1024
 
 
+def uses_max_completion_tokens(model: str) -> bool:
+    """
+    Newer OpenAI models (gpt-5*, o-series) reject max_tokens and require
+    max_completion_tokens instead.
+    """
+    name = (model or "").strip().lower()
+    return name.startswith(("gpt-5", "o1", "o3", "o4"))
+
+
+def completion_token_kwargs(model: str, tokens: int) -> dict[str, int]:
+    if uses_max_completion_tokens(model):
+        return {"max_completion_tokens": tokens}
+    return {"max_tokens": tokens}
+
+
 class OpenAIProvider(LLMProvider):
     name = "openai"
 
@@ -36,7 +51,7 @@ class OpenAIProvider(LLMProvider):
             response = self._client.chat.completions.create(
                 model=self._model,
                 messages=[{"role": m.role, "content": m.content} for m in messages],
-                max_tokens=tokens,
+                **completion_token_kwargs(self._model, tokens),
             )
         except AuthenticationError as exc:
             raise LLMError(

@@ -20,17 +20,14 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 **Harden the personal OS and deepen the highest-value modules**
 
-### Sprint 2 (active) — Operable shell
-Themes, LLM settings/test, Markdown summaries, home At a glance — [`docs/sprints/current.md`](docs/sprints/current.md)
+### Sprint 2 (closed) — Operable shell
+Themes, LLM settings/test, Markdown summaries, home At a glance — archived
 
-### Sprint 3 (planned) — Google life reads
-Shared Google OAuth; **Calendar** live; harden Gmail — [`docs/sprints/planned/sprint-3.md`](docs/sprints/planned/sprint-3.md)
+### Sprint 3–4 (closed, bundled) — Google life reads + signal depth
+Shared Google OAuth; **Calendar** live; harden Gmail; deepen **Investment**; **Fitness** lite — archived
 
-### Sprint 4 (planned) — Signal depth
-Harden **Investment**; **Fitness** lite (non-clinical) — [`docs/sprints/planned/sprint-4.md`](docs/sprints/planned/sprint-4.md)
-
-### Sprint 5 (planned) — Reach + Work + write-back design
-**Phone-on-LAN** (opt-in); **Work** lite; write-back **ADR/dry-run only** — [`docs/sprints/planned/sprint-5.md`](docs/sprints/planned/sprint-5.md)
+### Sprint 5 (closed) — Reach + Work + write-back design
+**Phone-on-LAN** (opt-in); **Work** lite; write-back **ADR/dry-run only** — [`docs/sprints/current.md`](docs/sprints/current.md)
 
 ### Sprint 6 (planned) — Co-parenting + DIY lite
 Local schedule + project notes → LLM Markdown; home glance slots — [`docs/sprints/planned/sprint-6.md`](docs/sprints/planned/sprint-6.md)

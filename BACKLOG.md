@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprint 2 active; Sprints 3–10 planned under `docs/sprints/planned/`
+**Status:** Sprint 5 closed; Sprints 6–10 planned under `docs/sprints/planned/`
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
@@ -141,7 +141,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B15 |
@@ -170,7 +170,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B1, B2 |
@@ -196,7 +196,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B3 |
@@ -223,7 +223,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B4, B5 (summary panels exist) |
@@ -249,7 +249,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B13 (Markdown render); B4, B5 |
@@ -274,7 +274,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B4 |
@@ -300,7 +300,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B5, B15 |
@@ -325,7 +325,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
@@ -351,7 +351,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B1 |
@@ -376,7 +376,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B5 |
@@ -401,7 +401,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
 | Roadmap theme | Next |
 | Depends on | B14 |
@@ -425,7 +425,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B13 |
@@ -449,7 +449,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next |
 | Depends on | B2, B6, B5 |

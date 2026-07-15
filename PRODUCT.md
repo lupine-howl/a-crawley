@@ -1,7 +1,7 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; Sprint 2 in delivery; Sprints 3–10 planned (see `ROADMAP.md` / `docs/sprints/planned/`)
+**Status:** Brief confirmed; Sprint 5 closed; Sprints 6–10 planned (see `ROADMAP.md` / `docs/sprints/planned/`)
 
 ## Problem
 

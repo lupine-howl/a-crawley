@@ -1,159 +1,84 @@
-# Sprint 2 — Themes, settings, Markdown & home glance
+# Sprint 5 — LAN reach, Work lite, write-back design
 
+**Status:** done  
 **Duration:** one symbolic week  
-**Backlog refs:** B7, B8, B13, B14  
-**Architecture:** [`docs/architecture.md`](../architecture.md)  
-**UX contract:** [`docs/ux.md`](../ux.md) (Confirmed — Sprint 2 design; home glance = PO add)  
-**Previous:** [`archive/sprint-1-local-shell.md`](archive/sprint-1-local-shell.md)
+**Backlog refs:** B12, B17, B18  
+**Depends on:** Sprint 2–4 shell and modules  
+**Architecture:** [`docs/architecture.md`](../architecture.md) + [`docs/adr/006-write-back-confirm.md`](../adr/006-write-back-confirm.md)  
+**Previous:** [`archive/sprint-3-4-google-investment-fitness.md`](archive/sprint-3-4-google-investment-fitness.md)  
+**Planned source:** [`planned/sprint-5.md`](planned/sprint-5.md)
 
 ## Goal
 
-Make the local dashboard feel intentional and worth reopening: **themable palette**, **LLM settings** + **Test connection**, **Markdown-rendered** summaries, and a **home At a glance** that shows persisted last Investment/Gmail results with status chips — not an empty “pick a module” stub.
+Make Crawley reachable on the **local network only when consciously enabled**, land **Work** lite, and **design** (not ship) write-back with an ADR + dry-run hooks.
 
-## Demo (definition of done for the sprint)
+## Demo
 
-Operator can:
-
-1. Switch among Paper / Slate / Ink / Moss themes from Settings → Appearance; choice applies immediately and persists across reload
-2. Open Settings, configure LLM (provider / model / key), Save locally
-3. Run **Test connection** and see clear success, failure, or missing-key results
-4. Run Investment or Gmail summary and see the result as **formatted Markdown** in the module panel
-5. On **/ (Dashboard)**, see **At a glance**: LLM readiness, Gmail auth state, and last successful Investment + Gmail summary snippets (Markdown), with deep links into each module / Settings
-6. Restart the app and still see those last summaries on home (persisted under `data/`)
-7. Coming soon stubs still quiet and thematic
+1. Enable LAN bind from Settings; see warning; restart; open from phone on trusted LAN
+2. Use Work: save notes/tasks → LLM prioritization → home snapshot
+3. Read ADR-006 + architecture write-back stages; dry-run hooks only (no live mutations)
 
 ## Committed
 
-Implement **in order** (S2.1 → S2.2 → S2.3 → S2.4) unless dependencies already satisfied. Treat `docs/ux.md` as the design contract for S2.1–S2.2; S2.3–S2.4 follow AC below.
-
-### S2.1 — Themable UI & design polish (B7)
+### S5.1 — Phone-on-LAN access pattern (B12)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B7 |
-| Depends on | Sprint 1 shell; `docs/ux.md` |
+| Backlog ref | B12 |
 
 **Acceptance criteria:**
 
-- [x] Theme tokens from `docs/ux.md` (core + extensions) live in one place; panels consume tokens only (no hex in partials)
-- [x] Four themes: `paper`, `slate`, `ink`, `moss` via `data-theme` on `<html>` (or body); default `paper`
-- [x] Settings → **Appearance** theme picker; apply **immediately** (no Save); selection persists locally
-- [x] Stub / Coming soon, banner, jobs use tokenized colors; quiet stub treatment per UX
-- [x] Styling approach recorded in `docs/architecture.md` (custom CSS themes; no Node build this sprint)
-- [x] `prefers-reduced-motion` respected for theme transitions
-
-**Out of scope:**
-
-- Full brand/marketing site, native desktop chrome
-- Node/Tailwind build
-- Per-module accent colors / custom theme editor
+- [x] Default bind remains `127.0.0.1`
+- [x] Settings toggle + optional `CRAWLEY_HOST` env; **restart required**
+- [x] UI warning when LAN enabled; README firewall/WSL notes
+- [x] Decision: **no auth; trusted LAN only** (documented)
+- [x] Disable → localhost-only after restart
 
 ---
 
-### S2.2 — LLM settings & connection test (B8)
+### S5.2 — Work module lite (B17)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B8 |
-| Depends on | S2.1 (Settings chrome); B3 done |
+| Backlog ref | B17 |
 
 **Acceptance criteria:**
 
-- [x] **Settings** nav footer entry (+ unhealthy LLM banner deep-link to Settings LLM section)
-- [x] Language model section: provider (OpenAI ready; LocalLlama placeholder not operable), model, API key (password field; blank = keep existing)
-- [x] **Save settings** persists locally/gitignored; precedence vs `.env` documented
-- [x] **Test connection** with success / failure / missing-key UI states per `docs/ux.md` F3
-- [x] Modules use configured settings after save (hot-reload vs restart documented in README or architecture)
-- [x] Missing/invalid key still surfaces clearly on banner (Sprint 1 parity)
-
-**Out of scope:**
-
-- Multi-user profiles, LocalLlama install/ops, billing UI
-- Temperature / max tokens / Google credentials in Settings
-- Redesigning Investment/Gmail domain fetch logic (B9–B10)
+- [x] Work leaves Coming soon
+- [x] Local notes file under `data/work/notes.txt`; Save + Prioritize
+- [x] Run → LLM Markdown prioritization / next-actions summary
+- [x] Job status + snapshot on home glance
+- [x] No third-party work suite OAuth
 
 ---
 
-### S2.3 — Markdown rendering for panel summaries (B13)
+### S5.3 — Write-back design (B18)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B13 |
-| Depends on | S2.1 recommended (summary styles use theme tokens) |
+| Backlog ref | B18 |
 
 **Acceptance criteria:**
 
-- [x] Investment and Gmail job summaries render as **HTML from Markdown** in the panel (not `<pre>` plain text)
-- [x] Safe rendering: no raw script execution from model output (escape / sanitize / trusted Markdown subset — architect chooses a Python-side library; no Node)
-- [x] Basic Markdown supported at minimum: headings, paragraphs, bold/italic, lists, links (links open safely — e.g. `target`/`rel` sensible for localhost app)
-- [x] Summary typography uses theme tokens (`--ink`, `--muted`, `--font-sans`, spacing); readable under all four themes
-- [x] Empty / error job states unchanged (no fake Markdown success)
-- [x] Brief note in `docs/architecture.md` (library + sanitize approach)
+- [x] ADR-006 accepted: confirm; draft-first; per-module capability flags
+- [x] Module contract dry-run `write_back()`; Gmail/Calendar exercise buttons; audit `data/writeback_audit.jsonl`
+- [x] Architecture outlines propose → draft → confirm → execute → audit
+- [x] Out of scope: silent automation, multi-user ACLs, live Gmail/Calendar mutations
 
-**Out of scope:**
+## Out of scope (sprint)
 
-- Full CommonMark/GFM edge cases, mermaid, KaTeX, user-authored wiki
-- Editing Markdown in the UI
-- Replacing Coming soon copy with MD documents
-
----
-
-### S2.4 — Dashboard home At a glance (B14)
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B14 |
-| Depends on | S2.3 (reuse Markdown renderer); S2.2 optional for LLM chip accuracy |
-
-**Why this feature (ROI):** Sprint 1 home is a one-line empty state — weak against the “habit / pull” success metric. Persisted last summaries + status chips reuse S2.3 Markdown and existing module state with little new domain logic, and give a daily reopen reason without scheduling or a second UI stack.
-
-**Acceptance criteria:**
-
-- [x] `/` (Dashboard) shows one **At a glance** composition (not a widget dump):
-  - **Status row:** LLM readiness (short); Gmail connected / not connected / needs setup; theme name optional
-  - **Last Investment:** timestamp + Markdown body of last **successful** run, or empty hint + link to Investment
-  - **Last Gmail:** timestamp + Markdown body of last **successful** run, or empty hint + link to Gmail
-  - Deep links: open Investment, Gmail, Settings (LLM) as appropriate
-- [x] Last successful summaries **persist under gitignored `data/`** and survive process restart (JSON file or DuckDB table — architect chooses; document in architecture)
-- [x] On successful Investment / Gmail job completion, home snapshot updates (same store)
-- [x] Errors / busy runs do **not** overwrite last successful snapshot
-- [x] Stub modules never appear as fake “last run” cards; no inventing demo content
-- [x] Layout uses theme tokens; one panel or two clear sections max — brand + glance stays primary (align with UX “one composition”)
-- [x] Truncate or collapse very long bodies on home if needed (e.g. CSS max-height + “Open module for full”) — full text remains on module panel
-
-**Implementation notes (architect):**
-
-1. Add something like `crawley/data/snapshots.py` (or DuckDB `module_snapshots`) with `{module_id, summary_md, updated_at, status}`.
-2. Call `save_snapshot` from Investment/Gmail success paths only.
-3. Dashboard context loads snapshots + `llm_status()` + Gmail auth probe (reuse existing gmail helpers; don’t start OAuth from home).
-4. Reuse the S2.3 `render_markdown()` helper for snippet HTML; mark safe with same sanitize policy.
-5. Tests: success persists; error does not clobber; home renders empty hints; restart simulation via reload from store.
-
-**Out of scope:**
-
-- History list / timeline of all past runs
-- Scheduled/automatic refresh of Investment or Gmail from home
-- Multi-module “Run all”
-- Analytics charts or portfolio widgets
-
-## Explicitly out of sprint
-
-- Calendar / shared Google / Gmail harden → **Sprint 3** ([planned](planned/sprint-3.md))
-- Investment depth / Fitness lite → **Sprint 4** ([planned](planned/sprint-4.md))
-- Phone-on-LAN / Work / write-back design → **Sprint 5** ([planned](planned/sprint-5.md))
-- Co-parenting / DIY → **Sprint 6**; Finance + Day brief → **Sprint 7**; Calendar write-back → **Sprint 8**; Local LLM → **Sprint 9**; Coding/Creative + shared context → **Sprint 10** ([index](planned/README.md))
-- Native desktop shell, Gmail send, automated trading → After Sprint 10 / Later / Icebox
+- Actual Gmail send / Calendar insert → **Sprint 8** ([planned](planned/sprint-8.md)) for Calendar confirm-first; Gmail send later
+- LocalLlama production hosting → **Sprint 9** ([planned](planned/sprint-9.md))
+- Native desktop wrapper → After Sprint 10 / Later
+- Co-parenting / DIY / Finance live modules → **Sprints 6–7** ([index](planned/README.md))
 
 ## Parking lot
 
-- Settings sections for Google OAuth / module credentials later (Sprint 3 touches connect state lightly)
-- `prefers-color-scheme` auto theme default when no saved choice
-- Streaming Markdown polish if responses become long
-- UX pass polish for `.summary` MD + home glance densify after S2.4 lands
-- Snapshot retention / prune of older runs (not required until history exists)
-- Prompt history / A-B testing beyond editable templates + last-run introspection (Sprint 2 operator ask)
-- Full planned index: [`planned/README.md`](planned/README.md)
+- Co-parenting schedule module → **[Sprint 6](planned/sprint-6.md)**
+- Real write-back implementation after ADR soak → **[Sprint 8](planned/sprint-8.md)**
+- LocalLlama install path → **[Sprint 9](planned/sprint-9.md)**
+- Finance + Day brief / Coding+context → [Sprint 7](planned/sprint-7.md), [Sprint 10](planned/sprint-10.md)
+- Optional LAN shared-secret gate (deferred; trusted LAN policy for now)

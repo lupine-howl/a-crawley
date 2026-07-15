@@ -149,9 +149,10 @@ def test_investment_uses_saved_prompt_and_exposes_introspection(
     )
     monkeypatch.setattr(
         "crawley.modules.investment.fetch_rss_items",
-        lambda query, limit=3: [
-            {"title": "T", "url": "https://example.com", "snippet": "s", "body": "b"}
-        ],
+        lambda query, limit=3, use_cache=True: (
+            [{"title": "T", "url": "https://example.com", "snippet": "s", "body": "b"}],
+            {"cache_hit": "false"},
+        ),
     )
     monkeypatch.setattr(
         "crawley.modules.investment.persist_artifacts",

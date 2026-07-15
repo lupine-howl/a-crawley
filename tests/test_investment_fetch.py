@@ -31,7 +31,11 @@ def test_parse_rss_rejects_truncated_xml() -> None:
         parse_rss_items(TRUNCATED_RSS)
 
 
-def test_fetch_rss_items_uses_http_body(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_fetch_rss_items_uses_http_body(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    import crawley.modules.investment_fetch as inv
+
+    monkeypatch.setattr(inv, "INVESTMENT_DIR", tmp_path)
+
     class FakeResponse:
         content = SAMPLE_RSS
 
@@ -54,8 +58,9 @@ def test_fetch_rss_items_uses_http_body(monkeypatch: pytest.MonkeyPatch) -> None
             return FakeResponse()
 
     monkeypatch.setattr("crawley.modules.investment_fetch.httpx.Client", FakeClient)
-    items = fetch_rss_items("US stock market outlook", limit=2)
+    items, meta = fetch_rss_items("US stock market outlook", limit=2, use_cache=False)
     assert len(items) == 2
+    assert meta["cache_hit"] == "false"
 
 
 def test_fetch_rss_http_error(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -82,14 +87,17 @@ def test_investment_run_endpoint_async_path(client: TestClient, monkeypatch) -> 
 
     monkeypatch.setattr(
         "crawley.modules.investment.fetch_rss_items",
-        lambda query, limit=3: [
-            {
-                "title": "T",
-                "url": "https://example.com",
-                "snippet": "s",
-                "body": "body",
-            }
-        ],
+        lambda query, limit=3, use_cache=True: (
+            [
+                {
+                    "title": "T",
+                    "url": "https://example.com",
+                    "snippet": "s",
+                    "body": "body",
+                }
+            ],
+            {"cache_hit": "false"},
+        ),
     )
     monkeypatch.setattr(
         "crawley.modules.investment.persist_artifacts",
@@ -138,7 +146,7 @@ def test_investment_run_endpoint_async_path(client: TestClient, monkeypatch) -> 
 
 
 def test_investment_job_maps_fetch_error(client: TestClient, monkeypatch) -> None:
-    def boom(query: str, *, limit: int = 3):
+    def boom(query: str, *, limit: int = 3, use_cache: bool = True):
         raise InvestmentFetchError("News feed XML could not be parsed")
 
     monkeypatch.setattr("crawley.modules.investment.fetch_rss_items", boom)
@@ -151,7 +159,7 @@ def test_investment_job_maps_fetch_error(client: TestClient, monkeypatch) -> Non
 @pytest.mark.network
 def test_live_google_news_rss_parse() -> None:
     """Optional live check — skipped in default CI if network blocked."""
-    items = fetch_rss_items("US stock market outlook", limit=3)
+    items, _meta = fetch_rss_items("US stock market outlook", limit=3, use_cache=False)
     assert len(items) >= 1
     assert items[0]["title"]
     assert items[0]["url"].startswith("http")
