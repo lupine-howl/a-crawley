@@ -4,10 +4,10 @@
 **Duration:** one symbolic week  
 **Backlog refs:** B65, B66, B67, B68, B69, B70  
 **Depends on:** Sprint 11 Settings Update; Sprints 1–10 shell; UX [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
-**Architecture:** [`docs/architecture.md`](../architecture.md)  
+**Architecture:** [`docs/architecture.md`](../../architecture.md)  
 **UX:** Sender Inbox per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
 **Previous:** [`archive/sprint-11-settings-update.md`](archive/sprint-11-settings-update.md)  
-**Planned source:** [`planned/sprint-12-sender-inbox.md`](planned/sprint-12-sender-inbox.md)
+**Planned source:** [`planned/sprint-12-sender-inbox.md`](../planned/sprint-12-sender-inbox.md)
 
 ## Goal
 

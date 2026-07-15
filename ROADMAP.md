@@ -18,7 +18,9 @@ Ordered outcomes (not tasks). Product owner owns this file.
 - [x] LocalLlama (Ollama HTTP) operable; ADR-007
 - [x] Shared context seed (standing notes + capped snapshots); ADR-008
 
-*Still out of Now:* native desktop wrapper, Gmail send, public hosting, multi-user, **live brokerage order placement** (paper portfolio planned in Sprint 14)
+- [x] Settings → **Update** (git pull + hot reload) — Sprint 11
+
+*Still out of Now:* native desktop wrapper, Gmail send, public hosting, multi-user, **live brokerage order placement** (paper portfolio planned in Sprint 14); Sender Inbox / ASX PoCs (Sprints 12–14)
 
 ## Next
 
@@ -26,11 +28,11 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 ### Sprint 11 (closed) — Settings Update (git pull + hot reload)
 Settings → **Update** pulls latest app code; hot reload via `CRAWLEY_RELOAD=1`.  
-[`docs/sprints/current.md`](docs/sprints/current.md) · B78
+[`docs/sprints/archive/sprint-11-settings-update.md`](docs/sprints/archive/sprint-11-settings-update.md) · B78 · tests: `tests/test_sprint11_update.py` (5 passed)
 
-### Sprint 12 (ready next) — Sender Inbox PoC
+### Sprint 12 (ready) — Sender Inbox PoC
 ~20 emails: categorize → by sender → profiles → todos.  
-[`docs/sprints/planned/sprint-12-sender-inbox.md`](docs/sprints/planned/sprint-12-sender-inbox.md) · B65–B70 · UX: [`docs/ux/sender-inbox-asx.md`](docs/ux/sender-inbox-asx.md)
+[`docs/sprints/current.md`](docs/sprints/current.md) · B65–B70 · UX: [`docs/ux/sender-inbox-asx.md`](docs/ux/sender-inbox-asx.md)
 
 ### Sprint 13 (planned) — ASX company scanner + profiles PoC
 Large ASX universe; background scan; per-company profiles; sources + prompts; **~20 company** slice.  
@@ -54,6 +56,7 @@ Structured recommendations; simulated portfolio page; brokerage/simulation setti
 | 3–4 | Google + Investment/Fitness | [archive](docs/sprints/archive/sprint-3-4-google-investment-fitness.md) |
 | 5 | LAN + Work + write-back design | [archive](docs/sprints/archive/sprint-5-lan-work-writeback.md) |
 | 6–10 | Life modules, Day brief, Calendar write-back, LocalLlama, shared context | [archive](docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](docs/sprints/archive/sprint-6-10-code-verification.md) |
+| 11 | Settings Update (git pull + hot reload) | [archive](docs/sprints/archive/sprint-11-settings-update.md) · `tests/test_sprint11_update.py` |
 | 11 | Settings Update (git pull + hot reload) | [current](docs/sprints/current.md) |
 
 ## Later (shelved — do not start)
