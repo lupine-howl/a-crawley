@@ -1,0 +1,91 @@
+{# Sender detail: profile, todos, messages. #}
+{% set s = panel.sender %}
+{% set profile = s.profile %}
+
+<div
+  class="panel sender-detail"
+  {% if panel.poll_inbox %}
+  hx-get="/modules/gmail/senders/{{ s.sender_id }}"
+  hx-trigger="every 1.5s"
+  hx-target="#panel-root"
+  hx-swap="innerHTML"
+  {% endif %}
+>
+  <p class="back-link"><a href="/modules/gmail">← Senders</a></p>
+  <h1>{{ s.display_name }}</h1>
+  <p class="muted">
+    {{ s.from_addr }} · {{ s.message_count }} message{% if s.message_count != 1 %}s{% endif %} in PoC
+  </p>
+
+  <section aria-labelledby="profile-heading">
+    <h2 id="profile-heading">Profile</h2>
+    {% if profile.status == 'generating' %}
+    <p class="job job-busy">Updating profile…</p>
+    {% endif %}
+    {% if profile.status == 'error' %}
+    <p class="job job-error">{{ profile.error or "Profile update failed." }}</p>
+    <form hx-post="/modules/gmail/senders/{{ s.sender_id }}/profile/retry" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" class="secondary">Retry profile</button>
+    </form>
+    {% endif %}
+    {% if profile.markdown %}
+    <div class="summary">
+      <div class="summary-body">{{ panel.profile_html }}</div>
+    </div>
+    {% elif profile.status != 'generating' %}
+    <p class="muted">Profile appears after the first ingested message.</p>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="todos-heading">
+    <h2 id="todos-heading">Todos <span class="muted">{{ s.open_todo_count }} open</span></h2>
+    {% if s.todos %}
+    <ul class="todo-list">
+      {% for t in s.todos %}
+      <li class="todo-item {% if t.done %}todo-done{% endif %}">
+        <form
+          hx-post="/modules/gmail/todos/{{ t.id }}/toggle"
+          hx-target="#panel-root"
+          hx-swap="innerHTML"
+        >
+          <label>
+            <input type="checkbox" {% if t.done %}checked{% endif %} onchange="this.form.requestSubmit()">
+            <span class="todo-text">{{ t.text }}</span>
+          </label>
+        </form>
+        {% if t.from_subject %}
+        <span class="muted todo-from">from “{{ t.from_subject }}”</span>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="muted">Local open/done only — Crawley will not send mail or create calendar events from these.</p>
+    {% else %}
+    <p class="muted">No todos extracted yet for this sender.</p>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="msgs-heading">
+    <h2 id="msgs-heading">Messages in bundle</h2>
+    <ul class="bundle-list">
+      {% for m in s.messages %}
+      <li class="bundle-item">
+        <details>
+          <summary>
+            <span class="bundle-subject">{{ m.subject }}</span>
+            {% for chip in m.signals %}
+            <span class="signal">{{ chip }}</span>
+            {% endfor %}
+            <span class="muted">{{ m.latest_rel }}</span>
+            {% if m.error %}<span class="job job-error">error</span>{% endif %}
+          </summary>
+          <p class="muted">{{ m.metrics.brief or m.snippet }}</p>
+          {% if m.body_text %}
+          <pre class="bundle-body">{{ m.body_text[:1200] }}</pre>
+          {% endif %}
+        </details>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>

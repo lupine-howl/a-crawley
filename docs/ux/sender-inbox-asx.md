@@ -1,8 +1,8 @@
 # UX contract — Sender Inbox + ASX desk
 
-**Status:** Draft for implement (2026-07-15)  
+**Status:** Accepted for implement (Sprint 12 stakeholder proceed, 2026-07-16)  
 **Owner:** UX expert  
-**Sprint gate:** Sprint **12** (Sender Inbox) / B65; ASX surfaces Sprints **13–14**. Sprint **11** is Settings → Update only (see §2.3).  
+**Sprint gate:** Sprint **12** (Sender Inbox) / B65 — Sender Inbox shipped against §3; ASX surfaces Sprints **13–14**. Sprint **11** is Settings → Update only (see §2.3).  
 **Shell:** FastAPI + Jinja2 + HTMX; themes `paper` / `slate` / `ink` / `moss` per [`docs/ux.md`](../ux.md)  
 **Parent contract:** [`docs/ux.md`](../ux.md)
 
@@ -83,7 +83,7 @@ Quiet operator utility under Settings chrome — **not** a home hero, chip, or b
 | Title | **Update** — `--font-display` section title, not an `h1` that outranks Crawley |
 | Primary control | Single **Pull latest** button |
 | Copy | One muted sentence + reload precondition; short result line (ok / up to date / error) |
-| Safety | Prefer localhost; hard-warn or disable when LAN bind is active |
+| Safety | Allowed on localhost and trusted LAN/Tailscale; warn when LAN-bound |
 | Not | Floating badge, dashboard widget, auto-pull schedule |
 
 ### 2.4 Routes (suggested — architect owns final paths)

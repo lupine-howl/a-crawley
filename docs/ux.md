@@ -3,9 +3,9 @@
 UX expert owns this file. Update when a design pass lands.
 
 **Working title:** Crawley  
-**Status:** Confirmed — Sprint 2 design contract (2026-07-15); **Pivot UX** — Sender Inbox + ASX desk **Draft for implement** (2026-07-15); **Sprint 11** Settings → Update specified  
+**Status:** Confirmed — Sprint 2 design contract (2026-07-15); **Pivot UX** — Sender Inbox **accepted/shipped** (Sprint 12); ASX desk still draft-for-implement (Sprints 13–14); **Sprint 11** Settings → Update shipped  
 **Surfaces:** Local browser dashboard + module panels (FastAPI / Jinja2 / HTMX; see `docs/architecture.md`)  
-**Sprint alignment:** S2.1–S2.4 remain in force; **Sprint 11 / B78** Settings → Update; **Sprint 12+ / B65** pivot desks → [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)
+**Sprint alignment:** S2.1–S2.4 remain in force; **Sprint 11 / B78** Settings → Update; **Sprint 12 / B65–B70** Sender Inbox; **Sprint 13–14** ASX → [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)
 
 ## Pivot — Settings Update + Sender Inbox + ASX desk
 
@@ -16,7 +16,7 @@ UX expert owns this file. Update when a design pass lands.
 | **13–14** | ASX desk / recommendations / paper portfolio |
 
 **Contract:** [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)  
-**Status:** Draft for implement (stakeholder intents locked via PO pivot; architects may proceed)
+**Status:** Sender Inbox accepted for Sprint 12; ASX sections remain draft-for-implement for Sprints 13–14
 
 | Surface | Module | Default unit |
 |---------|--------|--------------|

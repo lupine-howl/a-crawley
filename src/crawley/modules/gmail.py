@@ -130,7 +130,7 @@ class GmailModule(Module):
         title="Gmail",
         kind=ModuleKind.LIVE,
         nav_order=20,
-        description="Read-only inbox skim and summary (lite PoC).",
+        description="Sender Inbox — people-first ingest, profiles, and todos (PoC).",
     )
     write_back_capability = WriteBackCapability(
         supported=True,
@@ -158,13 +158,48 @@ class GmailModule(Module):
         }
 
     def panel_context(self) -> dict[str, Any]:
+        from crawley.sender_inbox.formatters import relative_time
+        from crawley.sender_inbox.schema import POC_CAP
+        from crawley.sender_inbox.store import group_senders, progress_view
+        from crawley.sender_inbox.worker import is_running
+
+        progress = progress_view(running=is_running())
+        senders = group_senders()
+        for row in senders:
+            row["latest_rel"] = relative_time(row.get("latest_at"))
         return {
             "coming_soon": False,
             "description": self.meta.description,
             "job": self.job.to_dict(),
             "auth": self.auth_status(),
             "max_messages": MAX_MESSAGES,
+            "inbox_view": "list",
+            "inbox_progress": progress,
+            "inbox_senders": senders,
+            "poc_cap": POC_CAP,
+            "poll_inbox": progress.get("status") == "busy" or self.job.status == "busy",
         }
+
+    def sender_panel_context(self, sender_id: str) -> dict[str, Any] | None:
+        from crawley.sender_inbox.formatters import relative_time
+        from crawley.sender_inbox.store import sender_detail
+
+        detail = sender_detail(sender_id)
+        if detail is None:
+            return None
+        for msg in detail["messages"]:
+            msg["latest_rel"] = relative_time(msg.get("internal_date"))
+            msg["signals"] = msg.get("signals") or []
+        ctx = self.panel_context()
+        ctx.update(
+            {
+                "inbox_view": "sender",
+                "sender": detail,
+                "poll_inbox": (detail.get("profile") or {}).get("status") == "generating"
+                or ctx.get("poll_inbox"),
+            }
+        )
+        return ctx
 
     def propose_write_back(self, payload: dict[str, Any]) -> dict[str, Any]:
         return {

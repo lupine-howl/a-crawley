@@ -1,6 +1,6 @@
 # Sprint 12 — Sender Inbox PoC
 
-**Status:** promoted to [`../current.md`](../current.md) (ready — next delivery)  
+**Status:** promoted to [`../current.md`](../current.md) (done)  
 **Duration:** one symbolic week  
 **Backlog refs:** B65–B70  
 **Depends on:** Sprint 11 Update; UX [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  

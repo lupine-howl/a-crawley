@@ -1,0 +1,141 @@
+{# Sender Inbox list + progress (Sprint 12). Expects panel.* from GmailModule. #}
+{% set progress = panel.inbox_progress %}
+{% set senders = panel.inbox_senders %}
+
+<div
+  class="panel sender-inbox"
+  {% if panel.poll_inbox %}
+  hx-get="/modules/gmail/status"
+  hx-trigger="every 1.5s"
+  hx-target="#panel-root"
+  hx-swap="innerHTML"
+  {% endif %}
+>
+  <h1>Sender Inbox</h1>
+  <p class="muted">People in your PoC bundle — grouped by sender, not by time.</p>
+
+  {% if not panel.auth.client_ok %}
+  <p class="job job-error">{{ panel.auth.error }}</p>
+  <p class="muted">Create OAuth Desktop credentials in Google Cloud, enable <strong>Gmail API</strong> and <strong>Google Calendar API</strong>, then set <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> in <code>.env</code>.</p>
+  {% elif not panel.auth.connected or panel.auth.needs_reconsent %}
+  <p class="muted">{% if panel.auth.error %}{{ panel.auth.error }}{% else %}Not connected.{% endif %} Tokens: <code>{{ panel.auth.token_path }}</code> (gitignored).</p>
+  <p><a class="btn" href="/modules/gmail/oauth/start">Connect Google (Gmail + Calendar read-only)</a></p>
+  {% else %}
+
+  <div id="ingest-progress" class="ingest-progress" aria-live="polite">
+    <div class="ingest-actions">
+      {% if progress.status == 'busy' %}
+      <form hx-post="/modules/gmail/inbox/pause" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit">Pause</button>
+      </form>
+      <p class="job job-busy">
+        Ingesting {{ progress.processed }} / {{ progress.cap }}
+        {% if progress.remaining %} · {{ progress.remaining }} left{% endif %}
+        {% if progress.current_line %} · {{ progress.current_line }}{% endif %}
+      </p>
+      {% elif progress.status == 'paused' %}
+      <form hx-post="/modules/gmail/inbox/resume" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit">Resume</button>
+      </form>
+      <p class="job job-busy">
+        Paused at {{ progress.processed }} / {{ progress.cap }}
+        {% if progress.remaining %} · {{ progress.remaining }} left{% endif %}
+      </p>
+      {% elif progress.status == 'done' and progress.processed >= progress.cap %}
+      <p class="job job-done">PoC cap reached ({{ progress.cap }}). Reset below to re-run.</p>
+      {% elif progress.processed == 0 %}
+      <form hx-post="/modules/gmail/inbox/start" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit">Start ingest</button>
+      </form>
+      <p class="muted">Processes one message at a time · stops at ~{{ progress.cap }}.</p>
+      {% else %}
+      <form hx-post="/modules/gmail/inbox/start" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit">{% if progress.status == 'error' %}Retry ingest{% else %}Start ingest{% endif %}</button>
+      </form>
+      <p class="job job-{{ progress.status }}">
+        {{ progress.processed }} / {{ progress.cap }}
+        {% if progress.remaining %} · {{ progress.remaining }} left{% endif %}
+        {% if progress.current_line %} — {{ progress.current_line }}{% endif %}
+      </p>
+      {% endif %}
+    </div>
+    {% if progress.last_error and progress.status == 'error' %}
+    <p class="job job-error">{{ progress.last_error }}</p>
+    {% endif %}
+    {% if progress.message_errors %}
+    <p class="muted">Recent message errors (worker continued): {{ progress.message_errors|length }}</p>
+    {% endif %}
+  </div>
+
+  {% if senders %}
+  <table class="inbox-table">
+    <thead>
+      <tr>
+        <th scope="col">Sender</th>
+        <th scope="col">Mail</th>
+        <th scope="col">Latest</th>
+        <th scope="col">Signal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in senders %}
+      <tr>
+        <td>
+          <a class="sender-link" href="/modules/gmail/senders/{{ s.sender_id }}">
+            <span class="sender-name">{{ s.display_name }}</span>
+            {% if s.from_name and s.from_addr %}
+            <span class="muted sender-addr">{{ s.from_addr }}</span>
+            {% endif %}
+          </a>
+          {% if s.open_todos %}
+          <span class="muted"> · {{ s.open_todos }} open todos</span>
+          {% endif %}
+        </td>
+        <td>{{ s.message_count }}</td>
+        <td class="muted">{{ s.latest_rel }}</td>
+        <td>
+          {% for chip in s.signals %}
+          <span class="signal">{{ chip }}</span>
+          {% endfor %}
+          {% if not s.signals %}
+          <span class="muted">—</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% elif progress.processed == 0 %}
+  <p class="muted">No senders yet. Start ingest when ready.</p>
+  {% else %}
+  <p class="job job-error">Ingested data present but no senders — try Reset PoC data.</p>
+  {% endif %}
+
+  <form
+    class="reset-form"
+    hx-post="/modules/gmail/inbox/reset"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    onsubmit="return confirm('Reset Sender Inbox PoC data (messages, profiles, todos)?');"
+  >
+    <button type="submit" class="secondary">Reset PoC data</button>
+  </form>
+  <p class="muted">Cap is {{ panel.poc_cap }} (raise later with <code>CRAWLEY_SENDER_INBOX_CAP</code>).</p>
+
+  <details class="prompt-viewer">
+    <summary>Classic inbox summary</summary>
+    <p class="muted">Legacy skim — optional; not the default desk.</p>
+    <form hx-post="/modules/gmail/run" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        {% if panel.job.status == 'busy' %}Scanning…{% else %}Scan inbox (max {{ panel.max_messages }}){% endif %}
+      </button>
+    </form>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Inbox summary</h2>
+      <div class="summary-body">{{ panel.summary_html }}</div>
+    </div>
+    {% endif %}
+  </details>
+  {% endif %}
+</div>
