@@ -3,10 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley (this repo = **analytics**)  
-**Status:** Sprints 1–30 closed (HTMX-era); **hard pivot** — Migration Sprint **31** (JSON API)  
+**Status:** Sprints 1–30 closed (HTMX-era); **hard pivot** — Migration Sprint **31** closed; **32** next (`crawley-ui`)  
 **Migration:** [`migration-phone-preview.md`](migration-phone-preview.md) · [ADR-009](adr/009-phone-preview-analytics.md)  
 **Host (analytics):** WSL2 / Linux; localhost default; opt-in LAN via Settings / `CRAWLEY_HOST`  
-**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 31)  
+**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 32 planned after 31)  
+**API contract:** [`api/presentation-v1.md`](api/presentation-v1.md) · [`api/openapi-v1.json`](api/openapi-v1.json)  
 **Product UI:** `crawley-ui` (npm / published Phone Preview) — separate from this repo  
 **Shelved:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
@@ -23,7 +24,8 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
                        │ HTTP /v1 JSON
 ┌──────────────────────▼──────────────────────┐
 │  Analytics API (this repo)                    │
-│  jobs · presentation reads · OAuth · health   │
+│  /health · /v1/asx · /v1/jobs · OAuth         │
+│  presentation DTOs (crawley.api)              │
 └──────────┬─────────────────────┬────────────┘
            │                     │
 ┌──────────▼──────────┐  ┌───────▼────────────────┐
@@ -34,20 +36,22 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 
 **Shape (pivot):** analytics API + daemons; UI in `crawley-ui`.  
 **Product domains (pivot):** ASX desk + Sender Inbox. Calendar + lite modules quarantined.  
-**HTMX/Jinja:** legacy; freeze features; delete in Sprint 35.  
+**HTMX/Jinja:** **frozen** — bugfixes only; no new product features; delete in Sprint 35.  
 **UX (product):** Phone Preview packs; legacy [`ux.md`](ux.md) / [`ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) inform pack IA until replaced.  
 
-**Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.  
-**Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.  
-**Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`).  
-**Sprint 14:** ASX recommendations + paper portfolio + simulation settings; also shipped bounded snapshot history + shared-context pins (B35–B36) and Fitness activity import lite (B37).  
-**Sprints 15–17:** Desk scale (Settings, hard ceiling 200); Sender Inbox search/prune; ASX active-set scale + events skim; Email × ASX bridge (`bridge/matcher.py`).  
-**Sprints 18–20:** Confirm-first Gmail send; ASX local alerts + recommendation feedback; operator playbooks + polish.  
-**Sprints 21–24:** Google OAuth Tailscale Connect + softer consent; Sender Inbox thread digests; ASX research notebook; VIP/muted rules.  
-**Sprint 25:** Active-set news theme clustering (`asx_desk/clusters.py`).  
-**Sprints 26–30:** Confirm-first Gmail labels; holdings journal; saved searches; attachment skim; ASX citations + domain mute.
-
 ## Sprint delivery maps
+
+### Sprint 31 (closed) — Analytics JSON API (ASX + jobs)
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S31.1 / B91** | Pivot lock; HTMX feature freeze; overview diagram = UI ↔ `/v1` ↔ workers |
+| **S31.2 / B92** | `crawley.api.routes` · `GET /health` · `/v1/asx/companies` · scan start/pause/resume/reset · `/v1/jobs/{id}` |
+| **S31.3 / B93** | `crawley.api.presentation` DTOs · `docs/api/presentation-v1.md` · `docs/api/openapi-v1.json` (+ runtime `/openapi.json`) |
+
+**Job mapping:** ASX desk scan → stable job id `asx-scan` (wraps `asx_desk.worker` + `progress_view`). OAuth stays on analytics host.
+
+**HTMX-era notes (closed):** Sprints 11–30 — Settings Update, Sender Inbox, ASX desk depth, paper, bridge, send/alerts/playbooks, OAuth/digests/notebook/VIP, clusters, labels/holdings/searches/attachments/citations. See maps below and [`archive/`](sprints/archive/).
 
 ### Sprint 25 (closed) — ASX news theme clustering
 
@@ -214,8 +218,9 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 |-------|--------|-------|
 | Language | Python 3.12+ | Hard requirement |
 | Packaging / run | `uv` | `uv run python -m crawley` |
-| HTTP / UI | FastAPI + Jinja2 + HTMX | Server-rendered local browser UI |
-| UI styling | Custom CSS variables + `data-theme` | Four themes; no Node build |
+| HTTP / product API | FastAPI JSON `/v1` | Presentation DTOs for `crawley-ui` |
+| HTTP / legacy UI | Jinja2 + HTMX | **Frozen** — bugfixes only until Sprint 35 deletion |
+| UI styling (legacy) | Custom CSS variables + `data-theme` | Four themes; no Node build in this repo |
 | Operator settings | `data/secrets/settings.json` | Theme, LLM (incl. local URL/timeout), prompts, LAN |
 | Bind | `127.0.0.1` default; LAN `0.0.0.0` | Restart required; trusted LAN only |
 | LLM | Provider interface | OpenAI + **LocalLlama (Ollama HTTP)** |
@@ -236,9 +241,10 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 
 | Component | Owns | Does not own |
 |-----------|------|--------------|
-| **Shell** | Routes, chrome, Day brief UI, Settings, job UX | Domain ranking rules |
+| **Analytics API** (`crawley.api`) | `/health`, `/v1` presentation DTOs, job control, OpenAPI | Pack UI / IndexedDB |
+| **Shell (legacy)** | HTMX routes, chrome, Settings HTML (frozen) | New product features |
 | **Module contract** | Lifecycle, I/O, write-back capability | Vector DB / plugin discovery |
-| **Modules** | Domain fetch/notes/analyze/panel | Global auth UX |
+| **Modules / desks** | Domain fetch/analyze/workers | Global auth UX; browser secrets |
 | **LLM provider** | Completions behind one interface | Source fetching |
 | **Shared context** | Caps + standing notes bundle | Secret storage |
 | **Write-back** | Propose/confirm/audit; Calendar insert; Gmail send | Brokerage orders |
@@ -250,7 +256,8 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 
 ## Key flows
 
-1. **Start & open dashboard** — localhost; Day brief + glances for all live modules.  
+0. **Analytics JSON (pivot)** — `crawley-ui` → `GET /v1/asx/companies` / `POST /v1/asx/scan/start` → `GET /v1/jobs/asx-scan`; OpenAPI at `/openapi.json`.  
+1. **Start & open dashboard (legacy HTMX)** — localhost; Day brief + glances for all live modules.  
 2. **Notes lite modules** — Save notes → Run → LLM Markdown → snapshot.  
 3. **Co-parenting** — Schedule lines → bounded window → Markdown.  
 4. **Google read** — Shared readonly OAuth → Gmail/Calendar skim.  

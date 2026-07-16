@@ -56,7 +56,7 @@ Crawley is a **local-first, AI-rich personal assistant** with a clear split:
 
 | Metric | Target | Notes |
 |--------|--------|-------|
-| Pivot Sprint 31 | `curl` drives ASX scan + company JSON with no browser | Migration gate |
+| Pivot Sprint 31 | `curl` drives ASX scan + company JSON with no browser | **Met** (API shipped) |
 | Pivot Sprint 32 | Operator uses `crawley-ui` ASX pack against analytics | UI gate |
 | Habit | Weekly ASX + Inbox use without HTMX | Qualitative |
 | Privacy | Secrets never in Vite | Hard rule |

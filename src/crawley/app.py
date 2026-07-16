@@ -21,6 +21,7 @@ from crawley.modules.gmail import GmailModule
 from crawley.modules.investment import InvestmentModule
 from crawley.modules.registry import build_registry
 from crawley.modules.work import WorkModule
+from crawley.api.routes import router as api_router
 from crawley.shell.routes import router as shell_router
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -57,8 +58,17 @@ def create_app() -> FastAPI:
         for module in registry.values():
             module.shutdown()
 
-    app = FastAPI(title="Crawley", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(
+        title="Crawley analytics",
+        version="0.1.0",
+        description=(
+            "Local-first analytics API for crawley-ui (Phone Preview). "
+            "Product UI is not Jinja/HTMX — see docs/migration-phone-preview.md."
+        ),
+        lifespan=lifespan,
+    )
     app.state.registry = registry
     app.state.executor = executor
+    app.include_router(api_router)
     app.include_router(shell_router)
     return app

@@ -15,7 +15,7 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 **Pivot in progress:**
 
-- [ ] JSON API + OpenAPI for ASX + jobs (Sprint 31)  
+- [x] JSON API + OpenAPI for ASX + jobs (Sprint 31)  
 - [ ] `crawley-ui` on published Phone Preview + ASX pack (Sprint 32)  
 - [ ] Explicit ASX daemon entrypoint (Sprint 33)  
 - [ ] Sender Inbox API + pack (Sprint 34)  
@@ -25,15 +25,15 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 ## Next
 
-**Migration band — Sprints 31–35** (active: Sprint 31)
+**Migration band — Sprints 31–35** (active: Sprint 32)
 
-### Sprint 31 (current) — Analytics JSON API (ASX + jobs)
+### Sprint 31 (closed) — Analytics JSON API (ASX + jobs)
 Versioned `/v1` ASX + job control; presentation DTOs; OpenAPI; freeze HTMX features.  
-[`docs/sprints/current.md`](docs/sprints/current.md) · B91–B93
+[`docs/sprints/archive/sprint-31-analytics-api.md`](docs/sprints/archive/sprint-31-analytics-api.md) · B91–B93
 
-### Sprint 32 (planned) — crawley-ui + ASX pack
+### Sprint 32 (current) — crawley-ui + ASX pack
 npm `crawley-ui` from published Phone Preview; proxy to analytics; `asxDeskPack`.  
-[`docs/sprints/planned/sprint-32-crawley-ui-asx-pack.md`](docs/sprints/planned/sprint-32-crawley-ui-asx-pack.md) · B94–B95
+[`docs/sprints/current.md`](docs/sprints/current.md) · B94–B95
 
 ### Sprint 33 (planned) — ASX daemon entrypoint
 Clear `asx-scanner` process/entrypoint; job status via API.  
