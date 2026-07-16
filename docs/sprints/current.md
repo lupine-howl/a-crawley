@@ -1,64 +1,40 @@
-# Sprint 32 — crawley-ui + ASX pack
+# Sprint 33 — ASX daemon entrypoint
 
 **Status:** ready (Migration band — hard pivot)  
 **Duration:** one symbolic week  
-**Backlog refs:** B94, B95  
-**Depends on:** Sprint 31 OpenAPI + ASX `/v1` ([archive](archive/sprint-31-analytics-api.md))  
+**Backlog refs:** B96  
+**Depends on:** Sprint 31 job API ([archive](archive/sprint-31-analytics-api.md)); UI pack optional ([archive](archive/sprint-32-crawley-ui-asx-pack.md))  
 **Architecture:** [ADR-009](../adr/009-phone-preview-analytics.md) · [`../migration-phone-preview.md`](../migration-phone-preview.md)  
-**API contract:** [`../api/presentation-v1.md`](../api/presentation-v1.md) · [`../api/openapi-v1.json`](../api/openapi-v1.json)  
-**UX:** Prefer `@ux-expert` pass for ASX pack IA against Phone Preview shell  
-**Previous:** Migration Sprint 31 closed  
-**Planned source:** [`planned/sprint-32-crawley-ui-asx-pack.md`](planned/sprint-32-crawley-ui-asx-pack.md)
+**Previous:** Migration Sprint 32 closed (`crawley-ui` + `asxDeskPack`)  
+**Planned source:** [`planned/sprint-33-asx-daemon.md`](planned/sprint-33-asx-daemon.md)
 
 ## Goal
 
-Scaffold **`crawley-ui`** from **published** Phone Preview packages and ship an **`asxDeskPack`** that lists companies and starts a scan via the analytics API (Vite proxy in dev).
+Promote the ASX scanner into a **clear daemon/worker entrypoint** (separate from “Uvicorn accidentally owns the scan forever”), with status still exposed via `/v1/jobs`.
 
 ## Demo
 
-1. `npm` install / run `crawley-ui`  
-2. ASX pack shows company list from `/v1/asx/companies`  
-3. Start scan from UI; job progress visible  
-4. No secrets in the Vite app; Google OAuth not required for this ASX-only slice  
+1. Start analytics API; start `asx-scanner` (or documented equivalent entrypoint)  
+2. UI or `curl` can observe job progress  
+3. Scratch data remains under `data/`; presentation via API unchanged  
 
 ## Committed
 
-Implement **in order** (S32.1 → S32.2).
-
-### S32.1 — crawley-ui scaffold (B94)
+### S33.1 — asx-scanner entrypoint (B96)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
-| Backlog ref | B94 |
+| Backlog ref | B96 |
 
 **Acceptance criteria:**
 
-- [ ] Repo or app named `crawley-ui` using published `@phone-preview/*`  
-- [ ] README: run instructions, proxy to analytics, pointer to PP setup recipe  
-- [ ] UI persistence uses Phone Preview defaults (IndexedDB; Turso/Duck optional per PP)  
-- [ ] No analytics secrets in frontend env for browser-exposed keys  
-
-### S32.2 — asxDeskPack (B95)
-
-| Field | Value |
-|-------|-------|
-| Status | todo |
-| Backlog ref | B95 |
-
-**Acceptance criteria:**
-
-- [ ] Pack lists companies from analytics API  
-- [ ] Start (and show status for) ASX scan job  
-- [ ] Company detail from `GET /v1/asx/companies/{ticker}` (minimum viable)  
-- [ ] Errors/empty states honest; no trade chrome  
+- [ ] Documented entrypoint for ASX scan loop (module CLI, second process, or supervisord example)  
+- [ ] API can start/pause/reset or attach to that worker without Jinja  
+- [ ] Architecture notes process boundaries (evolves ADR-003)  
+- [ ] Threads OK inside the worker; no Celery required  
 
 ## Explicitly out of sprint
 
-- Sender Inbox pack (Sprint 34)  
-- Deleting Jinja (Sprint 35)  
-- Full paper/recommend UI (Later in migration)  
-
-## Parking lot
-
-- Settings pack for LLM/caps once analytics settings API exists  
+- gmail-ingest daemon (with Sprint 34/35)  
+- Kubernetes / multi-host deploy  

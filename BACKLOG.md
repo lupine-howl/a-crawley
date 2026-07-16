@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–31 closed; **hard pivot** — Migration Sprint **32** current (B94–B95); Phone Preview `crawley-ui` + analytics daemons
+**Status:** Sprints 1–32 closed; **hard pivot** — Migration Sprint **33** current (B96); Phone Preview `crawley-ui` + analytics daemons
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2391,19 +2391,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B93 |
-| Planned sprint | 32 (current) |
+| Planned sprint | 32 (closed) |
 
 **Goal:** npm-installable / runnable **`crawley-ui`** host from published `@phone-preview/*`.
 
 **Acceptance criteria:**
 
-- [ ] App runs locally; README with proxy to analytics
-- [ ] Uses published PP packages; IndexedDB (PP defaults); Turso/Duck optional per PP
-- [ ] No browser-exposed analytics secrets
+- [x] App runs locally; README with proxy to analytics
+- [x] Uses published PP packages; IndexedDB (PP defaults); Turso/Duck optional per PP
+- [x] No browser-exposed analytics secrets
 
 **Out of scope:**
 
@@ -2415,19 +2415,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B94, B92 |
-| Planned sprint | 32 (current) |
+| Planned sprint | 32 (closed) |
 
 **Goal:** ASX desk pack: list companies, start scan, show job progress + basic detail.
 
 **Acceptance criteria:**
 
-- [ ] Reads `/v1/asx/…` only
-- [ ] Start scan + status
-- [ ] Empty/error honest; no trade chrome
+- [x] Reads `/v1/asx/…` only
+- [x] Start scan + status
+- [x] Empty/error honest; no trade chrome
 
 **Out of scope:**
 
@@ -2439,11 +2439,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P1 |
 | Roadmap theme | Next — Migration |
 | Depends on | B92 |
-| Planned sprint | 33 |
+| Planned sprint | 33 (current) |
 
 **Goal:** Clear ASX worker entrypoint separate from “Uvicorn owns the scan” ambiguity.
 

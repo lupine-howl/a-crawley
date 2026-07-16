@@ -2,7 +2,8 @@
 
 **Status:** Active pivot (2026-07-16)  
 **ADR:** [`adr/009-phone-preview-analytics.md`](adr/009-phone-preview-analytics.md)  
-**Current sprint:** [`sprints/current.md`](sprints/current.md) (Migration Sprint 32 — after 31 API)
+**Current sprint:** [`sprints/current.md`](sprints/current.md) (Migration Sprint 33 — after 32 UI)  
+**UI consume recipe:** [`build/consuming-published-core.md`](build/consuming-published-core.md)
 
 ## Target shape
 

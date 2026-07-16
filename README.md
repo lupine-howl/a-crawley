@@ -30,7 +30,18 @@ Legacy HTMX UI may still open at http://127.0.0.1:8000 until Sprint 35 — **not
 
 ## crawley-ui (product)
 
-Scaffold/run via **npm** using **published** `@phone-preview/*` packages (ask Phone Preview team for the current create recipe). Dev-proxy `/api/analytics` → this process. UI persistence is primarily **IndexedDB** (± Turso/Duck sync per Phone Preview).
+App lives in [`crawley-ui/`](./crawley-ui/) on published `@phone-preview/core` ≥ 0.6.1.
+
+```bash
+# Terminal A (repo root) — analytics
+uv run python -m crawley
+
+# Terminal B
+cd crawley-ui && npm install && npm run dev
+```
+
+Vite proxies `/api/analytics` → this process (`:8000`). Persistence: Phone Preview IndexedDB (± Turso/Duck via Connections).  
+Recipe pin: [`docs/build/consuming-published-core.md`](./docs/build/consuming-published-core.md).
 
 ## Agent roles
 
@@ -44,9 +55,9 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 ## Delivery status
 
-- **Sprints 1–31** — HTMX PoC + dual-desk depth + analytics `/v1` API (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
-- **Sprint 32** — `crawley-ui` + ASX pack (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprints 33–35** — ASX daemon, Gmail API/pack, HTMX cutover: [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
+- **Sprints 1–32** — HTMX PoC + dual-desk depth + analytics `/v1` + `crawley-ui` (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
+- **Sprint 33** — ASX daemon entrypoint (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 34–35** — Gmail API/pack, HTMX cutover: [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
 - **Shelved** — Calendar product, lite modules, old depth 31–40 stubs: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 ## Product docs
@@ -54,7 +65,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - [`PRODUCT.md`](./PRODUCT.md) · [`ROADMAP.md`](./ROADMAP.md) · [`BACKLOG.md`](./BACKLOG.md)
 - [`docs/architecture.md`](./docs/architecture.md) · [`docs/migration-phone-preview.md`](./docs/migration-phone-preview.md)
 - [`docs/api/presentation-v1.md`](./docs/api/presentation-v1.md) · [`docs/api/openapi-v1.json`](./docs/api/openapi-v1.json)
+- [`docs/build/consuming-published-core.md`](./docs/build/consuming-published-core.md)
 
 ## Next delivery
 
-`@architect-developer` / UI work implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 32** — `crawley-ui` + `asxDeskPack`). Do not add Jinja product features.
+`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 33** — `asx-scanner` daemon entrypoint). Do not add Jinja product features.
