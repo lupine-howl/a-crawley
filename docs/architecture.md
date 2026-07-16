@@ -3,11 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–12 closed (12 = Sender Inbox PoC)  
+**Status:** Sprints 1–13 closed (13 = ASX desk scanner + profiles)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 12 done)  
-**Sprint 11 (closed):** [`sprints/archive/sprint-11-settings-update.md`](sprints/archive/sprint-11-settings-update.md)  
-**Next planned:** ASX profiles (13) · ASX paper (14)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 13 done)  
+**Sprint 12 (closed):** [`sprints/archive/sprint-12-sender-inbox.md`](sprints/archive/sprint-12-sender-inbox.md)  
+**Next planned:** ASX paper / recommendations (14)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -41,9 +41,30 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **UX:** [`docs/ux.md`](ux.md) Sprint 2 design contract (later modules reuse form/snapshot patterns).  
 **Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.  
 **Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.  
-**Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.
+**Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.  
+**Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`). Recommendations / paper portfolio remain Sprint 14.
 
 ## Sprint delivery maps
+
+### Sprint 13 (closed) — ASX desk
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S13.1 / B71** | `asx_desk/assets/universe.json` · PoC set in `scan_state.json` |
+| **S13.2 / B72** | `asx_desk/worker.py` · one ticker at a time · pause/resume · rate limit |
+| **S13.3 / B73** | Profiles JSON · `/modules/investment/companies/{ticker}` · snapshot metrics |
+| **S13.4 / B74** | `sources_config.json` · scan/profile/sentiment prompts · enable flags |
+
+### ASX metric / source notes
+
+| Metric | Source | Gap honesty |
+|--------|--------|-------------|
+| Last price / % move / volume | Yahoo Finance chart `TICKER.AX` (scan mode) | May be unavailable; UI shows — |
+| Headlines / sentiment input | Google News RSS (scan mode) | Not official ASX; tone via LLM |
+| Exchange announcements | Curated placeholder (disabled) | No auto-scrape; enable when TOS-safe feed exists |
+| PE / yield / quality | Not fetched in PoC | Documented gap — never invent numbers |
+
+**Modes:** **scan** = polite automated fetches for the PoC set; **curated** = operator/enable-gated sources without hostile scraping.
 
 ### Sprint 12 (closed) — Sender Inbox
 
@@ -55,18 +76,6 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 | **S12.4 / B68** | Profiles JSON under `data/gmail/sender_inbox/` |
 | **S12.5 / B69** | Todos JSON + HTMX toggle; no send/calendar |
 | **S12.6 / B70** | Cap default 20 · `CRAWLEY_SENDER_INBOX_CAP` · Reset PoC data |
-
-### Sprint 11 (closed) — Settings Update
-
-| Story | Architecture touchpoints |
-|-------|--------------------------|
-| **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · LAN/Tailscale allowed + warn · `CRAWLEY_RELOAD` |
-
-### Sprint 13–14 (planned) — ASX
-
-| Story | Architecture touchpoints |
-|-------|--------------------------|
-| **S13–14** ASX | Universe scan, company profiles, recommendations, paper ledger |
 
 ### Sender Inbox categorization schema
 
@@ -86,6 +95,18 @@ Per-message **metrics** (LLM JSON, normalized in `sender_inbox/schema.py`):
 
 **Sort:** newest activity first, with boost for high/critical urgency and `requires_reply`.  
 **Cap:** default 20; raise later via env `CRAWLEY_SENDER_INBOX_CAP` (restart).
+
+### Sprint 11 (closed) — Settings Update
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · LAN/Tailscale allowed + warn · `CRAWLEY_RELOAD` |
+
+### Sprint 14 (planned) — ASX recommendations + paper
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S14** | Recommendations list · paper portfolio ledger · simulation settings |
 
 ### Sprints 6–10 (bundled, closed)
 

@@ -15,8 +15,10 @@ from crawley.modules.investment_fetch import persist_artifacts
 def test_investment_panel_has_run_control(client: TestClient) -> None:
     response = client.get("/modules/investment")
     assert response.status_code == 200
+    assert "ASX desk" in response.text
+    assert "Start scan" in response.text or "Resume" in response.text or "Scanning" in response.text
+    assert "Classic search" in response.text
     assert "Run search" in response.text
-    assert "Status:" in response.text
 
 
 def test_persist_artifacts_writes_duckdb_and_files(tmp_path, monkeypatch) -> None:

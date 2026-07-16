@@ -1,0 +1,975 @@
+{
+  "provenance": {
+    "description": "Operator-curated ASX equity universe for Crawley PoC (ticker, name, sector).",
+    "not_official": "Not an official ASX data dump; sectors are approximate GICS-style labels.",
+    "updated": "2026-07-16",
+    "count": 193
+  },
+  "companies": [
+    {
+      "ticker": "CBA",
+      "name": "Commonwealth Bank of Australia",
+      "sector": "Banks"
+    },
+    {
+      "ticker": "BHP",
+      "name": "BHP Group",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "CSL",
+      "name": "CSL Limited",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "NAB",
+      "name": "National Australia Bank",
+      "sector": "Banks"
+    },
+    {
+      "ticker": "WBC",
+      "name": "Westpac Banking Corporation",
+      "sector": "Banks"
+    },
+    {
+      "ticker": "ANZ",
+      "name": "ANZ Group Holdings",
+      "sector": "Banks"
+    },
+    {
+      "ticker": "WES",
+      "name": "Wesfarmers",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "MQG",
+      "name": "Macquarie Group",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "FMG",
+      "name": "Fortescue",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TLS",
+      "name": "Telstra Group",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "WOW",
+      "name": "Woolworths Group",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "RIO",
+      "name": "Rio Tinto",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "TCL",
+      "name": "Transurban Group",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "GMG",
+      "name": "Goodman Group",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "ALL",
+      "name": "Aristocrat Leisure",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "WDS",
+      "name": "Woodside Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "STO",
+      "name": "Santos",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "ORG",
+      "name": "Origin Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "QBE",
+      "name": "QBE Insurance",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "IAG",
+      "name": "Insurance Australia Group",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "SUN",
+      "name": "Suncorp Group",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "COL",
+      "name": "Coles Group",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "REA",
+      "name": "REA Group",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "XRO",
+      "name": "Xero",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CPU",
+      "name": "Computershare",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CAR",
+      "name": "CAR Group",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "JHX",
+      "name": "James Hardie",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "AMC",
+      "name": "Amcor",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "BXB",
+      "name": "Brambles",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "SCG",
+      "name": "Scentre Group",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "SGP",
+      "name": "Stockland",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "GPT",
+      "name": "GPT Group",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "DXS",
+      "name": "Dexus",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "MGR",
+      "name": "Mirvac Group",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "VCX",
+      "name": "Vicinity Centres",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "APA",
+      "name": "APA Group",
+      "sector": "Utilities"
+    },
+    {
+      "ticker": "AGL",
+      "name": "AGL Energy",
+      "sector": "Utilities"
+    },
+    {
+      "ticker": "AST",
+      "name": "AusNet Services",
+      "sector": "Utilities"
+    },
+    {
+      "ticker": "TWE",
+      "name": "Treasury Wine Estates",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "A2M",
+      "name": "The a2 Milk Company",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "WTC",
+      "name": "WiseTech Global",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "SEK",
+      "name": "SEEK",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "NEL",
+      "name": "NEOMETALS",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "MIN",
+      "name": "Mineral Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "PLS",
+      "name": "Pilbara Minerals",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "LTR",
+      "name": "Liontown Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "IGO",
+      "name": "IGO Limited",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "NST",
+      "name": "Northern Star Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "EVN",
+      "name": "Evolution Mining",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "RRL",
+      "name": "Regis Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "SBM",
+      "name": "St Barbara",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "PRU",
+      "name": "Perseus Mining",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "GOR",
+      "name": "Gold Road Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "RMS",
+      "name": "Ramelius Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "ALD",
+      "name": "Ampol",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "ALX",
+      "name": "Atlas Arteria",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "ASX",
+      "name": "ASX Limited",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "BOQ",
+      "name": "Bank of Queensland",
+      "sector": "Banks"
+    },
+    {
+      "ticker": "BEN",
+      "name": "Bendigo and Adelaide Bank",
+      "sector": "Banks"
+    },
+    {
+      "ticker": "AMP",
+      "name": "AMP Limited",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "MFG",
+      "name": "Magellan Financial",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "PTM",
+      "name": "Platinum Asset Management",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "CGF",
+      "name": "Challenger",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "NHF",
+      "name": "NIB Holdings",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "MPL",
+      "name": "Medibank Private",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "SHL",
+      "name": "Sonic Healthcare",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "RMD",
+      "name": "ResMed",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "COH",
+      "name": "Cochlear",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PME",
+      "name": "Pro Medicus",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "NAN",
+      "name": "Nanosonics",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "FPH",
+      "name": "Fisher & Paykel Healthcare",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "ANN",
+      "name": "Ansell",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "API",
+      "name": "Australian Pharmaceutical Industries",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "HVN",
+      "name": "Harvey Norman",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "JBH",
+      "name": "JB Hi-Fi",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "SUL",
+      "name": "Super Retail Group",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "PMV",
+      "name": "Premier Investments",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "WEB",
+      "name": "Webjet",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "FLT",
+      "name": "Flight Centre Travel",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "QAN",
+      "name": "Qantas Airways",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "AZJ",
+      "name": "Aurizon Holdings",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "QUB",
+      "name": "Qube Holdings",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "ALQ",
+      "name": "ALS Limited",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "DOW",
+      "name": "Downer EDI",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "CIM",
+      "name": "CIMIC Group",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "CWY",
+      "name": "Cleanaway Waste Management",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "IEL",
+      "name": "IDP Education",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "EDV",
+      "name": "Endeavour Group",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "GNC",
+      "name": "GrainCorp",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "INA",
+      "name": "Ingenia Communities",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "CHC",
+      "name": "Charter Hall",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "CLW",
+      "name": "Charter Hall Long WALE REIT",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "CNI",
+      "name": "Centuria Capital",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "ABP",
+      "name": "Abacus Property",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "GOZ",
+      "name": "Growthpoint Properties",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "HDN",
+      "name": "HomeCo Daily Needs REIT",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "NSR",
+      "name": "National Storage REIT",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "CIP",
+      "name": "Centuria Industrial REIT",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "URW",
+      "name": "Unibail-Rodamco-Westfield AU note",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "BWP",
+      "name": "BWP Trust",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "ASK",
+      "name": "Abacus Storage King",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "NWL",
+      "name": "Netwealth Group",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "PPT",
+      "name": "Perpetual",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "IOZ",
+      "name": "iShares Core S&P/ASX 200 ETF",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "VAS",
+      "name": "Vanguard Australian Shares Index ETF",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "A200",
+      "name": "BetaShares Australia 200 ETF",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "QUAL",
+      "name": "VanEck MSCI International Quality ETF",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "GOLD",
+      "name": "ETFS Physical Gold",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "PMGOLD",
+      "name": "Gold Bullion note",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "NEM",
+      "name": "Newmont Corporation",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "WHC",
+      "name": "Whitehaven Coal",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "YAL",
+      "name": "Yancoal Australia",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CRN",
+      "name": "Coronado Global Resources",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "NHC",
+      "name": "New Hope Corporation",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "WOR",
+      "name": "Worley",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "KAR",
+      "name": "Karoon Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "BPT",
+      "name": "Beach Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "CTD",
+      "name": "Corporate Travel Management",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TPG",
+      "name": "TPG Telecom",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "SPK",
+      "name": "Spark New Zealand",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "CNU",
+      "name": "Chorus",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "NXT",
+      "name": "NEXTDC",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "APX",
+      "name": "Appen",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TNE",
+      "name": "Technology One",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "DDR",
+      "name": "Dicker Data",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "360",
+      "name": "Life360",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "MP1",
+      "name": "Megaport",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "BRG",
+      "name": "Breville Group",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "ARB",
+      "name": "ARB Corporation",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "GUD",
+      "name": "GUD Holdings",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "IPH",
+      "name": "IPH Limited",
+      "sector": "Industrials"
+    },
+    {
+      "ticker": "LOV",
+      "name": "Lovisa Holdings",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TPW",
+      "name": "Temple & Webster",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "KGN",
+      "name": "Kogan.com",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "APE",
+      "name": "Eagers Automotive",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "MTS",
+      "name": "Metcash",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "CCL",
+      "name": "Coca-Cola HBC AU note",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "BGA",
+      "name": "Bega Cheese",
+      "sector": "Consumer Staples"
+    },
+    {
+      "ticker": "AAD",
+      "name": "Ardent Leisure",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "EVT",
+      "name": "EVT Limited",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "SGR",
+      "name": "The Star Entertainment",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "TAH",
+      "name": "Tabcorp Holdings",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "LLC",
+      "name": "Lendlease",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "BSL",
+      "name": "BlueScope Steel",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "CIA",
+      "name": "Champion Iron",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "ILU",
+      "name": "Iluka Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "SFR",
+      "name": "Sandfire Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "DRR",
+      "name": "Deterra Royalties",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "LYC",
+      "name": "Lynas Rare Earths",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "SYR",
+      "name": "Syrah Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "CXO",
+      "name": "Core Lithium",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "VUL",
+      "name": "Vulcan Energy",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "INR",
+      "name": "Ioneer",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "PDN",
+      "name": "Paladin Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "BMN",
+      "name": "Bannerman Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "BOE",
+      "name": "Boss Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "DYL",
+      "name": "Deep Yellow",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "PEN",
+      "name": "Peninsula Energy",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "ERA",
+      "name": "Energy Resources of Australia",
+      "sector": "Energy"
+    },
+    {
+      "ticker": "ORI",
+      "name": "Orica",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "IHC",
+      "name": "Inspiration Healthcare note",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "PNI",
+      "name": "Pinnacle Investment Management",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "HMC",
+      "name": "HMC Capital",
+      "sector": "Financials"
+    },
+    {
+      "ticker": "RGN",
+      "name": "Region Group",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "CNW",
+      "name": "Cromwell Property",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "WPR",
+      "name": "Waypoint REIT",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "HCW",
+      "name": "HealthCo Healthcare & Wellness REIT",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "DXI",
+      "name": "Dexus Industria REIT",
+      "sector": "Real Estate"
+    },
+    {
+      "ticker": "NEC",
+      "name": "Nine Entertainment",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "SWM",
+      "name": "Seven West Media",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "SXL",
+      "name": "Southern Cross Media",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "OML",
+      "name": "oOh!media",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "HT1",
+      "name": "HT&E",
+      "sector": "Communication Services"
+    },
+    {
+      "ticker": "AD8",
+      "name": "Audinate Group",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CAT",
+      "name": "Catapult Group",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "PNV",
+      "name": "Polynovo",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "CUV",
+      "name": "Clinuvel Pharmaceuticals",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "IMM",
+      "name": "Immutep",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "TLX",
+      "name": "Telix Pharmaceuticals",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "MSB",
+      "name": "Mesoblast",
+      "sector": "Health Care"
+    },
+    {
+      "ticker": "IMD",
+      "name": "Imdex",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "EMR",
+      "name": "Emerald Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "WAF",
+      "name": "West African Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "RSG",
+      "name": "Resolute Mining",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "DEG",
+      "name": "De Grey Mining",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "WGX",
+      "name": "Westgold Resources",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "RED",
+      "name": "RED 5",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "CMM",
+      "name": "Capricorn Metals",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "PRN",
+      "name": "Perenti",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "MLX",
+      "name": "Metals X",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "SGM",
+      "name": "Sims Limited",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "BKW",
+      "name": "Brickworks",
+      "sector": "Materials"
+    },
+    {
+      "ticker": "ABC",
+      "name": "Adbri",
+      "sector": "Materials"
+    }
+  ]
+}

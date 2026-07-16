@@ -439,6 +439,33 @@
       overflow: auto;
     }
     .reset-form { margin-top: var(--space-4); }
+    .asx-subnav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      align-items: center;
+      margin: 0 0 var(--space-3);
+      font-size: 0.9rem;
+    }
+    .asx-subnav a[aria-current="page"] {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .asx-snapshot {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-2) var(--space-4);
+      margin: var(--space-2) 0 var(--space-4);
+    }
+    .asx-snapshot dt {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .asx-snapshot dd {
+      margin: 0;
+      font-weight: 600;
+    }
     @media (max-width: 720px) {
       .wrap { grid-template-columns: 1fr; }
       nav {
