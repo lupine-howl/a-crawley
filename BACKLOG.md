@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–14 closed (B75–B77 + B35–B37 with Sprint 14); next pivot **15–20** = B79–B88; remaining former post-10 platform/depth plans shelved
+**Status:** Sprints 1–17 closed (B79–B83 with 15–17); next pivot **18–20** = B84–B88; remaining former post-10 platform/depth plans shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2017,9 +2017,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B70 |
 | Planned sprint | 15 |
 
@@ -2027,9 +2027,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Configurable or raised ingest cap with clear UI of progress/remaining
-- [ ] Retention/prune policy documented and enforced (oldest or reset path)
-- [ ] Architecture note on scale bounds; still not full-mailbox product
+- [x] Configurable or raised ingest cap with clear UI of progress/remaining
+- [x] Retention/prune policy documented and enforced (oldest or reset path)
+- [x] Architecture note on scale bounds; still not full-mailbox product
 
 **Out of scope:**
 
@@ -2041,9 +2041,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B67, B69 |
 | Planned sprint | 15 |
 
@@ -2051,9 +2051,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Filter/search by sender, category metric, and/or todo open/done
-- [ ] Results stay within Sender Inbox IA (list → detail)
-- [ ] Empty filter state honest; theme tokens
+- [x] Filter/search by sender, category metric, and/or todo open/done
+- [x] Results stay within Sender Inbox IA (list → detail)
+- [x] Empty filter state honest; theme tokens
 
 **Out of scope:**
 
@@ -2065,9 +2065,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B71, B72, B73 |
 | Planned sprint | 16 |
 
@@ -2075,9 +2075,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Operator can expand/select active universe beyond 20 within hard max
-- [ ] Scanner/profile jobs remain one-at-a-time (or equally polite); progress clear
-- [ ] Caps and rate-limit posture documented
+- [x] Operator can expand/select active universe beyond 20 within hard max
+- [x] Scanner/profile jobs remain one-at-a-time (or equally polite); progress clear
+- [x] Caps and rate-limit posture documented
 
 **Out of scope:**
 
@@ -2089,9 +2089,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B73, B74 |
 | Planned sprint | 16 |
 
@@ -2099,9 +2099,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Bounded fetch of earnings/event-like sources for active set
-- [ ] Markdown/list of upcoming/recent events + optional LLM wrap
-- [ ] Hard caps; honest empty; non-advice disclaimer
+- [x] Bounded fetch of earnings/event-like sources for active set
+- [x] Markdown/list of upcoming/recent events + optional LLM wrap
+- [x] Hard caps; honest empty; non-advice disclaimer
 
 **Out of scope:**
 
@@ -2113,9 +2113,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B67, B73, B76 |
 | Planned sprint | 17 |
 
@@ -2123,10 +2123,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Bounded match of sender/subject/body (or categories) to ASX tickers / paper holdings
-- [ ] Bridge results with deep links to Sender + ASX profile / paper position
-- [ ] False-positive controls; no auto-trading or auto-send
-- [ ] Architecture note on matching approach
+- [x] Bounded match of sender/subject/body (or categories) to ASX tickers / paper holdings
+- [x] Bridge results with deep links to Sender + ASX profile / paper position
+- [x] False-positive controls; no auto-trading or auto-send
+- [x] Architecture note on matching approach
 
 **Out of scope:**
 

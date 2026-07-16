@@ -119,6 +119,35 @@ class InvestmentModule(Module):
         )
         return ctx
 
+    def events_panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.store import load_events
+
+        ctx = self.panel_context()
+        events = load_events()
+        ctx.update(
+            {
+                "asx_view": "events",
+                "asx_subnav": "events",
+                "events": events,
+                "poll_asx": events.get("status") == "busy" or ctx.get("poll_asx"),
+            }
+        )
+        return ctx
+
+    def bridge_panel_context(self) -> dict[str, Any]:
+        from crawley.bridge.matcher import load_bridge
+
+        ctx = self.panel_context()
+        bridge = load_bridge()
+        ctx.update(
+            {
+                "asx_view": "bridge",
+                "asx_subnav": "bridge",
+                "bridge": bridge,
+            }
+        )
+        return ctx
+
     def run(self, inputs: dict[str, Any] | None = None) -> ModuleOutput:
         inputs = inputs or {}
         query = (inputs.get("query") or "US stock market outlook").strip()

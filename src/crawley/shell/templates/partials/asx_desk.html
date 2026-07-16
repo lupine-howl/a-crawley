@@ -47,8 +47,9 @@
   </div>
 
   <p class="muted">
-    PoC set: {{ progress.poc_count }} of {{ panel.asx_universe_count }} in universe.
-    Cap raise later: <code>CRAWLEY_ASX_POC_CAP</code>.
+    Active set: {{ progress.poc_count }} of {{ panel.asx_universe_count }} in universe
+    · configured cap {{ progress.configured_cap }} · hard ceiling {{ progress.hard_ceiling }}.
+    Settings → Desk scale (or <code>CRAWLEY_ASX_POC_CAP</code>).
   </p>
 
   {% if rows %}
@@ -88,8 +89,8 @@
   {% endif %}
 
   <details class="prompt-viewer">
-    <summary>Configure PoC set</summary>
-    <p class="muted">Comma-separated tickers from the universe (max {{ progress.cap }}). Default is the first {{ progress.cap }}.</p>
+    <summary>Configure active set</summary>
+    <p class="muted">Comma-separated tickers from the universe (max {{ progress.configured_cap }}, hard ceiling {{ progress.hard_ceiling }}).</p>
     <form
       class="settings-form"
       hx-post="/modules/investment/asx/poc-set"
@@ -98,7 +99,17 @@
     >
       <label for="poc-tickers">Tickers</label>
       <input id="poc-tickers" name="tickers" value="{{ progress.poc_tickers|join(', ') }}">
-      <button type="submit" class="secondary">Save PoC set</button>
+      <button type="submit" class="secondary">Save active set</button>
+    </form>
+    <form
+      class="settings-form"
+      hx-post="/modules/investment/asx/cap"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <label for="asx-cap">Active-set size (fills from universe)</label>
+      <input id="asx-cap" name="cap" value="{{ progress.configured_cap }}">
+      <button type="submit" class="secondary">Apply size</button>
     </form>
   </details>
 

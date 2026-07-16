@@ -309,6 +309,39 @@
   </form>
 </div>
 
+<div class="panel panel-tight settings-section" id="desk-scale">
+  <h2 class="section-title">Desk scale</h2>
+  <p class="muted">
+    Sender Inbox + ASX active-set bounds. Hard ceiling <strong>200</strong> each — not a full mailbox or market product.
+    Retention keeps the newest N ingested messages; older rows prune automatically.
+  </p>
+  <form
+    class="settings-form"
+    hx-post="/settings/scale"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+  >
+    <div class="field">
+      <label for="scale-inbox-cap">Sender Inbox ingest cap</label>
+      <input id="scale-inbox-cap" name="inbox_cap" value="{{ scale_settings.inbox_cap }}">
+    </div>
+    <div class="field">
+      <label for="scale-inbox-keep">Keep newest messages (retention)</label>
+      <input id="scale-inbox-keep" name="inbox_keep_max" value="{{ scale_settings.inbox_keep_max }}">
+    </div>
+    <div class="field">
+      <label for="scale-asx-cap">ASX active-set size</label>
+      <input id="scale-asx-cap" name="asx_cap" value="{{ scale_settings.asx_cap }}">
+    </div>
+    <div class="actions">
+      <button type="submit">Save desk scale</button>
+    </div>
+    {% if scale_notice %}
+    <p class="job job-done">{{ scale_notice }}</p>
+    {% endif %}
+  </form>
+</div>
+
 <div class="panel panel-tight settings-section" id="paper-portfolio">
   <h2 class="section-title">Paper portfolio (simulation)</h2>
   <p class="muted">Assumptions for the ASX paper ledger. These settings do <strong>not</strong> enable live trading.</p>

@@ -157,14 +157,21 @@ class GmailModule(Module):
             "connected": bool(status["connected"] and status["gmail_ok"]),
         }
 
-    def panel_context(self) -> dict[str, Any]:
+    def panel_context(
+        self,
+        *,
+        query: str = "",
+        category: str = "",
+        todo: str = "",
+    ) -> dict[str, Any]:
         from crawley.sender_inbox.formatters import relative_time
-        from crawley.sender_inbox.schema import POC_CAP
+        from crawley.sender_inbox.schema import CATEGORIES, POC_CAP
         from crawley.sender_inbox.store import group_senders, progress_view
         from crawley.sender_inbox.worker import is_running
+        from crawley.settings import HARD_SCALE_CEILING
 
         progress = progress_view(running=is_running())
-        senders = group_senders()
+        senders = group_senders(query=query, category=category, todo=todo)
         for row in senders:
             row["latest_rel"] = relative_time(row.get("latest_at"))
         return {
@@ -176,7 +183,12 @@ class GmailModule(Module):
             "inbox_view": "list",
             "inbox_progress": progress,
             "inbox_senders": senders,
-            "poc_cap": POC_CAP,
+            "poc_cap": progress.get("cap") or POC_CAP,
+            "hard_ceiling": HARD_SCALE_CEILING,
+            "filter_q": query,
+            "filter_category": category,
+            "filter_todo": todo,
+            "filter_categories": CATEGORIES,
             "poll_inbox": progress.get("status") == "busy" or self.job.status == "busy",
         }
 

@@ -1,6 +1,7 @@
 # Sprint 15 — Sender Inbox scale (planned)
 
-**Status:** planned (next after Sprint 14 + B35–B37 delivery)  
+**Status:** done (delivered in [`../current.md`](../current.md) Sprints 15–17 bundle)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B79, B80  
 **Depends on:** Sprint 12 Sender Inbox PoC  
@@ -23,26 +24,26 @@ Move Sender Inbox past the ~20-email PoC: higher ingest cap, retention/prune pol
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B79 |
 
 **Acceptance criteria:**
 
-- [ ] Operator-configurable ingest cap (above 20) with hard ceiling documented
-- [ ] Retention/prune policy for categorized messages (keep N / age) under `data/`
-- [ ] Progress UI scales; reset path remains
+- [x] Operator-configurable ingest cap (above 20) with hard ceiling documented
+- [x] Retention/prune policy for categorized messages (keep N / age) under `data/`
+- [x] Progress UI scales; reset path remains
 
 ### S15.2 — Sender Inbox search & filter (B80)
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B80 |
 
 **Acceptance criteria:**
 
-- [ ] Filter senders by name/domain and/or category metrics
-- [ ] Simple search over sender list + optional subject snippet
-- [ ] Empty/no-match honest; theme tokens
+- [x] Filter senders by name/domain and/or category metrics
+- [x] Simple search over sender list + optional subject snippet
+- [x] Empty/no-match honest; theme tokens
 
 **Out of scope:** Full offline mailbox index product; multi-account

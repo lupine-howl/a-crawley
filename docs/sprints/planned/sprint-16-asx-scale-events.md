@@ -1,6 +1,7 @@
 # Sprint 16 — ASX scale + earnings/events skim (planned)
 
-**Status:** planned (after Sprint 15)  
+**Status:** done (delivered in [`../current.md`](../current.md) Sprints 15–17 bundle)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B81, B82  
 **Depends on:** Sprint 13 ASX desk; Sprint 14 paper/recommendations preferred  
@@ -21,26 +22,26 @@ Scale ASX desk beyond the 20-company PoC slice and add a bounded **earnings/even
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B81 |
 
 **Acceptance criteria:**
 
-- [ ] Operator can enlarge active scan set beyond 20 within a documented hard ceiling
-- [ ] Scanner/progress UI handles larger N; pause/resume preserved
-- [ ] Universe list still the source; provenance unchanged
+- [x] Operator can enlarge active scan set beyond 20 within a documented hard ceiling
+- [x] Scanner/progress UI handles larger N; pause/resume preserved
+- [x] Universe list still the source; provenance unchanged
 
 ### S16.2 — Earnings & events skim (B82)
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B82 |
 
 **Acceptance criteria:**
 
-- [ ] Bounded fetch of earnings/event-like signals for active set
-- [ ] Markdown/table of upcoming/recent events + optional LLM wrap
-- [ ] Hard caps; honest empty; non-advice copy
+- [x] Bounded fetch of earnings/event-like signals for active set
+- [x] Markdown/table of upcoming/recent events + optional LLM wrap
+- [x] Hard caps; honest empty; non-advice copy
 
 **Out of scope:** Paid data terminals; auto trades around earnings

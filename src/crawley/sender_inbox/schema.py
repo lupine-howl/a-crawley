@@ -7,8 +7,9 @@ import os
 import re
 from typing import Any
 
-# Hard PoC bound. Raise later via env (documented); default stays ~20.
-POC_CAP = max(1, min(200, int(os.environ.get("CRAWLEY_SENDER_INBOX_CAP", "20"))))
+# Hard ceiling 200. Operator cap lives in Settings (scale.inbox_cap); env sets default.
+HARD_CEILING = 200
+POC_CAP = max(1, min(HARD_CEILING, int(os.environ.get("CRAWLEY_SENDER_INBOX_CAP", "20"))))
 
 URGENCY_LEVELS = ("low", "medium", "high", "critical")
 CATEGORIES = ("personal", "work", "billing", "newsletter", "other")

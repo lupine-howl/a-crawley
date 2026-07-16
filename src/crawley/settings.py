@@ -46,6 +46,34 @@ class SimulationSettings:
     broker_label: str = "Paper (simulation)"
 
 
+HARD_SCALE_CEILING = 200
+
+
+def clamp_scale_cap(value: int | float | str | None, *, default: int) -> int:
+    try:
+        n = int(value)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        n = default
+    return max(1, min(n, HARD_SCALE_CEILING))
+
+
+def _default_inbox_cap() -> int:
+    return clamp_scale_cap(os.environ.get("CRAWLEY_SENDER_INBOX_CAP", "20"), default=20)
+
+
+def _default_asx_cap() -> int:
+    return clamp_scale_cap(os.environ.get("CRAWLEY_ASX_POC_CAP", "20"), default=20)
+
+
+@dataclass
+class ScaleSettings:
+    """Desk scale bounds — hard ceiling 200; not a full mailbox / market product."""
+
+    inbox_cap: int = field(default_factory=_default_inbox_cap)
+    inbox_keep_max: int = 100
+    asx_cap: int = field(default_factory=_default_asx_cap)
+
+
 @dataclass
 class AppSettings:
     theme: str = DEFAULT_THEME
@@ -53,6 +81,7 @@ class AppSettings:
     prompts: PromptSettings = field(default_factory=PromptSettings)
     network: NetworkSettings = field(default_factory=NetworkSettings)
     simulation: SimulationSettings = field(default_factory=SimulationSettings)
+    scale: ScaleSettings = field(default_factory=ScaleSettings)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -61,6 +90,7 @@ class AppSettings:
             "prompts": self.prompts.to_dict(),
             "network": asdict(self.network),
             "simulation": asdict(self.simulation),
+            "scale": asdict(self.scale),
         }
 
 
@@ -80,6 +110,7 @@ def load_settings() -> AppSettings:
     llm_raw = raw.get("llm") or {}
     net_raw = raw.get("network") or {}
     sim_raw = raw.get("simulation") or {}
+    scale_raw = raw.get("scale") or {}
     timeout_raw = llm_raw.get("timeout_s", 60.0)
     try:
         timeout_s = float(timeout_raw)
@@ -116,6 +147,13 @@ def load_settings() -> AppSettings:
             currency=(sim_raw.get("currency") or "AUD").strip().upper() or "AUD",
             broker_label=(sim_raw.get("broker_label") or "Paper (simulation)").strip()
             or "Paper (simulation)",
+        ),
+        scale=ScaleSettings(
+            inbox_cap=clamp_scale_cap(
+                scale_raw.get("inbox_cap"), default=_default_inbox_cap()
+            ),
+            inbox_keep_max=clamp_scale_cap(scale_raw.get("inbox_keep_max"), default=100),
+            asx_cap=clamp_scale_cap(scale_raw.get("asx_cap"), default=_default_asx_cap()),
         ),
     )
 
@@ -252,3 +290,48 @@ def update_simulation_settings(
 
         reset_portfolio()
     return current
+
+
+def update_scale_settings(
+    *,
+    inbox_cap: int,
+    inbox_keep_max: int,
+    asx_cap: int,
+) -> AppSettings:
+    current = load_settings()
+    current.scale.inbox_cap = clamp_scale_cap(inbox_cap, default=100)
+    current.scale.inbox_keep_max = clamp_scale_cap(inbox_keep_max, default=100)
+    current.scale.asx_cap = clamp_scale_cap(asx_cap, default=50)
+    save_settings(current)
+    # Sync live desk caps / prune immediately.
+    from crawley.asx_desk.store import sync_active_cap
+    from crawley.sender_inbox.store import prune_messages, sync_ingest_cap
+
+    sync_ingest_cap(current.scale.inbox_cap)
+    prune_messages(keep_max=current.scale.inbox_keep_max)
+    sync_active_cap(current.scale.asx_cap)
+    return current
+
+
+def effective_inbox_cap() -> int:
+    """Settings win; env CRAWLEY_SENDER_INBOX_CAP still clamps the hard ceiling path."""
+    env_default = clamp_scale_cap(os.environ.get("CRAWLEY_SENDER_INBOX_CAP", "20"), default=20)
+    try:
+        return clamp_scale_cap(load_settings().scale.inbox_cap, default=env_default)
+    except Exception:  # noqa: BLE001
+        return env_default
+
+
+def effective_asx_cap() -> int:
+    env_default = clamp_scale_cap(os.environ.get("CRAWLEY_ASX_POC_CAP", "20"), default=20)
+    try:
+        return clamp_scale_cap(load_settings().scale.asx_cap, default=env_default)
+    except Exception:  # noqa: BLE001
+        return env_default
+
+
+def effective_inbox_keep_max() -> int:
+    try:
+        return clamp_scale_cap(load_settings().scale.inbox_keep_max, default=100)
+    except Exception:  # noqa: BLE001
+        return 100

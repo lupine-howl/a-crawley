@@ -144,6 +144,81 @@ def _recommendations_body() -> None:
         save_recommendations(payload)
 
 
+# Hard cap on event rows per refresh (active set × headlines/ticker still polite).
+EVENTS_MAX_ROWS = 80
+EVENTS_PER_TICKER = 2
+
+
+def refresh_events(executor) -> tuple[bool, str]:
+    from crawley.asx_desk.store import load_events, load_scan_state, save_events
+
+    state = load_scan_state()
+    poc = list(state.get("poc_tickers") or [])
+    if not poc:
+        return False, "Active set is empty — configure tickers first."
+    payload = load_events()
+    payload["status"] = "busy"
+    payload["error"] = ""
+    save_events(payload)
+    executor.submit(_events_body)
+    return True, "Refreshing earnings/events skim…"
+
+
+def _events_body() -> None:
+    from crawley.asx_desk.store import (
+        load_events,
+        load_scan_state,
+        load_universe,
+        save_events,
+    )
+
+    try:
+        state = load_scan_state()
+        poc = list(state.get("poc_tickers") or [])
+        universe = {c["ticker"]: c for c in load_universe()["companies"]}
+        events: list[dict[str, Any]] = []
+        for ticker in poc:
+            if len(events) >= EVENTS_MAX_ROWS:
+                break
+            meta = universe.get(ticker) or {"name": ticker}
+            rows = asx_fetch.fetch_events_for_ticker(
+                ticker, meta.get("name") or ticker, limit=EVENTS_PER_TICKER
+            )
+            events.extend(rows)
+            asx_fetch.time.sleep(asx_fetch.RATE_LIMIT_S)
+        md_lines = [
+            "# ASX earnings & events skim",
+            "",
+            f"Active set: {len(poc)} · rows: {len(events)} · not licensed research.",
+            "",
+        ]
+        if not events:
+            md_lines.append("_No event-like headlines found for the active set._")
+        else:
+            md_lines.append("| Ticker | Headline | When |")
+            md_lines.append("| --- | --- | --- |")
+            for ev in events[:EVENTS_MAX_ROWS]:
+                title = (ev.get("title") or "").replace("|", "/")
+                md_lines.append(
+                    f"| {ev.get('ticker')} | {title} | {(ev.get('published') or '—')[:24]} |"
+                )
+        save_events(
+            {
+                "status": "ready",
+                "events": events[:EVENTS_MAX_ROWS],
+                "markdown": "\n".join(md_lines),
+                "updated_at": _now_iso(),
+                "error": "",
+            }
+        )
+    except Exception as exc:  # noqa: BLE001
+        logger.exception("Events skim failed")
+        payload = load_events()
+        payload["status"] = "error"
+        payload["error"] = str(exc)[:300]
+        save_events(payload)
+
+
 def _company_meta(ticker: str) -> dict[str, Any]:
     for row in load_universe()["companies"]:
         if row["ticker"] == ticker:
