@@ -32,13 +32,13 @@ class InvestmentModule(Module):
         title="Investment",
         kind=ModuleKind.LIVE,
         nav_order=10,
-        description="Market search and LLM synthesis (lite PoC).",
+        description="ASX research desk — universe scan, company profiles (PoC).",
     )
 
     def __init__(self) -> None:
         self.job = JobState(
             status="idle",
-            message="Ready. Run a small bounded search to synthesize short advice.",
+            message="Ready. Run ASX scan or classic search.",
         )
         self._executor: Executor | None = None
 
@@ -46,15 +46,50 @@ class InvestmentModule(Module):
         self._executor = executor
 
     def panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.sources import load_config
+        from crawley.asx_desk.store import desk_rows, load_universe, progress_view
+        from crawley.asx_desk.worker import is_running
+
+        progress = progress_view(running=is_running())
+        rows = desk_rows()
+        universe = load_universe()
+        cfg = load_config()
         return {
             "coming_soon": False,
             "description": self.meta.description,
             "job": self.job.to_dict(),
             "recent": recent_artifacts(8),
-            "default_query": "US stock market outlook",
+            "default_query": "ASX market outlook",
             "max_items": MAX_ITEMS,
             "use_cache_default": True,
+            "asx_view": "desk",
+            "asx_progress": progress,
+            "asx_rows": rows,
+            "asx_universe_count": universe["count"],
+            "asx_provenance": universe.get("provenance") or {},
+            "asx_sources": cfg.get("sources") or [],
+            "asx_prompts": cfg.get("prompts") or {},
+            "poll_asx": progress.get("status") == "busy" or self.job.status == "busy",
+            "asx_subnav": "desk",
         }
+
+    def company_panel_context(self, ticker: str) -> dict[str, Any] | None:
+        from crawley.asx_desk.store import company_detail
+
+        detail = company_detail(ticker)
+        if detail is None:
+            return None
+        ctx = self.panel_context()
+        ctx.update(
+            {
+                "asx_view": "company",
+                "company": detail,
+                "asx_subnav": "desk",
+                "poll_asx": (detail.get("profile") or {}).get("status") == "generating"
+                or ctx.get("poll_asx"),
+            }
+        )
+        return ctx
 
     def run(self, inputs: dict[str, Any] | None = None) -> ModuleOutput:
         inputs = inputs or {}

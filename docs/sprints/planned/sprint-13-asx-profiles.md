@@ -1,6 +1,6 @@
 # Sprint 13 — ASX company scanner + profiles PoC (planned)
 
-**Status:** planned (activates after Sprint 12 Sender Inbox PoC / shared UX contract)
+**Status:** promoted to [`../current.md`](../current.md) (done)
 **Duration:** one symbolic week  
 **Backlog refs:** B71, B72, B73, B74  
 **Depends on:** B65 UX ASX dashboard contract; B4/B9 Investment module exists  

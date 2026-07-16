@@ -1,0 +1,205 @@
+{# ASX desk — universe PoC set + scanner (Sprint 13). #}
+{% set progress = panel.asx_progress %}
+{% set rows = panel.asx_rows %}
+
+<div
+  class="panel asx-desk"
+  {% if panel.poll_asx %}
+  hx-get="/modules/investment/status"
+  hx-trigger="every 1.5s"
+  hx-target="#panel-root"
+  hx-swap="innerHTML"
+  {% endif %}
+>
+  <h1>ASX desk</h1>
+  <p class="muted">Research slice · scanner enriches one company at a time · not live trading.</p>
+
+  <nav class="asx-subnav" aria-label="Investment sections">
+    <a href="/modules/investment" aria-current="page">Desk</a>
+    <span class="muted">·</span>
+    <span class="muted" title="Sprint 14">Recommendations</span>
+    <span class="muted">·</span>
+    <span class="muted" title="Sprint 14">Paper portfolio</span>
+  </nav>
+
+  <div id="asx-scan-progress" class="ingest-progress" aria-live="polite">
+    <div class="ingest-actions">
+      {% if progress.status == 'busy' %}
+      <form hx-post="/modules/investment/asx/pause" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit">Pause</button>
+      </form>
+      <p class="job job-busy">
+        Scanning {{ progress.processed }} / {{ progress.cap }}
+        {% if progress.current_ticker %} · {{ progress.current_ticker }}{% endif %}
+        {% if progress.remaining %} · {{ progress.remaining }} left{% endif %}
+      </p>
+      {% elif progress.status == 'paused' %}
+      <form hx-post="/modules/investment/asx/resume" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit">Resume</button>
+      </form>
+      <p class="job job-busy">Paused at {{ progress.processed }} / {{ progress.cap }}</p>
+      {% elif progress.status == 'done' %}
+      <p class="job job-done">{{ progress.current_line or "PoC scan complete." }}</p>
+      {% else %}
+      <form hx-post="/modules/investment/asx/start" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit">Start scan</button>
+      </form>
+      <p class="muted">Processes one company at a time · PoC set {{ progress.poc_count }} of {{ progress.universe_count }} in universe.</p>
+      {% endif %}
+    </div>
+    {% if progress.last_error and progress.status == 'error' %}
+    <p class="job job-error">{{ progress.last_error }}</p>
+    {% endif %}
+  </div>
+
+  <p class="muted">
+    PoC set: {{ progress.poc_count }} of {{ panel.asx_universe_count }} in universe.
+    Cap raise later: <code>CRAWLEY_ASX_POC_CAP</code>.
+  </p>
+
+  {% if rows %}
+  <table class="inbox-table asx-table">
+    <thead>
+      <tr>
+        <th scope="col">Ticker</th>
+        <th scope="col">Name</th>
+        <th scope="col">Sector</th>
+        <th scope="col">Move</th>
+        <th scope="col">Sentiment</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>
+          <a class="sender-link" href="/modules/investment/companies/{{ r.ticker }}">
+            <span class="sender-name">{{ r.ticker }}</span>
+          </a>
+        </td>
+        <td>{{ r.name }}</td>
+        <td class="muted">{{ r.sector }}</td>
+        <td class="{% if r.change_pct is not none and r.change_pct > 0 %}job-done{% elif r.change_pct is not none and r.change_pct < 0 %}job-error{% else %}muted{% endif %}">{{ r.move }}</td>
+        <td><span class="signal">{{ r.sentiment }}</span></td>
+        <td class="muted">
+          {{ r.status }}
+          {% if r.error %}<span class="job job-error"> · err</span>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No PoC companies configured.</p>
+  {% endif %}
+
+  <details class="prompt-viewer">
+    <summary>Configure PoC set</summary>
+    <p class="muted">Comma-separated tickers from the universe (max {{ progress.cap }}). Default is the first {{ progress.cap }}.</p>
+    <form
+      class="settings-form"
+      hx-post="/modules/investment/asx/poc-set"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <label for="poc-tickers">Tickers</label>
+      <input id="poc-tickers" name="tickers" value="{{ progress.poc_tickers|join(', ') }}">
+      <button type="submit" class="secondary">Save PoC set</button>
+    </form>
+  </details>
+
+  <details class="prompt-viewer">
+    <summary>Sources &amp; prompts</summary>
+    <p class="muted">Enable free/bounded sources. Curated filings stay off until a TOS-safe feed is configured.</p>
+    <ul class="src-list">
+      {% for s in panel.asx_sources %}
+      <li>
+        <form
+          style="display:inline"
+          hx-post="/modules/investment/asx/sources/{{ s.id }}/toggle"
+          hx-target="#panel-root"
+          hx-swap="innerHTML"
+        >
+          <label>
+            <input type="checkbox" name="enabled" value="on" {% if s.enabled %}checked{% endif %} onchange="this.form.requestSubmit()">
+            <strong>{{ s.name }}</strong> <span class="muted">({{ s.kind }} · {{ s.mode }})</span>
+          </label>
+        </form>
+        <span class="muted"> — {{ s.notes }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <form
+      class="settings-form"
+      hx-post="/modules/investment/asx/prompts"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <div class="field wide">
+        <label for="asx-scan">Scan system</label>
+        <textarea id="asx-scan" name="scan_system" rows="3">{{ panel.asx_prompts.scan_system }}</textarea>
+      </div>
+      <div class="field wide">
+        <label for="asx-profile">Profile system</label>
+        <textarea id="asx-profile" name="profile_system" rows="3">{{ panel.asx_prompts.profile_system }}</textarea>
+      </div>
+      <div class="field wide">
+        <label for="asx-sent">Sentiment system</label>
+        <textarea id="asx-sent" name="sentiment_system" rows="3">{{ panel.asx_prompts.sentiment_system }}</textarea>
+      </div>
+      <button type="submit" class="secondary">Save ASX prompts</button>
+    </form>
+  </details>
+
+  <form
+    class="reset-form"
+    hx-post="/modules/investment/asx/reset"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    onsubmit="return confirm('Reset ASX PoC scans and profiles?');"
+  >
+    <button type="submit" class="secondary">Reset PoC scan data</button>
+  </form>
+
+  <details class="prompt-viewer">
+    <summary>Classic search</summary>
+    <p class="muted">Legacy RSS + LLM summary — optional escape hatch.</p>
+    <form
+      class="run-form"
+      hx-post="/modules/investment/run"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <div>
+        <label for="inv-query">Search query</label>
+        <input id="inv-query" name="query" type="text" value="{{ panel.default_query }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+      </div>
+      <div class="field-inline">
+        <label>
+          <input type="checkbox" name="use_cache" value="on" {% if panel.use_cache_default %}checked{% endif %} {% if panel.job.status == 'busy' %}disabled{% endif %}>
+          Use cached feed when fresh (1h)
+        </label>
+      </div>
+      <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>
+        {% if panel.job.status == 'busy' %}Running…{% else %}Run search{% endif %}
+      </button>
+    </form>
+    {% if panel.job.summary %}
+    <div class="summary">
+      <h2>Summary</h2>
+      <div class="summary-body">{{ panel.summary_html }}</div>
+    </div>
+    {% endif %}
+    {% if panel.job.details and panel.job.details.prompt_system %}
+    <details class="prompt-viewer">
+      <summary>Last prompt sent to the LLM</summary>
+      <h3>System</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
+      <h3>User</h3>
+      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
+    </details>
+    {% endif %}
+  </details>
+
+  <p class="muted">Universe provenance: {{ panel.asx_provenance.description or "curated ASX list" }} ({{ panel.asx_universe_count }} names).</p>
+</div>

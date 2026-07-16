@@ -1,0 +1,85 @@
+{# ASX company profile (Sprint 13). #}
+{% set c = panel.company %}
+{% set snap = c.snapshot %}
+{% set profile = c.profile %}
+
+<div
+  class="panel asx-company"
+  {% if panel.poll_asx %}
+  hx-get="/modules/investment/companies/{{ c.ticker }}"
+  hx-trigger="every 1.5s"
+  hx-target="#panel-root"
+  hx-swap="innerHTML"
+  {% endif %}
+>
+  <p class="back-link"><a href="/modules/investment">← ASX desk</a></p>
+  <nav class="asx-subnav" aria-label="Investment sections">
+    <a href="/modules/investment" aria-current="page">Desk</a>
+    <span class="muted">·</span>
+    <span class="muted">Recommendations</span>
+    <span class="muted">·</span>
+    <span class="muted">Paper portfolio</span>
+  </nav>
+
+  <h1>{{ c.ticker }} · {{ c.name }}</h1>
+  <p class="muted">{{ c.sector }}{% if c.scan.scanned_at %} · last scan {{ c.scan.scanned_at }}{% endif %}</p>
+
+  <section aria-labelledby="snap-heading">
+    <h2 id="snap-heading">Snapshot</h2>
+    <dl class="asx-snapshot">
+      <div><dt>Price</dt><dd>{% if snap.price is not none %}{{ snap.price }} {{ snap.currency }}{% else %}—{% endif %}</dd></div>
+      <div><dt>Move</dt><dd class="{% if snap.change_pct is not none and snap.change_pct > 0 %}job-done{% elif snap.change_pct is not none and snap.change_pct < 0 %}job-error{% endif %}">{{ c.move }}</dd></div>
+      <div><dt>Volume</dt><dd>{% if snap.volume is not none %}{{ snap.volume }}{% else %}—{% endif %}</dd></div>
+      <div><dt>Sentiment</dt><dd><span class="signal">{{ snap.sentiment }}</span></dd></div>
+    </dl>
+    {% if snap.gaps %}
+    <p class="muted">Unavailable / gaps: {{ snap.gaps|join('; ') }}</p>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="profile-heading">
+    <h2 id="profile-heading">Profile</h2>
+    {% if profile.status == 'generating' %}
+    <p class="job job-busy">Updating profile…</p>
+    {% endif %}
+    {% if profile.status == 'error' %}
+    <p class="job job-error">{{ profile.error or "Profile update failed." }}</p>
+    {% endif %}
+    {% if profile.markdown %}
+    <div class="summary">
+      <div class="summary-body">{{ panel.profile_html }}</div>
+    </div>
+    {% elif profile.status != 'generating' %}
+    <p class="muted">Profile appears after a successful scan.</p>
+    {% endif %}
+    {% if c.scan.status in ['ready', 'error'] %}
+    <form hx-post="/modules/investment/companies/{{ c.ticker }}/profile/retry" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" class="secondary">Regenerate profile</button>
+    </form>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="src-heading">
+    <h2 id="src-heading">Sources used</h2>
+    {% if c.sources_used %}
+    <ul class="src-list">
+      {% for s in c.sources_used %}
+      <li><code>{{ s }}</code></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No sources recorded yet.</p>
+    {% endif %}
+    <p class="muted"><a href="/modules/investment">Manage sources on Desk</a></p>
+    {% if c.headlines %}
+    <h3 class="section-title">Headlines</h3>
+    <ul class="src-list">
+      {% for h in c.headlines %}
+      <li>{{ h.title }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+
+  <p class="muted">Not licensed research · personal simulation notes only · no live brokerage orders.</p>
+</div>

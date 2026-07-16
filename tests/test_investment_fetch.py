@@ -127,7 +127,13 @@ def test_investment_run_endpoint_async_path(client: TestClient, monkeypatch) -> 
         headers={"HX-Request": "true"},
     )
     assert response.status_code == 200
-    assert "busy" in response.text or "done" in response.text or "Status:" in response.text
+    assert (
+        "busy" in response.text
+        or "done" in response.text
+        or "Status:" in response.text
+        or "ASX desk" in response.text
+        or "Classic search" in response.text
+    )
 
     module: InvestmentModule = client.app.state.registry["investment"]
     for _ in range(50):

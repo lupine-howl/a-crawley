@@ -1,124 +1,95 @@
-# Sprint 12 — Sender Inbox PoC
+# Sprint 13 — ASX company scanner + profiles PoC
 
 **Status:** done  
 **Duration:** one symbolic week  
-**Backlog refs:** B65, B66, B67, B68, B69, B70  
-**Depends on:** Sprint 11 Settings Update; Sprints 1–10 shell; UX [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
+**Backlog refs:** B71, B72, B73, B74  
+**Depends on:** Sprint 12 Sender Inbox; B65 UX ASX contract; Investment module  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
-**UX:** Sender Inbox per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
-**Previous:** [`archive/sprint-11-settings-update.md`](archive/sprint-11-settings-update.md)  
-**Planned source:** [`planned/sprint-12-sender-inbox.md`](planned/sprint-12-sender-inbox.md)
+**UX:** ASX desk per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §4  
+**Previous:** [`archive/sprint-12-sender-inbox.md`](archive/sprint-12-sender-inbox.md)  
+**Planned source:** [`planned/sprint-13-asx-profiles.md`](planned/sprint-13-asx-profiles.md)
 
 ## Goal
 
-Ship the **Sender Inbox PoC** (~20 emails): one-at-a-time categorize → grouped-by-sender → LLM profiles → todos.
+Pivot Investment toward an **ASX-first research desk**: large curated universe, slow background scanner, LLM company profiles — PoC on **~20 companies**.
 
 ## Demo
 
-Operator can:
-
-1. Accept/confirm UX contract (`docs/ux/sender-inbox-asx.md`) or land small amendments
-2. Start background ingest; watch progress as emails categorize one-at-a-time (stop at ~20)
-3. Open **Sender Inbox**: groups by sender; no primary chronological flood
-4. Open a sender → profile (LLM history sketch) + emails in bundle + **todos**
-5. Restart app; categorized data + profiles + todos still present under `data/`
+1. See ASX universe + PoC set of 20 on Investment → ASX desk  
+2. Start/pause scan; watch N/20 progress  
+3. Open company profile (metrics + Markdown + sources + non-advice footer)  
+4. Inspect/toggle sources and ASX prompt templates  
+5. No live brokerage orders
 
 ## Committed
 
-Implement **in order** (S12.1 → … → S12.6). Treat UX draft as implementable unless stakeholder revises it.
-
-### S12.1 — UX contract confirm (Sender Inbox + ASX) (B65)
+### S13.1 — ASX universe list (B71)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B65 |
+| Backlog ref | B71 |
 
 **Acceptance criteria:**
 
-- [x] Stakeholder accepts `docs/ux/sender-inbox-asx.md` as implement contract (or lands small amendments) — accepted by proceeding to implement Sprint 12
-- [x] Settings → Update placement already shipped (Sprint 11); ASX surfaces remain specified for Sprints 13–14
+- [x] Curated ASX company list (~193) in `src/crawley/asx_desk/assets/universe.json` with provenance
+- [x] PoC processing set of **20** (default first 20; operator can reconfigure)
+- [x] Investment nav surfaces ASX desk (legacy search under disclosure)
 
 ---
 
-### S12.2 — Background email ingest + LLM categorize (B66)
+### S13.2 — Background ASX scanner (B72)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B66 |
+| Backlog ref | B72 |
 
 **Acceptance criteria:**
 
-- [x] Background worker pulls **one email at a time**
-- [x] Each message LLM-categorized onto a documented metric set (schema in architecture)
-- [x] Progress visible; failures isolate one message
-- [x] Existing Google read path; no write-back required
+- [x] Background job processes **one company at a time**
+- [x] Per company: bounded price/market snapshot + news/headlines
+- [x] Progress UI; pause/resume; errors isolated per company
+- [x] Hard caps; polite rate limits; artifacts under `data/investment/asx/`
 
 ---
 
-### S12.3 — Sender-grouped Inbox view (B67)
+### S13.3 — Company profiles (B73)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B67 |
+| Backlog ref | B73 |
 
 **Acceptance criteria:**
 
-- [x] Primary Inbox surface **grouped by sender**
-- [x] Drill-in to sender’s ingested messages; metric chips per UX
-- [x] Theme tokens only
+- [x] LLM profile per scanned company with metric snapshot
+- [x] Metric set documented; gaps honest
+- [x] Profile view per UX; regenerable
+- [x] Non-advice disclaimer
 
 ---
 
-### S12.4 — LLM sender profiles (B68)
+### S13.4 — Sources registry + prompt library (B74)
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B68 |
+| Backlog ref | B74 |
 
 **Acceptance criteria:**
 
-- [x] LLM profile per sender with ingested mail; regenerate on new mail or refresh
-- [x] Persisted under `data/`; shown on sender detail
-
----
-
-### S12.5 — Actionable todos from sender bundles (B69)
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B69 |
-
-**Acceptance criteria:**
-
-- [x] Todos extracted from sender bundle; open/done local toggle
-- [x] No auto-send / auto-calendar
-
----
-
-### S12.6 — PoC cap ~20 emails (B70)
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B70 |
-
-**Acceptance criteria:**
-
-- [x] Hard stop ~20; remaining capacity visible; reset path documented
-- [x] Raise-later path: `CRAWLEY_SENDER_INBOX_CAP` (documented)
+- [x] Configurable source list with enable flags + documented defaults
+- [x] Editable prompt templates for scan / profile / sentiment
+- [x] Architecture note: scan vs curated-source modes
 
 ## Explicitly out of sprint
 
-- Settings Update / git pull (Sprint 11 — done)
-- ASX Investment PoC → Sprints **13–14**
-- Full mailbox crawl; Gmail send; live brokerage orders
+- Paper portfolio / recommendations UI → Sprint **14**
+- Live order placement
+- Paid terminal data contracts
 
 ## Parking lot
 
-- Newsletter bundles as a sender class
-- Un-shelve Gmail confirm-first send after this PoC
+- HotCopper-style forums
+- Franking / dividend calendar depth

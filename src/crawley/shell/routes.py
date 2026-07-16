@@ -104,6 +104,10 @@ def _enrich_panel(panel: dict[str, Any]) -> dict[str, Any]:
     profile_md = (sender.get("profile") or {}).get("markdown") or ""
     if profile_md:
         panel = {**panel, "profile_html": render_markdown(profile_md)}
+    company = panel.get("company") or {}
+    company_profile = (company.get("profile") or {}).get("markdown") or ""
+    if company_profile:
+        panel = {**panel, "profile_html": render_markdown(company_profile)}
     return panel
 
 
@@ -425,6 +429,114 @@ def investment_run(
 def investment_status(request: Request) -> HTMLResponse:
     module = request.app.state.registry["investment"]
     return _module_response(request, module)
+
+
+@router.post("/modules/investment/asx/start", response_class=HTMLResponse)
+def asx_scan_start(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.worker import start_scan
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    ok, msg = start_scan(request.app.state.executor)
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/asx/pause", response_class=HTMLResponse)
+def asx_scan_pause(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.worker import request_pause
+
+    module = request.app.state.registry["investment"]
+    request_pause()
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/asx/resume", response_class=HTMLResponse)
+def asx_scan_resume(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.worker import resume_scan
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    ok, msg = resume_scan(request.app.state.executor)
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/asx/reset", response_class=HTMLResponse)
+def asx_scan_reset(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.store import reset_poc_data
+    from crawley.asx_desk.worker import request_pause
+
+    module = request.app.state.registry["investment"]
+    request_pause()
+    reset_poc_data()
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/asx/poc-set", response_class=HTMLResponse)
+def asx_poc_set(request: Request, tickers: str = Form("")) -> HTMLResponse:
+    from crawley.asx_desk.store import set_poc_tickers
+
+    module = request.app.state.registry["investment"]
+    parts = [p.strip().upper() for p in tickers.replace(";", ",").split(",") if p.strip()]
+    set_poc_tickers(parts)
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/asx/sources/{source_id}/toggle", response_class=HTMLResponse)
+def asx_source_toggle(
+    request: Request,
+    source_id: str,
+    enabled: str | None = Form(None),
+) -> HTMLResponse:
+    from crawley.asx_desk.sources import set_source_enabled
+
+    module = request.app.state.registry["investment"]
+    set_source_enabled(source_id, enabled == "on")
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/asx/prompts", response_class=HTMLResponse)
+def asx_prompts_save(
+    request: Request,
+    scan_system: str = Form(""),
+    profile_system: str = Form(""),
+    sentiment_system: str = Form(""),
+) -> HTMLResponse:
+    from crawley.asx_desk.sources import update_prompts
+
+    module = request.app.state.registry["investment"]
+    update_prompts(
+        scan_system=scan_system,
+        profile_system=profile_system,
+        sentiment_system=sentiment_system,
+    )
+    return _module_response(request, module)
+
+
+@router.get("/modules/investment/companies/{ticker}", response_class=HTMLResponse)
+def asx_company_detail(request: Request, ticker: str) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    panel = module.company_panel_context(ticker)
+    if panel is None:
+        return _module_response(request, module, status_code=404)
+    return _module_response(request, module, panel=panel)
+
+
+@router.post("/modules/investment/companies/{ticker}/profile/retry", response_class=HTMLResponse)
+def asx_company_profile_retry(request: Request, ticker: str) -> HTMLResponse:
+    from crawley.asx_desk.worker import regenerate_profile
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    regenerate_profile(ticker, request.app.state.executor)
+    panel = module.company_panel_context(ticker)
+    if panel is None:
+        return _module_response(request, module, status_code=404)
+    return _module_response(request, module, panel=panel)
 
 
 @router.post("/modules/gmail/run", response_class=HTMLResponse)

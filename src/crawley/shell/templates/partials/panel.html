@@ -12,70 +12,11 @@
     {% endif %}
   </div>
   {% elif module.meta.id == 'investment' %}
-  <div
-    class="panel"
-    {% if panel.job.status == 'busy' %}
-    hx-get="/modules/investment/status"
-    hx-trigger="every 1s"
-    hx-target="#panel-root"
-    hx-swap="innerHTML"
+    {% if panel.asx_view == 'company' and panel.company %}
+      {% include "partials/asx_company.html" %}
+    {% else %}
+      {% include "partials/asx_desk.html" %}
     {% endif %}
-  >
-    <form
-      class="run-form"
-      hx-post="/modules/investment/run"
-      hx-target="#panel-root"
-      hx-swap="innerHTML"
-    >
-      <div>
-        <label for="inv-query">Search query</label>
-        <input id="inv-query" name="query" type="text" value="{{ panel.default_query }}" {% if panel.job.status == 'busy' %}disabled{% endif %}>
-      </div>
-      <div class="field-inline">
-        <label>
-          <input type="checkbox" name="use_cache" value="on" {% if panel.use_cache_default %}checked{% endif %} {% if panel.job.status == 'busy' %}disabled{% endif %}>
-          Use cached feed when fresh (1h)
-        </label>
-      </div>
-      <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
-        {% if panel.job.status == 'busy' %}Running…{% else %}Run search{% endif %}
-      </button>
-    </form>
-    <p class="muted">Bounded to {{ panel.max_items }} news sources · no trading · artifacts under <code>data/investment/</code></p>
-    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
-    {% if panel.job.summary %}
-    <div class="summary">
-      <h2>Summary</h2>
-      <div class="summary-body">{{ panel.summary_html }}</div>
-    </div>
-    {% endif %}
-    {% if panel.job.details and panel.job.details.source_titles %}
-    <h2>Sources this run</h2>
-    <ul class="src-list">
-      {% for title in panel.job.details.source_titles %}
-      <li><strong>{{ title }}</strong></li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    {% if panel.job.details and panel.job.details.prompt_system %}
-    <details class="prompt-viewer">
-      <summary>Last prompt sent to the LLM</summary>
-      <p class="muted">Editable templates live in <a href="/settings#prompts">Settings → Summary prompts</a>.</p>
-      <h3>System</h3>
-      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
-      <h3>User</h3>
-      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
-    </details>
-    {% endif %}
-    {% if panel.recent %}
-    <h2>Recent sources</h2>
-    <ul class="src-list">
-      {% for r in panel.recent %}
-      <li><strong>{{ r.title }}</strong> <span class="muted">{{ r.fetched_at }}</span></li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
   {% elif module.meta.id == 'gmail' %}
     {% if panel.inbox_view == 'sender' and panel.sender %}
       {% include "partials/sender_detail.html" %}
