@@ -3,9 +3,9 @@
 UX expert owns this file. Update when a design pass lands.
 
 **Working title:** Crawley  
-**Status:** Confirmed — Sprint 2 design contract (2026-07-15); **Pivot UX** — Sender Inbox **accepted/shipped** (Sprint 12); ASX desk still draft-for-implement (Sprints 13–14); **Sprint 11** Settings → Update shipped  
-**Surfaces:** Local browser dashboard + module panels (FastAPI / Jinja2 / HTMX; see `docs/architecture.md`)  
-**Sprint alignment:** S2.1–S2.4 remain in force; **Sprint 11 / B78** Settings → Update; **Sprint 12 / B65–B70** Sender Inbox; **Sprint 13–14** ASX → [`docs/ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md)
+**Status:** **Hard pivot (2026-07-16)** — product UX moves to **`crawley-ui`** (Phone Preview packs). This file + [`ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) remain **reference IA** for packs until a UX pass rewrites them for Phone Preview.  
+**Surfaces (product):** `crawley-ui` packs (ASX, Sender Inbox). **Legacy:** Jinja/HTMX (delete Sprint 35).  
+**Migration:** [`migration-phone-preview.md`](migration-phone-preview.md)
 
 ## Pivot — Settings Update + Sender Inbox + ASX desk
 

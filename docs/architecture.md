@@ -2,45 +2,41 @@
 
 Senior architect / developer owns this file. Update when material decisions land.
 
-**Working title:** Crawley  
-**Status:** Sprints 1–30 closed (Email/ASX depth band complete)  
-**Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest:** [`docs/sprints/current.md`](sprints/current.md) (no active sprint — depth complete)  
-**Sprint 25 (closed):** [`sprints/archive/sprint-25-asx-news-clusters.md`](sprints/archive/sprint-25-asx-news-clusters.md)  
-**Sprints 26–30 (closed):** [`sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md`](sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md)  
-**Sprints 21–24 (closed):** [`sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md`](sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md)  
-**Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
+**Working title:** Crawley (this repo = **analytics**)  
+**Status:** Sprints 1–30 closed (HTMX-era); **hard pivot** — Migration Sprint **31** (JSON API)  
+**Migration:** [`migration-phone-preview.md`](migration-phone-preview.md) · [ADR-009](adr/009-phone-preview-analytics.md)  
+**Host (analytics):** WSL2 / Linux; localhost default; opt-in LAN via Settings / `CRAWLEY_HOST`  
+**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 31)  
+**Product UI:** `crawley-ui` (npm / published Phone Preview) — separate from this repo  
+**Shelved:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
 ## Overview
 
-Crawley is a **local-first personal assistant**: one Python process serves a browser UI, runs pluggable life modules, fetches from configured sources, and synthesizes advice via an LLM provider.
+Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon workers (ASX, Gmail ingest), DuckDB/filesystem worker store, Google OAuth, LLM. The **product UI** is **`crawley-ui`** (Phone Preview packs), not Jinja/HTMX.
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  Browser (localhost)  ← HTMX / HTML                     │
-└────────────────────────────┬────────────────────────────┘
-                             │
-┌────────────────────────────▼────────────────────────────┐
-│  Shell (FastAPI + Jinja2/HTMX)                          │
-│  · dashboard / Day brief  · modules  · jobs  · Settings │
-└──────────────┬─────────────────────────────┬────────────┘
-               │                             │
-┌──────────────▼──────────────┐   ┌──────────▼────────────┐
-│  Module registry + contract  │   │  LLM provider          │
-│  all top-tier modules live  │   │  OpenAI · LocalLlama   │
-└──────────────┬──────────────┘   └───────────────────────┘
-               │
-┌──────────────▼──────────────────────────────────────────┐
-│  Data plane                                               │
-│  DuckDB · filesystem · snapshots · standing notes · audit │
-└───────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│  crawley-ui (Phone Preview)                   │
+│  packs · IndexedDB (± Turso/Duck UI sync)     │
+└──────────────────────┬──────────────────────┘
+                       │ HTTP /v1 JSON
+┌──────────────────────▼──────────────────────┐
+│  Analytics API (this repo)                    │
+│  jobs · presentation reads · OAuth · health   │
+└──────────┬─────────────────────┬────────────┘
+           │                     │
+┌──────────▼──────────┐  ┌───────▼────────────────┐
+│  Daemons / workers  │  │  Worker store (Duck/files)│
+│  asx · gmail · …    │→ │  publish → API DTOs       │
+└─────────────────────┘  └──────────────────────────┘
 ```
 
-**Shape:** shared core + modules behind a stable contract.  
-**Shipped:** Investment, Gmail, Calendar (read + confirm-first insert), Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative; Day brief; shared context seed; LocalLlama (Ollama HTTP); themable shell.  
-**UX:** [`docs/ux.md`](ux.md) Sprint 2 design contract (later modules reuse form/snapshot patterns).  
-**Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.  
+**Shape (pivot):** analytics API + daemons; UI in `crawley-ui`.  
+**Product domains (pivot):** ASX desk + Sender Inbox. Calendar + lite modules quarantined.  
+**HTMX/Jinja:** legacy; freeze features; delete in Sprint 35.  
+**UX (product):** Phone Preview packs; legacy [`ux.md`](ux.md) / [`ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) inform pack IA until replaced.  
+
 **Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.  
 **Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.  
 **Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`).  
@@ -275,14 +271,15 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 
 | ID | Decision | Date | Status |
 |----|----------|------|--------|
-| [ADR-001](adr/001-fastapi-htmx.md) | FastAPI + Jinja2/HTMX for local UI | 2026-07-15 | Accepted |
-| [ADR-002](adr/002-duckdb-filesystem.md) | DuckDB + filesystem (+ Parquet) data plane | 2026-07-15 | Accepted |
-| [ADR-003](adr/003-single-process-threads.md) | Single process; threads for crawl I/O | 2026-07-15 | Accepted |
-| [ADR-004](adr/004-module-contract-registry.md) | Module Protocol + explicit in-repo registry | 2026-07-15 | Accepted |
+| [ADR-001](adr/001-fastapi-htmx.md) | FastAPI + Jinja2/HTMX for local UI | 2026-07-15 | **Superseded** for product surface by ADR-009 |
+| [ADR-002](adr/002-duckdb-filesystem.md) | DuckDB + filesystem (+ Parquet) worker store | 2026-07-15 | Accepted |
+| [ADR-003](adr/003-single-process-threads.md) | Single process; threads for crawl I/O | 2026-07-15 | **Evolving** → API + daemon entrypoints (ADR-009) |
+| [ADR-004](adr/004-module-contract-registry.md) | Module Protocol + explicit in-repo registry | 2026-07-15 | Accepted (quarantine non-ASX/Gmail in Sprint 35) |
 | [ADR-005](adr/005-llm-provider-interface.md) | LLM provider interface; OpenAI first | 2026-07-15 | Accepted |
-| [ADR-006](adr/006-write-back-confirm.md) | Write-back: confirm, draft-first | 2026-07-15 | Accepted |
+| [ADR-006](adr/006-write-back-confirm.md) | Write-back: confirm, draft-first | 2026-07-15 | Accepted (stays on analytics host) |
 | [ADR-007](adr/007-local-llm-ollama.md) | LocalLlama via Ollama HTTP | 2026-07-15 | Accepted |
 | [ADR-008](adr/008-shared-context.md) | Shared context seed (caps, opt-in) | 2026-07-15 | Accepted |
+| [ADR-009](adr/009-phone-preview-analytics.md) | Phone Preview UI + Python analytics/daemons | 2026-07-16 | **Accepted** |
 
 ## Risks & open questions
 

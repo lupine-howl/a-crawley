@@ -1,6 +1,6 @@
 # ADR-003: Single process with threads for crawl I/O
 
-- **Status:** Accepted
+- **Status:** Evolving — [ADR-009](009-phone-preview-analytics.md) moves toward API process + explicit daemon entrypoints; threads remain OK inside workers
 - **Date:** 2026-07-15
 
 ## Context
