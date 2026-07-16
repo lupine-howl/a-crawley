@@ -108,4 +108,4 @@ These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-develop
 
 ## Next delivery
 
-`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 14** — ASX recommendations + paper portfolio). Planned **15–20**: Sender Inbox scale → ASX scale/events → Email×ASX bridge → Gmail send → alerts/feedback → playbooks/polish. UX: `docs/ux/sender-inbox-asx.md`.
+`@architect-developer` next: promote **Sprint 18** (Gmail confirm-first send) into [`docs/sprints/current.md`](./docs/sprints/current.md), or pull **Sprint 21** OAuth ops forward if Tailscale Connect / reconsent friction blocks. Planned **18–21**: Gmail send → alerts/feedback → playbooks/polish → Google OAuth ops. UX: `docs/ux/sender-inbox-asx.md`.
