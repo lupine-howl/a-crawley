@@ -2,7 +2,7 @@
 
 **Status:** Active pivot (2026-07-16)  
 **ADR:** [`adr/009-phone-preview-analytics.md`](adr/009-phone-preview-analytics.md)  
-**Current sprint:** [`sprints/current.md`](sprints/current.md) (Migration Sprint 33 — after 32 UI)  
+**Current sprint:** [`sprints/current.md`](sprints/current.md) (Migration Sprint 34 — after 33 ASX daemon)  
 **UI consume recipe:** [`build/consuming-published-core.md`](build/consuming-published-core.md)
 
 ## Target shape
@@ -67,10 +67,10 @@ Pin their answer in the `crawley-ui` README once received.
 
 | Phase | Sprint | Outcome |
 |-------|--------|---------|
-| API + schema | **31** (current) | OpenAPI; ASX companies/jobs JSON; presentation DTOs; freeze HTMX features |
-| UI host + pack | **32** | `crawley-ui` scaffold; `asxDeskPack` list + start scan |
-| Daemonize ASX | **33** | Clear `asx-scanner` entrypoint; status via API |
-| Gmail path | **34** | Sender Inbox `/v1/gmail/…` + `senderInboxPack` |
+| API + schema | **31** (closed) | OpenAPI; ASX companies/jobs JSON; presentation DTOs; freeze HTMX features |
+| UI host + pack | **32** (closed) | `crawley-ui` scaffold; `asxDeskPack` list + start scan |
+| Daemonize ASX | **33** (closed) | Clear `asx-scanner` entrypoint; status via API |
+| Gmail path | **34** (current) | Sender Inbox `/v1/gmail/…` + `senderInboxPack` |
 | Cutover | **35** | Remove Jinja product UI; quarantine Calendar + lite modules; Settings/ops in UI |
 
 ## What not to do

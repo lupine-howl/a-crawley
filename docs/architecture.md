@@ -3,11 +3,12 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley (this repo = **analytics**)  
-**Status:** Sprints 1–32 closed; **hard pivot** — Migration Sprint **33** (ASX daemon)  
+**Status:** Sprints 1–33 closed; **hard pivot** — Migration Sprint **34** (Sender Inbox API + pack)  
 **Migration:** [`migration-phone-preview.md`](migration-phone-preview.md) · [ADR-009](adr/009-phone-preview-analytics.md)  
 **Host (analytics):** WSL2 / Linux; localhost default; opt-in LAN via Settings / `CRAWLEY_HOST`  
-**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 33)  
+**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 34)  
 **API contract:** [`api/presentation-v1.md`](api/presentation-v1.md) · [`api/openapi-v1.json`](api/openapi-v1.json)  
+**ASX daemon:** [`daemons/asx-scanner.md`](daemons/asx-scanner.md) · [ADR-003](adr/003-single-process-threads.md)  
 **UI consume:** [`build/consuming-published-core.md`](build/consuming-published-core.md) · app [`../crawley-ui/`](../crawley-ui/)  
 **Product UI:** `crawley-ui` (published `@phone-preview/core` ≥ 0.6.1)  
 **Shelved:** [`sprints/shelved/`](sprints/shelved/README.md)  
@@ -62,6 +63,14 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 **Follow-on UI (same band):** Recommendations / Paper / Themes packs; `analyticsSettingsPack.systemTab` → LLM settings; `/v1/settings/llm`; scan `force` + `stop`; Local Llama → `asx_cap` hard ceiling.
 
 **Pack rule:** app-private packs only for desks; no education curriculum; no `--with-api` as analytics brain. Persistence = PP IndexedDB defaults.
+
+### Sprint 33 (closed) — ASX daemon entrypoint
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S33.1 / B96** | `crawley.daemons.asx_scanner` · console `crawley-asx-scanner` · `CRAWLEY_ASX_WORKER=daemon` queues via `scan_state.json` · job status `queued` · [ADR-003](adr/003-single-process-threads.md) evolved · [`daemons/asx-scanner.md`](daemons/asx-scanner.md) |
+
+**Modes:** default = in-process `ThreadPoolExecutor` on API; daemon = API queues, `asx-scanner watch` claims. Threads OK inside the worker; no Celery.
 
 **HTMX-era notes (closed):** Sprints 11–30 — Settings Update, Sender Inbox, ASX desk depth, paper, bridge, send/alerts/playbooks, OAuth/digests/notebook/VIP, clusters, labels/holdings/searches/attachments/citations. See maps below and [`archive/`](sprints/archive/).
 
@@ -292,7 +301,7 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 |----|----------|------|--------|
 | [ADR-001](adr/001-fastapi-htmx.md) | FastAPI + Jinja2/HTMX for local UI | 2026-07-15 | **Superseded** for product surface by ADR-009 |
 | [ADR-002](adr/002-duckdb-filesystem.md) | DuckDB + filesystem (+ Parquet) worker store | 2026-07-15 | Accepted |
-| [ADR-003](adr/003-single-process-threads.md) | Single process; threads for crawl I/O | 2026-07-15 | **Evolving** → API + daemon entrypoints (ADR-009) |
+| [ADR-003](adr/003-single-process-threads.md) | API + optional ASX daemon; threads inside workers | 2026-07-15 | Accepted (evolved Sprint 33) |
 | [ADR-004](adr/004-module-contract-registry.md) | Module Protocol + explicit in-repo registry | 2026-07-15 | Accepted (quarantine non-ASX/Gmail in Sprint 35) |
 | [ADR-005](adr/005-llm-provider-interface.md) | LLM provider interface; OpenAI first | 2026-07-15 | Accepted |
 | [ADR-006](adr/006-write-back-confirm.md) | Write-back: confirm, draft-first | 2026-07-15 | Accepted (stays on analytics host) |

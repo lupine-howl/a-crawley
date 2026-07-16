@@ -1922,6 +1922,12 @@
             "type": "string",
             "title": "Version",
             "default": "0.1.0"
+          },
+          "asx_worker": {
+            "type": "string",
+            "title": "Asx Worker",
+            "description": "in_process | daemon (CRAWLEY_ASX_WORKER)",
+            "default": "in_process"
           }
         },
         "type": "object",
@@ -1986,7 +1992,8 @@
               "busy",
               "paused",
               "done",
-              "error"
+              "error",
+              "queued"
             ],
             "title": "Status"
           },

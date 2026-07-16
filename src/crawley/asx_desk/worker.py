@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import threading
 from datetime import UTC, datetime
 from typing import Any
@@ -32,6 +33,12 @@ def _now_iso() -> str:
     return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def external_worker_mode() -> bool:
+    """True when scan loop is owned by `crawley.daemons.asx_scanner`, not the API process."""
+    raw = os.environ.get("CRAWLEY_ASX_WORKER", "").strip().lower()
+    return raw in {"daemon", "external", "1", "true", "yes"}
+
+
 def is_running() -> bool:
     return _running
 
@@ -39,8 +46,8 @@ def is_running() -> bool:
 def request_pause() -> None:
     state = load_scan_state()
     state["pause_requested"] = True
-    if state.get("status") == "busy":
-        state["current_line"] = "Pause requested…"
+    if state.get("status") in {"busy", "queued"}:
+        state["current_line"] = "Pause / stop requested…"
     save_scan_state(state)
 
 
@@ -74,45 +81,130 @@ def _clear_scan_progress_for_active_set() -> None:
     save_scan_state(state)
 
 
-def start_scan(executor, *, force: bool = False) -> tuple[bool, str]:
-    global _running
+def _prepare_scan_state(*, force: bool) -> tuple[bool, str, dict[str, Any] | None]:
+    """Validate and prepare scan_state for a new run. Does not set _running."""
     _expand_active_set_for_local_llm()
+    state = load_scan_state()
+    if state.get("status") == "busy":
+        return False, "Scan already running.", None
+    poc = list(state.get("poc_tickers") or [])
+    if not poc:
+        return False, "Active set is empty — configure tickers first.", None
+    scans = load_scans()
+    pending = [t for t in poc if not scan_finished(scans.get(t))]
+    if not pending and any(scan_finished(scans.get(t)) for t in poc):
+        if not force:
+            return (
+                False,
+                f"Active set already scanned ({len(poc)}). Reset or start with force.",
+                None,
+            )
+        _clear_scan_progress_for_active_set()
+        state = load_scan_state()
+        poc = list(state.get("poc_tickers") or [])
+    state["pause_requested"] = False
+    state["last_error"] = ""
+    state["force_requested"] = bool(force)
+    state["cap"] = len(poc) or POC_CAP
+    return True, "ok", state
+
+
+def queue_scan_for_daemon(*, force: bool = False) -> tuple[bool, str]:
+    """API path when CRAWLEY_ASX_WORKER=daemon — hand off via scan_state.json."""
+    with _worker_lock:
+        state = load_scan_state()
+        if state.get("status") == "busy":
+            return False, "Scan already running."
+        if state.get("start_requested") or state.get("status") == "queued":
+            return False, "Scan already queued for asx-scanner daemon."
+        ok, msg, prepared = _prepare_scan_state(force=force)
+        if not ok or prepared is None:
+            return False, msg
+        prepared["start_requested"] = True
+        prepared["status"] = "queued"
+        prepared["current_line"] = "Queued for asx-scanner daemon…"
+        save_scan_state(prepared)
+    return True, "Scan queued for asx-scanner daemon."
+
+
+def start_scan(executor, *, force: bool = False) -> tuple[bool, str]:
+    """Start scan in-process (default) or queue for external daemon."""
+    global _running
+    if external_worker_mode():
+        return queue_scan_for_daemon(force=force)
     with _worker_lock:
         if _running:
             return False, "Scan already running."
         state = load_scan_state()
-        poc = list(state.get("poc_tickers") or [])
-        if not poc:
-            return False, "Active set is empty — configure tickers first."
-        scans = load_scans()
-        pending = [t for t in poc if not scan_finished(scans.get(t))]
-        if not pending and any(scan_finished(scans.get(t)) for t in poc):
-            if not force:
-                return False, f"Active set already scanned ({len(poc)}). Reset or start with force."
-            _clear_scan_progress_for_active_set()
-            state = load_scan_state()
-            poc = list(state.get("poc_tickers") or [])
+        if state.get("start_requested") or state.get("status") == "queued":
+            return False, "Scan already queued for asx-scanner daemon."
+        ok, msg, prepared = _prepare_scan_state(force=force)
+        if not ok or prepared is None:
+            return False, msg
+        poc = list(prepared.get("poc_tickers") or [])
         _running = True
-        state["status"] = "busy"
-        state["pause_requested"] = False
-        state["last_error"] = ""
-        state["current_line"] = "Starting ASX scan…"
-        state["cap"] = len(poc) or POC_CAP
-        save_scan_state(state)
+        prepared["start_requested"] = False
+        prepared["status"] = "busy"
+        prepared["current_line"] = "Starting ASX scan…"
+        prepared["cap"] = len(poc) or POC_CAP
+        save_scan_state(prepared)
     executor.submit(_worker_body)
     return True, "Scan started."
 
 
-def stop_scan() -> tuple[bool, str]:
-    """Request pause / stop of the running scan loop."""
-    if not is_running():
+def run_scan_in_this_process(*, force: bool = False) -> tuple[bool, str]:
+    """
+    Daemon entrypoint: claim work and run `_worker_body` on this thread.
+    Used by `python -m crawley.daemons.asx_scanner`.
+    """
+    global _running
+    with _worker_lock:
+        if _running:
+            return False, "Scan already running in this process."
         state = load_scan_state()
-        if state.get("status") == "busy":
-            request_pause()
-            return True, "Stop requested."
-        return False, "Scan is not running."
-    request_pause()
-    return True, "Stop requested."
+        if state.get("start_requested") or state.get("status") == "queued":
+            force = force or bool(state.get("force_requested"))
+            state["start_requested"] = False
+            if state.get("status") == "queued":
+                state["status"] = "idle"
+            save_scan_state(state)
+        ok, msg, prepared = _prepare_scan_state(force=force)
+        if not ok or prepared is None:
+            return False, msg
+        poc = list(prepared.get("poc_tickers") or [])
+        _running = True
+        prepared["start_requested"] = False
+        prepared["force_requested"] = False
+        prepared["status"] = "busy"
+        prepared["pause_requested"] = False
+        prepared["current_line"] = "Starting ASX scan (daemon)…"
+        prepared["cap"] = len(poc) or POC_CAP
+        save_scan_state(prepared)
+    _worker_body()
+    return True, "Scan finished."
+
+
+def claim_queued_scan() -> bool:
+    """Return True if a daemon should run (start_requested set)."""
+    state = load_scan_state()
+    return bool(state.get("start_requested")) or state.get("status") == "queued"
+
+
+def stop_scan() -> tuple[bool, str]:
+    """Request pause / stop of the running scan loop (in-process or daemon)."""
+    state = load_scan_state()
+    if is_running() or state.get("status") in {"busy", "queued"} or state.get("start_requested"):
+        # Cancel a queued start before the daemon claims it.
+        if state.get("status") == "queued" or state.get("start_requested"):
+            state["start_requested"] = False
+            state["status"] = "idle"
+            state["current_line"] = "Queued scan cancelled."
+            state["pause_requested"] = False
+            save_scan_state(state)
+            return True, "Queued scan cancelled."
+        request_pause()
+        return True, "Stop requested."
+    return False, "Scan is not running."
 
 
 def resume_scan(executor) -> tuple[bool, str]:

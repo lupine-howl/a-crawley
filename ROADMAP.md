@@ -17,7 +17,7 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 - [x] JSON API + OpenAPI for ASX + jobs (Sprint 31)  
 - [x] `crawley-ui` on published Phone Preview + ASX pack (Sprint 32)  
-- [ ] Explicit ASX daemon entrypoint (Sprint 33)  
+- [x] Explicit ASX daemon entrypoint (Sprint 33)  
 - [ ] Sender Inbox API + pack (Sprint 34)  
 - [ ] Delete Jinja product UI; quarantine Calendar + lite modules (Sprint 35)
 
@@ -25,7 +25,7 @@ Ordered outcomes (not tasks). Product owner owns this file.
 
 ## Next
 
-**Migration band — Sprints 31–35** (active: Sprint 33)
+**Migration band — Sprints 31–35** (active: Sprint 34)
 
 ### Sprint 31 (closed) — Analytics JSON API (ASX + jobs)
 Versioned `/v1` ASX + job control; presentation DTOs; OpenAPI; freeze HTMX features.  
@@ -35,13 +35,13 @@ Versioned `/v1` ASX + job control; presentation DTOs; OpenAPI; freeze HTMX featu
 npm `crawley-ui` from published Phone Preview; proxy to analytics; `asxDeskPack`.  
 [`docs/sprints/archive/sprint-32-crawley-ui-asx-pack.md`](docs/sprints/archive/sprint-32-crawley-ui-asx-pack.md) · B94–B95
 
-### Sprint 33 (current) — ASX daemon entrypoint
-Clear `asx-scanner` process/entrypoint; job status via API.  
-[`docs/sprints/current.md`](docs/sprints/current.md) · B96
+### Sprint 33 (closed) — ASX daemon entrypoint
+Clear `asx-scanner` process/entrypoint; job status via API (`CRAWLEY_ASX_WORKER=daemon`).  
+[`docs/sprints/archive/sprint-33-asx-daemon.md`](docs/sprints/archive/sprint-33-asx-daemon.md) · B96 · [`docs/daemons/asx-scanner.md`](docs/daemons/asx-scanner.md)
 
-### Sprint 34 (planned) — Sender Inbox API + pack
+### Sprint 34 (current) — Sender Inbox API + pack
 `/v1/gmail/…` presentation + `senderInboxPack`; OAuth deep-link from UI.  
-[`docs/sprints/planned/sprint-34-gmail-api-pack.md`](docs/sprints/planned/sprint-34-gmail-api-pack.md) · B97–B98
+[`docs/sprints/current.md`](docs/sprints/current.md) · B97–B98
 
 ### Sprint 35 (planned) — Cutover (delete HTMX, quarantine modules)
 Remove Jinja product UI; quarantine Calendar + lite modules; Settings/ops in `crawley-ui`.  
