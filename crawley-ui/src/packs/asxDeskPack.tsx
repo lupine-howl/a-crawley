@@ -8,10 +8,10 @@ import {
   fetchCompanies,
   fetchCompany,
   fetchHealth,
-  pauseAsxScan,
-  resetAsxScan,
-  resumeAsxScan,
+  fetchNotebook,
+  saveNotebook,
   startAsxScan,
+  stopAsxScan,
 } from "../lib/analytics";
 
 function AsxIcon({ className }: { className?: string }) {
@@ -28,15 +28,43 @@ function AsxIcon({ className }: { className?: string }) {
   );
 }
 
+function Spinner({ className }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin ${className ?? "h-4 w-4"}`}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+      />
+    </svg>
+  );
+}
+
 function AsxDeskPage() {
   const [companies, setCompanies] = useState<CompanyListItem[]>([]);
   const [job, setJob] = useState<JobStatus | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [detail, setDetail] = useState<CompanyDetail | null>(null);
+  const [thesis, setThesis] = useState("");
+  const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [analyticsOk, setAnalyticsOk] = useState<boolean | null>(null);
+  const [acting, setActing] = useState(false);
 
   const refreshList = useCallback(async () => {
     const [list, jobStatus] = await Promise.all([fetchCompanies(), fetchAsxScanJob()]);
@@ -72,25 +100,32 @@ function AsxDeskPage() {
     };
   }, [refreshList]);
 
+  const busy = job?.status === "busy";
+
   useEffect(() => {
-    if (job?.status !== "busy") return;
+    if (!busy) return;
     const id = window.setInterval(() => {
       void refreshList().catch((err: unknown) => {
         setError(err instanceof Error ? err.message : "Job poll failed");
       });
-    }, 2000);
+    }, 1500);
     return () => window.clearInterval(id);
-  }, [job?.status, refreshList]);
+  }, [busy, refreshList]);
 
   useEffect(() => {
     if (!selected) {
       setDetail(null);
+      setThesis("");
+      setNotes("");
       return;
     }
     let cancelled = false;
-    void fetchCompany(selected)
-      .then((d) => {
-        if (!cancelled) setDetail(d);
+    void Promise.all([fetchCompany(selected), fetchNotebook(selected)])
+      .then(([d, nb]) => {
+        if (cancelled) return;
+        setDetail(d);
+        setThesis(nb.thesis);
+        setNotes(nb.notes);
       })
       .catch((err: unknown) => {
         if (!cancelled) {
@@ -103,44 +138,50 @@ function AsxDeskPage() {
     };
   }, [selected, job?.progress.processed]);
 
-  async function runAction(action: "start" | "pause" | "resume" | "reset") {
+  async function onStart() {
+    setActing(true);
     setActionMessage(null);
     setError(null);
     try {
-      const fn =
-        action === "start"
-          ? startAsxScan
-          : action === "pause"
-            ? pauseAsxScan
-            : action === "resume"
-              ? resumeAsxScan
-              : resetAsxScan;
-      const res = await fn();
+      const res = await startAsxScan(true);
       setJob(res.job);
       setActionMessage(res.message);
-      // Failed start (e.g. already scanned) — show once as guidance, not as a hard error.
-      if (!res.ok && action === "start") {
-        setActionMessage(res.message);
-      } else if (!res.ok) {
-        setError(res.message);
-      }
-      if (action === "reset") {
-        setSelected(null);
-        setDetail(null);
-      }
+      if (!res.ok) setError(res.message);
       await refreshList();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Scan action failed");
+      setError(err instanceof Error ? err.message : "Start failed");
+    } finally {
+      setActing(false);
     }
   }
 
-  const busy = job?.status === "busy";
-  const scanComplete =
-    job?.status === "done" ||
-    (job != null &&
-      job.progress.total > 0 &&
-      job.progress.processed >= job.progress.total &&
-      job.status !== "busy");
+  async function onStop() {
+    setActing(true);
+    setActionMessage(null);
+    setError(null);
+    try {
+      const res = await stopAsxScan();
+      setJob(res.job);
+      setActionMessage(res.message);
+      await refreshList();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Stop failed");
+    } finally {
+      setActing(false);
+    }
+  }
+
+  async function onSaveNotebook() {
+    if (!selected) return;
+    setError(null);
+    try {
+      const nb = await saveNotebook(selected, { thesis, notes });
+      setActionMessage(`Notebook saved ${nb.updated_at || ""}`.trim());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Notebook save failed");
+    }
+  }
+
   const progressLabel = job
     ? `${job.progress.processed} / ${job.progress.total}`
     : "—";
@@ -150,69 +191,55 @@ function AsxDeskPage() {
       <header className="border-b border-app-border pb-6">
         <h1 className="text-2xl font-semibold text-app-text">ASX desk</h1>
         <p className="mt-2 max-w-2xl text-app-muted">
-          Active-set companies from Crawley analytics. Start a scan; this UI never talks to Yahoo
-          or the LLM directly.
+          Start or stop the analytics scan daemon. With Local Llama the active set expands toward
+          the universe ceiling (no 20-call gate). This UI never talks to Yahoo or the LLM
+          directly.
         </p>
       </header>
 
-      <section className="mt-6 space-y-3" aria-label="Scan controls">
+      <section className="mt-6 space-y-3" aria-label="Scan daemon">
         <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            className="rounded-md bg-app-accent px-3 py-1.5 text-sm font-medium text-app-accent-fg disabled:opacity-50"
-            disabled={busy || analyticsOk === false || scanComplete}
-            onClick={() => void runAction("start")}
-          >
-            Start scan
-          </button>
-          <button
-            type="button"
-            className="rounded-md border border-app-border px-3 py-1.5 text-sm text-app-text disabled:opacity-50"
-            disabled={!busy}
-            onClick={() => void runAction("pause")}
-          >
-            Pause
-          </button>
-          <button
-            type="button"
-            className="rounded-md border border-app-border px-3 py-1.5 text-sm text-app-text disabled:opacity-50"
-            disabled={busy || job?.status !== "paused"}
-            onClick={() => void runAction("resume")}
-          >
-            Resume
-          </button>
-          <button
-            type="button"
-            className="rounded-md border border-app-border px-3 py-1.5 text-sm text-app-text disabled:opacity-50"
-            disabled={busy || analyticsOk === false}
-            onClick={() => void runAction("reset")}
-            title="Clear PoC scan and profile data so you can scan again"
-          >
-            Reset
-          </button>
-          <p className="text-sm text-app-muted">
-            Job <span className="text-app-text">{job?.status ?? "…"}</span>
-            {" · "}
-            {progressLabel}
-            {job?.progress.current_ticker
-              ? ` · ${job.progress.current_ticker}`
-              : ""}
-          </p>
+          {!busy ? (
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-md bg-app-accent px-3 py-1.5 text-sm font-medium text-app-accent-fg disabled:opacity-50"
+              disabled={acting || analyticsOk === false}
+              onClick={() => void onStart()}
+            >
+              Start scan
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-md border border-app-border px-3 py-1.5 text-sm text-app-text disabled:opacity-50"
+              disabled={acting}
+              onClick={() => void onStop()}
+            >
+              <Spinner />
+              Stop
+            </button>
+          )}
+          {busy ? (
+            <span className="inline-flex items-center gap-2 text-sm text-app-text">
+              <Spinner />
+              Running · {progressLabel}
+              {job?.progress.current_ticker ? ` · ${job.progress.current_ticker}` : ""}
+            </span>
+          ) : (
+            <p className="text-sm text-app-muted">
+              Job <span className="text-app-text">{job?.status ?? "…"}</span>
+              {" · "}
+              {progressLabel}
+            </p>
+          )}
         </div>
         {job?.message ? <p className="text-sm text-app-muted">{job.message}</p> : null}
         {actionMessage && actionMessage !== job?.message ? (
           <p className="text-sm text-app-text">{actionMessage}</p>
         ) : null}
-        {scanComplete && !busy ? (
-          <p className="text-sm text-app-muted">
-            Active set already scanned. Use <span className="text-app-text">Reset</span> to clear
-            PoC data, then Start scan again.
-          </p>
-        ) : null}
         {analyticsOk === false ? (
           <p className="text-sm text-red-600 dark:text-red-400">
-            Analytics offline — run <code className="text-app-text">uv run python -m crawley</code>{" "}
-            (proxy <code className="text-app-text">/api/analytics</code> → :8000).
+            Analytics offline — run <code className="text-app-text">uv run python -m crawley</code>.
           </p>
         ) : null}
         {error ? (
@@ -235,7 +262,8 @@ function AsxDeskPage() {
           <p className="mt-3 text-sm text-app-muted">Loading…</p>
         ) : companies.length === 0 ? (
           <p className="mt-3 text-sm text-app-muted">
-            Active set is empty. Configure tickers on the analytics host, then refresh.
+            Active set is empty. Switch to Local Llama in Settings → LLM (or start a scan) to pad
+            from the universe.
           </p>
         ) : (
           <ul className="mt-3 divide-y divide-app-border border-y border-app-border">
@@ -256,7 +284,6 @@ function AsxDeskPage() {
                     </span>
                     <span className="shrink-0 text-sm text-app-muted">
                       {c.move} · {c.scan_status}
-                      {c.error ? " · error" : ""}
                     </span>
                   </button>
                 </li>
@@ -279,9 +306,6 @@ function AsxDeskPage() {
           {detail.snapshot.price != null ? (
             <p className="mt-3 text-app-text">
               {detail.snapshot.currency} {detail.snapshot.price}
-              {detail.snapshot.as_of ? (
-                <span className="ml-2 text-sm text-app-muted">as of {detail.snapshot.as_of}</span>
-              ) : null}
             </p>
           ) : (
             <p className="mt-3 text-sm text-app-muted">No price yet — run a scan.</p>
@@ -313,9 +337,37 @@ function AsxDeskPage() {
           ) : (
             <p className="mt-6 text-sm text-app-muted">
               Profile {detail.profile.status || "empty"}
-              {detail.profile.error ? ` — ${detail.profile.error}` : ""}
             </p>
           )}
+
+          <div className="mt-8 space-y-3 border-t border-app-border pt-6">
+            <h3 className="text-base font-medium text-app-text">Research notebook</h3>
+            <label className="block text-sm text-app-muted">
+              Thesis
+              <textarea
+                className="mt-1 w-full rounded-md border border-app-border bg-app-surface px-3 py-2 text-app-text"
+                rows={3}
+                value={thesis}
+                onChange={(e) => setThesis(e.target.value)}
+              />
+            </label>
+            <label className="block text-sm text-app-muted">
+              Notes
+              <textarea
+                className="mt-1 w-full rounded-md border border-app-border bg-app-surface px-3 py-2 text-app-text"
+                rows={4}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </label>
+            <button
+              type="button"
+              className="rounded-md border border-app-border px-3 py-1.5 text-sm text-app-text"
+              onClick={() => void onSaveNotebook()}
+            >
+              Save notebook
+            </button>
+          </div>
           <p className="mt-8 text-xs text-app-muted">{detail.disclaimer}</p>
         </section>
       ) : null}
@@ -327,7 +379,7 @@ function AsxDeskPage() {
 export const asxDeskPack: FeaturePack = {
   id: "asx-desk",
   name: "ASX desk",
-  description: "Active-set companies, scan control, and company detail via analytics API",
+  description: "Active-set companies, scan daemon start/stop, company detail + notebook",
   scope: "client",
   defaultEnabled: true,
   requiredPermissions: [],

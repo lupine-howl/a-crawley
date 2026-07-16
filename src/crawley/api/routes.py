@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, Query
 
 from crawley.api.presentation import (
     ASX_SCAN_JOB_ID,
@@ -41,10 +41,29 @@ def asx_company_detail(ticker: str) -> CompanyDetailResponse:
 
 
 @router.post("/v1/asx/scan/start", response_model=ScanActionResponse)
-def asx_scan_start(request: Request) -> ScanActionResponse:
+async def asx_scan_start(
+    request: Request,
+    force: bool = Query(False, description="Re-run even if active set already scanned"),
+) -> ScanActionResponse:
     from crawley.asx_desk.worker import start_scan
 
-    ok, msg = start_scan(request.app.state.executor)
+    # Prefer JSON body `{ "force": true }` when present; else query `?force=true`.
+    force_flag = force
+    try:
+        payload = await request.json()
+        if isinstance(payload, dict) and "force" in payload:
+            force_flag = bool(payload.get("force"))
+    except Exception:  # noqa: BLE001
+        pass
+    ok, msg = start_scan(request.app.state.executor, force=force_flag)
+    return ScanActionResponse(ok=ok, message=msg, job=present_asx_scan_job())
+
+
+@router.post("/v1/asx/scan/stop", response_model=ScanActionResponse)
+def asx_scan_stop() -> ScanActionResponse:
+    from crawley.asx_desk.worker import stop_scan
+
+    ok, msg = stop_scan()
     return ScanActionResponse(ok=ok, message=msg, job=present_asx_scan_job())
 
 

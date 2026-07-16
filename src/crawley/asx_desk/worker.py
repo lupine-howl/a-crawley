@@ -44,19 +44,54 @@ def request_pause() -> None:
     save_scan_state(state)
 
 
-def start_scan(executor) -> tuple[bool, str]:
+def _expand_active_set_for_local_llm() -> None:
+    """Local Llama has no per-call cost — prefer the hard ceiling / full universe pad."""
+    from crawley.asx_desk.store import sync_active_cap
+    from crawley.settings import HARD_SCALE_CEILING, resolved_llm_provider_name
+
+    name = resolved_llm_provider_name()
+    if name not in {"local_llama", "local", "llama"}:
+        return
+    sync_active_cap(HARD_SCALE_CEILING, expand_from_universe=True)
+
+
+def _clear_scan_progress_for_active_set() -> None:
+    """Drop scan/profile rows for the active set so a re-run can proceed."""
+    from crawley.asx_desk.store import load_profiles, load_scans, save_profiles, save_scans
+
+    state = load_scan_state()
+    poc = set(state.get("poc_tickers") or [])
+    if not poc:
+        return
+    scans = {k: v for k, v in load_scans().items() if k not in poc}
+    profiles = {k: v for k, v in load_profiles().items() if k not in poc}
+    save_scans(scans)
+    save_profiles(profiles)
+    state["processed"] = 0
+    state["status"] = "idle"
+    state["current_line"] = ""
+    state["last_error"] = ""
+    save_scan_state(state)
+
+
+def start_scan(executor, *, force: bool = False) -> tuple[bool, str]:
     global _running
+    _expand_active_set_for_local_llm()
     with _worker_lock:
         if _running:
             return False, "Scan already running."
         state = load_scan_state()
         poc = list(state.get("poc_tickers") or [])
         if not poc:
-            return False, "PoC set is empty — configure tickers first."
+            return False, "Active set is empty — configure tickers first."
         scans = load_scans()
         pending = [t for t in poc if not scan_finished(scans.get(t))]
         if not pending and any(scan_finished(scans.get(t)) for t in poc):
-            return False, f"PoC set already scanned ({len(poc)}). Reset to re-run."
+            if not force:
+                return False, f"Active set already scanned ({len(poc)}). Reset or start with force."
+            _clear_scan_progress_for_active_set()
+            state = load_scan_state()
+            poc = list(state.get("poc_tickers") or [])
         _running = True
         state["status"] = "busy"
         state["pause_requested"] = False
@@ -66,6 +101,18 @@ def start_scan(executor) -> tuple[bool, str]:
         save_scan_state(state)
     executor.submit(_worker_body)
     return True, "Scan started."
+
+
+def stop_scan() -> tuple[bool, str]:
+    """Request pause / stop of the running scan loop."""
+    if not is_running():
+        state = load_scan_state()
+        if state.get("status") == "busy":
+            request_pause()
+            return True, "Stop requested."
+        return False, "Scan is not running."
+    request_pause()
+    return True, "Stop requested."
 
 
 def resume_scan(executor) -> tuple[bool, str]:

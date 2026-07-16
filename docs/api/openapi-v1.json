@@ -97,6 +97,51 @@
         ],
         "summary": "Asx Scan Start",
         "operationId": "asx_scan_start_v1_asx_scan_start_post",
+        "parameters": [
+          {
+            "name": "force",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Re-run even if active set already scanned",
+              "default": false,
+              "title": "Force"
+            },
+            "description": "Re-run even if active set already scanned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanActionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/scan/stop": {
+      "post": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Asx Scan Stop",
+        "operationId": "asx_scan_stop_v1_asx_scan_stop_post",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -220,6 +265,494 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/JobStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/recommendations": {
+      "get": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Recommendations",
+        "operationId": "asx_recommendations_v1_asx_recommendations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Recommendations V1 Asx Recommendations Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/recommendations/refresh": {
+      "post": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Recommendations Refresh",
+        "operationId": "asx_recommendations_refresh_v1_asx_recommendations_refresh_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Recommendations Refresh V1 Asx Recommendations Refresh Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/portfolio": {
+      "get": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Portfolio",
+        "operationId": "asx_portfolio_v1_asx_portfolio_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Portfolio V1 Asx Portfolio Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/portfolio/trade": {
+      "post": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Portfolio Trade",
+        "operationId": "asx_portfolio_trade_v1_asx_portfolio_trade_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperTradeBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Portfolio Trade V1 Asx Portfolio Trade Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/clusters": {
+      "get": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Clusters",
+        "operationId": "asx_clusters_v1_asx_clusters_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Clusters V1 Asx Clusters Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/clusters/refresh": {
+      "post": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Clusters Refresh",
+        "operationId": "asx_clusters_refresh_v1_asx_clusters_refresh_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Clusters Refresh V1 Asx Clusters Refresh Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/alerts": {
+      "get": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Alerts",
+        "operationId": "asx_alerts_v1_asx_alerts_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Alerts V1 Asx Alerts Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/holdings": {
+      "get": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Holdings",
+        "operationId": "asx_holdings_v1_asx_holdings_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Asx Holdings V1 Asx Holdings Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/companies/{ticker}/notebook": {
+      "get": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Notebook Get",
+        "operationId": "asx_notebook_get_v1_asx_companies__ticker__notebook_get",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticker"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Asx Notebook Get V1 Asx Companies  Ticker  Notebook Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "asx-extra-api"
+        ],
+        "summary": "Asx Notebook Put",
+        "operationId": "asx_notebook_put_v1_asx_companies__ticker__notebook_put",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticker"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotebookBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Asx Notebook Put V1 Asx Companies  Ticker  Notebook Put"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/settings/llm": {
+      "get": {
+        "tags": [
+          "settings-api"
+        ],
+        "summary": "Get Llm Settings",
+        "operationId": "get_llm_settings_v1_settings_llm_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LlmSettingsView"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "settings-api"
+        ],
+        "summary": "Put Llm Settings",
+        "operationId": "put_llm_settings_v1_settings_llm_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LlmSettingsUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LlmSettingsView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/settings/llm/test": {
+      "post": {
+        "tags": [
+          "settings-api"
+        ],
+        "summary": "Post Llm Test",
+        "operationId": "post_llm_test_v1_settings_llm_test_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Post Llm Test V1 Settings Llm Test Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/settings/llm/models": {
+      "get": {
+        "tags": [
+          "settings-api"
+        ],
+        "summary": "Get Llm Models",
+        "operationId": "get_llm_models_v1_settings_llm_models_get",
+        "parameters": [
+          {
+            "name": "refresh",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Refresh"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Llm Models V1 Settings Llm Models Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/settings/scale": {
+      "get": {
+        "tags": [
+          "settings-api"
+        ],
+        "summary": "Get Scale Settings",
+        "operationId": "get_scale_settings_v1_settings_scale_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScaleSettingsView"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "settings-api"
+        ],
+        "summary": "Patch Scale Settings",
+        "operationId": "patch_scale_settings_v1_settings_scale_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScaleSettingsUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScaleSettingsView"
                 }
               }
             }
@@ -1490,6 +2023,162 @@
         ],
         "title": "JobStatusResponse"
       },
+      "LlmSettingsUpdate": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "openai",
+              "local_llama"
+            ],
+            "title": "Provider",
+            "default": "openai"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "default": "gpt-4o-mini"
+          },
+          "api_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key",
+            "description": "Omit or blank to keep the stored key; never returned by GET"
+          },
+          "base_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Url"
+          },
+          "timeout_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timeout S"
+          }
+        },
+        "type": "object",
+        "title": "LlmSettingsUpdate"
+      },
+      "LlmSettingsView": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "base_url": {
+            "type": "string",
+            "title": "Base Url"
+          },
+          "timeout_s": {
+            "type": "number",
+            "title": "Timeout S"
+          },
+          "has_api_key": {
+            "type": "boolean",
+            "title": "Has Api Key"
+          },
+          "status_ok": {
+            "type": "boolean",
+            "title": "Status Ok"
+          },
+          "status_message": {
+            "type": "string",
+            "title": "Status Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "model",
+          "base_url",
+          "timeout_s",
+          "has_api_key",
+          "status_ok",
+          "status_message"
+        ],
+        "title": "LlmSettingsView"
+      },
+      "NotebookBody": {
+        "properties": {
+          "thesis": {
+            "type": "string",
+            "title": "Thesis",
+            "default": ""
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "NotebookBody"
+      },
+      "PaperTradeBody": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
+            ],
+            "title": "Side",
+            "default": "buy"
+          },
+          "qty": {
+            "type": "number",
+            "title": "Qty",
+            "default": 1.0
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "ticker"
+        ],
+        "title": "PaperTradeBody"
+      },
       "ProfileDTO": {
         "properties": {
           "status": {
@@ -1515,6 +2204,79 @@
         },
         "type": "object",
         "title": "ProfileDTO"
+      },
+      "ScaleSettingsUpdate": {
+        "properties": {
+          "asx_cap": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asx Cap"
+          },
+          "inbox_cap": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inbox Cap"
+          },
+          "inbox_keep_max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inbox Keep Max"
+          }
+        },
+        "type": "object",
+        "title": "ScaleSettingsUpdate"
+      },
+      "ScaleSettingsView": {
+        "properties": {
+          "asx_cap": {
+            "type": "integer",
+            "title": "Asx Cap"
+          },
+          "inbox_cap": {
+            "type": "integer",
+            "title": "Inbox Cap"
+          },
+          "inbox_keep_max": {
+            "type": "integer",
+            "title": "Inbox Keep Max"
+          },
+          "hard_ceiling": {
+            "type": "integer",
+            "title": "Hard Ceiling",
+            "default": 200
+          },
+          "local_llama_uncapped": {
+            "type": "boolean",
+            "title": "Local Llama Uncapped",
+            "description": "True when provider is local_llama (active set pads to hard ceiling)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "asx_cap",
+          "inbox_cap",
+          "inbox_keep_max",
+          "local_llama_uncapped"
+        ],
+        "title": "ScaleSettingsView"
       },
       "ScanActionResponse": {
         "properties": {

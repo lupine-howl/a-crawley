@@ -59,6 +59,8 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 | **S32.1 / B94** | `crawley-ui/` via `create-phone-preview` · `@phone-preview/core` ≥ 0.6.1 · `starterPacks()` · Vite `/api/analytics` → `:8000` |
 | **S32.2 / B95** | `crawley-ui/src/packs/asxDeskPack.tsx` · `src/lib/analytics.ts` · companies + scan + job poll + detail |
 
+**Follow-on UI (same band):** Recommendations / Paper / Themes packs; `analyticsSettingsPack.systemTab` → LLM settings; `/v1/settings/llm`; scan `force` + `stop`; Local Llama → `asx_cap` hard ceiling.
+
 **Pack rule:** app-private packs only for desks; no education curriculum; no `--with-api` as analytics brain. Persistence = PP IndexedDB defaults.
 
 **HTMX-era notes (closed):** Sprints 11–30 — Settings Update, Sender Inbox, ASX desk depth, paper, bridge, send/alerts/playbooks, OAuth/digests/notebook/VIP, clusters, labels/holdings/searches/attachments/citations. See maps below and [`archive/`](sprints/archive/).

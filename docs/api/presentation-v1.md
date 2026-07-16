@@ -23,10 +23,23 @@ OAuth redirect URIs remain on the analytics host.
 | `GET` | `/health` | Liveness |
 | `GET` | `/v1/asx/companies` | Active-set company list |
 | `GET` | `/v1/asx/companies/{ticker}` | Company detail |
-| `POST` | `/v1/asx/scan/start` | Start ASX enrichment scan |
+| `POST` | `/v1/asx/scan/start` | Start scan (`{ "force": true }` re-runs when complete; Local Llama expands active set to hard ceiling) |
+| `POST` | `/v1/asx/scan/stop` | Request stop (pause) |
 | `POST` | `/v1/asx/scan/pause` | Request pause |
 | `POST` | `/v1/asx/scan/resume` | Resume after pause |
 | `POST` | `/v1/asx/scan/reset` | Clear PoC scan/profile data |
+| `GET` | `/v1/asx/recommendations` | Recommendation rows |
+| `POST` | `/v1/asx/recommendations/refresh` | Regenerate recommendations |
+| `GET` | `/v1/asx/portfolio` | Paper portfolio view |
+| `POST` | `/v1/asx/portfolio/trade` | Record paper trade |
+| `GET`/`POST` | `/v1/asx/clusters` (+ `/refresh`) | News themes |
+| `GET` | `/v1/asx/alerts` | Open alerts + rules |
+| `GET` | `/v1/asx/holdings` | Holdings journal |
+| `GET`/`PUT` | `/v1/asx/companies/{ticker}/notebook` | Research notebook |
+| `GET`/`PUT` | `/v1/settings/llm` | LLM provider/model (no key echoed) |
+| `POST` | `/v1/settings/llm/test` | Test connection |
+| `GET` | `/v1/settings/llm/models` | Model list (OpenAI or Ollama tags) |
+| `GET`/`PATCH` | `/v1/settings/scale` | Desk caps (`local_llama_uncapped`) |
 | `GET` | `/v1/jobs` | Known jobs |
 | `GET` | `/v1/jobs/{job_id}` | Job status (`asx-scan`) |
 
