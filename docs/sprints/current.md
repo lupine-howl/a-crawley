@@ -1,95 +1,84 @@
-# Sprint 13 — ASX company scanner + profiles PoC
+# Sprint 14 — ASX recommendations + paper portfolio
 
-**Status:** done  
+**Status:** ready (next delivery; Sprint 13 archived)  
 **Duration:** one symbolic week  
-**Backlog refs:** B71, B72, B73, B74  
-**Depends on:** Sprint 12 Sender Inbox; B65 UX ASX contract; Investment module  
-**Architecture:** [`docs/architecture.md`](../architecture.md)  
-**UX:** ASX desk per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §4  
-**Previous:** [`archive/sprint-12-sender-inbox.md`](archive/sprint-12-sender-inbox.md)  
-**Planned source:** [`planned/sprint-13-asx-profiles.md`](planned/sprint-13-asx-profiles.md)
+**Backlog refs:** B75, B76, B77  
+**Depends on:** Sprint 13 ASX profiles (B73); UX [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §§5–6  
+**Architecture:** [`docs/architecture.md`](../architecture.md) — simulation ledger local-only; never calls brokerage order APIs  
+**UX:** Recommendations list + separate paper portfolio page per UX contract  
+**Previous:** [`archive/sprint-13-asx-profiles.md`](archive/sprint-13-asx-profiles.md)  
+**Planned source:** [`planned/sprint-14-asx-paper-portfolio.md`](planned/sprint-14-asx-paper-portfolio.md)
 
 ## Goal
 
-Pivot Investment toward an **ASX-first research desk**: large curated universe, slow background scanner, LLM company profiles — PoC on **~20 companies**.
+Turn ASX profiles into a **structured actionable recommendations** list, and a separate module page for a **simulated (paper) portfolio** that tracks hypothetical trades from those recommendations — with Settings for brokerage fee assumptions. **No live order routing.**
 
 ## Demo
 
-1. See ASX universe + PoC set of 20 on Investment → ASX desk  
-2. Start/pause scan; watch N/20 progress  
-3. Open company profile (metrics + Markdown + sources + non-advice footer)  
-4. Inspect/toggle sources and ASX prompt templates  
-5. No live brokerage orders
+Operator can:
+
+1. Generate/refresh a structured recommendations list from current profiles (provisional language; personal simulation framing)
+2. Open **Paper portfolio**; accept/simulate a recommendation into a position; see MTM from latest scanned prices
+3. Configure simulation settings (starting cash, fee model, AUD)
+4. See clear disclaimer: not advice; not connected to a real broker
 
 ## Committed
 
-### S13.1 — ASX universe list (B71)
+Implement **in order** (S14.1 → S14.2 → S14.3).
+
+### S14.1 — Structured recommendations (B75)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
-| Backlog ref | B71 |
+| Status | todo |
+| Backlog ref | B75 |
 
 **Acceptance criteria:**
 
-- [x] Curated ASX company list (~193) in `src/crawley/asx_desk/assets/universe.json` with provenance
-- [x] PoC processing set of **20** (default first 20; operator can reconfigure)
-- [x] Investment nav surfaces ASX desk (legacy search under disclosure)
+- [ ] Recommendations as structured rows (ticker, action, rationale, confidence/urgency, related profile link, generated_at)
+- [ ] Generated from PoC company set via LLM + metrics; regenerable
+- [ ] UI list per UX; non-advice disclaimer
 
 ---
 
-### S13.2 — Background ASX scanner (B72)
+### S14.2 — Simulated portfolio tracker (B76)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
-| Backlog ref | B72 |
+| Status | todo |
+| Backlog ref | B76 |
+| Depends on | S14.1 |
 
 **Acceptance criteria:**
 
-- [x] Background job processes **one company at a time**
-- [x] Per company: bounded price/market snapshot + news/headlines
-- [x] Progress UI; pause/resume; errors isolated per company
-- [x] Hard caps; polite rate limits; artifacts under `data/investment/asx/`
+- [ ] Separate Investment sub-page/route for paper portfolio
+- [ ] Create paper trades from a recommendation or manual entry (qty, side, price defaulting to last scan)
+- [ ] Track positions, cash, simple P&L using latest scanner prices
+- [ ] Local persistence under `data/`; no broker API orders
 
 ---
 
-### S13.3 — Company profiles (B73)
+### S14.3 — Brokerage / simulation settings (B77)
 
 | Field | Value |
 |-------|-------|
-| Status | done |
-| Backlog ref | B73 |
+| Status | todo |
+| Backlog ref | B77 |
+| Depends on | S14.2 |
 
 **Acceptance criteria:**
 
-- [x] LLM profile per scanned company with metric snapshot
-- [x] Metric set documented; gaps honest
-- [x] Profile view per UX; regenerable
-- [x] Non-advice disclaimer
-
----
-
-### S13.4 — Sources registry + prompt library (B74)
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B74 |
-
-**Acceptance criteria:**
-
-- [x] Configurable source list with enable flags + documented defaults
-- [x] Editable prompt templates for scan / profile / sentiment
-- [x] Architecture note: scan vs curated-source modes
+- [ ] Settings: starting cash, fee per trade and/or %, default currency AUD, optional cosmetic broker label
+- [ ] Fees applied in simulation math
+- [ ] Documented: settings do **not** enable live trading
 
 ## Explicitly out of sprint
 
-- Paper portfolio / recommendations UI → Sprint **14**
-- Live order placement
-- Paid terminal data contracts
+- Real brokerage OAuth / order placement (Icebox)
+- Tax/CGT engine; multi-currency beyond AUD PoC
+- Sender Inbox scale / Gmail send → Sprints 15+
 
 ## Parking lot
 
-- HotCopper-style forums
-- Franking / dividend calendar depth
+- Compare paper vs manual holdings journal
+- Alert email about paper fills (unlikely)

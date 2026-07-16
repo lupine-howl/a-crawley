@@ -109,14 +109,25 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 ## Decisions log (Sprints 21–40 — Email/Investment depth)
 
 - Former depth arc (old 21–40) **shelved**; pivot supersedes for near-term Email/Investment work
-- **Automated trading / live brokerage orders remain Icebox**; paper portfolio allowed in Sprint 13
+- **Automated trading / live brokerage orders remain Icebox**; paper portfolio allowed in Sprint **14**
 
 ## Decisions log (Pivot — Sender Inbox + ASX PoCs)
 
 - **Code-verified:** Sprints 6–10 are implemented (`tests/test_sprint6_10.py` green; modules in registry) — see [`docs/sprints/archive/sprint-6-10-code-verification.md`](docs/sprints/archive/sprint-6-10-code-verification.md)
 - Next number is **Sprint 11** (do not renumber pivot back to 6)
 - **Shelve** only former *planned* post-10 queue (B32–B64 / old `sprint-11.md`…`40.md`); never shelve delivered 6–10
-- **Sprint 11 (done):** Settings → **Update** (git pull) + hot reload — B78 / `tests/test_sprint11_update.py`
-- **Sprint 12 (ready):** Sender Inbox PoC — categorize → by sender → profiles → todos (~20 emails) — B65–B70
-- **Sprints 13–14:** ASX scan/profiles → recommendations + **paper** portfolio (not live orders)
-- UX: `docs/ux/sender-inbox-asx.md` (confirm in S12.1)
+- **Sprint 11 (done):** Settings → **Update** (git pull) + hot reload — B78
+- **Sprint 12 (done):** Sender Inbox PoC — categorize → by sender → profiles → todos (~20 emails) — B65–B70
+- **Sprint 13 (done):** ASX desk scanner + company profiles (~20 slice) — B71–B74
+- UX: `docs/ux/sender-inbox-asx.md` (draft-for-implement)
+
+## Decisions log (Sprints 14–20 planning)
+
+- **Sprint 14 (current):** ASX structured recommendations + **paper** portfolio + simulation settings — B75–B77; **not** live brokerage orders
+- **Sprint 15:** Sender Inbox scale (cap/retention + search/filter) — B79–B80
+- **Sprint 16:** ASX active-set scale + earnings/events skim — B81–B82
+- **Sprint 17:** Email × ASX bridge (mail ↔ tickers/paper) — B83
+- **Sprint 18:** Gmail confirm-first send (ADR-006) — B84
+- **Sprint 19:** ASX local alerts + recommendation feedback — B85–B86
+- **Sprint 20:** Dual-desk playbooks + polish — B87–B88
+- Sequence prefers dual-desk depth over un-shelving old platform Later items; Icebox unchanged

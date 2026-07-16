@@ -86,7 +86,7 @@ Operator can:
 **Out of scope (sprint):**
 
 - Live order placement
-- Paper portfolio UI (Sprint 13)
+- Paper portfolio UI (Sprint 14)
 - Full fundamental data warehouse / paid terminal replacement
 
 ## Parking lot
