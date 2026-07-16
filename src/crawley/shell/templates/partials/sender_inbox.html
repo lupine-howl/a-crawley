@@ -172,6 +172,58 @@
   {% endif %}
 
   <details class="prompt-viewer">
+    <summary>Saved searches</summary>
+    <p class="muted">
+      Named Gmail queries for bounded list (max 25). Examples:
+      {% for ex in panel.saved_search_examples %}<code>{{ ex }}</code>{% if not loop.last %} · {% endif %}{% endfor %}
+    </p>
+    <form
+      class="settings-form"
+      hx-post="/modules/gmail/searches"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <label for="ss-name">Name</label>
+      <input id="ss-name" name="name" required placeholder="Invoices">
+      <label for="ss-query">Query</label>
+      <input id="ss-query" name="query" required placeholder="subject:invoice newer_than:90d">
+      <button type="submit">Save search</button>
+    </form>
+    {% if panel.saved_searches %}
+    <ul class="src-list">
+      {% for s in panel.saved_searches %}
+      <li>
+        <strong>{{ s.name }}</strong> · <code>{{ s.query }}</code>
+        <form hx-post="/modules/gmail/searches/run" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+          <input type="hidden" name="search_id" value="{{ s.id }}">
+          <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>Run</button>
+        </form>
+        <form hx-post="/modules/gmail/searches/delete" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+          <input type="hidden" name="search_id" value="{{ s.id }}">
+          <button type="submit" class="secondary">Remove</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No saved searches yet.</p>
+    {% endif %}
+    {% if panel.saved_search_last_run %}
+    <p class="muted">Last run: {{ panel.saved_search_last_run.count }} hit(s) for <code>{{ panel.saved_search_last_run.query }}</code></p>
+    {% if panel.saved_search_last_run.messages %}
+    <ul class="bundle-list">
+      {% for m in panel.saved_search_last_run.messages[:10] %}
+      <li class="bundle-item">
+        <span class="bundle-subject">{{ m.subject }}</span>
+        <span class="muted">{{ m.from }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endif %}
+  </details>
+
+  <details class="prompt-viewer">
     <summary>VIP / muted rules</summary>
     <p class="muted">Local priority rules — VIP boosts list order; muted deprioritizes. Stored under <code>data/gmail/sender_inbox/sender_rules.json</code>.</p>
     {% if panel.sender_rules %}

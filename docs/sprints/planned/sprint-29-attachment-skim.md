@@ -1,6 +1,6 @@
 # Sprint 29 — Gmail attachment skim (planned)
 
-**Status:** planned (after Sprint 28)  
+**Status:** closed — see [`../archive/sprint-26-30-labels-holdings-search-attach-citations.md`](../archive/sprint-26-30-labels-holdings-search-attach-citations.md)
 **Duration:** one symbolic week  
 **Backlog refs:** B52  
 **Depends on:** Sprint 22 thread digests preferred  

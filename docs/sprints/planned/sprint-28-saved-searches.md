@@ -1,6 +1,6 @@
 # Sprint 28 — Gmail saved searches (planned)
 
-**Status:** planned (after Sprint 27)  
+**Status:** closed — see [`../archive/sprint-26-30-labels-holdings-search-attach-citations.md`](../archive/sprint-26-30-labels-holdings-search-attach-citations.md)
 **Duration:** one symbolic week  
 **Backlog refs:** B50  
 **Depends on:** Sprint 12–15 Sender Inbox  

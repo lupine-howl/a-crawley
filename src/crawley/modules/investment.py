@@ -133,6 +133,19 @@ class InvestmentModule(Module):
         )
         return ctx
 
+    def holdings_panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.holdings import load_holdings
+
+        ctx = self.panel_context()
+        ctx.update(
+            {
+                "asx_view": "holdings",
+                "asx_subnav": "holdings",
+                "holdings": load_holdings(),
+            }
+        )
+        return ctx
+
     def events_panel_context(self) -> dict[str, Any]:
         from crawley.asx_desk.store import load_events
 
@@ -158,6 +171,25 @@ class InvestmentModule(Module):
                 "asx_view": "bridge",
                 "asx_subnav": "bridge",
                 "bridge": bridge,
+            }
+        )
+        return ctx
+
+    def citations_panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.citations import (
+            load_citations,
+            load_muted_domains,
+            quality_rubric_text,
+        )
+
+        ctx = self.panel_context()
+        ctx.update(
+            {
+                "asx_view": "citations",
+                "asx_subnav": "citations",
+                "citations": load_citations()[-80:],
+                "muted_domains": load_muted_domains(),
+                "quality_rubric": quality_rubric_text(),
             }
         )
         return ctx
