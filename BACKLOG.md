@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–30 closed (depth band complete); next = un-shelve selected Later items; Icebox stays closed
+**Status:** Sprints 1–30 closed (HTMX-era depth); **hard pivot** — Migration Sprint **31** current (B91–B93); Phone Preview `crawley-ui` + analytics daemons
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2308,6 +2308,249 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 - Changing Google Cloud app verification / Production publishing for the stakeholder (docs only)
 - Multi-account Google
+
+---
+
+
+## Migration backlog (Phone Preview + analytics — Sprints 31–35)
+
+### B91 — Pivot lock: freeze HTMX product features
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | ADR-009 |
+| Planned sprint | 31 (current) |
+
+**Goal:** Lock the pivot in architecture docs and stop HTMX product feature work.
+
+**Acceptance criteria:**
+
+- [x] ADR-009 + migration doc + PRODUCT/ROADMAP updated
+- [ ] No new Jinja product features; HTMX non-product until Sprint 35 deletion
+- [ ] Architecture overview shows UI vs analytics split
+
+**Out of scope:**
+
+- Implementing `crawley-ui`
+
+---
+
+### B92 — ASX + jobs JSON API
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | B91, ASX desk brain |
+| Planned sprint | 31 (current) |
+
+**Goal:** Versioned `/v1` JSON for ASX companies and job control so the UI never needs Jinja.
+
+**Acceptance criteria:**
+
+- [ ] `GET /health`
+- [ ] `GET /v1/asx/companies` and company detail
+- [ ] Scan job start/pause/reset (or mapped controls) + job status read
+- [ ] Automated tests without browser
+
+**Out of scope:**
+
+- Gmail JSON (B97); deleting templates (B99)
+
+---
+
+### B93 — Presentation DTOs + OpenAPI
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | B92 |
+| Planned sprint | 31 (current) |
+
+**Goal:** Stable presentation contract for `crawley-ui` (OpenAPI / schemas + field docs).
+
+**Acceptance criteria:**
+
+- [ ] Documented DTOs for company list/detail + job status
+- [ ] OpenAPI 3 or JSON Schema checked in / served
+- [ ] Worker vs presentation boundary documented
+
+**Out of scope:**
+
+- Turso schema for UI persistence
+
+---
+
+### B94 — crawley-ui scaffold (published Phone Preview)
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | B93 |
+| Planned sprint | 32 |
+
+**Goal:** npm-installable / runnable **`crawley-ui`** host from published `@phone-preview/*`.
+
+**Acceptance criteria:**
+
+- [ ] App runs locally; README with proxy to analytics
+- [ ] Uses published PP packages; IndexedDB (PP defaults); Turso/Duck optional per PP
+- [ ] No browser-exposed analytics secrets
+
+**Out of scope:**
+
+- Education curriculum packs
+
+---
+
+### B95 — asxDeskPack
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | B94, B92 |
+| Planned sprint | 32 |
+
+**Goal:** ASX desk pack: list companies, start scan, show job progress + basic detail.
+
+**Acceptance criteria:**
+
+- [ ] Reads `/v1/asx/…` only
+- [ ] Start scan + status
+- [ ] Empty/error honest; no trade chrome
+
+**Out of scope:**
+
+- Full paper/recommend UI
+
+---
+
+### B96 — asx-scanner daemon entrypoint
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Migration |
+| Depends on | B92 |
+| Planned sprint | 33 |
+
+**Goal:** Clear ASX worker entrypoint separate from “Uvicorn owns the scan” ambiguity.
+
+**Acceptance criteria:**
+
+- [ ] Documented entrypoint / process boundary
+- [ ] Job status still via API
+- [ ] Architecture notes (ADR-003 evolved)
+
+**Out of scope:**
+
+- Celery / K8s
+
+---
+
+### B97 — Sender Inbox JSON API
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | B93, Sender Inbox brain |
+| Planned sprint | 34 |
+
+**Goal:** `/v1/gmail/…` presentation + ingest job control; OAuth stays on analytics.
+
+**Acceptance criteria:**
+
+- [ ] Senders + detail + ingest job endpoints
+- [ ] OpenAPI updated; tests without browser
+
+**Out of scope:**
+
+- Porting all Gmail send/labels UX in this item
+
+---
+
+### B98 — senderInboxPack
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | B97, B94 |
+| Planned sprint | 34 |
+
+**Goal:** Sender Inbox pack in `crawley-ui` with Connect Google deep-link to analytics OAuth.
+
+**Acceptance criteria:**
+
+- [ ] Sender list → detail; ingest controls
+- [ ] OAuth deep-link documented
+- [ ] No secrets in Vite
+
+**Out of scope:**
+
+- Calendar pack
+
+---
+
+### B99 — Delete Jinja/HTMX product UI
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P0 |
+| Roadmap theme | Next — Migration |
+| Depends on | B95, B98 |
+| Planned sprint | 35 |
+
+**Goal:** Remove product HTML shell; supported path is analytics JSON + `crawley-ui` only.
+
+**Acceptance criteria:**
+
+- [ ] Product templates/routes removed from supported run path
+- [ ] README updated; CI does not require Jinja dashboard
+- [ ] No permanent `/ops` HTML commitment
+
+**Out of scope:**
+
+- Rewriting all historical tests for deleted panels beyond necessity
+
+---
+
+### B100 — Quarantine Calendar + lite modules
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Migration |
+| Depends on | B99 |
+| Planned sprint | 35 |
+
+**Goal:** Calendar and lite life modules are not product surfaces; code quarantined or unloaded.
+
+**Acceptance criteria:**
+
+- [ ] Not in product registry/nav for supported path
+- [ ] PRODUCT Later notes Calendar return
+- [ ] Day brief HTMX composition retired with shell
+
+**Out of scope:**
+
+- Implementing Calendar pack now
 
 ---
 

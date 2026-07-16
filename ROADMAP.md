@@ -2,40 +2,74 @@
 
 Ordered outcomes (not tasks). Product owner owns this file.  
 **Working title:** Crawley  
-**Code check (2026-07-16):** Sprints **6–30** shipped (depth band complete including news themes).  
-**Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)  
-**Pivot / depth:** **11**→**30** delivered. Former 31–40 / platform Later stays [shelved](docs/sprints/shelved/README.md).
+**Code check (2026-07-16):** Sprints **1–30** shipped (HTMX PoC + dual-desk depth).  
+**Hard pivot:** Phone Preview UI + Python analytics — [`docs/migration-phone-preview.md`](docs/migration-phone-preview.md) · [ADR-009](docs/adr/009-phone-preview-analytics.md).
 
 ## Now
 
-**Shipped through Sprint 30:**
+**Shipped (legacy PoC — keep as analytics brain, not product UI):**
 
-- [x] Shared Python core + dual desks (Sender Inbox + ASX)
-- [x] Confirm-first Calendar insert, Gmail send, Gmail labels
-- [x] ASX paper, notebook, holdings journal, citations, **news themes**
-- [x] Digests, VIP rules, saved searches, attachment skim
-- [x] Google OAuth ops (Tailscale Connect + softer consent)
+- [x] ASX desk, Sender Inbox, Google OAuth, LLM, jobs, paper/notebook/citations/themes  
+- [x] Confirm-first Gmail send/labels; Calendar insert (Calendar **shelved** from product surface in this pivot)  
+- [x] Lite life modules (to be quarantined from product during migration)
 
-*Still out of Now:* native desktop wrapper, public hosting, multi-user, **live brokerage order placement**
+**Pivot in progress:**
+
+- [ ] JSON API + OpenAPI for ASX + jobs (Sprint 31)  
+- [ ] `crawley-ui` on published Phone Preview + ASX pack (Sprint 32)  
+- [ ] Explicit ASX daemon entrypoint (Sprint 33)  
+- [ ] Sender Inbox API + pack (Sprint 34)  
+- [ ] Delete Jinja product UI; quarantine Calendar + lite modules (Sprint 35)
+
+*Still out of Now:* live brokerage orders, public hosting, multi-user, Calendar product pack
 
 ## Next
 
-No active numbered sprint. Candidate follow-ups live under [shelved](docs/sprints/shelved/README.md). Product owner plans the next band into `docs/sprints/current.md` before implement.
+**Migration band — Sprints 31–35** (active: Sprint 31)
 
-Icebox (live brokerage) stays closed without PRODUCT revision.
+### Sprint 31 (current) — Analytics JSON API (ASX + jobs)
+Versioned `/v1` ASX + job control; presentation DTOs; OpenAPI; freeze HTMX features.  
+[`docs/sprints/current.md`](docs/sprints/current.md) · B91–B93
+
+### Sprint 32 (planned) — crawley-ui + ASX pack
+npm `crawley-ui` from published Phone Preview; proxy to analytics; `asxDeskPack`.  
+[`docs/sprints/planned/sprint-32-crawley-ui-asx-pack.md`](docs/sprints/planned/sprint-32-crawley-ui-asx-pack.md) · B94–B95
+
+### Sprint 33 (planned) — ASX daemon entrypoint
+Clear `asx-scanner` process/entrypoint; job status via API.  
+[`docs/sprints/planned/sprint-33-asx-daemon.md`](docs/sprints/planned/sprint-33-asx-daemon.md) · B96
+
+### Sprint 34 (planned) — Sender Inbox API + pack
+`/v1/gmail/…` presentation + `senderInboxPack`; OAuth deep-link from UI.  
+[`docs/sprints/planned/sprint-34-gmail-api-pack.md`](docs/sprints/planned/sprint-34-gmail-api-pack.md) · B97–B98
+
+### Sprint 35 (planned) — Cutover (delete HTMX, quarantine modules)
+Remove Jinja product UI; quarantine Calendar + lite modules; Settings/ops in `crawley-ui`.  
+[`docs/sprints/planned/sprint-35-cutover.md`](docs/sprints/planned/sprint-35-cutover.md) · B99–B100
+
+### After Sprint 35
+
+- Re-introduce Calendar as light daemon + pack if needed  
+- Un-shelve selected former depth/platform items ([shelved](docs/sprints/shelved/README.md))  
+- Icebox stays closed without PRODUCT revision  
 
 ## Closed
 
 | Sprints | Theme | Evidence |
 |---------|-------|----------|
-| 1–5 | PoC shell → LAN | [archive](docs/sprints/archive/) |
-| 6–10 | Life modules → shared context | [archive](docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) |
-| 11 | Settings Update | [archive](docs/sprints/archive/sprint-11-settings-update.md) |
-| 12 | Sender Inbox | [archive](docs/sprints/archive/sprint-12-sender-inbox.md) |
-| 13 | ASX desk | [archive](docs/sprints/archive/sprint-13-asx-profiles.md) |
-| 14 | Paper + history + fitness | [archive](docs/sprints/archive/sprint-14-asx-paper-portfolio.md) |
-| 15–17 | Scale + bridge | [archive](docs/sprints/archive/sprint-15-17-scale-bridge.md) |
-| 18–20 | Send + alerts + playbooks | [archive](docs/sprints/archive/sprint-18-20-send-alerts-playbooks.md) |
-| 21–24 | OAuth + digests + notebook + VIP | [archive](docs/sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md) |
-| 25 | ASX news theme clustering | [archive](docs/sprints/archive/sprint-25-asx-news-clusters.md) |
-| 26–30 | Labels + holdings + searches + attachments + citations | [archive](docs/sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md) |
+| 1–30 | HTMX PoC → dual-desk depth | [`docs/sprints/archive/`](docs/sprints/archive/) |
+
+## Later (shelved)
+
+- Calendar product pack  
+- Lite life modules as first-class packs  
+- Former depth backlog B54–B64 / bare `sprint-31.md`…`40.md` collision stubs (not migration 31–35)  
+- Platform Later: desktop shell, scheduled brief, LAN gate, backup, etc.  
+
+## Icebox
+
+- Commercial productization or public hosting  
+- Multi-user / family accounts  
+- **Live automated trading / order placement**  
+- Professional medical/financial advice liability framing  
+- Tax e-file / bank aggregation SaaS  

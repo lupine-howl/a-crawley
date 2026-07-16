@@ -1,6 +1,6 @@
 # Sprint 31 — Gmail follow-up tracker (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active migration Sprint 31 is [`sprint-31-analytics-api.md`](sprint-31-analytics-api.md) · B91–B93) (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
 **Duration:** one symbolic week  
 **Backlog refs:** B54  
 **Depends on:** B44, B46  

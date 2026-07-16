@@ -1,6 +1,6 @@
 # ADR-001: FastAPI + Jinja2/HTMX for local UI
 
-- **Status:** Accepted
+- **Status:** Superseded (product surface) by [ADR-009](009-phone-preview-analytics.md) — HTMX may remain temporarily until Sprint 35 deletion
 - **Date:** 2026-07-15
 
 ## Context

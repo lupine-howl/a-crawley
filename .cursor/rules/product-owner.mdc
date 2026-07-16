@@ -53,6 +53,7 @@ Do **not** collapse these into one session unless the stakeholder explicitly ask
 - Do not expand the architect's scope mid-sprint without updating the sprint file explicitly.
 - Put mid-sprint discoveries in Parking lot or `BACKLOG.md`, not as silent AC changes.
 - Interview 1 must not invent a full backlog "to be helpful."
+- **Pivot (ADR-009):** Product UI is `crawley-ui` (Phone Preview); this repo is analytics. Do not plan new Jinja/HTMX product features. Migration source of truth: `docs/migration-phone-preview.md`.
 
 ## Handoff
 

@@ -1,25 +1,22 @@
-# Shelved sprints
+# Shelved work
 
-Deferred items that are **not** in the active **21–30** depth track.
+## Not shelved — active migration
 
-**Do not confuse with Sprints 6–20:** those **are delivered** (see [`../archive/`](../archive/)).
+| Item | Location |
+|------|----------|
+| Phone Preview + analytics pivot | [`../migration-phone-preview.md`](../migration-phone-preview.md) |
+| Sprints 31–35 (migration) | [`../planned/README.md`](../planned/README.md) |
 
-## Active numbering (not shelved)
+## Shelved for this pivot
 
-| Sprint | Theme | File |
-|--------|-------|------|
-| 11–20 | Pivot dual-desk arc | [`../archive/`](../archive/) |
-| 21 | Google OAuth ops | [`../current.md`](../current.md) |
-| 22–30 | Email/ASX depth (un-shelved B44–B50, B52–B53) | [`../planned/README.md`](../planned/README.md) |
+| Item | Notes |
+|------|-------|
+| **Calendar** product surface | Bring back later as light daemon + pack |
+| Lite modules (Fitness, Co-parenting, DIY, Work, Finance, Coding) | Quarantine/remove in Sprint 35; not product packs now |
+| Former depth backlog **B54–B64** / bare `sprint-31.md`…`40.md` | Collision with migration numbering; stay shelved until post-cutover |
+| Platform Later (B32–B34, B40–B43, …) | Desktop shell, scheduled brief, LAN gate, backup, weekly review, etc. |
+| Jinja/HTMX as product UI | Deleted in Sprint 35 — do not un-shelve as product surface |
 
-## Still shelved
+## Superseded by pivot delivery (historical)
 
-| Bundle | Theme | Notes |
-|--------|-------|-------|
-| Platform Later remnants | Desktop shell, scheduled Day brief, co-parenting→Calendar, LAN gate, backup, weekly review, shell polish | B32–B34, B40–B43 |
-| Depth arc **31–40** | Follow-ups, scenario/risk, newsletters, baskets, archive/trash, people context, A vs B, polish | B54–B64; overview [`../planned/email-investment-depth-21-40.md`](../planned/email-investment-depth-21-40.md) |
-| Superseded by pivot | Earnings skim, local alerts, email×investment bridge, playbooks (old B51/B59/B62/B63) | Delivered as B82/B85/B83/B87 |
-
-Legacy planned files `planned/sprint-11.md` … `sprint-40.md` remain on disk with **Status: shelved** pointers where superseded by pivot-named files. Do not implement from bare stubs unless un-shelved in `ROADMAP.md`.
-
-Backlog items remaining `shelved` stay deferred until a PRODUCT/ROADMAP revision.
+Earnings skim, alerts, bridge, playbooks, themes, etc. already shipped under B79–B88 / B44–B53 as HTMX-era features; they return via **JSON API + packs**, not by reviving HTMX panels.

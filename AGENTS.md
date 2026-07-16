@@ -12,9 +12,12 @@ Shared rules for every agent working in this repo. Role-specific behavior lives 
 | Active sprint | `docs/sprints/current.md` |
 | Planned sprints | `docs/sprints/planned/` |
 | Technical decisions | `docs/architecture.md` |
-| UX / visual & interaction design | `docs/ux.md` |
+| UX / visual & interaction design | `docs/ux.md` (legacy HTMX; product UX → `crawley-ui` packs) |
+| Hard pivot / migration | `docs/migration-phone-preview.md` · `docs/adr/009-phone-preview-analytics.md` |
 
 Do not invent lasting product decisions only in chat. Write them into the files above.
+
+**Pivot (2026-07-16):** This repo is **Crawley analytics**. Product UI is **`crawley-ui`** (Phone Preview). Do not add Jinja/HTMX product features. Implement only `docs/sprints/current.md`.
 
 ## Roles
 

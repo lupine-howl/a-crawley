@@ -1,141 +1,85 @@
 # Product
 
 **Working title:** Crawley  
-**Status:** Brief confirmed; **Sprints 1–11 closed** (11 = Settings Update); **Sprint 12 ready** — Sender Inbox PoC; ASX → Sprints 13–14 (former planned 11–40 [shelved](docs/sprints/shelved/README.md))
+**Status:** **Hard pivot (2026-07-16)** — Phone Preview `crawley-ui` is the product surface; this repo is **Crawley analytics** (JSON API + daemons). See [`docs/migration-phone-preview.md`](docs/migration-phone-preview.md) · [`docs/adr/009-phone-preview-analytics.md`](docs/adr/009-phone-preview-analytics.md).
 
 ## Problem
 
-A single person’s life spans many systems—email, calendar, fitness, co-parenting, DIY, work, coding/creative projects, personal finance, taxes, and investing. Today that means tab-hopping, ad-hoc searches, and mental juggling with little joined-up analysis.
+A single person’s investing and email still mean tab-hopping and ad-hoc LLM chats. Crawley’s PoC proved local ASX + Gmail analysis, but the **HTMX shell is the wrong product surface** and the **process model mixes UI with long-running workers**.
 
-**Who feels it:** The stakeholder alone (personal use). There is no commercial audience in scope.
-
-**What exists instead:** Manual browsing, separate apps (Gmail, Calendar, etc.), and occasional LLM chats without durable local structure or pluggable life modules.
+**Who feels it:** The stakeholder alone (personal use). No commercial audience.
 
 ## Product vision
 
-Crawley is a **local-first, AI-rich personal assistant** that runs on the stakeholder’s machine. It collects data from configured sources, analyzes it with ML/LLMs, and surfaces advice through a modular desktop-facing dashboard.
+Crawley is a **local-first, AI-rich personal assistant** with a clear split:
 
-- **Brain:** Python, with a rich ML stack; OpenAI API for prototyping; path to a locally hosted LLM (e.g. Llama variant) after PoC.
-- **Shape:** Shared core + **pluggable modules** behind a stable contract (reads first; Calendar confirm-first write-back shipped; Gmail send still later).
-- **Surface:** Local **browser UI** on the machine (easy desktop use; optional phone-on-LAN testing later). Optional native desktop shell around the same UI is a later enhancement—not a parallel product.
+- **Presentation:** `crawley-ui` — Phone Preview host (published `@phone-preview/*`), packs for desks, UI persistence via IndexedDB (± Turso/Duck sync through Phone Preview’s light backend).
+- **Analytics:** Python in this repo — semi-autonomous daemons (ASX scan, Gmail ingest, …) with private worker storage that **publish** results; a thin FastAPI **JSON API** for jobs + presentation reads; Google OAuth and LLM stay here.
+- **Domains in scope for the pivot:** **Investment / ASX desk** and **Gmail / Sender Inbox** only. Calendar and other life modules are shelved for later.
 
 ## Target users
 
-- **Primary:** The stakeholder (sole operator and beneficiary).
-- **Secondary:** None for the foreseeable future (no multi-user, no family/co-parent accounts).
+- **Primary:** The stakeholder (sole operator).
+- **Secondary:** None (no multi-user).
 
 ## Goals
 
-Measurable outcomes, not a feature laundry list:
-
-1. **Local personal OS shell** — Open a dashboard, navigate modules, and run analysis through a clear module contract without re-plumbing the core each time a domain is added.
-2. **Signal from real sources** — At least investment/web search and Google mail/calendar (read) can be pulled and turned into short, actionable summaries/advice the user can act on manually.
-3. **Room to grow domains** — Health/fitness, co-parenting schedule, DIY, work, finance/taxes, coding/creative projects, and similar areas can be added as modules without forking the app.
-4. **Privacy by locality** — Stay on the user’s machine; no public product hosting. Security focus is intrusion resistance for a personal setup (especially if LAN/phone access is enabled later), not multi-tenant SaaS controls.
+1. **Correct architecture** — UI starts jobs and reads presentation data; never scrapes or calls LLM/Google APIs directly.
+2. **Operator habit** — Reopen `crawley-ui` for ASX desk + Sender Inbox in a normal week.
+3. **Local privacy** — Secrets on the analytics host; no public SaaS.
+4. **Path to local LLM** — OpenAI + LocalLlama remain behind the analytics LLM interface.
 
 ## Non-goals
 
-Explicitly out of scope for now (unless the roadmap moves them):
-
-- Public hosting, SaaS, or commercial packaging
-- Multi-user / accounts / co-parent shared login
-- Dedicated native mobile app (browser-on-phone testing may be enabled later; it is not a product requirement)
-- Automated trading / **live brokerage order placement** (paper/simulation portfolio is allowed)
-- Medical diagnosis or regulated advice framed as professional care
-- Silent/scheduled mutations without explicit confirm (ADR-006 still governs)
-- Building two separate UI stacks (e.g. Qt *and* web) for the same PoC
-- Gmail send until a dedicated confirm-first story un-shelves it
+- Public hosting / multi-tenant SaaS  
+- Multi-user / family accounts  
+- Dedicated native mobile binary (Phone Preview may run on phone browsers; not a store app)  
+- **Live brokerage order placement** (paper/simulation allowed)  
+- Rebuilding ASX/Gmail pipelines in TypeScript  
+- Keeping Jinja/HTMX as the product UI  
+- Shipping Calendar or lite life modules in this pivot  
+- Silent mutations without confirm (ADR-006 still governs analytics write-backs)
 
 ## Constraints
 
 | Area | Constraint |
 |------|------------|
-| Runtime | Python for core, modules, scraping, analysis, LLM calls |
-| UI (Now) | Local browser UI served from the machine |
-| UI (Later) | Optional native desktop wrapper reusing the same UI |
-| LLM | OpenAI API for prototyping; local Llama-class model after PoC proves value |
-| Google | Single Google identity; Calendar confirm-first **insert** shipped; Gmail remains read (+ Sender Inbox pivot); Gmail send shelved |
-| LLM | OpenAI + LocalLlama (Ollama HTTP) both operable |
-| Advice model | Summaries and suggestions the user applies manually; no automated financial or medical action; paper trades ≠ live orders |
+| Analytics runtime | Python (`crawley` package in this repo) |
+| Product UI | `crawley-ui` via npm + published Phone Preview packages |
+| UI persistence | Primarily IndexedDB; Turso/Duck per Phone Preview persistence story — not the analytics brain |
+| API contract | Versioned `/v1` JSON + OpenAPI owned by this repo |
+| Google | Single identity; OAuth callbacks on analytics host |
+| Advice model | Manual apply; paper ≠ live orders |
 | Audience | Personal use only |
-| Security | Practical intrusion resistance for a local (and optionally LAN) app; not enterprise compliance theater |
 
 ## Success metrics
 
 | Metric | Target | Notes |
 |--------|--------|-------|
-| PoC usefulness | Dashboard + Investment/Gmail/Calendar + life-domain lites + Day brief | **Met** through Sprint 10 (code verified) |
-| Module extensibility | New domain behind shared contract without rewriting core | **Met** — nine live modules in registry |
-| Habit / pull | Operator reopens for a real decision/summary in a normal week | Qualitative; Day brief + glance support this |
-| Privacy posture | No public deploy; secrets local; localhost default | LAN opt-in; trusted-LAN-only |
-| Path to local LLM | OpenAI PoC then LocalLlama operable | **Met** (ADR-007; Settings Test connection) |
+| Pivot Sprint 31 | `curl` drives ASX scan + company JSON with no browser | Migration gate |
+| Pivot Sprint 32 | Operator uses `crawley-ui` ASX pack against analytics | UI gate |
+| Habit | Weekly ASX + Inbox use without HTMX | Qualitative |
+| Privacy | Secrets never in Vite | Hard rule |
 
 ## Modular domains (intent)
 
-Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
+**Now (pivot):** ASX desk, Sender Inbox.  
+**Later (shelved):** Calendar (light daemon + pack), Day brief composition, other life modules, depth 31–40 items, platform Later (desktop shell, etc.).
 
-- Investment / market & sentiment signals (web scrape/search + synthesis)
-- Email (Gmail)
-- Calendar
-- Health & fitness
-- Co-parenting schedule
-- DIY projects
-- Work tasks
-- Personal finance, taxes
-- Coding & creative projects
-- Additional life domains as modules
-
-## Decisions log (Interview 1)
+## Decisions log (Interview 1 — original)
 
 - Working title: **Crawley**
-- Python brain + local browser UI for Now; optional desktop shell Later
-- Personal sole user; no commercial hosting
-- Write-back deferred but architecturally anticipated
-- Local LLM important after PoC, not before
-- Automated trading deferred (Later / Icebox)
+- Python brain + local UI; personal sole user
+- Automated trading Icebox
 
-## Decisions log (Sprints 6–10 planning)
+## Decisions log (Hard pivot — Phone Preview + analytics)
 
-- Sequence after Sprint 5: life stubs (**Co-parenting + DIY** → **Finance + Day brief**) before first **Calendar write-back**, then **Local LLM**, then **Coding/Creative + shared context seed**
-- Gmail send deferred until Calendar write-back soaks; Day brief uses snapshot composition (not overnight cron) in Sprint 7
-
-## Decisions log (Sprints 1–5 close + 11–20 planning)
-
-- **Verdict:** PoC goals met; continue delivery (see retrospective)
-- Sprints **6–10 delivered** (bundled); next delivery number is **11**
-- Former planned **11–20 / 21–40** packages later **shelved** for Sender Inbox + ASX pivot
-- Icebox stays out (live brokerage orders, multi-user, SaaS, e-file) without PRODUCT revision
-
-## Decisions log (Sprints 21–40 — Email/Investment depth)
-
-- Former depth arc (old 21–40) **shelved**; pivot supersedes for near-term Email/Investment work
-- **Automated trading / live brokerage orders remain Icebox**; paper portfolio allowed in Sprint **14**
-
-## Decisions log (Pivot — Sender Inbox + ASX PoCs)
-
-- **Code-verified:** Sprints 6–10 are implemented (`tests/test_sprint6_10.py` green; modules in registry) — see [`docs/sprints/archive/sprint-6-10-code-verification.md`](docs/sprints/archive/sprint-6-10-code-verification.md)
-- Next number is **Sprint 11** (do not renumber pivot back to 6)
-- **Shelve** only former *planned* post-10 queue (B32–B64 / old `sprint-11.md`…`40.md`); never shelve delivered 6–10
-- **Sprint 11 (done):** Settings → **Update** (git pull) + hot reload — B78
-- **Sprint 12 (done):** Sender Inbox PoC — categorize → by sender → profiles → todos (~20 emails) — B65–B70
-- **Sprint 13 (done):** ASX desk scanner + company profiles (~20 slice) — B71–B74
-- UX: `docs/ux/sender-inbox-asx.md` (draft-for-implement)
-
-## Decisions log (Sprints 14–20 planning)
-
-- **Sprint 14 (done):** ASX structured recommendations + **paper** portfolio + simulation settings — B75–B77; **not** live brokerage orders
-- **Sprint 15:** Sender Inbox scale (cap/retention + search/filter) — B79–B80
-- **Sprint 16:** ASX active-set scale + earnings/events skim — B81–B82
-- **Sprint 17:** Email × ASX bridge (mail ↔ tickers/paper) — B83
-- **Sprint 18:** Gmail confirm-first send (ADR-006) — B84
-- **Sprint 19:** ASX local alerts + recommendation feedback — B85–B86
-- **Sprint 20:** Dual-desk playbooks + polish — B87–B88
-- Sequence prefers dual-desk depth over un-shelving old platform Later items; Icebox unchanged
-
-## Decisions log (Sprints 21–30 planning)
-
-- Depth band **21–30 complete** (Sprint 25 news themes archived); next band via shelved Later items when planned
-- **Un-shelve** former depth items for **22–30** (alternating Sender Inbox / ASX): B44→22, B45→23, B46→24, B47→25, B48→26, B49→27, B50→28, B52→29, B53→30
-- Frame B45/B47/B49/B53 against **ASX desk + paper**, not legacy Investment-only watchlist
-- Leave **31–40** and remaining platform Later (desktop shell, scheduled brief, etc.) shelved unless later PRODUCT revision
-- Icebox unchanged (live brokerage orders, multi-user, SaaS)
+- Phone Preview **`crawley-ui`** is the product UI; this repo is analytics + daemons ([ADR-009](docs/adr/009-phone-preview-analytics.md))
+- Consume **published** `@phone-preview/*`; ask PP team for setup recipe (create host, IndexedDB/Turso, proxy, OAuth deep link)
+- UI persistence: **IndexedDB** primary; Turso/Duck are PP persistence options — confirm in PP code/docs
+- **Delete** Jinja/HTMX product UI after ASX + Gmail API coverage — no permanent ops HTML
+- **Calendar removed** from product surface for now (bring back later)
+- Lite modules (Fitness, Co-parenting, DIY, Work, Finance, Coding) **quarantined / dropped** from product
+- Depth band 21–30 remains shipped history; **do not** expand HTMX features
+- Migration sprints **31–35**; former shelved depth 31–40 stays shelved under backlog B54+ until post-migration
+- Icebox unchanged
