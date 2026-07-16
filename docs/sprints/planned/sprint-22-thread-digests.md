@@ -1,6 +1,6 @@
 # Sprint 22 — Sender Inbox thread digests (planned)
 
-**Status:** planned (after Sprint 21)  
+**Status:** closed — see [`../archive/sprint-21-24-oauth-digests-notebook-vip.md`](../archive/sprint-21-24-oauth-digests-notebook-vip.md)  
 **Duration:** one symbolic week  
 **Backlog refs:** B44  
 **Depends on:** Sprint 12+ Sender Inbox; Gmail send (18) helpful for reply from digest  

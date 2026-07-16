@@ -190,6 +190,31 @@ def build_auth_flow(
     return flow
 
 
+def should_force_consent(
+    *,
+    include_calendar_write: bool = False,
+    include_gmail_send: bool = False,
+    creds: Credentials | None = None,
+) -> bool:
+    """Force Google consent only when refresh is missing or new scopes are requested."""
+    if creds is None:
+        try:
+            creds = load_credentials()
+        except Exception:  # noqa: BLE001
+            creds = None
+    if creds is None or not getattr(creds, "refresh_token", None):
+        return True
+    requested = _scopes_for(
+        include_calendar_write=include_calendar_write,
+        include_gmail_send=include_gmail_send,
+    )
+    granted = _normalize_scopes(getattr(creds, "scopes", None))
+    if not granted:
+        # Legacy tokens without scopes — force consent so refresh + scope set are clear.
+        return True
+    return any(scope.rstrip("/") not in granted for scope in requested)
+
+
 def authorization_url(
     request_base: str,
     *,
@@ -201,11 +226,16 @@ def authorization_url(
         include_calendar_write=include_calendar_write,
         include_gmail_send=include_gmail_send,
     )
-    url, state = flow.authorization_url(
-        access_type="offline",
-        include_granted_scopes="true",
-        prompt="consent",
-    )
+    kwargs: dict[str, Any] = {
+        "access_type": "offline",
+        "include_granted_scopes": "true",
+    }
+    if should_force_consent(
+        include_calendar_write=include_calendar_write,
+        include_gmail_send=include_gmail_send,
+    ):
+        kwargs["prompt"] = "consent"
+    url, state = flow.authorization_url(**kwargs)
     verifier = getattr(flow, "code_verifier", None)
     if not verifier:
         raise RuntimeError("OAuth flow did not produce a PKCE code_verifier.")

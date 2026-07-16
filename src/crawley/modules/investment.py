@@ -81,16 +81,20 @@ class InvestmentModule(Module):
         }
 
     def company_panel_context(self, ticker: str) -> dict[str, Any] | None:
+        from crawley.asx_desk.notebook import has_content, load_notebook
         from crawley.asx_desk.store import company_detail
 
         detail = company_detail(ticker)
         if detail is None:
             return None
+        notebook = load_notebook(ticker)
         ctx = self.panel_context()
         ctx.update(
             {
                 "asx_view": "company",
                 "company": detail,
+                "notebook": notebook,
+                "notebook_has_content": has_content(notebook),
                 "asx_subnav": "desk",
                 "poll_asx": (detail.get("profile") or {}).get("status") == "generating"
                 or ctx.get("poll_asx"),

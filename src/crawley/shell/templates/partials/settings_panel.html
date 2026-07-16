@@ -84,6 +84,37 @@
   </form>
 </div>
 
+<div class="panel panel-tight settings-section" id="google">
+  <h2 class="section-title">Google OAuth</h2>
+  <p class="muted">
+    Add this exact redirect URI under Google Cloud → Credentials → Authorized redirect URIs
+    (not JavaScript origins). Tokens are stored on this server under <code>data/secrets/</code>
+    and reused for every browser that opens this Crawley instance.
+  </p>
+  {% if oauth_show_redirect_hint %}
+  <p>
+    <label for="oauth-redirect-uri">Redirect URI for this Host</label>
+    <input
+      id="oauth-redirect-uri"
+      type="text"
+      readonly
+      value="{{ oauth_redirect_uri }}"
+      onclick="this.select()"
+      style="width:100%;font-family:ui-monospace,monospace;font-size:0.9rem"
+    >
+  </p>
+  <p class="muted">Host: <code>{{ oauth_request_host }}</code> · click the field to select, then copy.</p>
+  {% else %}
+  <p class="muted">Redirect URI: <code>{{ oauth_redirect_uri }}</code></p>
+  {% endif %}
+  <p class="muted">
+    Tailscale/LAN: use the same environment as Crawley (e.g. Tailscale inside WSL if Crawley runs in WSL).
+    Google <strong>Testing</strong> publishing status expires refresh tokens in ~7 days — that is the usual
+    cause of weekly re-auth prompts. Production publishing keeps refresh tokens longer.
+  </p>
+  <p><a class="btn secondary" href="/modules/gmail/oauth/start">Connect Google (read-only)</a></p>
+</div>
+
 <div class="panel panel-tight settings-section" id="update">
   <h2 class="section-title">Update</h2>
   <p class="muted">

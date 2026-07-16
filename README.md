@@ -52,7 +52,9 @@ Default bind is localhost only (`127.0.0.1:8000`). To reach a phone on the same 
 
 **Sender Inbox (Gmail):** Open **Gmail** in the nav — panel title **Sender Inbox**. Connect Google, then **Start ingest**. Crawley pulls **one INBOX message at a time**, LLM-categorizes it, groups by sender (not chronology), and builds a profile + local todos per sender. Hard stop at **~20** messages (raise later with `CRAWLEY_SENDER_INBOX_CAP` in `.env` and restart). Progress shows `processed / cap` and remaining capacity; **Reset PoC data** clears `data/gmail/sender_inbox/`. Classic inbox skim lives under a disclosure. No auto-send / auto-calendar from todos.
 
-**Google OAuth notes:** redirect URI used is `http://127.0.0.1:8000/modules/gmail/oauth/callback` — add it under **Authorized redirect URIs** (not JavaScript origins). Enable **Gmail API** and **Google Calendar API**. Default scopes are Gmail + Calendar **read-only**. Calendar event insert uses an optional `calendar.events` write scope — use **Reconnect for Calendar write** on the Calendar panel (never requests Gmail send). Local HTTP is allowed automatically for `127.0.0.1` / `localhost` and for trusted personal LAN/Tailscale hosts when you connect that way (add matching redirect URIs in Google Cloud if you use those hosts).
+**Google OAuth notes:** The redirect URI is always `{request Host}/modules/gmail/oauth/callback` — e.g. `http://127.0.0.1:8000/modules/gmail/oauth/callback` on localhost, or `http://100.x.y.z:8000/modules/gmail/oauth/callback` / MagicDNS when you Connect from a Tailscale client. Settings → **Google OAuth** (and the Connect panel) show the **exact** URI for the Host you are using — copy it into Google Cloud → **Authorized redirect URIs** (not JavaScript origins). Enable **Gmail API** and **Google Calendar API**. Default scopes are Gmail + Calendar **read-only**. Calendar event insert uses an optional `calendar.events` write scope — use **Reconnect for Calendar write** on the Calendar panel (never requests Gmail send). Gmail send uses a separate `?gmail_send=1` reconnect. Local HTTP is allowed for `127.0.0.1` / `localhost` and trusted personal LAN/Tailscale hosts. Tokens live on the **server** (`data/secrets/`) and are reused by every client of that one Crawley process.
+
+**OAuth consent / weekly re-auth:** Connect keeps `access_type=offline` but only forces Google’s full consent screen when a refresh token is missing or you request new scopes (Calendar write / Gmail send). Normal API use refreshes quietly. If Google Cloud OAuth clients stay in **Testing** publishing status, refresh tokens expire in ~**7 days** — that is the usual cause of weekly re-auth prompts; move the client to **Production** (or re-consent) when you need longer-lived refresh tokens.
 
 ## Agent roles
 
@@ -80,8 +82,9 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprint 14** — ASX paper desk (+ history/pins + Fitness import B35–B37) (**closed**): [`docs/sprints/archive/sprint-14-asx-paper-portfolio.md`](./docs/sprints/archive/sprint-14-asx-paper-portfolio.md)
 - **Sprints 15–17** — Inbox/ASX scale + email bridge (**closed**): [`docs/sprints/archive/sprint-15-17-scale-bridge.md`](./docs/sprints/archive/sprint-15-17-scale-bridge.md)
 - **Sprints 18–20** — Gmail send + ASX alerts + playbooks (**closed**): [`docs/sprints/archive/sprint-18-20-send-alerts-playbooks.md`](./docs/sprints/archive/sprint-18-20-send-alerts-playbooks.md)
-- **Sprint 21** — Google OAuth ops (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprints 22–30** — Email/ASX depth (planned): [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
+- **Sprints 21–24** — OAuth ops + digests + notebook + VIP (**closed**): [`docs/sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md`](./docs/sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md)
+- **Sprint 25** — ASX news theme clustering (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 26–30** — Email/ASX depth (planned): [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
 - **Shelved** — former 31–40 / platform Later remnants: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 

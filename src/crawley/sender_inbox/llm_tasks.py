@@ -79,6 +79,17 @@ def categorize_message(message: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("Categorization JSON must be an object")
     metrics = normalize_metrics(raw)
     metrics["_model"] = result.model
+    # Local VIP/muted rules override / annotate (Sprint 24).
+    try:
+        from crawley.sender_inbox.rules import apply_rule_to_metrics, get_rule
+
+        rule = get_rule(
+            str(message.get("sender_id") or ""),
+            from_addr=str(message.get("from_addr") or ""),
+        )
+        metrics = apply_rule_to_metrics(metrics, rule)
+    except Exception:  # noqa: BLE001
+        pass
     return metrics
 
 

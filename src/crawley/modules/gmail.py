@@ -202,6 +202,8 @@ class GmailModule(Module):
         senders = group_senders(query=query, category=category, todo=todo)
         for row in senders:
             row["latest_rel"] = relative_time(row.get("latest_at"))
+        from crawley.sender_inbox.rules import load_rules
+
         return {
             "coming_soon": False,
             "description": self.meta.description,
@@ -211,6 +213,7 @@ class GmailModule(Module):
             "inbox_view": "list",
             "inbox_progress": progress,
             "inbox_senders": senders,
+            "sender_rules": load_rules(),
             "poc_cap": progress.get("cap") or POC_CAP,
             "hard_ceiling": HARD_SCALE_CEILING,
             "filter_q": query,
@@ -223,7 +226,10 @@ class GmailModule(Module):
         }
 
     def sender_panel_context(self, sender_id: str) -> dict[str, Any] | None:
+        from crawley.markdown_render import render_markdown
+        from crawley.sender_inbox.digests import digests_for_sender, is_digest_running
         from crawley.sender_inbox.formatters import relative_time
+        from crawley.sender_inbox.rules import get_rule
         from crawley.sender_inbox.store import sender_detail
 
         detail = sender_detail(sender_id)
@@ -232,13 +238,23 @@ class GmailModule(Module):
         for msg in detail["messages"]:
             msg["latest_rel"] = relative_time(msg.get("internal_date"))
             msg["signals"] = msg.get("signals") or []
+        threads = digests_for_sender(sender_id, detail["messages"])
+        for t in threads:
+            t["digest_html"] = render_markdown(t.get("markdown") or "") if t.get("markdown") else ""
+            t["latest_rel"] = relative_time(t.get("latest_at"))
+        rule = get_rule(sender_id, from_addr=detail.get("from_addr") or "")
         ctx = self.panel_context()
+        digest_busy = any(t.get("status") == "busy" for t in threads) or is_digest_running()
         ctx.update(
             {
                 "inbox_view": "sender",
                 "sender": detail,
+                "sender_rule": rule,
+                "thread_digests": threads,
+                "profile_html": render_markdown((detail.get("profile") or {}).get("markdown") or ""),
                 "pending_send": self.pending_draft,
                 "poll_inbox": (detail.get("profile") or {}).get("status") == "generating"
+                or digest_busy
                 or ctx.get("poll_inbox"),
             }
         )
