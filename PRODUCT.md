@@ -131,3 +131,10 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 - **Sprint 19:** ASX local alerts + recommendation feedback — B85–B86
 - **Sprint 20:** Dual-desk playbooks + polish — B87–B88
 - Sequence prefers dual-desk depth over un-shelving old platform Later items; Icebox unchanged
+
+## Decisions log (Sprint 21 — Google OAuth ops)
+
+- Bundle stakeholder ask: **Tailscale/LAN first Connect** ergonomics + **softer reconsent** (stop always forcing `prompt=consent`) into **Sprint 21** — B89–B90 / `sprint-21-google-oauth-ops.md`
+- May pull Sprint 21 forward before Sprint 18 if OAuth friction blocks Connect / Gmail send
+- Google **Testing** publishing (~7-day refresh expiry) documented as ops guidance, not a code fix
+- Bare `planned/sprint-21.md` (B44 thread digests) stays shelved

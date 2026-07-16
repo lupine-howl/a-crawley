@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–17 closed (B79–B83 with 15–17); next pivot **18–20** = B84–B88; remaining former post-10 platform/depth plans shelved
+**Status:** Sprints 1–17 closed (B79–B83 with 15–17); next pivot **18–20** = B84–B88; **Sprint 21** = Google OAuth ops (B89–B90); remaining former post-10 platform/depth plans shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2254,6 +2254,59 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 **Out of scope:**
 
 - Full redesign; Icebox items
+
+---
+
+### B89 — Tailscale / LAN Google first-Connect ergonomics
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B15, B12 |
+| Planned sprint | 21 |
+
+**Goal:** Operator can complete **first Connect Google** from a Tailscale or trusted LAN client without guessing redirect URIs — UI + docs make the exact callback URL obvious.
+
+**Acceptance criteria:**
+
+- [ ] Connect / Google auth UI shows the exact OAuth redirect URI for the current request Host (copyable) when on a trusted personal host
+- [ ] README documents Tailscale/LAN Connect steps, same-environment Tailscale tip, and token reuse on one server across clients
+- [ ] Localhost Connect path unchanged
+- [ ] Test covers redirect URI construction for Tailscale-like Host (or trusted-host helper)
+
+**Out of scope:**
+
+- Public internet OAuth / SaaS multi-tenant auth
+- Per-browser Google sessions (token remains server-side)
+
+---
+
+### B90 — Softer Google OAuth consent prompts
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B15 |
+| Planned sprint | 21 |
+
+**Goal:** Stop forcing Google’s full consent screen on every Connect/Reconnect; only force when a refresh token is missing or new scopes are requested. Document Google Testing-mode refresh expiry as the usual “weekly re-auth” cause.
+
+**Acceptance criteria:**
+
+- [ ] `authorization_url` does not always pass `prompt=consent`; force consent only when refresh token missing or requesting scopes not already granted
+- [ ] `access_type=offline` retained for refresh tokens on first grant
+- [ ] Auto-refresh via `load_credentials` unchanged for normal API use
+- [ ] README notes Testing (~7-day refresh) vs Production publishing status
+- [ ] Tests cover consent-forced vs consent-optional paths
+
+**Out of scope:**
+
+- Changing Google Cloud app verification / Production publishing for the stakeholder (docs only)
+- Multi-account Google
 
 ---
 

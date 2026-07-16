@@ -80,6 +80,7 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprint 14** — ASX paper desk (+ history/pins + Fitness import B35–B37) (**closed**): [`docs/sprints/archive/sprint-14-asx-paper-portfolio.md`](./docs/sprints/archive/sprint-14-asx-paper-portfolio.md)
 - **Sprints 15–17** — Inbox/ASX scale + email bridge (**done**): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Sprints 18–20** — dual-desk depth (planned): [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
+- **Sprint 21** — Google OAuth ops (Tailscale Connect + softer reconsent): [`docs/sprints/planned/sprint-21-google-oauth-ops.md`](./docs/sprints/planned/sprint-21-google-oauth-ops.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 

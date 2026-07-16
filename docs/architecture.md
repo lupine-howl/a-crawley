@@ -7,7 +7,7 @@ Senior architect / developer owns this file. Update when material decisions land
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
 **Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprints 15–17 done)  
 **Sprint 14 (closed):** [`sprints/archive/sprint-14-asx-paper-portfolio.md`](sprints/archive/sprint-14-asx-paper-portfolio.md)  
-**Next planned:** pivot Sprints 18–20 — [`sprints/planned/README.md`](sprints/planned/README.md)  
+**Next planned:** pivot Sprints 18–21 — [`sprints/planned/README.md`](sprints/planned/README.md) (21 = Google OAuth ops)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 

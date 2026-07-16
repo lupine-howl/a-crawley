@@ -4,7 +4,7 @@ Ordered outcomes (not tasks). Product owner owns this file.
 **Working title:** Crawley  
 **Code check (2026-07-16):** Sprints **6–17** shipped (15–17 = inbox/ASX scale + email bridge).  
 **Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)  
-**Pivot:** **11**→**17** delivered; **18–20** dual-desk depth remaining. Former *planned* 11–40 platform/depth queue is [shelved](docs/sprints/shelved/README.md).
+**Pivot:** **11**→**17** delivered; **18–20** dual-desk depth remaining; **21** = Google OAuth ops. Former *planned* 11–40 platform/depth queue is [shelved](docs/sprints/shelved/README.md).
 
 ## Now
 
@@ -44,7 +44,12 @@ Local in-panel alerts; disposition loop on recommendations (no live orders).
 Named playbooks for Sender Inbox / ASX runs; focused polish pass.  
 [`docs/sprints/planned/sprint-20-playbooks-polish.md`](docs/sprints/planned/sprint-20-playbooks-polish.md) · B87–B88
 
-### After Sprint 20
+### Sprint 21 (planned) — Google OAuth ops
+Tailscale/LAN first-Connect ergonomics + softer consent prompts (fewer unnecessary re-auth screens).  
+[`docs/sprints/planned/sprint-21-google-oauth-ops.md`](docs/sprints/planned/sprint-21-google-oauth-ops.md) · B89–B90  
+*May pull forward before Sprint 18 if OAuth friction blocks Connect / Gmail send.*
+
+### After Sprint 21
 
 - Un-shelve selected former platform/depth items where useful ([shelved](docs/sprints/shelved/README.md))
 - Icebox stays closed without PRODUCT revision
@@ -68,7 +73,7 @@ Latest delivery: [`docs/sprints/current.md`](docs/sprints/current.md) (Sprints 1
 
 ## Later (shelved — do not start)
 
-Former **planned** Sprints 11–40 (platform Later + Email/Investment depth arc) — filenames `planned/sprint-11.md`…`sprint-40.md` collide with pivot; use the pivot-named files (`sprint-11-update.md` … `sprint-20-playbooks-polish.md`). Legacy `sprint-15.md` / `sprint-16.md` (history / fitness) were delivered with Sprint 14 — not the same as pivot Sprints 15–16.
+Former **planned** Sprints 11–40 (platform Later + Email/Investment depth arc) — filenames `planned/sprint-11.md`…`sprint-40.md` collide with pivot; use the pivot-named files (`sprint-11-update.md` … `sprint-20-playbooks-polish.md`, `sprint-21-google-oauth-ops.md`). Bare `sprint-21.md` remains shelved (B44 thread digests). Legacy `sprint-15.md` / `sprint-16.md` (history / fitness) were delivered with Sprint 14 — not the same as pivot Sprints 15–16.
 
 ## Icebox
 
