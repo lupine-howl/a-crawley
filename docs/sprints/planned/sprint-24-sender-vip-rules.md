@@ -1,6 +1,6 @@
 # Sprint 24 — Sender Inbox VIP / priority rules (planned)
 
-**Status:** planned (after Sprint 23)  
+**Status:** closed — see [`../archive/sprint-21-24-oauth-digests-notebook-vip.md`](../archive/sprint-21-24-oauth-digests-notebook-vip.md)  
 **Duration:** one symbolic week  
 **Backlog refs:** B46  
 **Depends on:** Sprint 12 Sender Inbox; Sprint 15 search helpful  

@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–20 closed; **Sprint 21 current** = Google OAuth ops (B89–B90); planned **22–30** = B44–B50, B52–B53 (un-shelved depth); remaining post-30 platform/depth stays shelved
+**Status:** Sprints 1–24 closed; **Sprint 25 current** = ASX news theme clustering (B47); planned **26–30** = B48–B50, B52–B53; remaining post-30 platform/depth stays shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -1108,7 +1108,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B10, B15 |
@@ -1118,11 +1118,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Gmail panel lists recent threads (bounded) or accepts a thread id/link from skim
-- [ ] Fetch bounded messages in thread → local artifacts
-- [ ] LLM Markdown digest: summary, asks, commitments, suggested next action (manual)
-- [ ] Job busy/done/error; success snapshot
-- [ ] No full-history sync; hard caps on messages/chars
+- [x] Gmail panel lists recent threads (bounded) or accepts a thread id/link from skim
+- [x] Fetch bounded messages in thread → local artifacts
+- [x] LLM Markdown digest: summary, asks, commitments, suggested next action (manual)
+- [x] Job busy/done/error; success snapshot
+- [x] No full-history sync; hard caps on messages/chars
 
 **Out of scope:**
 
@@ -1135,7 +1135,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B9, B39 |
@@ -1145,11 +1145,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Local notebook/thesis store per symbol or topic under data/
-- [ ] Panel UX to view/edit notes
-- [ ] Run can optionally include notebook slice in prompt (hard-capped)
-- [ ] Advice Markdown remains non-order
-- [ ] Empty notebook honest
+- [x] Local notebook/thesis store per symbol or topic under data/
+- [x] Panel UX to view/edit notes
+- [x] Run can optionally include notebook slice in prompt (hard-capped)
+- [x] Advice Markdown remains non-order
+- [x] Empty notebook honest
 
 **Out of scope:**
 
@@ -1162,7 +1162,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B10 |
@@ -1172,10 +1172,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] CRUD for local sender rules (VIP / muted / tags)
-- [ ] Skim + digest prompts honor rules
-- [ ] Clear UI for rules; no silent network calls beyond existing fetch
-- [ ] Rules stored under data/; gitignored appropriately
+- [x] CRUD for local sender rules (VIP / muted / tags)
+- [x] Skim + digest prompts honor rules
+- [x] Clear UI for rules; no silent network calls beyond existing fetch
+- [x] Rules stored under data/; gitignored appropriately
 
 **Out of scope:**
 
@@ -1188,11 +1188,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B39, B9 |
-| Planned sprint | 25 |
+| Planned sprint | 25 (current)
 
 **Goal:** Cluster watchlist news into cited themes.
 
@@ -2262,20 +2262,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B15, B12 |
-| Planned sprint | 21 (current) |
+| Planned sprint | 21 |
 
 **Goal:** Operator can complete **first Connect Google** from a Tailscale or trusted LAN client without guessing redirect URIs — UI + docs make the exact callback URL obvious.
 
 **Acceptance criteria:**
 
-- [ ] Connect / Google auth UI shows the exact OAuth redirect URI for the current request Host (copyable) when on a trusted personal host
-- [ ] README documents Tailscale/LAN Connect steps, same-environment Tailscale tip, and token reuse on one server across clients
-- [ ] Localhost Connect path unchanged
-- [ ] Test covers redirect URI construction for Tailscale-like Host (or trusted-host helper)
+- [x] Connect / Google auth UI shows the exact OAuth redirect URI for the current request Host (copyable) when on a trusted personal host
+- [x] README documents Tailscale/LAN Connect steps, same-environment Tailscale tip, and token reuse on one server across clients
+- [x] Localhost Connect path unchanged
+- [x] Test covers redirect URI construction for Tailscale-like Host (or trusted-host helper)
 
 **Out of scope:**
 
@@ -2288,21 +2288,21 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B15 |
-| Planned sprint | 21 (current) |
+| Planned sprint | 21 |
 
 **Goal:** Stop forcing Google’s full consent screen on every Connect/Reconnect; only force when a refresh token is missing or new scopes are requested. Document Google Testing-mode refresh expiry as the usual “weekly re-auth” cause.
 
 **Acceptance criteria:**
 
-- [ ] `authorization_url` does not always pass `prompt=consent`; force consent only when refresh token missing or requesting scopes not already granted
-- [ ] `access_type=offline` retained for refresh tokens on first grant
-- [ ] Auto-refresh via `load_credentials` unchanged for normal API use
-- [ ] README notes Testing (~7-day refresh) vs Production publishing status
-- [ ] Tests cover consent-forced vs consent-optional paths
+- [x] `authorization_url` does not always pass `prompt=consent`; force consent only when refresh token missing or requesting scopes not already granted
+- [x] `access_type=offline` retained for refresh tokens on first grant
+- [x] Auto-refresh via `load_credentials` unchanged for normal API use
+- [x] README notes Testing (~7-day refresh) vs Production publishing status
+- [x] Tests cover consent-forced vs consent-optional paths
 
 **Out of scope:**
 

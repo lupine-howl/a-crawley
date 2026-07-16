@@ -1,6 +1,6 @@
 # Sprint 23 — ASX research notebook + thesis (planned)
 
-**Status:** planned (after Sprint 22)  
+**Status:** closed — see [`../archive/sprint-21-24-oauth-digests-notebook-vip.md`](../archive/sprint-21-24-oauth-digests-notebook-vip.md)  
 **Duration:** one symbolic week  
 **Backlog refs:** B45  
 **Depends on:** Sprint 13–14 ASX desk + paper  

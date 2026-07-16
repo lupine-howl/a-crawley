@@ -53,6 +53,32 @@
     {% endif %}
   </section>
 
+  <section aria-labelledby="notebook-heading">
+    <h2 id="notebook-heading">Research notebook</h2>
+    <p class="muted">
+      Local thesis and notes seed profile / recommendation prompts (hard-capped).
+      Not licensed research · no live orders.
+    </p>
+    {% if not panel.notebook_has_content %}
+    <p class="muted">Notebook is empty — regenerate will not invent thesis content.</p>
+    {% endif %}
+    <form
+      class="settings-form"
+      hx-post="/modules/investment/companies/{{ c.ticker }}/notebook"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <label for="nb-thesis">Thesis</label>
+      <textarea id="nb-thesis" name="thesis" rows="3" placeholder="One-paragraph investment thesis…">{{ panel.notebook.thesis }}</textarea>
+      <label for="nb-notes">Notes</label>
+      <textarea id="nb-notes" name="notes" rows="5" placeholder="Sources, questions, watch items…">{{ panel.notebook.notes }}</textarea>
+      <button type="submit">Save notebook</button>
+    </form>
+    {% if panel.notebook.updated_at %}
+    <p class="muted">Updated {{ panel.notebook.updated_at }}</p>
+    {% endif %}
+  </section>
+
   <section aria-labelledby="src-heading">
     <h2 id="src-heading">Sources used</h2>
     {% if c.sources_used %}

@@ -3,11 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–20 closed (pivot dual-desk arc complete through playbooks)  
+**Status:** Sprints 1–24 closed (OAuth ops + digests + notebook + VIP)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint **21** — Google OAuth ops)  
-**Sprints 18–20 (closed):** [`sprints/archive/sprint-18-20-send-alerts-playbooks.md`](sprints/archive/sprint-18-20-send-alerts-playbooks.md)  
-**Planned 22–30:** [`sprints/planned/README.md`](sprints/planned/README.md)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint **25** — ASX news theme clustering)  
+**Sprints 21–24 (closed):** [`sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md`](sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md)  
+**Planned 26–30:** [`sprints/planned/README.md`](sprints/planned/README.md)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -45,9 +45,28 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`).  
 **Sprint 14:** ASX recommendations + paper portfolio + simulation settings; also shipped bounded snapshot history + shared-context pins (B35–B36) and Fitness activity import lite (B37).  
 **Sprints 15–17:** Desk scale (Settings, hard ceiling 200); Sender Inbox search/prune; ASX active-set scale + events skim; Email × ASX bridge (`bridge/matcher.py`).  
-**Sprints 18–20:** Confirm-first Gmail send; ASX local alerts + recommendation feedback; operator playbooks + polish.
+**Sprints 18–20:** Confirm-first Gmail send; ASX local alerts + recommendation feedback; operator playbooks + polish.  
+**Sprints 21–24:** Google OAuth Tailscale Connect + softer consent; Sender Inbox thread digests; ASX research notebook; VIP/muted rules.
 
 ## Sprint delivery maps
+
+### Sprints 21–24 (closed) — OAuth, digests, notebook, VIP
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S21.1 / B89** | Settings `#google` + Connect panels show `redirect_uri(_base_url)`; README Tailscale/Host notes |
+| **S21.2 / B90** | `should_force_consent` · conditional `prompt=consent` · Testing vs Production docs |
+| **S22.1 / B44** | `sender_inbox/digests.py` · `fetch_thread_messages` · artifacts under `thread_artifacts/` |
+| **S23.1 / B45** | `asx_desk/notebook.py` · company panel edit · capped slice in profile/recommend |
+| **S24.1 / B46** | `sender_inbox/rules.py` · VIP/muted CRUD · `group_senders` + `categorize_message` |
+
+**OAuth consent:** `access_type=offline` always; force consent only when refresh missing or new scopes (Calendar write / Gmail send).
+
+**Thread digests:** max 12 messages / hard-capped body chars; no full-mailbox sync; manual next action only.
+
+**Notebook:** `data/investment/asx/notebooks/{TICKER}.json`; empty → no invented thesis; advice remains non-order.
+
+**VIP rules:** local JSON only; not Google filter sync; VIP boosts sort; muted soft-deprioritizes.
 
 ### Sprints 18–20 (closed) — Send, alerts, playbooks
 
@@ -188,8 +207,11 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 | Fitness import | `data/fitness/activity_import.txt` | Bounded text/CSV; optional in Fitness prompt |
 | Process | Single process | Threads for I/O |
 | Analytical store | DuckDB | Local file under `data/` |
-| Google | OAuth installed-app | Gmail/Calendar **readonly** by default; optional `calendar.events` for insert |
+| Google | OAuth installed-app | Gmail/Calendar **readonly** by default; optional `calendar.events` / `gmail.send`; softer consent (B90) |
 | Write-back audit | `data/writeback_audit.jsonl` | Dry-run and live attempts |
+| Thread digests | `data/gmail/sender_inbox/thread_digests.json` | Bounded per-thread LLM digests |
+| Sender rules | `data/gmail/sender_inbox/sender_rules.json` | VIP / muted / tags |
+| ASX notebooks | `data/investment/asx/notebooks/` | Per-ticker thesis + notes |
 
 ## Boundaries
 
@@ -200,7 +222,7 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 | **Modules** | Domain fetch/notes/analyze/panel | Global auth UX |
 | **LLM provider** | Completions behind one interface | Source fetching |
 | **Shared context** | Caps + standing notes bundle | Secret storage |
-| **Write-back** | Propose/confirm/audit; Calendar insert | Gmail send (deferred) |
+| **Write-back** | Propose/confirm/audit; Calendar insert; Gmail send | Brokerage orders |
 
 ### Module loading
 
@@ -218,6 +240,10 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 7. **Local LLM** — Settings LocalLlama → base URL/model/timeout → Test → modules use provider.  
 8. **Shared context** — Standing notes + capped snapshots + optional history pins; opt-in into prompts.  
 9. **ASX paper desk** — Refresh recommendations → paper trade → portfolio MTM; simulation settings only.  
+10. **Google Connect (LAN)** — Settings shows Host redirect URI → Connect; consent only when needed.  
+11. **Thread digest** — Sender detail → Digest thread → Markdown snapshot.  
+12. **ASX notebook** — Edit thesis/notes → regenerate profile with capped slice.  
+13. **VIP rules** — Mark VIP/muted → list order + categorize honor rules.  
 10. **Snapshot history** — Browse/search Settings history; pin into shared context (capped).  
 11. **Fitness import** — Upload bounded activity file; optional include on Fitness run.  
 12. **LAN enable** — Settings toggle / `CRAWLEY_HOST`; trusted LAN only.

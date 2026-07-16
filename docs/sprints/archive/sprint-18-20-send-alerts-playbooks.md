@@ -6,7 +6,7 @@
 **Depends on:** ADR-006; Sprints 12–17 dual desks  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
 **Previous:** [`archive/sprint-15-17-scale-bridge.md`](sprint-15-17-scale-bridge.md)  
-**Next:** [`../current.md`](../current.md) (Sprint 21 — Google OAuth ops)  
+**Next:** [`../current.md`](../current.md) (Sprint 25 — ASX news theme clustering)  
 **Planned sources:** [`planned/sprint-18-gmail-send.md`](../planned/sprint-18-gmail-send.md) · [`planned/sprint-19-asx-alerts.md`](../planned/sprint-19-asx-alerts.md) · [`planned/sprint-20-playbooks-polish.md`](../planned/sprint-20-playbooks-polish.md)
 
 ## Goal

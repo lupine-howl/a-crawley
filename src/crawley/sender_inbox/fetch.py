@@ -71,6 +71,56 @@ def list_candidate_ids(creds, *, max_results: int = 50) -> list[str]:
     return [m["id"] for m in listed.get("messages", []) if m.get("id")]
 
 
+def fetch_thread_messages(
+    creds,
+    thread_id: str,
+    *,
+    max_messages: int = 12,
+    max_body_chars: int = 3500,
+) -> list[dict[str, Any]]:
+    """Fetch a bounded Gmail thread (newest first). No full-mailbox sync."""
+    thread_id = (thread_id or "").strip()
+    if not thread_id:
+        return []
+    service = build("gmail", "v1", credentials=creds, cache_discovery=False)
+    full = (
+        service.users()
+        .threads()
+        .get(userId="me", id=thread_id, format="full")
+        .execute()
+    )
+    rows: list[dict[str, Any]] = []
+    for msg in full.get("messages") or []:
+        headers = _header_map((msg.get("payload") or {}).get("headers", []))
+        from_raw = headers.get("from", "")
+        from_name, from_addr = parseaddr(from_raw)
+        from_addr = from_addr or from_raw
+        subject = headers.get("subject", "(no subject)")
+        snippet = (msg.get("snippet") or "").strip()
+        internal_ms = int(msg.get("internalDate", "0") or "0")
+        if internal_ms:
+            internal_dt = datetime.fromtimestamp(internal_ms / 1000, tz=UTC)
+            internal_iso = internal_dt.replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        else:
+            internal_iso = datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        body = extract_body_text(msg.get("payload") or {}, max_chars=max_body_chars)
+        rows.append(
+            {
+                "id": msg.get("id") or "",
+                "thread_id": thread_id,
+                "from_name": from_name or "",
+                "from_addr": from_addr or "",
+                "sender_id": sender_id_for(from_addr),
+                "subject": subject,
+                "snippet": snippet[:500],
+                "body_text": body,
+                "internal_date": internal_iso,
+            }
+        )
+    rows.sort(key=lambda m: m.get("internal_date") or "", reverse=True)
+    return rows[: max(1, max_messages)]
+
+
 def fetch_message(creds, message_id: str) -> dict[str, Any]:
     """Return a normalized message dict ready for categorization."""
     service = build("gmail", "v1", credentials=creds, cache_discovery=False)

@@ -80,6 +80,11 @@ def generate_profile(company: dict[str, Any], scan: dict[str, Any]) -> str:
         f"Data gaps: {gaps}\n"
         f"Headlines:\n{hl}\n"
     )
+    from crawley.asx_desk.notebook import notebook_prompt_slice
+
+    notebook = notebook_prompt_slice(str(company.get("ticker") or ""))
+    if notebook:
+        user = user + "\n" + notebook + "\n"
     provider = get_llm_provider()
     result = provider.complete(
         [
@@ -105,11 +110,15 @@ def generate_recommendations(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
             f"sentiment={r.get('sentiment')} | profile={r.get('profile_excerpt', '')[:180]}"
         )
     from crawley.asx_desk.feedback import feedback_prompt_slice
+    from crawley.asx_desk.notebook import notebook_prompt_slice
 
     feedback = feedback_prompt_slice()
+    notebooks = notebook_prompt_slice()
     user = "PoC company set:\n" + "\n".join(lines or ["(none)"])
     if feedback:
         user = user + "\n\n" + feedback
+    if notebooks:
+        user = user + "\n\n" + notebooks
     provider = get_llm_provider()
     result = provider.complete(
         [

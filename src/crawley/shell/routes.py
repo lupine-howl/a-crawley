@@ -128,15 +128,33 @@ def _module_response(
 ) -> HTMLResponse:
     registry: dict[str, Module] = request.app.state.registry
     ctx = _base_context(request, registry)
+    enriched = _enrich_panel(panel if panel is not None else module.panel_context())
+    if module.meta.id in {"gmail", "calendar"}:
+        enriched.update(_oauth_redirect_context(request))
     ctx.update(
         {
             "active_id": module.meta.id,
             "module": module,
-            "panel": _enrich_panel(panel if panel is not None else module.panel_context()),
+            "panel": enriched,
         }
     )
     template = "partials/panel.html" if request.headers.get("hx-request") == "true" else "module.html"
     return templates.TemplateResponse(request, template, ctx, status_code=status_code)
+
+
+def _oauth_redirect_context(request: Request) -> dict[str, Any]:
+    """Copyable OAuth redirect URI for the current request Host (Sprint 21)."""
+    from crawley.bind import is_trusted_personal_host
+    from crawley.google_oauth import redirect_uri
+
+    base = _base_url(request)
+    uri = redirect_uri(base)
+    host = (urlparse(base).hostname or "").lower()
+    return {
+        "oauth_redirect_uri": uri,
+        "oauth_request_host": host,
+        "oauth_show_redirect_hint": is_trusted_personal_host(host),
+    }
 
 
 def _settings_context(
@@ -209,6 +227,7 @@ def _settings_context(
             "reachable_urls": guess_reachable_urls(resolve_bind_port()) if lan else [],
         }
     )
+    ctx.update(_oauth_redirect_context(request))
     return ctx
 
 
@@ -676,6 +695,28 @@ def asx_company_profile_retry(request: Request, ticker: str) -> HTMLResponse:
     return _module_response(request, module, panel=panel)
 
 
+@router.post("/modules/investment/companies/{ticker}/notebook", response_class=HTMLResponse)
+def asx_company_notebook_save(
+    request: Request,
+    ticker: str,
+    thesis: str = Form(""),
+    notes: str = Form(""),
+) -> HTMLResponse:
+    from crawley.asx_desk.notebook import save_notebook
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    try:
+        save_notebook(ticker, thesis=thesis, notes=notes)
+        module.job = JobState(status="done", message=f"Notebook saved for {ticker.upper()}.")
+    except ValueError as exc:
+        module.job = JobState(status="error", message=str(exc))
+    panel = module.company_panel_context(ticker)
+    if panel is None:
+        return _module_response(request, module, status_code=404)
+    return _module_response(request, module, panel=panel)
+
+
 @router.get("/modules/investment/recommendations", response_class=HTMLResponse)
 def asx_recommendations(request: Request) -> HTMLResponse:
     module = request.app.state.registry["investment"]
@@ -1089,6 +1130,85 @@ def gmail_sender_profile_retry(request: Request, sender_id: str) -> HTMLResponse
     if panel is None:
         return _module_response(request, module, status_code=404)
     return _module_response(request, module, panel=panel)
+
+
+@router.post("/modules/gmail/senders/{sender_id}/digest", response_class=HTMLResponse)
+def gmail_thread_digest(
+    request: Request,
+    sender_id: str,
+    thread_id: str = Form(""),
+) -> HTMLResponse:
+    from crawley.sender_inbox.digests import start_thread_digest
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    ok, msg = start_thread_digest(
+        thread_id,
+        request.app.state.executor,
+        sender_id=sender_id,
+    )
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    else:
+        module.job = JobState(status="busy", message=msg)
+    panel = module.sender_panel_context(sender_id)
+    if panel is None:
+        return _module_response(request, module, status_code=404)
+    return _module_response(request, module, panel=panel)
+
+
+@router.post("/modules/gmail/rules", response_class=HTMLResponse)
+def gmail_rule_upsert(
+    request: Request,
+    sender_id: str = Form(""),
+    from_addr: str = Form(""),
+    priority: str = Form("normal"),
+    tags: str = Form(""),
+    note: str = Form(""),
+    return_to: str = Form("list"),
+) -> HTMLResponse:
+    from crawley.sender_inbox.rules import upsert_rule
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    try:
+        tag_list = [t.strip() for t in (tags or "").split(",") if t.strip()]
+        upsert_rule(
+            sender_id=sender_id,
+            from_addr=from_addr,
+            priority=priority,
+            tags=tag_list,
+            note=note,
+        )
+        module.job = JobState(status="done", message="Sender rule saved.")
+    except ValueError as exc:
+        module.job = JobState(status="error", message=str(exc))
+    if return_to == "sender" and sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/rules/delete", response_class=HTMLResponse)
+def gmail_rule_delete(
+    request: Request,
+    sender_id: str = Form(""),
+    return_to: str = Form("list"),
+) -> HTMLResponse:
+    from crawley.sender_inbox.rules import delete_rule
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    if delete_rule(sender_id):
+        module.job = JobState(status="done", message="Sender rule removed.")
+    else:
+        module.job = JobState(status="idle", message="No rule to remove.")
+    if return_to == "sender" and sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
 
 
 @router.post("/modules/gmail/todos/{todo_id}/toggle", response_class=HTMLResponse)

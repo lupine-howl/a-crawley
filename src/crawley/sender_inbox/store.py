@@ -200,6 +200,15 @@ def reset_poc_data() -> None:
         save_messages([])
         save_profiles({})
         save_todos([])
+        # Digests are PoC artifacts; VIP rules persist across reset.
+        digests = inbox_dir() / "thread_digests.json"
+        if digests.exists():
+            digests.unlink()
+        artifacts = inbox_dir() / "thread_artifacts"
+        if artifacts.exists():
+            for child in artifacts.glob("*"):
+                if child.is_file():
+                    child.unlink()
         state = default_ingest_state()
         state["status"] = "idle"
         state["current_line"] = ""
@@ -264,6 +273,18 @@ def group_senders(
                     chips.append(chip)
             if len(chips) >= 3:
                 break
+        rule = None
+        try:
+            from crawley.sender_inbox.rules import get_rule, rule_sort_boost
+
+            boost += rule_sort_boost(sid, from_addr=g.get("from_addr") or "")
+            rule = get_rule(sid, from_addr=g.get("from_addr") or "")
+            if rule and rule.get("priority") == "vip" and "vip" not in chips:
+                chips.insert(0, "vip")
+            if rule and rule.get("priority") == "muted" and "muted" not in chips:
+                chips.append("muted")
+        except Exception:  # noqa: BLE001
+            rule = None
         profile = profiles.get(sid) or {}
         categories = {
             normalize_metrics(m.get("metrics")).get("category") for m in g["messages"]
@@ -280,6 +301,7 @@ def group_senders(
             "open_todos": todo_open.get(sid, 0),
             "has_profile": bool(profile.get("markdown")),
             "categories": sorted(c for c in categories if c),
+            "rule_priority": (rule or {}).get("priority") or "",
             "_subjects": subjects,
             "_sort": (boost, g["latest_at"] or ""),
         }

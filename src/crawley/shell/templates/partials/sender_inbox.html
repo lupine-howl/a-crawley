@@ -19,6 +19,12 @@
   <p class="muted">Create OAuth Desktop credentials in Google Cloud, enable <strong>Gmail API</strong> and <strong>Google Calendar API</strong>, then set <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> in <code>.env</code>.</p>
   {% elif not panel.auth.connected or panel.auth.needs_reconsent %}
   <p class="muted">{% if panel.auth.error %}{{ panel.auth.error }}{% else %}Not connected.{% endif %} Tokens: <code>{{ panel.auth.token_path }}</code> (gitignored).</p>
+  {% if panel.oauth_show_redirect_hint and panel.oauth_redirect_uri %}
+  <p class="muted">
+    Add this redirect URI in Google Cloud before Connect:
+    <code class="oauth-redirect">{{ panel.oauth_redirect_uri }}</code>
+  </p>
+  {% endif %}
   <p><a class="btn" href="/modules/gmail/oauth/start">Connect Google (Gmail + Calendar read-only)</a></p>
   {% else %}
 
@@ -164,6 +170,28 @@
     {% endfor %}
   </section>
   {% endif %}
+
+  <details class="prompt-viewer">
+    <summary>VIP / muted rules</summary>
+    <p class="muted">Local priority rules — VIP boosts list order; muted deprioritizes. Stored under <code>data/gmail/sender_inbox/sender_rules.json</code>.</p>
+    {% if panel.sender_rules %}
+    <ul class="src-list">
+      {% for r in panel.sender_rules %}
+      <li>
+        <code>{{ r.from_addr or r.sender_id }}</code>
+        · <span class="signal">{{ r.priority }}</span>
+        {% if r.tags %} · {{ r.tags|join(', ') }}{% endif %}
+        <form hx-post="/modules/gmail/rules/delete" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+          <input type="hidden" name="sender_id" value="{{ r.sender_id }}">
+          <button type="submit" class="secondary">Remove</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No rules yet. Open a sender to set VIP or muted.</p>
+    {% endif %}
+  </details>
 
   <details class="prompt-viewer">
     <summary>Classic inbox summary</summary>

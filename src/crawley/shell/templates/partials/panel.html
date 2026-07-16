@@ -46,6 +46,12 @@
     <p class="muted">Same Google OAuth as Gmail. Enable Calendar API and reconnect if needed.</p>
     {% elif not panel.auth.connected or panel.auth.needs_reconsent %}
     <p class="muted">{% if panel.auth.error %}{{ panel.auth.error }}{% else %}Calendar scope missing.{% endif %} Tokens: <code>{{ panel.auth.token_path }}</code>.</p>
+    {% if panel.oauth_show_redirect_hint and panel.oauth_redirect_uri %}
+    <p class="muted">
+      Add this redirect URI in Google Cloud before Connect:
+      <code class="oauth-redirect">{{ panel.oauth_redirect_uri }}</code>
+    </p>
+    {% endif %}
     <p><a class="btn" href="/modules/gmail/oauth/start">Connect Google (read-only)</a></p>
     {% else %}
     <p class="job job-done">Google connected (Calendar).</p>

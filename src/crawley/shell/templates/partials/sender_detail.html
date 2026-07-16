@@ -37,6 +37,88 @@
     {% endif %}
   </section>
 
+  <section aria-labelledby="rule-heading">
+    <h2 id="rule-heading">Priority rule</h2>
+    <p class="muted">Local VIP / muted — shapes list order and categorization. Not synced to Gmail filters.</p>
+    <form
+      class="settings-form"
+      hx-post="/modules/gmail/rules"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+      <input type="hidden" name="from_addr" value="{{ s.from_addr }}">
+      <input type="hidden" name="return_to" value="sender">
+      <label for="rule-priority">Priority</label>
+      <select id="rule-priority" name="priority">
+        <option value="normal" {% if not panel.sender_rule or panel.sender_rule.priority == 'normal' %}selected{% endif %}>Normal</option>
+        <option value="vip" {% if panel.sender_rule and panel.sender_rule.priority == 'vip' %}selected{% endif %}>VIP</option>
+        <option value="muted" {% if panel.sender_rule and panel.sender_rule.priority == 'muted' %}selected{% endif %}>Muted</option>
+      </select>
+      <label for="rule-tags">Tags (comma-separated)</label>
+      <input id="rule-tags" name="tags" value="{% if panel.sender_rule %}{{ panel.sender_rule.tags|join(', ') }}{% endif %}" placeholder="family, accountant…">
+      <label for="rule-note">Note</label>
+      <input id="rule-note" name="note" value="{% if panel.sender_rule %}{{ panel.sender_rule.note }}{% endif %}">
+      <button type="submit">Save rule</button>
+    </form>
+    {% if panel.sender_rule %}
+    <form hx-post="/modules/gmail/rules/delete" hx-target="#panel-root" hx-swap="innerHTML" style="margin-top:0.5rem">
+      <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+      <input type="hidden" name="return_to" value="sender">
+      <button type="submit" class="secondary">Clear rule</button>
+    </form>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="digest-heading">
+    <h2 id="digest-heading">Thread digests</h2>
+    <p class="muted">Bounded fetch + LLM digest (summary, asks, commitments). No full-mailbox sync.</p>
+    {% if panel.thread_digests %}
+    <ul class="bundle-list">
+      {% for t in panel.thread_digests %}
+      <li class="bundle-item">
+        <details {% if t.status == 'done' and t.markdown %}open{% endif %}>
+          <summary>
+            <span class="bundle-subject">{{ t.subject or t.thread_id }}</span>
+            <span class="muted">{{ t.latest_rel }}</span>
+            {% if t.status == 'busy' %}<span class="job job-busy">digesting…</span>{% endif %}
+            {% if t.status == 'error' %}<span class="job job-error">error</span>{% endif %}
+            {% if t.status == 'done' %}<span class="job job-done">ready</span>{% endif %}
+          </summary>
+          {% if t.status == 'busy' %}
+          <p class="job job-busy">Fetching thread and writing digest…</p>
+          {% elif t.status == 'error' %}
+          <p class="job job-error">{{ t.error or "Digest failed." }}</p>
+          {% elif t.markdown %}
+          <div class="summary">
+            <div class="summary-body">{{ t.digest_html }}</div>
+          </div>
+          {% else %}
+          <p class="muted">No digest yet for this thread.</p>
+          {% endif %}
+          <form
+            hx-post="/modules/gmail/senders/{{ s.sender_id }}/digest"
+            hx-target="#panel-root"
+            hx-swap="innerHTML"
+            style="margin-top:0.5rem"
+          >
+            <input type="hidden" name="thread_id" value="{{ t.thread_id }}">
+            <button type="submit" class="secondary" {% if t.status == 'busy' %}disabled{% endif %}>
+              {% if t.status == 'done' or t.status == 'error' %}Regenerate digest{% else %}Digest thread{% endif %}
+            </button>
+          </form>
+          {% if panel.auth.gmail_send_ok %}
+          <p class="muted"><a href="#compose-reply">Compose reply</a> (confirm-first · uses newest thread when available)</p>
+          {% endif %}
+        </details>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No thread ids in this PoC bundle yet.</p>
+    {% endif %}
+  </section>
+
   <section aria-labelledby="todos-heading">
     <h2 id="todos-heading">Todos <span class="muted">{{ s.open_todo_count }} open</span></h2>
     {% if s.todos %}
