@@ -2,13 +2,13 @@
 
 Ordered outcomes (not tasks). Product owner owns this file.  
 **Working title:** Crawley  
-**Code check (2026-07-16):** Sprints **6–14** shipped in pivot numbering; also delivered formerly shelved history/pins + fitness import (B35–B37) alongside Sprint 14.  
+**Code check (2026-07-16):** Sprints **6–17** shipped (15–17 = inbox/ASX scale + email bridge).  
 **Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)  
-**Pivot:** **11** Settings Update → **12** Sender Inbox → **13** ASX desk → **14** paper portfolio (+ B35–B37 side delivery) → **15–20** dual-desk depth. Former *planned* 11–40 platform/depth queue is [shelved](docs/sprints/shelved/README.md).
+**Pivot:** **11**→**17** delivered; **18–20** dual-desk depth remaining. Former *planned* 11–40 platform/depth queue is [shelved](docs/sprints/shelved/README.md).
 
 ## Now
 
-**Shipped through Sprint 14** (plus B35–B37 in the same delivery):
+**Shipped through Sprint 17:**
 
 - [x] Shared Python core + stable module contract (confirm-first write-back live for Calendar)
 - [x] Local browser dashboard: themes, Settings, Markdown, home At a glance, Day brief
@@ -18,29 +18,19 @@ Ordered outcomes (not tasks). Product owner owns this file.
 - [x] LocalLlama (Ollama HTTP) operable; ADR-007
 - [x] Shared context seed (standing notes + capped snapshots + history pins); ADR-008
 - [x] Settings → **Update** (git pull + hot reload) — Sprint 11
-- [x] **Sender Inbox** PoC (~20 emails) — Sprint 12
-- [x] **ASX desk** scanner + company profiles (~20 slice) — Sprint 13
+- [x] **Sender Inbox** PoC — Sprint 12
+- [x] **ASX desk** scanner + company profiles — Sprint 13
 - [x] ASX recommendations + paper portfolio + simulation settings — Sprint 14
-- [x] Snapshot history browser + shared-context pins — B35–B36 (legacy sprint-15.md)
-- [x] Fitness activity import lite — B37 (legacy sprint-16.md)
+- [x] Snapshot history + pins / Fitness import — B35–B37 (with Sprint 14)
+- [x] Sender Inbox scale (cap/retention/search) — Sprint 15
+- [x] ASX active-set scale + earnings/events skim — Sprint 16
+- [x] Email × ASX bridge — Sprint 17
 
 *Still out of Now:* native desktop wrapper, Gmail send, public hosting, multi-user, **live brokerage order placement**
 
 ## Next
 
-**Dual-desk depth — Sprints 15–20** (next: Sprint 15)
-
-### Sprint 15 (planned) — Sender Inbox scale
-Raise ingest cap + retention/prune; search/filter across senders/categories/todos.  
-[`docs/sprints/planned/sprint-15-sender-inbox-scale.md`](docs/sprints/planned/sprint-15-sender-inbox-scale.md) · B79–B80
-
-### Sprint 16 (planned) — ASX scale + earnings/events
-Expand active set beyond 20; bounded earnings/events skim.  
-[`docs/sprints/planned/sprint-16-asx-scale-events.md`](docs/sprints/planned/sprint-16-asx-scale-events.md) · B81–B82
-
-### Sprint 17 (planned) — Email × ASX bridge
-Mail mentions of ASX tickers / paper holdings → bridge digest + deep links.  
-[`docs/sprints/planned/sprint-17-email-asx-bridge.md`](docs/sprints/planned/sprint-17-email-asx-bridge.md) · B83
+**Dual-desk depth — Sprints 18–20** (next: Sprint 18)
 
 ### Sprint 18 (planned) — Gmail confirm-first send
 Draft → confirm → send → audit (ADR-006); complements Sender Inbox todos.  
@@ -59,7 +49,7 @@ Named playbooks for Sender Inbox / ASX runs; focused polish pass.
 - Un-shelve selected former platform/depth items where useful ([shelved](docs/sprints/shelved/README.md))
 - Icebox stays closed without PRODUCT revision
 
-Latest delivery: [`docs/sprints/current.md`](docs/sprints/current.md) (Sprint 14 + B35–B37)
+Latest delivery: [`docs/sprints/current.md`](docs/sprints/current.md) (Sprints 15–17)
 
 ## Closed
 
@@ -73,7 +63,8 @@ Latest delivery: [`docs/sprints/current.md`](docs/sprints/current.md) (Sprint 14
 | 11 | Settings Update (git pull + hot reload) | [archive](docs/sprints/archive/sprint-11-settings-update.md) · `tests/test_sprint11_update.py` |
 | 12 | Sender Inbox PoC | [archive](docs/sprints/archive/sprint-12-sender-inbox.md) · `tests/test_sprint12_sender_inbox.py` |
 | 13 | ASX desk scanner + company profiles | [archive](docs/sprints/archive/sprint-13-asx-profiles.md) · `tests/test_sprint13_asx.py` |
-| 14 (+ B35–B37) | Paper portfolio + history/pins + fitness import | [current](docs/sprints/current.md) · `tests/test_sprints_14_16.py` |
+| 14 (+ B35–B37) | Paper portfolio + history/pins + fitness import | [archive](docs/sprints/archive/sprint-14-asx-paper-portfolio.md) · `tests/test_sprints_14_16.py` |
+| 15–17 | Inbox/ASX scale + email bridge | [current](docs/sprints/current.md) · `tests/test_sprints_15_17.py` |
 
 ## Later (shelved — do not start)
 

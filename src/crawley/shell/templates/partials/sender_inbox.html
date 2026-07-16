@@ -2,17 +2,17 @@
 {% set progress = panel.inbox_progress %}
 {% set senders = panel.inbox_senders %}
 
-<div
+  <div
   class="panel sender-inbox"
   {% if panel.poll_inbox %}
-  hx-get="/modules/gmail/status"
+  hx-get="/modules/gmail/status?q={{ panel.filter_q }}&category={{ panel.filter_category }}&todo={{ panel.filter_todo }}"
   hx-trigger="every 1.5s"
   hx-target="#panel-root"
   hx-swap="innerHTML"
   {% endif %}
 >
   <h1>Sender Inbox</h1>
-  <p class="muted">People in your PoC bundle — grouped by sender, not by time.</p>
+  <p class="muted">People in your ingest bundle — grouped by sender, not by time.</p>
 
   {% if not panel.auth.client_ok %}
   <p class="job job-error">{{ panel.auth.error }}</p>
@@ -67,6 +67,33 @@
     {% endif %}
   </div>
 
+  <form
+    class="settings-form inbox-filter"
+    method="get"
+    action="/modules/gmail"
+    hx-get="/modules/gmail"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+    hx-trigger="submit, change from:select"
+  >
+    <label for="inbox-q">Search</label>
+    <input id="inbox-q" name="q" value="{{ panel.filter_q }}" placeholder="Name, domain, subject…">
+    <label for="inbox-cat">Category</label>
+    <select id="inbox-cat" name="category">
+      <option value="">Any</option>
+      {% for c in panel.filter_categories %}
+      <option value="{{ c }}" {% if panel.filter_category == c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+    <label for="inbox-todo">Todos</label>
+    <select id="inbox-todo" name="todo">
+      <option value="" {% if not panel.filter_todo %}selected{% endif %}>Any</option>
+      <option value="open" {% if panel.filter_todo == 'open' %}selected{% endif %}>Open</option>
+      <option value="done" {% if panel.filter_todo == 'done' %}selected{% endif %}>No open</option>
+    </select>
+    <button type="submit" class="secondary">Filter</button>
+  </form>
+
   {% if senders %}
   <table class="inbox-table">
     <thead>
@@ -107,6 +134,8 @@
   </table>
   {% elif progress.processed == 0 %}
   <p class="muted">No senders yet. Start ingest when ready.</p>
+  {% elif panel.filter_q or panel.filter_category or panel.filter_todo %}
+  <p class="muted">No senders match this filter.</p>
   {% else %}
   <p class="job job-error">Ingested data present but no senders — try Reset PoC data.</p>
   {% endif %}
@@ -120,7 +149,10 @@
   >
     <button type="submit" class="secondary">Reset PoC data</button>
   </form>
-  <p class="muted">Cap is {{ panel.poc_cap }} (raise later with <code>CRAWLEY_SENDER_INBOX_CAP</code>).</p>
+  <p class="muted">
+    Cap {{ progress.cap }} · keep newest {{ progress.keep_max }} · hard ceiling {{ progress.hard_ceiling }}.
+    Configure under Settings → Desk scale (or env <code>CRAWLEY_SENDER_INBOX_CAP</code>).
+  </p>
 
   <details class="prompt-viewer">
     <summary>Classic inbox summary</summary>

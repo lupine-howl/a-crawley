@@ -38,6 +38,14 @@ DEFAULT_SOURCES: list[dict[str, Any]] = [
         "enabled": False,
         "notes": "Placeholder — enable when a TOS-safe feed/API is configured. Not auto-scraped.",
     },
+    {
+        "id": "earnings_events_rss",
+        "name": "Earnings / events skim (Google News RSS)",
+        "kind": "events",
+        "mode": "scan",
+        "enabled": True,
+        "notes": "Bounded keyword RSS for earnings/AGM/results — not a formal calendar feed.",
+    },
 ]
 
 DEFAULT_PROMPTS: dict[str, str] = {
@@ -94,7 +102,21 @@ def load_config() -> dict[str, Any]:
         except (OSError, json.JSONDecodeError):
             return cfg
         if isinstance(raw.get("sources"), list) and raw["sources"]:
-            cfg["sources"] = raw["sources"]
+            by_id = {s.get("id"): s for s in raw["sources"] if s.get("id")}
+            merged_sources = []
+            for default in DEFAULT_SOURCES:
+                sid = default["id"]
+                if sid in by_id:
+                    row = {**default, **by_id[sid]}
+                    merged_sources.append(row)
+                else:
+                    merged_sources.append(deepcopy(default))
+            # Keep any unknown custom sources after defaults.
+            known = {s["id"] for s in DEFAULT_SOURCES}
+            for sid, row in by_id.items():
+                if sid not in known:
+                    merged_sources.append(row)
+            cfg["sources"] = merged_sources
         if isinstance(raw.get("prompts"), dict):
             merged = dict(DEFAULT_PROMPTS)
             merged.update({k: str(v) for k, v in raw["prompts"].items() if v is not None})

@@ -1,129 +1,110 @@
-# Sprints 14–16 — ASX paper desk + history + fitness import
+# Sprints 15–17 — Inbox/ASX scale + email bridge
 
 **Status:** done (bundled delivery)  
 **Duration:** three symbolic weeks  
-**Backlog refs:** B75–B77 (14); B35–B36 (15); B37 (16)  
-**Depends on:** Sprint 13 ASX desk; UX [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §§5–6  
+**Backlog refs:** B79–B80 (15); B81–B82 (16); B83 (17)  
+**Depends on:** Sprint 12 Sender Inbox; Sprint 13–14 ASX desk + paper  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
-**Previous:** [`archive/sprint-13-asx-profiles.md`](archive/sprint-13-asx-profiles.md)  
-**Planned sources:** [`planned/sprint-14-asx-paper-portfolio.md`](planned/sprint-14-asx-paper-portfolio.md) · [`planned/sprint-15.md`](planned/sprint-15.md) · [`planned/sprint-16.md`](planned/sprint-16.md)
+**Previous:** [`archive/sprint-14-asx-paper-portfolio.md`](archive/sprint-14-asx-paper-portfolio.md)  
+**Planned sources:** [`planned/sprint-15-sender-inbox-scale.md`](planned/sprint-15-sender-inbox-scale.md) · [`planned/sprint-16-asx-scale-events.md`](planned/sprint-16-asx-scale-events.md) · [`planned/sprint-17-email-asx-bridge.md`](planned/sprint-17-email-asx-bridge.md)
 
-**Numbering note:** This bundle closes paper portfolio (pivot Sprint 14) plus formerly shelved history/fitness items (legacy `sprint-15.md` / `sprint-16.md`). The **next** pivot Sprint 15 is Sender Inbox scale ([`planned/sprint-15-sender-inbox-scale.md`](planned/sprint-15-sender-inbox-scale.md)), not the legacy history file.
+**Numbering note:** Pivot Sprints 15–17 (this file). Legacy shelved `sprint-15.md` / `sprint-16.md` (history/fitness) were delivered with Sprint 14.
 
 ## Goal
 
-1. **Sprint 14:** Structured ASX recommendations + simulated paper portfolio + simulation settings (no live broker).  
-2. **Sprint 15 (legacy / B35–B36):** Bounded snapshot history browser + pin history into shared context.  
-3. **Sprint 16 (legacy / B37):** Fitness activity import lite grounding plans (non-medical).
+1. **Sprint 15:** Raise Sender Inbox ingest cap with retention/prune + search/filter.  
+2. **Sprint 16:** Enlarge ASX active set + bounded earnings/events skim.  
+3. **Sprint 17:** Holdings-aware mail ↔ ASX bridge digest with deep links.
 
 ## Demo
 
-1. Refresh recommendations from scanned profiles → Paper trade into portfolio → see cash/MTM/P&L with fees  
-2. Browse snapshot history; pin an item into shared context  
-3. Import a small activity file; Fitness run cites it with disclaimer  
+1. Set inbox cap (e.g. 100); search/filter senders; old mail pruned  
+2. Expand ASX active set (e.g. 50); run events skim  
+3. Run bridge → hits with links to sender + company  
 
 ## Committed
 
-### S14.1 — Structured recommendations (B75) · done
+### S15.1 — Configurable ingest cap + retention (B79) · done
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B75 |
+| Backlog ref | B79 |
 
 **Acceptance criteria:**
 
-- [x] Recommendations as structured rows (ticker, action, rationale, urgency, related profile link, generated_at)
-- [x] Generated from PoC company set via LLM + metrics; regenerable
-- [x] UI list per UX; export optional not required
-- [x] Non-advice disclaimer
+- [x] Operator-configurable ingest cap (Settings → Desk scale) with hard ceiling 200
+- [x] Retention/prune (keep newest N) under `data/gmail/sender_inbox/`
+- [x] Progress UI scales; reset path remains
 
 ---
 
-### S14.2 — Paper portfolio tracker (B76) · done
+### S15.2 — Sender Inbox search & filter (B80) · done
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B76 |
+| Backlog ref | B80 |
 
 **Acceptance criteria:**
 
-- [x] Separate Investment sub-page/route for paper portfolio
-- [x] Create paper trades from a recommendation or manual entry (qty, side, price defaulting to last scan)
-- [x] Track positions, cash, simple P&L using latest available prices from scanner store
-- [x] Local persistence under `data/`; no broker API orders
+- [x] Filter senders by name/domain and category metrics
+- [x] Simple search over sender list + subject
+- [x] Empty/no-match honest; theme tokens
 
 ---
 
-### S14.3 — Simulation settings (B77) · done
+### S16.1 — ASX active-set scale (B81) · done
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B77 |
+| Backlog ref | B81 |
 
 **Acceptance criteria:**
 
-- [x] Settings: starting cash, fee per trade and/or %, default currency AUD, optional broker name label (cosmetic)
-- [x] Fees applied in simulation math
-- [x] Documented: these settings do **not** enable live trading
+- [x] Operator can enlarge active scan set beyond 20 within hard ceiling 200
+- [x] Scanner/progress UI handles larger N; pause/resume preserved
+- [x] Universe list still the source; provenance unchanged
 
 ---
 
-### S15.1 — Snapshot history browser (B35) · done
+### S16.2 — Earnings & events skim (B82) · done
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B35 |
+| Backlog ref | B82 |
 
 **Acceptance criteria:**
 
-- [x] Persist more than “last success” (bounded N per module; `snapshot_history.json`)
-- [x] Simple history UI in Settings; open body safely (escaped `<pre>`, truncated)
-- [x] Prune/retention documented (UI + architecture)
+- [x] Bounded fetch of earnings/event-like signals for active set (Google News RSS)
+- [x] Markdown/table of headlines + Investment → Events page
+- [x] Hard caps; honest empty; non-advice copy
 
 ---
 
-### S15.2 — Shared context depth / pins (B36) · done
+### S17.1 — Holdings-aware mail bridge (B83) · done
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B36 |
+| Backlog ref | B83 |
 
 **Acceptance criteria:**
 
-- [x] Operator can pin/select history items into shared context
-- [x] Hard caps; secrets never injected
-- [x] Architecture + ADR-008: history vs seed standing notes
-
----
-
-### S16.1 — Fitness import lite (B37) · done
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B37 |
-
-**Acceptance criteria:**
-
-- [x] Import path for a bounded activity artifact under `data/fitness/`
-- [x] Fitness Run can optionally include import slice in prompt
-- [x] Medical disclaimer retained; no diagnosis framing
-- [x] Clear errors for bad/oversized files
+- [x] Bounded match of subject/body to ASX tickers / paper holdings
+- [x] Bridge results + deep links (sender + company)
+- [x] False-positive controls documented
+- [x] Architecture note on matching approach
+- [x] No auto-trading; no auto-send
 
 ## Explicitly out of sprint
 
-- Live brokerage OAuth / order placement  
-- Tax/CGT engine; continuous wearable sync  
-- Co-parenting→Calendar publish (still shelved B34)
-- Sender Inbox scale / ASX scale / Gmail send → pivot Sprints 15–20
+- Full offline mailbox index; multi-account  
+- Paid data terminals; auto trades  
+- Gmail confirm-first send (Sprint 18)  
 
 ## Parking lot
 
-- Multi-currency portfolio  
-- Full Markdown render for history bodies (escaped pre is enough for PoC)
-- Compare paper vs manual holdings journal
+- Fuzzy company-name matching beyond allowlist  

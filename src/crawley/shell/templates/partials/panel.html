@@ -18,6 +18,10 @@
       {% include "partials/asx_recommendations.html" %}
     {% elif panel.asx_view == 'portfolio' %}
       {% include "partials/asx_portfolio.html" %}
+    {% elif panel.asx_view == 'events' %}
+      {% include "partials/asx_events.html" %}
+    {% elif panel.asx_view == 'bridge' %}
+      {% include "partials/asx_bridge.html" %}
     {% else %}
       {% include "partials/asx_desk.html" %}
     {% endif %}

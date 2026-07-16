@@ -53,10 +53,19 @@ def _write_json(path: Path, data: Any) -> None:
     tmp.replace(path)
 
 
+def _resolved_cap() -> int:
+    try:
+        from crawley.settings import effective_inbox_cap
+
+        return effective_inbox_cap()
+    except Exception:  # noqa: BLE001
+        return POC_CAP
+
+
 def default_ingest_state() -> dict[str, Any]:
     return {
         "status": "idle",  # idle | busy | paused | done | error
-        "cap": POC_CAP,
+        "cap": _resolved_cap(),
         "processed": 0,
         "current_line": "",
         "last_error": "",
@@ -72,8 +81,17 @@ def load_ingest_state() -> dict[str, Any]:
         raw = _read_json(_path("ingest_state.json"), {})
         if isinstance(raw, dict):
             state.update(raw)
-        state["cap"] = int(state.get("cap") or POC_CAP)
+        # Settings / env win over a stale stored cap.
+        state["cap"] = _resolved_cap()
         state["processed"] = len(load_messages())
+        return state
+
+
+def sync_ingest_cap(cap: int) -> dict[str, Any]:
+    with _lock:
+        state = load_ingest_state()
+        state["cap"] = max(1, min(int(cap), 200))
+        save_ingest_state(state)
         return state
 
 
@@ -125,6 +143,47 @@ def upsert_message(message: dict[str, Any]) -> None:
         state = load_ingest_state()
         state["processed"] = len(by_id)
         save_ingest_state(state)
+        try:
+            from crawley.settings import effective_inbox_keep_max
+
+            prune_messages(keep_max=effective_inbox_keep_max())
+        except Exception:  # noqa: BLE001
+            pass
+
+
+def prune_messages(*, keep_max: int | None = None) -> int:
+    """Keep newest N messages by internal_date; drop orphan profiles/todos.
+
+    Retention policy: hard keep-max under data/gmail/sender_inbox/; oldest pruned.
+    """
+    from crawley.settings import clamp_scale_cap, effective_inbox_keep_max
+
+    limit = clamp_scale_cap(
+        keep_max if keep_max is not None else effective_inbox_keep_max(),
+        default=100,
+    )
+    with _lock:
+        messages = load_messages()
+        if len(messages) <= limit:
+            return 0
+        ordered = sorted(
+            messages,
+            key=lambda m: m.get("internal_date") or m.get("ingested_at") or "",
+            reverse=True,
+        )
+        kept = ordered[:limit]
+        dropped = len(messages) - len(kept)
+        keep_ids = {m.get("id") for m in kept}
+        keep_senders = {m.get("sender_id") for m in kept}
+        save_messages(kept)
+        profiles = load_profiles()
+        save_profiles({k: v for k, v in profiles.items() if k in keep_senders})
+        todos = [t for t in load_todos() if t.get("sender_id") in keep_senders]
+        save_todos(todos)
+        state = load_ingest_state()
+        state["processed"] = len(kept)
+        save_ingest_state(state)
+        return dropped
 
 
 def ingested_ids() -> set[str]:
@@ -150,11 +209,22 @@ def reset_poc_data() -> None:
         save_ingest_state(state)
 
 
-def group_senders() -> list[dict[str, Any]]:
-    """Sender list rows: most recent activity first, urgency boost."""
+def group_senders(
+    *,
+    query: str = "",
+    category: str = "",
+    todo: str = "",
+) -> list[dict[str, Any]]:
+    """Sender list rows: most recent activity first, urgency boost.
+
+    Optional filters: query (name/domain/subject), category metric, todo open/done/any.
+    """
     messages = load_messages()
     profiles = load_profiles()
     todos = load_todos()
+    q = (query or "").strip().lower()
+    cat = (category or "").strip().lower()
+    todo_filter = (todo or "").strip().lower()
     groups: dict[str, dict[str, Any]] = {}
     for msg in messages:
         sid = msg.get("sender_id") or sender_id_for(msg.get("from_addr", ""))
@@ -195,24 +265,52 @@ def group_senders() -> list[dict[str, Any]]:
             if len(chips) >= 3:
                 break
         profile = profiles.get(sid) or {}
-        rows.append(
-            {
-                "sender_id": sid,
-                "from_name": g["from_name"],
-                "from_addr": g["from_addr"],
-                "display_name": g["from_name"] or g["from_addr"] or "Unknown sender",
-                "message_count": len(g["messages"]),
-                "latest_at": g["latest_at"],
-                "signals": chips[:3],
-                "open_todos": todo_open.get(sid, 0),
-                "has_profile": bool(profile.get("markdown")),
-                "_sort": (boost, g["latest_at"] or ""),
-            }
-        )
+        categories = {
+            normalize_metrics(m.get("metrics")).get("category") for m in g["messages"]
+        }
+        subjects = " ".join(str(m.get("subject") or "") for m in g["messages"])
+        row = {
+            "sender_id": sid,
+            "from_name": g["from_name"],
+            "from_addr": g["from_addr"],
+            "display_name": g["from_name"] or g["from_addr"] or "Unknown sender",
+            "message_count": len(g["messages"]),
+            "latest_at": g["latest_at"],
+            "signals": chips[:3],
+            "open_todos": todo_open.get(sid, 0),
+            "has_profile": bool(profile.get("markdown")),
+            "categories": sorted(c for c in categories if c),
+            "_subjects": subjects,
+            "_sort": (boost, g["latest_at"] or ""),
+        }
+        rows.append(row)
     rows.sort(key=lambda r: r["_sort"], reverse=True)
+
+    filtered: list[dict[str, Any]] = []
     for r in rows:
+        if cat and cat not in (r.get("categories") or []):
+            continue
+        open_n = int(r.get("open_todos") or 0)
+        if todo_filter == "open" and open_n <= 0:
+            continue
+        if todo_filter == "done" and open_n > 0:
+            # "done" means no open todos (all done or none)
+            continue
+        if q:
+            hay = " ".join(
+                [
+                    str(r.get("display_name") or ""),
+                    str(r.get("from_addr") or ""),
+                    str(r.get("_subjects") or ""),
+                    " ".join(r.get("categories") or []),
+                ]
+            ).lower()
+            if q not in hay:
+                continue
         r.pop("_sort", None)
-    return rows
+        r.pop("_subjects", None)
+        filtered.append(r)
+    return filtered
 
 
 def sender_detail(sender_id: str) -> dict[str, Any] | None:
@@ -251,7 +349,7 @@ def sender_detail(sender_id: str) -> dict[str, Any] | None:
 def progress_view(*, running: bool | None = None) -> dict[str, Any]:
     state = load_ingest_state()
     processed = len(load_messages())
-    cap = int(state.get("cap") or POC_CAP)
+    cap = int(state.get("cap") or _resolved_cap())
     remaining = max(0, cap - processed)
     status = state.get("status") or "idle"
     if running is True:
@@ -261,12 +359,20 @@ def progress_view(*, running: bool | None = None) -> dict[str, Any]:
         status = "paused"
         state["status"] = "paused"
         save_ingest_state(state)
+    try:
+        from crawley.settings import effective_inbox_keep_max
+
+        keep_max = effective_inbox_keep_max()
+    except Exception:  # noqa: BLE001
+        keep_max = 100
     return {
         **state,
         "status": status,
         "processed": processed,
         "cap": cap,
         "remaining": remaining,
+        "keep_max": keep_max,
+        "hard_ceiling": 200,
         "sender_count": len(group_senders()),
     }
 

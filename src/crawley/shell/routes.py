@@ -40,6 +40,7 @@ from crawley.settings import (
     update_llm_settings,
     update_network_settings,
     update_prompt_settings,
+    update_scale_settings,
     update_simulation_settings,
     update_theme_setting,
 )
@@ -147,6 +148,7 @@ def _settings_context(
     network_notice: str | None = None,
     update_result: dict | None = None,
     simulation_notice: str | None = None,
+    scale_notice: str | None = None,
     history_notice: str | None = None,
     history_query: str = "",
     refresh_models: bool = False,
@@ -174,6 +176,8 @@ def _settings_context(
             "themes": THEME_META,
             "llm_settings": settings.llm,
             "prompt_settings": settings.prompts,
+            "scale_settings": settings.scale,
+            "scale_notice": scale_notice,
             "network_settings": settings.network,
             "simulation_settings": settings.simulation,
             "bind_host": bind_host,
@@ -405,6 +409,28 @@ def settings_simulation_save(
     return templates.TemplateResponse(request, "settings.html", ctx)
 
 
+@router.post("/settings/scale", response_class=HTMLResponse)
+def settings_scale_save(
+    request: Request,
+    inbox_cap: str = Form("100"),
+    inbox_keep_max: str = Form("100"),
+    asx_cap: str = Form("50"),
+) -> HTMLResponse:
+    try:
+        update_scale_settings(
+            inbox_cap=int(float(inbox_cap)),
+            inbox_keep_max=int(float(inbox_keep_max)),
+            asx_cap=int(float(asx_cap)),
+        )
+        notice = "Desk scale saved (hard ceiling 200). Retention prune applied."
+    except ValueError:
+        notice = "Could not parse scale numbers."
+    ctx = _settings_context(request, scale_notice=notice)
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
 @router.get("/settings/history", response_class=HTMLResponse)
 def settings_history(request: Request, q: str = "") -> HTMLResponse:
     ctx = _settings_context(request, history_query=q)
@@ -564,6 +590,27 @@ def asx_poc_set(request: Request, tickers: str = Form("")) -> HTMLResponse:
     return _module_response(request, module)
 
 
+@router.post("/modules/investment/asx/cap", response_class=HTMLResponse)
+def asx_active_cap(request: Request, cap: str = Form("50")) -> HTMLResponse:
+    from crawley.asx_desk.store import sync_active_cap
+    from crawley.settings import update_scale_settings, load_settings
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    try:
+        n = int(float(cap))
+    except ValueError:
+        n = 50
+    settings = load_settings()
+    update_scale_settings(
+        inbox_cap=settings.scale.inbox_cap,
+        inbox_keep_max=settings.scale.inbox_keep_max,
+        asx_cap=n,
+    )
+    sync_active_cap(n, expand_from_universe=True)
+    return _module_response(request, module)
+
+
 @router.post("/modules/investment/asx/sources/{source_id}/toggle", response_class=HTMLResponse)
 def asx_source_toggle(
     request: Request,
@@ -694,6 +741,61 @@ def asx_portfolio_reset(request: Request) -> HTMLResponse:
     return _module_response(request, module, panel=module.portfolio_panel_context())
 
 
+@router.get("/modules/investment/events", response_class=HTMLResponse)
+def asx_events(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    return _module_response(request, module, panel=module.events_panel_context())
+
+
+@router.post("/modules/investment/events/refresh", response_class=HTMLResponse)
+def asx_events_refresh(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.worker import refresh_events
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    ok, msg = refresh_events(request.app.state.executor)
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    return _module_response(request, module, panel=module.events_panel_context())
+
+
+@router.get("/modules/investment/bridge", response_class=HTMLResponse)
+def asx_bridge(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    return _module_response(request, module, panel=module.bridge_panel_context())
+
+
+@router.post("/modules/investment/bridge/refresh", response_class=HTMLResponse)
+def asx_bridge_refresh(request: Request) -> HTMLResponse:
+    from crawley.bridge.matcher import run_bridge_scan
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    try:
+        run_bridge_scan()
+    except Exception as exc:  # noqa: BLE001
+        module.job = JobState(status="error", message=str(exc)[:300])
+    return _module_response(request, module, panel=module.bridge_panel_context())
+
+
+@router.get("/modules/gmail", response_class=HTMLResponse)
+def gmail_panel(
+    request: Request,
+    q: str = "",
+    category: str = "",
+    todo: str = "",
+) -> HTMLResponse:
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    return _module_response(
+        request,
+        module,
+        panel=module.panel_context(query=q, category=category, todo=todo),
+    )
+
+
 @router.post("/modules/gmail/run", response_class=HTMLResponse)
 def gmail_run(request: Request) -> HTMLResponse:
     module = request.app.state.registry["gmail"]
@@ -706,9 +808,19 @@ def gmail_run(request: Request) -> HTMLResponse:
 
 
 @router.get("/modules/gmail/status", response_class=HTMLResponse)
-def gmail_status(request: Request) -> HTMLResponse:
+def gmail_status(
+    request: Request,
+    q: str = "",
+    category: str = "",
+    todo: str = "",
+) -> HTMLResponse:
     module = request.app.state.registry["gmail"]
-    return _module_response(request, module)
+    assert isinstance(module, GmailModule)
+    return _module_response(
+        request,
+        module,
+        panel=module.panel_context(query=q, category=category, todo=todo),
+    )
 
 
 @router.post("/modules/gmail/inbox/start", response_class=HTMLResponse)

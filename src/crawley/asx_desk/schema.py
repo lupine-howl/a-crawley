@@ -5,7 +5,8 @@ from __future__ import annotations
 import os
 from typing import Any
 
-POC_CAP = max(1, min(200, int(os.environ.get("CRAWLEY_ASX_POC_CAP", "20"))))
+HARD_CEILING = 200
+POC_CAP = max(1, min(HARD_CEILING, int(os.environ.get("CRAWLEY_ASX_POC_CAP", "20"))))
 
 SENTIMENTS = ("constructive", "mixed", "cautious", "negative", "unknown")
 

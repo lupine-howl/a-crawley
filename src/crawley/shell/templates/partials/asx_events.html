@@ -1,0 +1,62 @@
+{# ASX earnings / events skim (Sprint 16). #}
+{% set events = panel.events %}
+<div
+  class="panel asx-events"
+  {% if panel.poll_asx and events.status == 'busy' %}
+  hx-get="/modules/investment/events"
+  hx-trigger="every 1.5s"
+  hx-target="#panel-root"
+  hx-swap="innerHTML"
+  {% endif %}
+>
+  <h1>Earnings &amp; events</h1>
+  <p class="muted">Bounded skim for the active set · keyword news, not a formal calendar · not advice.</p>
+
+  {% include "partials/asx_subnav.html" %}
+
+  <div class="ingest-actions">
+    <form hx-post="/modules/investment/events/refresh" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" {% if events.status == 'busy' %}disabled{% endif %}>
+        {% if events.status == 'busy' %}Refreshing…{% else %}Refresh skim{% endif %}
+      </button>
+    </form>
+    {% if events.updated_at %}
+    <p class="muted">Updated {{ events.updated_at }}</p>
+    {% endif %}
+  </div>
+
+  {% if events.error %}
+  <p class="job job-error">{{ events.error }}</p>
+  {% endif %}
+
+  {% if events.events %}
+  <table class="inbox-table">
+    <thead>
+      <tr>
+        <th scope="col">Ticker</th>
+        <th scope="col">Headline</th>
+        <th scope="col">When</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in events.events %}
+      <tr>
+        <td><a href="/modules/investment/companies/{{ e.ticker }}"><strong>{{ e.ticker }}</strong></a></td>
+        <td>
+          {% if e.url %}
+          <a href="{{ e.url }}" rel="noopener noreferrer" target="_blank">{{ e.title }}</a>
+          {% else %}
+          {{ e.title }}
+          {% endif %}
+        </td>
+        <td class="muted">{{ e.published or "—" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No event-like headlines yet — refresh after configuring an active set.</p>
+  {% endif %}
+
+  <p class="muted">Not licensed research · personal simulation only · no live brokerage orders.</p>
+</div>

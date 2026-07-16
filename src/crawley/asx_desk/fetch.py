@@ -87,8 +87,7 @@ def fetch_yahoo_snapshot(ticker: str) -> dict[str, Any]:
         }
 
 
-def fetch_news_headlines(ticker: str, name: str, *, limit: int = 5) -> list[dict[str, str]]:
-    query = f"{ticker} OR \"{name}\" ASX"
+def _rss_items(query: str, *, limit: int = 5) -> list[dict[str, str]]:
     url = (
         "https://news.google.com/rss/search?q="
         + quote_plus(query)
@@ -100,19 +99,46 @@ def fetch_news_headlines(ticker: str, name: str, *, limit: int = 5) -> list[dict
             resp.raise_for_status()
             root = ET.fromstring(resp.content)
     except Exception as exc:  # noqa: BLE001
-        logger.info("News RSS failed for %s: %s", ticker, exc)
+        logger.info("News RSS failed for query %s: %s", query[:80], exc)
         return []
 
     items: list[dict[str, str]] = []
     for item in root.findall("./channel/item"):
         title = (item.findtext("title") or "").strip()
         link = (item.findtext("link") or "").strip()
+        pub = (item.findtext("pubDate") or "").strip()
         if not title:
             continue
-        items.append({"title": title[:240], "url": link})
+        items.append({"title": title[:240], "url": link, "published": pub[:80]})
         if len(items) >= limit:
             break
     return items
+
+
+def fetch_news_headlines(ticker: str, name: str, *, limit: int = 5) -> list[dict[str, str]]:
+    query = f"{ticker} OR \"{name}\" ASX"
+    return _rss_items(query, limit=limit)
+
+
+def fetch_events_for_ticker(ticker: str, name: str, *, limit: int = 3) -> list[dict[str, str]]:
+    """Bounded earnings/event-like headlines via Google News RSS (not a calendar API)."""
+    query = (
+        f'("{ticker}.AX" OR "{ticker}" OR "{name}") '
+        f"(earnings OR results OR AGM OR \"full year\" OR \"half year\" OR dividend) ASX"
+    )
+    rows = _rss_items(query, limit=limit)
+    out: list[dict[str, str]] = []
+    for row in rows:
+        out.append(
+            {
+                "ticker": ticker.upper(),
+                "title": row["title"],
+                "url": row.get("url") or "",
+                "published": row.get("published") or "",
+                "kind": "news_event",
+            }
+        )
+    return out
 
 
 def scan_company(ticker: str, name: str) -> dict[str, Any]:

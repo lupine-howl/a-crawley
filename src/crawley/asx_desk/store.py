@@ -58,10 +58,19 @@ def load_universe() -> dict[str, Any]:
     }
 
 
+def _resolved_asx_cap() -> int:
+    try:
+        from crawley.settings import effective_asx_cap
+
+        return effective_asx_cap()
+    except Exception:  # noqa: BLE001
+        return POC_CAP
+
+
 def default_scan_state() -> dict[str, Any]:
     return {
         "status": "idle",
-        "cap": POC_CAP,
+        "cap": _resolved_asx_cap(),
         "processed": 0,
         "current_ticker": "",
         "current_line": "",
@@ -79,10 +88,29 @@ def load_scan_state() -> dict[str, Any]:
         raw = _read_json(_path("scan_state.json"), {})
         if isinstance(raw, dict):
             state.update(raw)
-        state["cap"] = int(state.get("cap") or POC_CAP)
+        state["cap"] = _resolved_asx_cap()
         if not state.get("poc_tickers"):
             universe = load_universe()["companies"]
             state["poc_tickers"] = [c["ticker"] for c in universe[: state["cap"]]]
+        return state
+
+
+def sync_active_cap(cap: int, *, expand_from_universe: bool = True) -> dict[str, Any]:
+    """Raise/lower active-set ceiling; optionally pad poc_tickers from universe."""
+    with _lock:
+        state = load_scan_state()
+        new_cap = max(1, min(int(cap), 200))
+        state["cap"] = new_cap
+        tickers = list(state.get("poc_tickers") or [])
+        if expand_from_universe and len(tickers) < new_cap:
+            universe = [c["ticker"] for c in load_universe()["companies"]]
+            for t in universe:
+                if t not in tickers:
+                    tickers.append(t)
+                if len(tickers) >= new_cap:
+                    break
+        state["poc_tickers"] = tickers[:new_cap]
+        save_scan_state(state)
         return state
 
 
@@ -122,7 +150,12 @@ def set_poc_tickers(tickers: list[str]) -> dict[str, Any]:
         if key in universe and key not in cleaned:
             cleaned.append(key)
     state = load_scan_state()
-    state["poc_tickers"] = cleaned[: int(state.get("cap") or POC_CAP)]
+    cap = int(state.get("cap") or _resolved_asx_cap())
+    # Cap follows the larger of configured ceiling and requested set (within hard max).
+    if len(cleaned) > cap:
+        state["cap"] = min(len(cleaned), 200)
+        cap = state["cap"]
+    state["poc_tickers"] = cleaned[:cap]
     save_scan_state(state)
     return state
 
@@ -131,11 +164,35 @@ def reset_poc_data() -> None:
     with _lock:
         save_scans({})
         save_profiles({})
+        save_events({"status": "idle", "events": [], "markdown": "", "updated_at": ""})
         state = default_scan_state()
+        cap = _resolved_asx_cap()
         universe = load_universe()["companies"]
-        state["poc_tickers"] = [c["ticker"] for c in universe[:POC_CAP]]
-        state["cap"] = POC_CAP
+        state["poc_tickers"] = [c["ticker"] for c in universe[:cap]]
+        state["cap"] = cap
         save_scan_state(state)
+
+
+def load_events() -> dict[str, Any]:
+    with _lock:
+        raw = _read_json(
+            _path("events.json"),
+            {"status": "idle", "events": [], "markdown": "", "updated_at": "", "error": ""},
+        )
+        if not isinstance(raw, dict):
+            raw = {}
+        return {
+            "status": raw.get("status") or "idle",
+            "events": list(raw.get("events") or []),
+            "markdown": raw.get("markdown") or "",
+            "updated_at": raw.get("updated_at") or "",
+            "error": raw.get("error") or "",
+        }
+
+
+def save_events(payload: dict[str, Any]) -> None:
+    with _lock:
+        _write_json(_path("events.json"), payload)
 
 
 def upsert_scan(ticker: str, payload: dict[str, Any]) -> None:
@@ -230,6 +287,8 @@ def progress_view(*, running: bool | None = None) -> dict[str, Any]:
         "remaining": remaining,
         "universe_count": universe["count"],
         "poc_count": len(poc),
+        "hard_ceiling": 200,
+        "configured_cap": int(state.get("cap") or _resolved_asx_cap()),
     }
 
 

@@ -1,6 +1,7 @@
 # Sprint 17 — Email × ASX signal bridge (planned)
 
-**Status:** planned (after Sprints 15–16 preferred)  
+**Status:** done (delivered in [`../current.md`](../current.md) Sprints 15–17 bundle)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B83  
 **Depends on:** Sender Inbox store; ASX universe/profiles; paper portfolio helpful  
@@ -23,15 +24,15 @@ Cross-desk depth: scan categorized mail for **mentions of ASX tickers / paper ho
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B83 |
 
 **Acceptance criteria:**
 
-- [ ] Bounded match of sender/subject/body keywords to ASX tickers / paper holdings
-- [ ] Bridge results Markdown + deep links per UX
-- [ ] False-positive controls documented
-- [ ] Architecture note on matching approach
-- [ ] No auto-trading; no auto-send
+- [x] Bounded match of sender/subject/body keywords to ASX tickers / paper holdings
+- [x] Bridge results Markdown + deep links per UX
+- [x] False-positive controls documented
+- [x] Architecture note on matching approach
+- [x] No auto-trading; no auto-send
 
 **Out of scope:** Broker statement scraping as primary path; silent portfolio changes
