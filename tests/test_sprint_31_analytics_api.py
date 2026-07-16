@@ -82,7 +82,7 @@ def test_scan_start_and_job_status(client: TestClient, monkeypatch) -> None:
 
     started: list[bool] = []
 
-    def fake_start(executor) -> tuple[bool, str]:
+    def fake_start(executor, *, force: bool = False) -> tuple[bool, str]:
         started.append(True)
         return True, "Scan started."
 

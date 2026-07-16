@@ -238,7 +238,14 @@ def update_llm_settings(
         current.llm.base_url = base_url.strip().rstrip("/")
     if timeout_s is not None:
         current.llm.timeout_s = max(5.0, min(float(timeout_s), 600.0))
+    # Local models have no per-token bill — raise ASX active-set ceiling to the hard max.
+    if current.llm.provider in {"local_llama", "local", "llama"}:
+        current.scale.asx_cap = HARD_SCALE_CEILING
     save_settings(current)
+    if current.llm.provider in {"local_llama", "local", "llama"}:
+        from crawley.asx_desk.store import sync_active_cap
+
+        sync_active_cap(HARD_SCALE_CEILING, expand_from_universe=True)
     return current
 
 

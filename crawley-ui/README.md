@@ -53,9 +53,15 @@ Contract: [`../docs/api/presentation-v1.md`](../docs/api/presentation-v1.md).
 
 | Pack | Path | Role |
 |------|------|------|
-| `asxDeskPack` | `src/packs/asxDeskPack.tsx` | List companies, start/pause/resume scan, job progress, company detail |
+| `asxDeskPack` | `src/packs/asxDeskPack.tsx` | Companies, **Start/Stop** scan daemon + spinner, detail + notebook |
+| `asxRecommendationsPack` | `src/packs/asxRecommendationsPack.tsx` | Recommendations + paper buy |
+| `asxPortfolioPack` | `src/packs/asxPortfolioPack.tsx` | Paper portfolio + ledger |
+| `asxThemesPack` | `src/packs/asxThemesPack.tsx` | News themes, alerts, holdings journal |
+| `analyticsSettingsPack` | `src/packs/analyticsSettingsPack.tsx` | Settings toolbar **LLM** tab (`systemTab`) |
 
-No OpenAI/Google secrets in this app. OAuth “Connect Google” stays on the analytics host (later Settings deep-link).
+Open **Settings → LLM** (system tab) to pick OpenAI vs Local Llama. Local Llama raises the ASX active-set ceiling (no 20-call gate).
+
+No OpenAI/Google secrets in Vite env. Keys stay on the analytics host.
 
 ## Persistence
 

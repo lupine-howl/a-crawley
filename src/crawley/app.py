@@ -21,7 +21,9 @@ from crawley.modules.gmail import GmailModule
 from crawley.modules.investment import InvestmentModule
 from crawley.modules.registry import build_registry
 from crawley.modules.work import WorkModule
+from crawley.api.asx_extra import router as asx_extra_router
 from crawley.api.routes import router as api_router
+from crawley.api.settings_routes import router as settings_api_router
 from crawley.shell.routes import router as shell_router
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -70,5 +72,7 @@ def create_app() -> FastAPI:
     app.state.registry = registry
     app.state.executor = executor
     app.include_router(api_router)
+    app.include_router(asx_extra_router)
+    app.include_router(settings_api_router)
     app.include_router(shell_router)
     return app

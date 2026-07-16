@@ -126,6 +126,37 @@ class LocalLlamaProvider(LLMProvider):
             "model": self.model,
         }
 
+    def list_models(self) -> dict[str, Any]:
+        """Return installed model names from the local daemon (`/api/tags`)."""
+        req = urllib.request.Request(self._url("/api/tags"), method="GET")
+        try:
+            with urllib.request.urlopen(req, timeout=min(10.0, self.timeout_s)) as resp:
+                body = resp.read().decode("utf-8")
+        except Exception as exc:  # noqa: BLE001
+            return {
+                "models": [self.model],
+                "error": f"Could not list local models: {exc}",
+                "source": "fallback",
+            }
+        try:
+            payload = json.loads(body)
+        except json.JSONDecodeError:
+            return {
+                "models": [self.model],
+                "error": "Local daemon returned invalid JSON from /api/tags.",
+                "source": "fallback",
+            }
+        names = sorted(
+            {
+                str(m.get("name") or m.get("model") or "").strip()
+                for m in (payload.get("models") or [])
+                if isinstance(m, dict) and (m.get("name") or m.get("model"))
+            }
+        )
+        if self.model and self.model not in names:
+            names = [self.model, *names]
+        return {"models": names or [self.model], "error": None, "source": "api"}
+
     def complete(
         self,
         messages: list[ChatMessage],
