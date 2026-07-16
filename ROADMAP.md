@@ -19,13 +19,13 @@ Ordered outcomes (not tasks). Product owner owns this file.
 - [x] `crawley-ui` on published Phone Preview + ASX pack (Sprint 32)  
 - [x] Explicit ASX daemon entrypoint (Sprint 33)  
 - [x] Gmail ingest daemon + Sender Inbox pack (Sprint 34)  
-- [ ] Delete Jinja product UI; quarantine Calendar + lite modules (Sprint 35)
+- [x] Delete Jinja product UI; quarantine Calendar + lite modules (Sprint 35)
 
 *Still out of Now:* live brokerage orders, public hosting, multi-user, Calendar product pack
 
 ## Next
 
-**Migration band — Sprints 31–35** (active: Sprint 35)
+**Migration band — Sprints 31–35** (**complete**)
 
 ### Sprint 31 (closed) — Analytics JSON API (ASX + jobs)
 Versioned `/v1` ASX + job control; presentation DTOs; OpenAPI; freeze HTMX features.  
@@ -43,14 +43,15 @@ Clear `asx-scanner` process/entrypoint; job status via API (`CRAWLEY_ASX_WORKER=
 `gmail-ingest` daemon (ASX-style); `/v1/gmail/…` senders + reports; `senderInboxPack` Start/Stop UX.  
 [`docs/sprints/archive/sprint-34-gmail-api-pack.md`](docs/sprints/archive/sprint-34-gmail-api-pack.md) · B97–B98 · [`docs/daemons/gmail-ingest.md`](docs/daemons/gmail-ingest.md)
 
-### Sprint 35 (current) — Cutover (delete HTMX, quarantine modules)
-Remove Jinja product UI; quarantine Calendar + lite modules; Settings/ops in `crawley-ui`.  
-[`docs/sprints/current.md`](docs/sprints/current.md) · B99–B100
+### Sprint 35 (closed) — Cutover (delete HTMX, quarantine modules)
+Jinja product UI removed; Calendar + lite under `_quarantine/`; Settings/ops in `crawley-ui`.  
+[`docs/sprints/archive/sprint-35-cutover.md`](docs/sprints/archive/sprint-35-cutover.md) · B99–B100
 
-### After Sprint 35
+### After Sprint 35 (not yet planned)
 
 - Re-introduce Calendar as light daemon + pack if needed  
 - Un-shelve selected former depth/platform items ([shelved](docs/sprints/shelved/README.md))  
+- B101 Gmail prefetch queue (idea)  
 - Icebox stays closed without PRODUCT revision  
 
 ## Closed

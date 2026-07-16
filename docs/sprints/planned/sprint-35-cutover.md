@@ -1,6 +1,4 @@
 # Sprint 35 — Cutover: delete HTMX, quarantine modules
 
-**Status:** promoted to [`../current.md`](../current.md) (ready — migration)  
-**Backlog refs:** B99–B100  
-
-See [`../current.md`](../current.md) for committed stories and AC.
+**Status:** closed — see [`../archive/sprint-35-cutover.md`](../archive/sprint-35-cutover.md)  
+**Backlog refs:** B99–B100 (done)  

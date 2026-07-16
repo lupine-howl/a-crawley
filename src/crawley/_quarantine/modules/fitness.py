@@ -54,7 +54,7 @@ class FitnessModule(Module):
         self._executor = executor
 
     def panel_context(self) -> dict[str, Any]:
-        from crawley.modules.fitness_import import load_activity_import
+        from crawley._quarantine.modules.fitness_import import load_activity_import
 
         activity = load_activity_import()
         return {
@@ -92,7 +92,7 @@ class FitnessModule(Module):
 
     def _job_body(self, goal: str, use_import: bool = True) -> None:
         try:
-            from crawley.modules.fitness_import import load_activity_import
+            from crawley._quarantine.modules.fitness_import import load_activity_import
 
             self.job = JobState(status="busy", message="Calling LLM…")
             prompts = load_settings().prompts

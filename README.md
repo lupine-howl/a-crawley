@@ -16,7 +16,12 @@ cp .env.example .env
 uv run python -m crawley
 ```
 
-Legacy HTMX UI may still open at http://127.0.0.1:8000 until Sprint 35 — **not** the product surface. Prefer JSON (`/health`, `/v1/…`) + `crawley-ui`. Contract: [`docs/api/presentation-v1.md`](./docs/api/presentation-v1.md).
+Analytics listens on http://127.0.0.1:8000 — **JSON only** (`/health`, `/v1/…`, OpenAPI). There is **no** Jinja/HTMX product dashboard (removed Sprint 35).  
+Contract: [`docs/api/presentation-v1.md`](./docs/api/presentation-v1.md).
+
+**OAuth:** Connect Google from `crawley-ui` deep-links to  
+`/modules/gmail/oauth/start` → callback → minimal “connected” page → return to UI.  
+Optional: `CRAWLEY_UI_ORIGIN=http://127.0.0.1:5173` for a return link on that page.
 
 **Secrets (analytics host only — never in Vite):**
 
@@ -26,7 +31,16 @@ Legacy HTMX UI may still open at http://127.0.0.1:8000 until Sprint 35 — **not
 | `data/` | DuckDB, crawl/mail artifacts (gitignored) |
 | `data/secrets/` | OAuth tokens, settings |
 
-**LAN / Tailscale:** Settings or `CRAWLEY_HOST=0.0.0.0`; trusted network only; OAuth redirect URIs must match the Host you Connect from. Tokens stay on the server.
+**LAN / Tailscale:** `CRAWLEY_HOST=0.0.0.0`; trusted network only; OAuth redirect URIs must match the Host you Connect from.
+
+**Daemons (optional):**
+
+```bash
+export CRAWLEY_ASX_WORKER=daemon CRAWLEY_GMAIL_WORKER=daemon
+uv run python -m crawley
+uv run crawley-asx-scanner watch
+uv run crawley-gmail-ingest watch
+```
 
 ## crawley-ui (product)
 
@@ -55,9 +69,9 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 ## Delivery status
 
-- **Sprints 1–34** — HTMX PoC + dual-desk depth + analytics `/v1` + `crawley-ui` + ASX/Gmail daemons (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
-- **Sprint 35** — HTMX cutover (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Shelved** — Calendar product, lite modules, old depth 31–40 stubs: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
+- **Sprints 1–35** — HTMX PoC → dual-desk depth → Phone Preview migration (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
+- **No active sprint** — migration band complete; see [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Shelved / quarantine** — Calendar + lite modules: [`src/crawley/_quarantine/`](./src/crawley/_quarantine/) · [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 - **Daemons:** [`docs/daemons/asx-scanner.md`](./docs/daemons/asx-scanner.md) · [`docs/daemons/gmail-ingest.md`](./docs/daemons/gmail-ingest.md)
 
 ## Product docs
@@ -66,7 +80,3 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - [`docs/architecture.md`](./docs/architecture.md) · [`docs/migration-phone-preview.md`](./docs/migration-phone-preview.md)
 - [`docs/api/presentation-v1.md`](./docs/api/presentation-v1.md) · [`docs/api/openapi-v1.json`](./docs/api/openapi-v1.json)
 - [`docs/build/consuming-published-core.md`](./docs/build/consuming-published-core.md)
-
-## Next delivery
-
-`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 35** — delete Jinja product UI; quarantine Calendar + lite modules).

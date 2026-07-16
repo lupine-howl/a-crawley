@@ -111,7 +111,7 @@ Ops: [`../daemons/asx-scanner.md`](../daemons/asx-scanner.md). In daemon mode th
 | In-process (default) | unset / not `daemon` | API `ThreadPoolExecutor` |
 | Daemon | `CRAWLEY_GMAIL_WORKER=daemon` | `python -m crawley.daemons.gmail_ingest` (`once` / `watch`); API sets `start_requested` + status `queued` |
 
-Ops: [`../daemons/gmail-ingest.md`](../daemons/gmail-ingest.md). Job id: `gmail-ingest`. OAuth Connect deep-link: `GET /v1/gmail/connection` → `oauth_start_path` (analytics host).
+Ops: [`../daemons/gmail-ingest.md`](../daemons/gmail-ingest.md). Job id: `gmail-ingest`. OAuth Connect deep-link: `GET /v1/gmail/connection` → `oauth_start_path` (`/modules/gmail/oauth/start` on analytics host; thin HTML callback — not a product dashboard).
 
 ## Compatibility
 

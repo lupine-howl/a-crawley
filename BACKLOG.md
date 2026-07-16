@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–34 closed; **hard pivot** — Migration Sprint **35** current (B99–B100); Phone Preview `crawley-ui` + analytics daemons
+**Status:** Sprints 1–35 closed — **migration complete**; Phone Preview `crawley-ui` + analytics daemons; no active sprint
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2511,19 +2511,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B95, B98 |
-| Planned sprint | 35 (current) |
+| Planned sprint | 35 (closed) |
 
 **Goal:** Remove product HTML shell; supported path is analytics JSON + `crawley-ui` only.
 
 **Acceptance criteria:**
 
-- [ ] Product templates/routes removed from supported run path
-- [ ] README updated; CI does not require Jinja dashboard
-- [ ] No permanent `/ops` HTML commitment
+- [x] Product templates/routes removed from supported run path
+- [x] README updated; CI does not require Jinja dashboard
+- [x] No permanent `/ops` HTML commitment (thin OAuth page only)
 
 **Out of scope:**
 
@@ -2535,19 +2535,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Migration |
 | Depends on | B99 |
-| Planned sprint | 35 (current) |
+| Planned sprint | 35 (closed) |
 
 **Goal:** Calendar and lite life modules are not product surfaces; code quarantined or unloaded.
 
 **Acceptance criteria:**
 
-- [ ] Not in product registry/nav for supported path
-- [ ] PRODUCT Later notes Calendar return
-- [ ] Day brief HTMX composition retired with shell
+- [x] Not in product registry/nav for supported path (`_quarantine/`)
+- [x] PRODUCT Later notes Calendar return
+- [x] Day brief HTMX composition retired with shell
 
 **Out of scope:**
 

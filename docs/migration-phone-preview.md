@@ -1,8 +1,9 @@
 # Migration — Phone Preview UI + analytics daemons
 
-**Status:** Active pivot (2026-07-16)  
+**Status:** Migration band **31–35 complete** (2026-07-16)  
 **ADR:** [`adr/009-phone-preview-analytics.md`](adr/009-phone-preview-analytics.md)  
-**Current sprint:** [`sprints/current.md`](sprints/current.md) (Migration Sprint 35 — after 34 Gmail ingest)  
+**Archive:** [`sprints/archive/sprint-35-cutover.md`](sprints/archive/sprint-35-cutover.md)  
+
 **UI consume recipe:** [`build/consuming-published-core.md`](build/consuming-published-core.md)
 
 ## Target shape
@@ -71,7 +72,7 @@ Pin their answer in the `crawley-ui` README once received.
 | UI host + pack | **32** (closed) | `crawley-ui` scaffold; `asxDeskPack` list + start scan |
 | Daemonize ASX | **33** (closed) | Clear `asx-scanner` entrypoint; status via API |
 | Gmail path | **34** (closed) | `gmail-ingest` daemon + `/v1/gmail/…` + `senderInboxPack` (Start/Stop) |
-| Cutover | **35** (current) | Remove Jinja product UI; quarantine Calendar + lite modules; Settings/ops in UI |
+| Cutover | **35** (closed) | Jinja product UI deleted; Calendar + lite quarantined; Settings/ops in UI |
 
 ## What not to do
 
