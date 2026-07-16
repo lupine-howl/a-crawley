@@ -92,16 +92,28 @@ def test_work_save_and_prioritize(client: TestClient, monkeypatch) -> None:
     assert "Ship Sprint 5" in home.text
 
 
-def test_write_back_dry_run_gmail(client: TestClient, tmp_path, monkeypatch) -> None:
+def test_write_back_gmail_propose_cancel(client: TestClient, tmp_path, monkeypatch) -> None:
+    import crawley.modules.gmail as gmail_mod
     import crawley.writeback as wb
 
     monkeypatch.setattr(wb, "AUDIT_PATH", tmp_path / "audit.jsonl")
     monkeypatch.setattr(wb, "DATA_DIR", tmp_path)
+    monkeypatch.setattr(gmail_mod, "SEND_DRAFTS_PATH", tmp_path / "pending_send_drafts.json")
+    monkeypatch.setattr(gmail_mod, "GMAIL_DIR", tmp_path)
     registry = build_registry()
     gmail = registry["gmail"]
-    result = gmail.write_back({"action": "draft_reply", "to": "a@example.com"})
+    result = gmail.write_back(
+        {
+            "action": "propose",
+            "to": "a@example.com",
+            "subject": "Hi",
+            "body": "Hello there",
+        }
+    )
     assert result.error is None
-    assert result.details.get("dry_run") is True
+    draft_id = result.details["draft"]["draft_id"]
+    cancelled = gmail.write_back({"action": "cancel", "draft_id": draft_id})
+    assert cancelled.error is None
     assert (tmp_path / "audit.jsonl").exists()
     work = registry["work"]
     denied = work.write_back({"action": "x"})

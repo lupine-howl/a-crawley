@@ -1,6 +1,7 @@
 # Sprint 18 — Gmail confirm-first send (planned)
 
-**Status:** planned (after Sender Inbox scale preferred)  
+**Status:** done (delivered in [`../current.md`](../current.md) Sprints 18–20 bundle)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B84  
 **Depends on:** ADR-006; Calendar write-back patterns (Sprint 8); Sender Inbox for reply context  
@@ -22,15 +23,15 @@ First **Gmail mutation**: draft → explicit confirm → send (or create-draft-o
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B84 |
 
 **Acceptance criteria:**
 
-- [ ] Propose → draft/diff → confirm → send → audit
-- [ ] Cancel performs no send
-- [ ] Write scope + reconsent when needed; no casual scope creep
-- [ ] Audit visible via existing viewer patterns
-- [ ] Optional: start from Sender Inbox thread context
+- [x] Propose → draft/diff → confirm → send → audit
+- [x] Cancel performs no send
+- [x] Write scope + reconsent when needed; no casual scope creep
+- [x] Audit visible via existing viewer patterns
+- [x] Optional: start from Sender Inbox thread context
 
 **Out of scope:** Bulk send, auto-triage sends, multi-account

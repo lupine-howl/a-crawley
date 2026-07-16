@@ -59,9 +59,56 @@
       </li>
       {% endfor %}
     </ul>
-    <p class="muted">Local open/done only — Crawley will not send mail or create calendar events from these.</p>
+    <p class="muted">Local open/done only — use Compose reply below for confirm-first send.</p>
     {% else %}
     <p class="muted">No todos extracted yet for this sender.</p>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="send-heading" id="compose-reply">
+    <h2 id="send-heading">Compose reply</h2>
+    <p class="muted">Confirm-first send · Cancel never leaves the machine · audit logged.</p>
+    {% if not panel.auth.gmail_send_ok %}
+    <p class="job job-error">Gmail send scope not granted.</p>
+    <p><a class="btn secondary" href="/modules/gmail/oauth/start?gmail_send=1">Reconnect for Gmail send</a></p>
+    {% elif panel.pending_send %}
+    {% set d = panel.pending_send %}
+    <div class="panel panel-tight">
+      <p><strong>To:</strong> {{ d.payload.to }}</p>
+      <p><strong>Subject:</strong> {{ d.payload.subject }}</p>
+      <pre class="bundle-body">{{ d.payload.body }}</pre>
+      <p class="job job-error">Confirm sends this message. This cannot be undone from Crawley.</p>
+      <form hx-post="/modules/gmail/send/confirm" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+        <input type="hidden" name="draft_id" value="{{ d.draft_id }}">
+        <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+        <button type="submit">Confirm send</button>
+      </form>
+      <form hx-post="/modules/gmail/send/cancel" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+        <input type="hidden" name="draft_id" value="{{ d.draft_id }}">
+        <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+        <button type="submit" class="secondary">Cancel</button>
+      </form>
+    </div>
+    {% else %}
+    <form
+      class="settings-form"
+      hx-post="/modules/gmail/send/propose"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+      <input type="hidden" name="thread_id" value="{{ s.messages[0].thread_id if s.messages else '' }}">
+      <label for="send-to">To</label>
+      <input id="send-to" name="to" value="{{ s.from_addr }}" required>
+      <label for="send-subj">Subject</label>
+      <input id="send-subj" name="subject" value="Re: {{ s.messages[0].subject if s.messages else '' }}">
+      <label for="send-body">Body</label>
+      <textarea id="send-body" name="body" rows="6" required placeholder="Your reply…"></textarea>
+      <button type="submit">Propose send</button>
+    </form>
+    {% endif %}
+    {% if panel.job.message and panel.job.status in ['done', 'error', 'idle'] %}
+    <p class="job job-{{ panel.job.status }}">{{ panel.job.message }}</p>
     {% endif %}
   </section>
 

@@ -1,110 +1,47 @@
-# Sprints 15–17 — Inbox/ASX scale + email bridge
+# Sprints 18–20 — Gmail send, ASX alerts, playbooks
 
 **Status:** done (bundled delivery)  
 **Duration:** three symbolic weeks  
-**Backlog refs:** B79–B80 (15); B81–B82 (16); B83 (17)  
-**Depends on:** Sprint 12 Sender Inbox; Sprint 13–14 ASX desk + paper  
+**Backlog refs:** B84 (18); B85–B86 (19); B87–B88 (20)  
+**Depends on:** ADR-006; Sprints 12–17 dual desks  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
-**Previous:** [`archive/sprint-14-asx-paper-portfolio.md`](archive/sprint-14-asx-paper-portfolio.md)  
-**Planned sources:** [`planned/sprint-15-sender-inbox-scale.md`](planned/sprint-15-sender-inbox-scale.md) · [`planned/sprint-16-asx-scale-events.md`](planned/sprint-16-asx-scale-events.md) · [`planned/sprint-17-email-asx-bridge.md`](planned/sprint-17-email-asx-bridge.md)
-
-**Numbering note:** Pivot Sprints 15–17 (this file). Legacy shelved `sprint-15.md` / `sprint-16.md` (history/fitness) were delivered with Sprint 14.
+**Previous:** [`archive/sprint-15-17-scale-bridge.md`](archive/sprint-15-17-scale-bridge.md)  
+**Planned sources:** [`planned/sprint-18-gmail-send.md`](planned/sprint-18-gmail-send.md) · [`planned/sprint-19-asx-alerts.md`](planned/sprint-19-asx-alerts.md) · [`planned/sprint-20-playbooks-polish.md`](planned/sprint-20-playbooks-polish.md)
 
 ## Goal
 
-1. **Sprint 15:** Raise Sender Inbox ingest cap with retention/prune + search/filter.  
-2. **Sprint 16:** Enlarge ASX active set + bounded earnings/events skim.  
-3. **Sprint 17:** Holdings-aware mail ↔ ASX bridge digest with deep links.
+1. **Sprint 18:** Confirm-first Gmail send with audit + opt-in `gmail.send` scope.  
+2. **Sprint 19:** Local ASX alerts + recommendation accept/dismiss/snooze feedback.  
+3. **Sprint 20:** Operator playbooks + dual-desk polish.
 
 ## Demo
 
-1. Set inbox cap (e.g. 100); search/filter senders; old mail pruned  
-2. Expand ASX active set (e.g. 50); run events skim  
-3. Run bridge → hits with links to sender + company  
+1. Propose reply from Sender detail → Cancel (no send) / Confirm (send + audit)  
+2. Add alert rule; evaluate after scan; dismiss/snooze recommendation  
+3. Run “ASX scan + refresh recs” playbook from Settings or desk  
+
+## PO polish list (S20.2 — recorded before implement)
+
+1. Clearer empty states on ASX desk / recommendations when active set or rows empty  
+2. Home chip for open ASX alerts  
+3. Playbook entry points on both desks + Settings  
+4. Sender detail copy: todos local; compose is the send path  
+5. Alerts labelled informational-only (no trades)
 
 ## Committed
 
-### S15.1 — Configurable ingest cap + retention (B79) · done
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B79 |
-
-**Acceptance criteria:**
-
-- [x] Operator-configurable ingest cap (Settings → Desk scale) with hard ceiling 200
-- [x] Retention/prune (keep newest N) under `data/gmail/sender_inbox/`
-- [x] Progress UI scales; reset path remains
-
----
-
-### S15.2 — Sender Inbox search & filter (B80) · done
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B80 |
-
-**Acceptance criteria:**
-
-- [x] Filter senders by name/domain and category metrics
-- [x] Simple search over sender list + subject
-- [x] Empty/no-match honest; theme tokens
-
----
-
-### S16.1 — ASX active-set scale (B81) · done
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B81 |
-
-**Acceptance criteria:**
-
-- [x] Operator can enlarge active scan set beyond 20 within hard ceiling 200
-- [x] Scanner/progress UI handles larger N; pause/resume preserved
-- [x] Universe list still the source; provenance unchanged
-
----
-
-### S16.2 — Earnings & events skim (B82) · done
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B82 |
-
-**Acceptance criteria:**
-
-- [x] Bounded fetch of earnings/event-like signals for active set (Google News RSS)
-- [x] Markdown/table of headlines + Investment → Events page
-- [x] Hard caps; honest empty; non-advice copy
-
----
-
-### S17.1 — Holdings-aware mail bridge (B83) · done
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B83 |
-
-**Acceptance criteria:**
-
-- [x] Bounded match of subject/body to ASX tickers / paper holdings
-- [x] Bridge results + deep links (sender + company)
-- [x] False-positive controls documented
-- [x] Architecture note on matching approach
-- [x] No auto-trading; no auto-send
+### S18.1 — Gmail confirm-first send (B84) · done
+### S19.1 — Local ASX alerts (B85) · done
+### S19.2 — Recommendation feedback loop (B86) · done
+### S20.1 — Operator playbooks (B87) · done
+### S20.2 — Dual-desk polish pass (B88) · done
 
 ## Explicitly out of sprint
 
-- Full offline mailbox index; multi-account  
-- Paid data terminals; auto trades  
-- Gmail confirm-first send (Sprint 18)  
+- Bulk send; SMS/email push; live brokerage  
+- Full redesign; desktop shell  
 
 ## Parking lot
 
-- Fuzzy company-name matching beyond allowlist  
+- Scheduled overnight playbooks  
+- Undo send from audit  

@@ -314,6 +314,12 @@ def _worker_body() -> None:
                 state["current_ticker"] = ""
                 save_scan_state(state)
                 _persist_glance()
+                try:
+                    from crawley.asx_desk.alerts import evaluate_alerts
+
+                    evaluate_alerts()
+                except Exception:  # noqa: BLE001
+                    logger.exception("Alert evaluation failed")
                 return
 
             company = _company_meta(next_ticker)

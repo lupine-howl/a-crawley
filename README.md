@@ -78,8 +78,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprint 12** — Sender Inbox PoC (**closed**): [`docs/sprints/archive/sprint-12-sender-inbox.md`](./docs/sprints/archive/sprint-12-sender-inbox.md)
 - **Sprint 13** — ASX desk scanner + profiles (**closed**): [`docs/sprints/archive/sprint-13-asx-profiles.md`](./docs/sprints/archive/sprint-13-asx-profiles.md)
 - **Sprint 14** — ASX paper desk (+ history/pins + Fitness import B35–B37) (**closed**): [`docs/sprints/archive/sprint-14-asx-paper-portfolio.md`](./docs/sprints/archive/sprint-14-asx-paper-portfolio.md)
-- **Sprints 15–17** — Inbox/ASX scale + email bridge (**done**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprints 18–20** — dual-desk depth (planned): [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
+- **Sprints 15–17** — Inbox/ASX scale + email bridge (**closed**): [`docs/sprints/archive/sprint-15-17-scale-bridge.md`](./docs/sprints/archive/sprint-15-17-scale-bridge.md)
+- **Sprints 18–20** — Gmail send + ASX alerts + playbooks (**done**): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 

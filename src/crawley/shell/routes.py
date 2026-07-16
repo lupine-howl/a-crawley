@@ -164,6 +164,8 @@ def _settings_context(
     env_host = os.environ.get("CRAWLEY_HOST", "").strip()
     lan = host_exposes_lan(bind_host)
     gstat = git_status()
+    from crawley.playbooks import load_playbooks
+
     history = list_history(query=history_query, limit=40)
     pins = list_pins()
     pin_ids = {p.get("id") for p in pins}
@@ -178,6 +180,8 @@ def _settings_context(
             "prompt_settings": settings.prompts,
             "scale_settings": settings.scale,
             "scale_notice": scale_notice,
+            "playbooks": load_playbooks(),
+            "playbooks_notice": None,
             "network_settings": settings.network,
             "simulation_settings": settings.simulation,
             "bind_host": bind_host,
@@ -242,6 +246,12 @@ def dashboard(request: Request) -> HTMLResponse:
     include_shared = request.query_params.get("shared") == "1"
     brief = compose_day_brief_markdown(include_shared_context=include_shared)
     stored_brief = get_snapshot("day-brief")
+    try:
+        from crawley.asx_desk.alerts import open_alert_count
+
+        asx_alert_count = open_alert_count()
+    except Exception:  # noqa: BLE001
+        asx_alert_count = 0
 
     def md(snap):
         return render_markdown(snap.summary_md) if snap else None
@@ -269,6 +279,7 @@ def dashboard(request: Request) -> HTMLResponse:
             "gmail_auth": auth,
             "lan_enabled": settings.network.lan_enabled,
             "bind_exposes_lan": host_exposes_lan(bind_host),
+            "asx_alert_count": asx_alert_count,
             "error": None,
         }
     )
@@ -684,6 +695,130 @@ def asx_recommendations_refresh(request: Request) -> HTMLResponse:
     return _module_response(request, module, panel=module.recommendations_panel_context())
 
 
+@router.post("/modules/investment/recommendations/feedback", response_class=HTMLResponse)
+def asx_recommendation_feedback(
+    request: Request,
+    ticker: str = Form(""),
+    disposition: str = Form("dismissed"),
+    note: str = Form(""),
+) -> HTMLResponse:
+    from crawley.asx_desk.feedback import set_disposition
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    try:
+        set_disposition(ticker, disposition, note=note)
+    except ValueError as exc:
+        module.job = JobState(status="error", message=str(exc))
+    return _module_response(request, module, panel=module.recommendations_panel_context())
+
+
+@router.post("/modules/investment/alerts/rules", response_class=HTMLResponse)
+def asx_alert_rule_add(
+    request: Request,
+    ticker: str = Form(""),
+    condition: str = Form("keyword"),
+    value: str = Form(""),
+    note: str = Form(""),
+) -> HTMLResponse:
+    from crawley.asx_desk.alerts import add_rule, evaluate_alerts
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    try:
+        add_rule(ticker=ticker, condition=condition, value=value, note=note)
+        evaluate_alerts()
+    except ValueError as exc:
+        module.job = JobState(status="error", message=str(exc))
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/alerts/rules/{rule_id}/delete", response_class=HTMLResponse)
+def asx_alert_rule_delete(request: Request, rule_id: str) -> HTMLResponse:
+    from crawley.asx_desk.alerts import delete_rule
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    delete_rule(rule_id)
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/alerts/{alert_id}/dismiss", response_class=HTMLResponse)
+def asx_alert_dismiss(request: Request, alert_id: str) -> HTMLResponse:
+    from crawley.asx_desk.alerts import dismiss_alert
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    dismiss_alert(alert_id)
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/alerts/{alert_id}/snooze", response_class=HTMLResponse)
+def asx_alert_snooze(request: Request, alert_id: str) -> HTMLResponse:
+    from crawley.asx_desk.alerts import snooze_alert
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    snooze_alert(alert_id, hours=24)
+    return _module_response(request, module)
+
+
+@router.post("/modules/investment/alerts/evaluate", response_class=HTMLResponse)
+def asx_alerts_evaluate(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.alerts import evaluate_alerts
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    evaluate_alerts()
+    return _module_response(request, module)
+
+
+@router.post("/modules/playbooks/{playbook_id}/run", response_class=HTMLResponse)
+def playbook_run(request: Request, playbook_id: str) -> HTMLResponse:
+    from crawley.playbooks import load_playbooks, run_playbook
+
+    ok, msg, _log = run_playbook(playbook_id, request.app.state.executor)
+    rows = {p["id"]: p for p in load_playbooks()}
+    pb = rows.get(playbook_id) or {}
+    desk = pb.get("desk") or "investment"
+    if desk == "gmail":
+        module = request.app.state.registry["gmail"]
+        assert isinstance(module, GmailModule)
+        module.job = JobState(status="done" if ok else "error", message=msg)
+        return _module_response(request, module)
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    module.job = JobState(status="done" if ok else "error", message=msg)
+    return _module_response(request, module)
+
+
+@router.post("/settings/playbooks", response_class=HTMLResponse)
+def settings_playbook_save(
+    request: Request,
+    name: str = Form(""),
+    desk: str = Form("investment"),
+    actions: str = Form("start_scan"),
+    note: str = Form(""),
+) -> HTMLResponse:
+    from crawley.playbooks import upsert_playbook
+
+    try:
+        action_list = [a.strip() for a in actions.replace(";", ",").split(",") if a.strip()]
+        upsert_playbook(name=name, desk=desk, actions=action_list, note=note)
+        notice = "Playbook saved."
+    except ValueError as exc:
+        notice = str(exc)
+    ctx = _settings_context(request, scale_notice=notice)
+    # reuse scale_notice slot if playbooks_notice not present — add playbooks to context
+    ctx["playbooks_notice"] = notice
+    from crawley.playbooks import load_playbooks
+
+    ctx["playbooks"] = load_playbooks()
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
 @router.get("/modules/investment/portfolio", response_class=HTMLResponse)
 def asx_portfolio(request: Request) -> HTMLResponse:
     module = request.app.state.registry["investment"]
@@ -864,6 +999,72 @@ def gmail_inbox_reset(request: Request) -> HTMLResponse:
     module = request.app.state.registry["gmail"]
     request_pause()
     reset_poc_data()
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/send/propose", response_class=HTMLResponse)
+def gmail_send_propose(
+    request: Request,
+    to: str = Form(""),
+    subject: str = Form(""),
+    body: str = Form(""),
+    thread_id: str = Form(""),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    result = module.write_back(
+        {
+            "action": "propose",
+            "to": to,
+            "subject": subject,
+            "body": body,
+            "thread_id": thread_id,
+            "sender_id": sender_id,
+        }
+    )
+    if result.error:
+        module.job = JobState(status="error", message=result.error)
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/send/confirm", response_class=HTMLResponse)
+def gmail_send_confirm(
+    request: Request,
+    draft_id: str = Form(""),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    result = module.write_back({"action": "confirm", "draft_id": draft_id})
+    if result.error:
+        module.job = JobState(status="error", message=result.error)
+    elif result.summary == "sent":
+        module.job = JobState(status="done", message=module.job.message or "Sent.")
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/send/cancel", response_class=HTMLResponse)
+def gmail_send_cancel(
+    request: Request,
+    draft_id: str = Form(""),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    module.write_back({"action": "cancel", "draft_id": draft_id})
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
     return _module_response(request, module)
 
 
@@ -1177,11 +1378,13 @@ def module_write_back_dry_run(
 def gmail_oauth_start(request: Request) -> RedirectResponse:
     module = request.app.state.registry["gmail"]
     assert isinstance(module, GmailModule)
-    include_write = request.query_params.get("calendar_write") == "1"
+    include_cal = request.query_params.get("calendar_write") == "1"
+    include_send = request.query_params.get("gmail_send") == "1"
     try:
         url, state = authorization_url(
             _base_url(request),
-            include_calendar_write=include_write,
+            include_calendar_write=include_cal,
+            include_gmail_send=include_send,
         )
         module.oauth_state = state
         return RedirectResponse(url)

@@ -309,6 +309,58 @@
   </form>
 </div>
 
+<div class="panel panel-tight settings-section" id="playbooks">
+  <h2 class="section-title">Playbooks</h2>
+  <p class="muted">Named one-click recipes for Sender Inbox or ASX desk. Stored in <code>data/playbooks.json</code>.</p>
+  {% if playbooks %}
+  <ul class="src-list">
+    {% for p in playbooks %}
+    <li>
+      <strong>{{ p.name }}</strong>
+      <span class="muted">({{ p.desk }} · {{ p.actions|join(', ') }})</span>
+      <form hx-post="/modules/playbooks/{{ p.id }}/run" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+        <button type="submit" class="secondary">Run</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No playbooks yet.</p>
+  {% endif %}
+  <form
+    class="settings-form"
+    hx-post="/settings/playbooks"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+  >
+    <div class="field">
+      <label for="pb-name">Name</label>
+      <input id="pb-name" name="name" required placeholder="Morning ASX">
+    </div>
+    <div class="field">
+      <label for="pb-desk">Desk</label>
+      <select id="pb-desk" name="desk">
+        <option value="investment">Investment / ASX</option>
+        <option value="gmail">Gmail / Sender Inbox</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="pb-actions">Actions (comma-separated)</label>
+      <input id="pb-actions" name="actions" value="start_scan, refresh_recommendations" placeholder="start_ingest or start_scan, refresh_recommendations">
+    </div>
+    <div class="field">
+      <label for="pb-note">Note</label>
+      <input id="pb-note" name="note">
+    </div>
+    <div class="actions">
+      <button type="submit">Save playbook</button>
+    </div>
+    {% if playbooks_notice %}
+    <p class="job job-done">{{ playbooks_notice }}</p>
+    {% endif %}
+  </form>
+</div>
+
 <div class="panel panel-tight settings-section" id="desk-scale">
   <h2 class="section-title">Desk scale</h2>
   <p class="muted">
