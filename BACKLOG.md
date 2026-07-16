@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–11 closed (11 = Settings Update, B78 done); **Sprint 12 ready** = Sender Inbox (B65–B70); ASX → 13–14; former post-10 platform/depth plans shelved
+**Status:** Sprints 1–14 closed (B75–B77 + B35–B37 with Sprint 14); next pivot **15–20** = B79–B88; remaining former post-10 platform/depth plans shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -1656,26 +1656,26 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ---
 
-## Active pivot backlog (Sprints 11–13)
+## Active pivot backlog (Sprints 11–20)
 
 ### B65 — UX: Sender Inbox + ASX dashboards
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B7 |
-| Planned sprint | 12 (current) |
+| Planned sprint | 12 |
 
 **Goal:** UX expert design contract for Sender-grouped Inbox and ASX research desk (profiles, recommendations, paper portfolio pages) before implementation.
 
 **Acceptance criteria:**
 
-- [ ] `docs/ux/sender-inbox-asx.md` covers IA, layouts, states for Sender Inbox + ASX desk + recommendations + paper portfolio
-- [ ] Integrated into `docs/ux.md` (pointers / summary)
-- [ ] Uses existing theme tokens; one composition; implementable for HTMX/Jinja
-- [ ] Stakeholder confirmed or accepted as draft-for-implement
+- [x] `docs/ux/sender-inbox-asx.md` covers IA, layouts, states for Sender Inbox + ASX desk + recommendations + paper portfolio
+- [x] Integrated into `docs/ux.md` (pointers / summary)
+- [x] Uses existing theme tokens; one composition; implementable for HTMX/Jinja
+- [x] Stakeholder confirmed or accepted as draft-for-implement
 
 **Out of scope:**
 
@@ -1690,20 +1690,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B5, B10, B65 |
-| Planned sprint | 12 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Polite background process pulls **one email at a time** and LLM-categorizes each on a useful metric schema.
 
 **Acceptance criteria:**
 
-- [ ] One-at-a-time ingest with visible progress
-- [ ] Persisted category metrics per message (schema documented)
-- [ ] Isolated errors; uses existing Gmail read auth
-- [ ] No Gmail write-back required
+- [x] One-at-a-time ingest with visible progress
+- [x] Persisted category metrics per message (schema documented)
+- [x] Isolated errors; uses existing Gmail read auth
+- [x] No Gmail write-back required
 
 **Out of scope:**
 
@@ -1715,19 +1715,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66, B65 |
-| Planned sprint | 12 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Default Inbox UI grouped by **sender**, not a chronological stream.
 
 **Acceptance criteria:**
 
-- [ ] Sender list as primary surface per UX
-- [ ] Drill-in to sender’s ingested messages
-- [ ] Metric chips / counts; theme tokens
+- [x] Sender list as primary surface per UX
+- [x] Drill-in to sender’s ingested messages
+- [x] Metric chips / counts; theme tokens
 
 **Out of scope:**
 
@@ -1739,19 +1739,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B67 |
-| Planned sprint | 12 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Per-sender LLM profile describing interaction history from ingested mail.
 
 **Acceptance criteria:**
 
-- [ ] Profile generated/updated from sender bundle
-- [ ] Persisted; shown on sender detail
-- [ ] Empty/low-data honest state
+- [x] Profile generated/updated from sender bundle
+- [x] Persisted; shown on sender detail
+- [x] Empty/low-data honest state
 
 **Out of scope:**
 
@@ -1763,19 +1763,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B68 |
-| Planned sprint | 12 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Extract actionable todos from each sender’s ingested emails; local open/done.
 
 **Acceptance criteria:**
 
-- [ ] Todos extracted via LLM from sender bundle
-- [ ] List + open/done toggle locally
-- [ ] No auto-send / auto-calendar
+- [x] Todos extracted via LLM from sender bundle
+- [x] List + open/done toggle locally
+- [x] No auto-send / auto-calendar
 
 **Out of scope:**
 
@@ -1787,19 +1787,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B66 |
-| Planned sprint | 12 (current) |
+| Planned sprint | 12 |
 
 **Goal:** Hard PoC bound of ~20 ingested emails with clear UI and reset path.
 
 **Acceptance criteria:**
 
-- [ ] Cap enforced (~20)
-- [ ] Progress/remaining visible; reset documented
-- [ ] Path to raise cap later documented
+- [x] Cap enforced (~20)
+- [x] Progress/remaining visible; reset documented
+- [x] Path to raise cap later documented
 
 **Out of scope:**
 
@@ -1811,7 +1811,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B65 |
@@ -1821,9 +1821,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Large list in `data/` with provenance documented
-- [ ] Selectable PoC set of 20
-- [ ] Surfaced in ASX desk UI
+- [x] Large list in `data/` with provenance documented
+- [x] Selectable PoC set of 20
+- [x] Surfaced in ASX desk UI
 
 **Out of scope:**
 
@@ -1835,7 +1835,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B71 |
@@ -1845,9 +1845,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] One-company-at-a-time (or similarly polite) cadence
-- [ ] Bounded fetches; progress UI; pause/resume
-- [ ] Artifacts under `data/`; rate limits respected
+- [x] One-company-at-a-time (or similarly polite) cadence
+- [x] Bounded fetches; progress UI; pause/resume
+- [x] Artifacts under `data/`; rate limits respected
 
 **Out of scope:**
 
@@ -1859,7 +1859,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B72, B74 |
@@ -1869,10 +1869,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Profile view per UX with metrics + narrative + sentiment
-- [ ] Metric/source rubric documented; gaps called out honestly
-- [ ] Non-advice disclaimer
-- [ ] Regenerable after new scans
+- [x] Profile view per UX with metrics + narrative + sentiment
+- [x] Metric/source rubric documented; gaps called out honestly
+- [x] Non-advice disclaimer
+- [x] Regenerable after new scans
 
 **Out of scope:**
 
@@ -1887,7 +1887,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Pivot |
 | Depends on | B9 |
@@ -1897,10 +1897,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Source registry with enable flags + documented defaults
-- [ ] Prompt templates editable (scan / profile / sentiment / recommendations)
-- [ ] Architecture notes scan vs curated-source modes
-- [ ] Avoid TOS-hostile scraping targets
+- [x] Source registry with enable flags + documented defaults
+- [x] Prompt templates editable (scan / profile / sentiment / recommendations)
+- [x] Architecture notes scan vs curated-source modes
+- [x] Avoid TOS-hostile scraping targets
 
 **Out of scope:**
 
@@ -1916,7 +1916,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Done — Pivot |
 | Depends on | B73 |
-| Planned sprint | 14 |
+| Planned sprint | 14 (current) |
 
 **Goal:** Structured list of actionable recommendations generated from company profiles.
 
@@ -1940,7 +1940,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P0 |
 | Roadmap theme | Done — Pivot |
 | Depends on | B75 |
-| Planned sprint | 14 |
+| Planned sprint | 14 (current) |
 
 **Goal:** Separate page tracking a **paper** portfolio of trades from recommendations (or manual), marked-to-market from scan prices.
 
@@ -1968,7 +1968,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Done — Pivot |
 | Depends on | B76 |
-| Planned sprint | 14 |
+| Planned sprint | 14 (current) |
 
 **Goal:** Settings for paper trading assumptions (cash, fees, AUD, cosmetic broker label).
 
@@ -2009,6 +2009,251 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 - Cloud deploy, CI triggers, conflict resolution UI
 - Pulling unrelated repos
+
+---
+
+
+### B79 — Sender Inbox raised cap & retention
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B70 |
+| Planned sprint | 15 |
+
+**Goal:** Raise the ~20 email PoC cap with documented retention/prune so Sender Inbox remains operable at modest scale.
+
+**Acceptance criteria:**
+
+- [ ] Configurable or raised ingest cap with clear UI of progress/remaining
+- [ ] Retention/prune policy documented and enforced (oldest or reset path)
+- [ ] Architecture note on scale bounds; still not full-mailbox product
+
+**Out of scope:**
+
+- Full-history Gmail sync; multi-account
+
+---
+
+### B80 — Sender Inbox search & filter
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B67, B69 |
+| Planned sprint | 15 |
+
+**Goal:** Local search/filter across senders, categories, and todos without a second UI stack.
+
+**Acceptance criteria:**
+
+- [ ] Filter/search by sender, category metric, and/or todo open/done
+- [ ] Results stay within Sender Inbox IA (list → detail)
+- [ ] Empty filter state honest; theme tokens
+
+**Out of scope:**
+
+- Full-text Gmail offline index product; CRM export
+
+---
+
+### B81 — ASX desk scale beyond PoC slice
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B71, B72, B73 |
+| Planned sprint | 16 |
+
+**Goal:** Expand scanning/profiles beyond the 20-company PoC with operator-controlled set size and polite cadence.
+
+**Acceptance criteria:**
+
+- [ ] Operator can expand/select active universe beyond 20 within hard max
+- [ ] Scanner/profile jobs remain one-at-a-time (or equally polite); progress clear
+- [ ] Caps and rate-limit posture documented
+
+**Out of scope:**
+
+- Global equities; paid terminal contracts without ADR
+
+---
+
+### B82 — ASX earnings & events skim
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B73, B74 |
+| Planned sprint | 16 |
+
+**Goal:** Bounded earnings/events skim for the active ASX set — calendar of catalysts, not auto trades.
+
+**Acceptance criteria:**
+
+- [ ] Bounded fetch of earnings/event-like sources for active set
+- [ ] Markdown/list of upcoming/recent events + optional LLM wrap
+- [ ] Hard caps; honest empty; non-advice disclaimer
+
+**Out of scope:**
+
+- Paid data vendor product; auto trades (Icebox)
+
+---
+
+### B83 — Email × ASX bridge
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B67, B73, B76 |
+| Planned sprint | 17 |
+
+**Goal:** Surface when Sender Inbox / mail mentions tickers or companies in the ASX desk or paper book — bridge digest + deep links.
+
+**Acceptance criteria:**
+
+- [ ] Bounded match of sender/subject/body (or categories) to ASX tickers / paper holdings
+- [ ] Bridge results with deep links to Sender + ASX profile / paper position
+- [ ] False-positive controls; no auto-trading or auto-send
+- [ ] Architecture note on matching approach
+
+**Out of scope:**
+
+- Broker statement as sole source; CRM enrichment
+
+---
+
+### B84 — Gmail confirm-first send
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B15, B18, B25 |
+| Planned sprint | 18 |
+
+**Goal:** First Gmail mutation: propose draft reply/compose → confirm → send → audit (ADR-006). Complements Sender Inbox todos that need a real reply.
+
+**Acceptance criteria:**
+
+- [ ] Propose draft from operator input and/or LLM suggestion (e.g. from sender todo)
+- [ ] Confirm required; cancel leaves no remote send
+- [ ] On confirm: Gmail send with write scope; reconsent if needed
+- [ ] Local audit entry; success/failure clear
+- [ ] No silent/scheduled send
+
+**Out of scope:**
+
+- Bulk send; auto-reply loops; labels mutation (shelved B48)
+
+---
+
+### B85 — ASX local alerts
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B72, B76 |
+| Planned sprint | 19 |
+
+**Goal:** In-app/local alerts for ASX desk or paper book conditions — informational only.
+
+**Acceptance criteria:**
+
+- [ ] Alert rule CRUD (ticker/topic, condition type: keyword / threshold note / paper P&L note)
+- [ ] Evaluation on scan/recommend and/or opt-in schedule (default off)
+- [ ] Triggered alerts list on ASX desk; optional home chip
+- [ ] Explicit: informational; no trades
+
+**Out of scope:**
+
+- SMS/email push off-machine; live brokerage orders
+
+---
+
+### B86 — Recommendation feedback loop
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B75, B76 |
+| Planned sprint | 19 |
+
+**Goal:** Operator can mark recommendations acted / dismissed / watched so later runs can bias (soft) without inventing fake P&L.
+
+**Acceptance criteria:**
+
+- [ ] Per-recommendation disposition persisted locally
+- [ ] Regenerated lists respect dispositions (hide dismissed or section them)
+- [ ] Optional note field; architecture note on feedback use in prompts (capped)
+
+**Out of scope:**
+
+- ML ranking product; broker sync of fills
+
+---
+
+### B87 — Dual-desk operator playbooks
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B67, B75, B76 |
+| Planned sprint | 20 |
+
+**Goal:** Named playbooks binding Sender Inbox and/or ASX desk scopes + prompts for one-click deep runs.
+
+**Acceptance criteria:**
+
+- [ ] Named playbooks (module + scope + prompt template) stored locally
+- [ ] One-click Run from Sender Inbox / ASX / Settings
+- [ ] Exportable with local backup patterns if present
+
+**Out of scope:**
+
+- New life-domain modules; automated trading
+
+---
+
+### B88 — Dual-desk polish & reliability
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P2 |
+| Roadmap theme | Next — Pivot |
+| Depends on | B87 |
+| Planned sprint | 20 |
+
+**Goal:** PO-prioritized polish/reliability pass on Sender Inbox + ASX + paper surfaces.
+
+**Acceptance criteria:**
+
+- [ ] PO polish list recorded in sprint file before implement
+- [ ] Address list within theme tokens; no second UI stack
+- [ ] Architecture module maps updated for dual-desk surfaces
+
+**Out of scope:**
+
+- Full redesign; Icebox items
 
 ---
 

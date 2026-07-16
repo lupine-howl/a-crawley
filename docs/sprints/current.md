@@ -8,11 +8,13 @@
 **Previous:** [`archive/sprint-13-asx-profiles.md`](archive/sprint-13-asx-profiles.md)  
 **Planned sources:** [`planned/sprint-14-asx-paper-portfolio.md`](planned/sprint-14-asx-paper-portfolio.md) · [`planned/sprint-15.md`](planned/sprint-15.md) · [`planned/sprint-16.md`](planned/sprint-16.md)
 
+**Numbering note:** This bundle closes paper portfolio (pivot Sprint 14) plus formerly shelved history/fitness items (legacy `sprint-15.md` / `sprint-16.md`). The **next** pivot Sprint 15 is Sender Inbox scale ([`planned/sprint-15-sender-inbox-scale.md`](planned/sprint-15-sender-inbox-scale.md)), not the legacy history file.
+
 ## Goal
 
 1. **Sprint 14:** Structured ASX recommendations + simulated paper portfolio + simulation settings (no live broker).  
-2. **Sprint 15:** Bounded snapshot history browser + pin history into shared context.  
-3. **Sprint 16:** Fitness activity import lite grounding plans (non-medical).
+2. **Sprint 15 (legacy / B35–B36):** Bounded snapshot history browser + pin history into shared context.  
+3. **Sprint 16 (legacy / B37):** Fitness activity import lite grounding plans (non-medical).
 
 ## Demo
 
@@ -118,8 +120,10 @@
 - Live brokerage OAuth / order placement  
 - Tax/CGT engine; continuous wearable sync  
 - Co-parenting→Calendar publish (still shelved B34)
+- Sender Inbox scale / ASX scale / Gmail send → pivot Sprints 15–20
 
 ## Parking lot
 
 - Multi-currency portfolio  
 - Full Markdown render for history bodies (escaped pre is enough for PoC)
+- Compare paper vs manual holdings journal

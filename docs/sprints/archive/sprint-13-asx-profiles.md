@@ -6,8 +6,9 @@
 **Depends on:** Sprint 12 Sender Inbox; B65 UX ASX contract; Investment module  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
 **UX:** ASX desk per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §4  
-**Previous:** [`archive/sprint-12-sender-inbox.md`](archive/sprint-12-sender-inbox.md)  
-**Planned source:** [`planned/sprint-13-asx-profiles.md`](planned/sprint-13-asx-profiles.md)
+**Previous:** [`sprint-12-sender-inbox.md`](sprint-12-sender-inbox.md)  
+**Planned source:** [`../planned/sprint-13-asx-profiles.md`](../planned/sprint-13-asx-profiles.md)  
+**Next:** [`../current.md`](../current.md) (Sprint 14 + B35–B37 done)
 
 ## Goal
 

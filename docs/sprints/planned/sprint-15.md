@@ -1,6 +1,7 @@
 # Sprint 15 — Snapshot history + deeper shared memory (planned)
 
-**Status:** done (un-shelved into [`../current.md`](../current.md) Sprints 14–16 bundle)  
+**Status:** done (legacy shelved plan; delivered with Sprint 14 in [`../current.md`](../current.md) — **not** pivot Sprint 15)  
+**Pivot Sprint 15:** [`sprint-15-sender-inbox-scale.md`](sprint-15-sender-inbox-scale.md)  
 
 **Duration:** one symbolic week  
 **Backlog refs:** B35, B36  

@@ -3,11 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–16 closed (14–16 = ASX paper desk + snapshot history/pins + fitness import)  
+**Status:** Sprints 1–14 closed (14 = ASX paper desk; also shipped history/pins + fitness import B35–B37)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprints 14–16 done)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 14 + B35–B37 done)  
 **Sprint 13 (closed):** [`sprints/archive/sprint-13-asx-profiles.md`](sprints/archive/sprint-13-asx-profiles.md)  
-**Next planned:** see [`sprints/planned/`](sprints/planned/README.md) / backlog  
+**Next planned:** pivot Sprints 15–20 — [`sprints/planned/README.md`](sprints/planned/README.md)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -43,11 +43,11 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.  
 **Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.  
 **Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`).  
-**Sprints 14–16:** ASX recommendations + paper portfolio + simulation settings; bounded snapshot history + shared-context pins; Fitness activity import lite.
+**Sprint 14:** ASX recommendations + paper portfolio + simulation settings; also shipped bounded snapshot history + shared-context pins (B35–B36) and Fitness activity import lite (B37).
 
 ## Sprint delivery maps
 
-### Sprints 14–16 (closed) — Paper desk + history + fitness import
+### Sprint 14 (closed) — Paper desk + history + fitness import
 
 | Story | Architecture touchpoints |
 |-------|--------------------------|

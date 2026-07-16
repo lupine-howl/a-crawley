@@ -1,6 +1,7 @@
 # Sprint 16 — Fitness data import lite (planned)
 
-**Status:** done (un-shelved into [`../current.md`](../current.md) Sprints 14–16 bundle)  
+**Status:** done (legacy shelved plan; delivered with Sprint 14 in [`../current.md`](../current.md) — **not** pivot Sprint 16)  
+**Pivot Sprint 16:** [`sprint-16-asx-scale-events.md`](sprint-16-asx-scale-events.md)  
 
 **Duration:** one symbolic week  
 **Backlog refs:** B37  

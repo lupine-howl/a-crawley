@@ -1,11 +1,12 @@
-# Sprint 14 — ASX recommendations + paper portfolio (planned)
+# Sprint 14 — ASX recommendations + paper portfolio
 
-**Status:** done (delivered in [`../current.md`](../current.md) Sprints 14–16 bundle)
+**Status:** done (delivered in [`../current.md`](../current.md); also shipped B35–B37 in that bundle)  
 **Duration:** one symbolic week  
 **Backlog refs:** B75, B76, B77  
 **Depends on:** B73 company profiles; B65 UX for recommendations + portfolio pages  
 **Architecture:** simulation ledger local-only; never calls brokerage order APIs  
-**UX:** Recommendations list + separate portfolio page per UX contract
+**UX:** Recommendations list + separate portfolio page per UX contract  
+**Next (pivot):** [`sprint-15-sender-inbox-scale.md`](sprint-15-sender-inbox-scale.md)
 
 ## Goal
 
