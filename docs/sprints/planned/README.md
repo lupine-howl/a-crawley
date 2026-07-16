@@ -4,7 +4,7 @@
 **Closed:** [`../archive/`](../archive/) including Sprint 13 ASX profiles.  
 **Shelved former post-10 platform/depth plans:** [`../shelved/README.md`](../shelved/README.md).
 
-## Active pivot track (11–20)
+## Active pivot track (11–21)
 
 | Sprint | Theme | File | Backlog |
 |--------|-------|------|---------|
@@ -18,6 +18,7 @@
 | 18 | Gmail confirm-first send | [`sprint-18-gmail-send.md`](sprint-18-gmail-send.md) | B84 |
 | 19 | ASX alerts + recommendation feedback | [`sprint-19-asx-alerts.md`](sprint-19-asx-alerts.md) | B85–B86 |
 | 20 | Dual-desk playbooks + polish | [`sprint-20-playbooks-polish.md`](sprint-20-playbooks-polish.md) | B87–B88 |
+| 21 | Google OAuth ops (Tailscale Connect + softer reconsent) | [`sprint-21-google-oauth-ops.md`](sprint-21-google-oauth-ops.md) | B89–B90 |
 
 ## Closed (index)
 
@@ -31,4 +32,4 @@
 
 **UX:** Sender Inbox + ASX desk contract: [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) (Sprints 12–14+).
 
-**Note:** Bare `sprint-11.md`…`sprint-40.md` files are **shelved** collision stubs from the former depth/platform queue — prefer the pivot-named files above.
+**Note:** Bare `sprint-11.md`…`sprint-40.md` files are **shelved** collision stubs from the former depth/platform queue — prefer the pivot-named files above. In particular, bare [`sprint-21.md`](sprint-21.md) (B44 thread digests) ≠ [`sprint-21-google-oauth-ops.md`](sprint-21-google-oauth-ops.md).

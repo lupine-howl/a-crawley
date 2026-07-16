@@ -55,7 +55,12 @@ Local in-panel alerts; disposition loop on recommendations (no live orders).
 Named playbooks for Sender Inbox / ASX runs; focused polish pass.  
 [`docs/sprints/planned/sprint-20-playbooks-polish.md`](docs/sprints/planned/sprint-20-playbooks-polish.md) · B87–B88
 
-### After Sprint 20
+### Sprint 21 (planned) — Google OAuth ops
+Tailscale/LAN first-Connect ergonomics + softer consent prompts (fewer unnecessary re-auth screens).  
+[`docs/sprints/planned/sprint-21-google-oauth-ops.md`](docs/sprints/planned/sprint-21-google-oauth-ops.md) · B89–B90  
+*May pull forward if OAuth friction blocks desk use before Sprint 20 finishes.*
+
+### After Sprint 21
 
 - Un-shelve selected former platform/depth items where useful ([shelved](docs/sprints/shelved/README.md))
 - Icebox stays closed without PRODUCT revision
@@ -75,7 +80,7 @@ Named playbooks for Sender Inbox / ASX runs; focused polish pass.
 
 ## Later (shelved — do not start)
 
-Former **planned** Sprints 11–40 (platform Later + Email/Investment depth arc) — filenames `planned/sprint-11.md`…`sprint-40.md` collide with pivot; use the pivot-named files (`sprint-11-update.md`, `sprint-12-sender-inbox.md`, `sprint-13-asx-profiles.md`, `sprint-14-asx-paper-portfolio.md`, `sprint-15-sender-inbox-scale.md` … `sprint-20-playbooks-polish.md`).
+Former **planned** Sprints 11–40 (platform Later + Email/Investment depth arc) — filenames `planned/sprint-11.md`…`sprint-40.md` collide with pivot; use the pivot-named files (`sprint-11-update.md` … `sprint-20-playbooks-polish.md`, `sprint-21-google-oauth-ops.md`). Bare `sprint-21.md` remains shelved (B44 thread digests).
 
 ## Icebox
 
