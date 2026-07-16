@@ -51,7 +51,10 @@ class ScaleSettingsView(BaseModel):
     inbox_keep_max: int
     hard_ceiling: int = HARD_SCALE_CEILING
     local_llama_uncapped: bool = Field(
-        description="True when provider is local_llama (active set pads to hard ceiling)"
+        description=(
+            "True when provider is local_llama "
+            "(ASX active set + inbox ingest/keep caps pad to hard ceiling)"
+        )
     )
 
 

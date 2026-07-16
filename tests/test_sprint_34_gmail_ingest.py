@@ -153,3 +153,23 @@ def test_cli_parser() -> None:
     assert args.command == "status"
     args2 = parser.parse_args(["once", "--force"])
     assert args2.force is True
+
+
+def test_local_llama_raises_inbox_cap(client: TestClient, monkeypatch) -> None:
+    from crawley.settings import HARD_SCALE_CEILING, load_settings, update_llm_settings
+
+    update_llm_settings(
+        provider="local_llama",
+        model="llama3.2",
+        api_key="",
+        base_url="http://127.0.0.1:11434",
+    )
+    settings = load_settings()
+    assert settings.scale.inbox_cap == HARD_SCALE_CEILING
+    assert settings.scale.inbox_keep_max >= HARD_SCALE_CEILING
+
+    scale = client.get("/v1/settings/scale")
+    assert scale.status_code == 200
+    body = scale.json()
+    assert body["local_llama_uncapped"] is True
+    assert body["inbox_cap"] == HARD_SCALE_CEILING

@@ -32,6 +32,7 @@ def test_llm_settings_roundtrip(client: TestClient) -> None:
     assert scale.status_code == 200
     assert scale.json()["local_llama_uncapped"] is True
     assert scale.json()["asx_cap"] >= 200
+    assert scale.json()["inbox_cap"] >= 200
 
 
 def test_force_scan_start_when_complete(client: TestClient, monkeypatch) -> None:

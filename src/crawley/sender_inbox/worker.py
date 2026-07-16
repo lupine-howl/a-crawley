@@ -57,8 +57,20 @@ def request_pause() -> None:
     save_ingest_state(state)
 
 
+def _expand_inbox_cap_for_local_llm() -> None:
+    """Local Llama has no per-call cost — prefer the hard ceiling for ingest."""
+    from crawley.settings import HARD_SCALE_CEILING, resolved_llm_provider_name
+    from crawley.sender_inbox.store import sync_ingest_cap
+
+    name = resolved_llm_provider_name()
+    if name not in {"local_llama", "local", "llama"}:
+        return
+    sync_ingest_cap(HARD_SCALE_CEILING)
+
+
 def _prepare_ingest_state(*, force: bool) -> tuple[bool, str, dict[str, Any] | None]:
     """Validate and prepare ingest_state. Does not set _running."""
+    _expand_inbox_cap_for_local_llm()
     state = load_ingest_state()
     if state.get("status") == "busy":
         return False, "Ingest already running.", None
@@ -68,6 +80,7 @@ def _prepare_ingest_state(*, force: bool) -> tuple[bool, str, dict[str, Any] | N
     # Reset only after auth checks so a failed Start does not wipe data.
     if force:
         reset_poc_data()
+        _expand_inbox_cap_for_local_llm()
         state = load_ingest_state()
     if remaining_capacity() <= 0:
         state["status"] = "done"
