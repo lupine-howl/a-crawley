@@ -203,7 +203,8 @@ function SenderInboxPage() {
         <h1 className="text-2xl font-semibold text-app-text">Sender Inbox</h1>
         <p className="mt-2 max-w-2xl text-app-muted">
           Start or stop the Gmail ingest daemon. Analytics scans INBOX, groups by sender, and
-          builds per-sender reports. This UI never talks to Gmail or the LLM directly.
+          builds per-sender reports. With Local Llama the ingest cap rises to the hard ceiling
+          (no 20-message gate). This UI never talks to Gmail or the LLM directly.
         </p>
       </header>
 

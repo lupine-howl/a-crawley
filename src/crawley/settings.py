@@ -238,14 +238,21 @@ def update_llm_settings(
         current.llm.base_url = base_url.strip().rstrip("/")
     if timeout_s is not None:
         current.llm.timeout_s = max(5.0, min(float(timeout_s), 600.0))
-    # Local models have no per-token bill — raise ASX active-set ceiling to the hard max.
+    # Local models have no per-token bill — raise ASX + inbox caps to the hard max.
     if current.llm.provider in {"local_llama", "local", "llama"}:
         current.scale.asx_cap = HARD_SCALE_CEILING
+        current.scale.inbox_cap = HARD_SCALE_CEILING
+        # Keep-max must not sit below inbox_cap or prune will discard mid-ingest.
+        current.scale.inbox_keep_max = max(
+            int(current.scale.inbox_keep_max), HARD_SCALE_CEILING
+        )
     save_settings(current)
     if current.llm.provider in {"local_llama", "local", "llama"}:
         from crawley.asx_desk.store import sync_active_cap
+        from crawley.sender_inbox.store import sync_ingest_cap
 
         sync_active_cap(HARD_SCALE_CEILING, expand_from_universe=True)
+        sync_ingest_cap(HARD_SCALE_CEILING)
     return current
 
 
@@ -321,9 +328,11 @@ def update_scale_settings(
 
 
 def effective_inbox_cap() -> int:
-    """Settings win; env CRAWLEY_SENDER_INBOX_CAP still clamps the hard ceiling path."""
+    """Settings win; Local Llama always uses the hard ceiling (no per-call cost)."""
     env_default = clamp_scale_cap(os.environ.get("CRAWLEY_SENDER_INBOX_CAP", "20"), default=20)
     try:
+        if resolved_llm_provider_name() in {"local_llama", "local", "llama"}:
+            return HARD_SCALE_CEILING
         return clamp_scale_cap(load_settings().scale.inbox_cap, default=env_default)
     except Exception:  # noqa: BLE001
         return env_default
@@ -339,6 +348,8 @@ def effective_asx_cap() -> int:
 
 def effective_inbox_keep_max() -> int:
     try:
+        if resolved_llm_provider_name() in {"local_llama", "local", "llama"}:
+            return max(HARD_SCALE_CEILING, clamp_scale_cap(load_settings().scale.inbox_keep_max, default=100))
         return clamp_scale_cap(load_settings().scale.inbox_keep_max, default=100)
     except Exception:  # noqa: BLE001
         return 100
