@@ -16,7 +16,7 @@ cp .env.example .env
 uv run python -m crawley
 ```
 
-Legacy HTMX UI may still open at http://127.0.0.1:8000 until Sprint 35 — **not** the product surface. Prefer JSON (`/health`, `/v1/…` as Sprint 31 lands) + `crawley-ui`.
+Legacy HTMX UI may still open at http://127.0.0.1:8000 until Sprint 35 — **not** the product surface. Prefer JSON (`/health`, `/v1/…`) + `crawley-ui`. Contract: [`docs/api/presentation-v1.md`](./docs/api/presentation-v1.md).
 
 **Secrets (analytics host only — never in Vite):**
 
@@ -44,16 +44,17 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 ## Delivery status
 
-- **Sprints 1–30** — HTMX PoC + dual-desk depth (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
-- **Sprint 31** — Analytics JSON API ASX + jobs (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprints 32–35** — `crawley-ui`, ASX daemon, Gmail API/pack, HTMX cutover: [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
+- **Sprints 1–31** — HTMX PoC + dual-desk depth + analytics `/v1` API (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
+- **Sprint 32** — `crawley-ui` + ASX pack (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 33–35** — ASX daemon, Gmail API/pack, HTMX cutover: [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
 - **Shelved** — Calendar product, lite modules, old depth 31–40 stubs: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 ## Product docs
 
 - [`PRODUCT.md`](./PRODUCT.md) · [`ROADMAP.md`](./ROADMAP.md) · [`BACKLOG.md`](./BACKLOG.md)
 - [`docs/architecture.md`](./docs/architecture.md) · [`docs/migration-phone-preview.md`](./docs/migration-phone-preview.md)
+- [`docs/api/presentation-v1.md`](./docs/api/presentation-v1.md) · [`docs/api/openapi-v1.json`](./docs/api/openapi-v1.json)
 
 ## Next delivery
 
-`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 31** — `/v1` ASX + jobs + OpenAPI). Do not add Jinja product features.
+`@architect-developer` / UI work implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 32** — `crawley-ui` + `asxDeskPack`). Do not add Jinja product features.

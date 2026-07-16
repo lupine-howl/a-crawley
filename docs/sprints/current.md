@@ -1,78 +1,64 @@
-# Sprint 31 — Analytics JSON API (ASX + jobs)
+# Sprint 32 — crawley-ui + ASX pack
 
 **Status:** ready (Migration band — hard pivot)  
 **Duration:** one symbolic week  
-**Backlog refs:** B91, B92, B93  
-**Depends on:** Shipped ASX desk (Sprints 13–30 brain)  
+**Backlog refs:** B94, B95  
+**Depends on:** Sprint 31 OpenAPI + ASX `/v1` ([archive](archive/sprint-31-analytics-api.md))  
 **Architecture:** [ADR-009](../adr/009-phone-preview-analytics.md) · [`../migration-phone-preview.md`](../migration-phone-preview.md)  
-**Previous:** Depth band 21–30 complete (no open HTMX feature sprint)  
-**Planned source:** [`planned/sprint-31-analytics-api.md`](planned/sprint-31-analytics-api.md)
+**API contract:** [`../api/presentation-v1.md`](../api/presentation-v1.md) · [`../api/openapi-v1.json`](../api/openapi-v1.json)  
+**UX:** Prefer `@ux-expert` pass for ASX pack IA against Phone Preview shell  
+**Previous:** Migration Sprint 31 closed  
+**Planned source:** [`planned/sprint-32-crawley-ui-asx-pack.md`](planned/sprint-32-crawley-ui-asx-pack.md)
 
 ## Goal
 
-Make **Crawley analytics** callable without the Jinja product UI: versioned JSON API for ASX companies + job control, documented presentation DTOs, and OpenAPI. Freeze HTMX feature work (bugfixes only until Sprint 35 deletion).
+Scaffold **`crawley-ui`** from **published** Phone Preview packages and ship an **`asxDeskPack`** that lists companies and starts a scan via the analytics API (Vite proxy in dev).
 
 ## Demo
 
-1. `GET /health` and `GET /v1/asx/companies` return JSON  
-2. `POST /v1/asx/scan/start` (or equivalent) starts enrichment; `GET /v1/jobs/{id}` shows progress  
-3. OpenAPI (or equivalent schema file) checked in and matches handlers  
-4. No new Jinja product features landed  
+1. `npm` install / run `crawley-ui`  
+2. ASX pack shows company list from `/v1/asx/companies`  
+3. Start scan from UI; job progress visible  
+4. No secrets in the Vite app; Google OAuth not required for this ASX-only slice  
 
 ## Committed
 
-Implement **in order** (S31.1 → S31.2 → S31.3).
+Implement **in order** (S32.1 → S32.2).
 
-### S31.1 — Pivot docs lock + freeze HTMX features (B91)
-
-| Field | Value |
-|-------|-------|
-| Status | todo |
-| Backlog ref | B91 |
-
-**Acceptance criteria:**
-
-- [x] PRODUCT / ROADMAP / ADR-009 / migration doc describe the pivot (this PR)  
-- [ ] Architect confirms no new Jinja product features; HTMX routes may remain until Sprint 35 but are non-product  
-- [ ] Architecture overview diagram updated to analytics + UI split  
-
-### S31.2 — ASX + jobs JSON API (B92)
+### S32.1 — crawley-ui scaffold (B94)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
-| Backlog ref | B92 |
+| Backlog ref | B94 |
 
 **Acceptance criteria:**
 
-- [ ] `GET /health` → `{ ok, … }`  
-- [ ] `GET /v1/asx/companies` and `GET /v1/asx/companies/{ticker}` (or equivalent) return presentation JSON from existing ASX data  
-- [ ] Job control: start/pause/reset scan (or document mapping to existing controls) + `GET /v1/jobs/{id}` (or list)  
-- [ ] Automated tests for happy-path JSON (no browser)  
-- [ ] OAuth remains on analytics host (no change required beyond noting redirect stays here)  
+- [ ] Repo or app named `crawley-ui` using published `@phone-preview/*`  
+- [ ] README: run instructions, proxy to analytics, pointer to PP setup recipe  
+- [ ] UI persistence uses Phone Preview defaults (IndexedDB; Turso/Duck optional per PP)  
+- [ ] No analytics secrets in frontend env for browser-exposed keys  
 
-### S31.3 — Presentation DTOs + OpenAPI (B93)
+### S32.2 — asxDeskPack (B95)
 
 | Field | Value |
 |-------|-------|
 | Status | todo |
-| Backlog ref | B93 |
+| Backlog ref | B95 |
 
 **Acceptance criteria:**
 
-- [ ] Documented presentation fields for company list, company detail, job status  
-- [ ] OpenAPI 3 (or JSON Schema) checked in under `docs/` or served at `/openapi.json`  
-- [ ] Field docs note worker store vs presentation; UI must not read raw scratch paths  
+- [ ] Pack lists companies from analytics API  
+- [ ] Start (and show status for) ASX scan job  
+- [ ] Company detail from `GET /v1/asx/companies/{ticker}` (minimum viable)  
+- [ ] Errors/empty states honest; no trade chrome  
 
 ## Explicitly out of sprint
 
-- `crawley-ui` scaffold (Sprint 32)  
-- Gmail JSON API (Sprint 34)  
+- Sender Inbox pack (Sprint 34)  
 - Deleting Jinja (Sprint 35)  
-- Turso / IndexedDB work (UI repo)  
-- Calendar / lite modules  
+- Full paper/recommend UI (Later in migration)  
 
 ## Parking lot
 
-- Day brief as later composition pack  
-- Bridge / themes / paper endpoints once ASX list+scan is stable  
+- Settings pack for LLM/caps once analytics settings API exists  

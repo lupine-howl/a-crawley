@@ -1,7 +1,7 @@
 # Planned sprints index
 
-**Active / next delivery:** [`../current.md`](../current.md) — **Sprint 31** Analytics JSON API (migration).  
-**Closed through 30:** [`../archive/`](../archive/) (HTMX PoC + dual-desk depth).  
+**Active / next delivery:** [`../current.md`](../current.md) — **Sprint 32** crawley-ui + ASX pack (migration).  
+**Closed through 31:** [`../archive/`](../archive/) (HTMX PoC + dual-desk depth + analytics `/v1`).  
 **Migration guide:** [`../migration-phone-preview.md`](../migration-phone-preview.md).  
 **Shelved:** [`../shelved/README.md`](../shelved/README.md).
 
@@ -9,8 +9,8 @@
 
 | Sprint | Theme | File | Backlog | Status |
 |--------|-------|------|---------|--------|
-| 31 | Analytics JSON API (ASX + jobs) | [`../current.md`](../current.md) / [`sprint-31-analytics-api.md`](sprint-31-analytics-api.md) | B91–B93 | **current** |
-| 32 | crawley-ui + ASX pack | [`sprint-32-crawley-ui-asx-pack.md`](sprint-32-crawley-ui-asx-pack.md) | B94–B95 | planned |
+| 31 | Analytics JSON API (ASX + jobs) | [`../archive/sprint-31-analytics-api.md`](../archive/sprint-31-analytics-api.md) | B91–B93 | closed |
+| 32 | crawley-ui + ASX pack | [`../current.md`](../current.md) / [`sprint-32-crawley-ui-asx-pack.md`](sprint-32-crawley-ui-asx-pack.md) | B94–B95 | **current** |
 | 33 | ASX daemon entrypoint | [`sprint-33-asx-daemon.md`](sprint-33-asx-daemon.md) | B96 | planned |
 | 34 | Sender Inbox API + pack | [`sprint-34-gmail-api-pack.md`](sprint-34-gmail-api-pack.md) | B97–B98 | planned |
 | 35 | Cutover (delete HTMX, quarantine modules) | [`sprint-35-cutover.md`](sprint-35-cutover.md) | B99–B100 | planned |

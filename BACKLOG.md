@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–30 closed (HTMX-era depth); **hard pivot** — Migration Sprint **31** current (B91–B93); Phone Preview `crawley-ui` + analytics daemons
+**Status:** Sprints 1–31 closed; **hard pivot** — Migration Sprint **32** current (B94–B95); Phone Preview `crawley-ui` + analytics daemons
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2318,19 +2318,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | ADR-009 |
-| Planned sprint | 31 (current) |
+| Planned sprint | 31 (closed) |
 
 **Goal:** Lock the pivot in architecture docs and stop HTMX product feature work.
 
 **Acceptance criteria:**
 
 - [x] ADR-009 + migration doc + PRODUCT/ROADMAP updated
-- [ ] No new Jinja product features; HTMX non-product until Sprint 35 deletion
-- [ ] Architecture overview shows UI vs analytics split
+- [x] No new Jinja product features; HTMX non-product until Sprint 35 deletion
+- [x] Architecture overview shows UI vs analytics split
 
 **Out of scope:**
 
@@ -2342,20 +2342,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B91, ASX desk brain |
-| Planned sprint | 31 (current) |
+| Planned sprint | 31 (closed) |
 
 **Goal:** Versioned `/v1` JSON for ASX companies and job control so the UI never needs Jinja.
 
 **Acceptance criteria:**
 
-- [ ] `GET /health`
-- [ ] `GET /v1/asx/companies` and company detail
-- [ ] Scan job start/pause/reset (or mapped controls) + job status read
-- [ ] Automated tests without browser
+- [x] `GET /health`
+- [x] `GET /v1/asx/companies` and company detail
+- [x] Scan job start/pause/reset (or mapped controls) + job status read
+- [x] Automated tests without browser
 
 **Out of scope:**
 
@@ -2367,19 +2367,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B92 |
-| Planned sprint | 31 (current) |
+| Planned sprint | 31 (closed) |
 
 **Goal:** Stable presentation contract for `crawley-ui` (OpenAPI / schemas + field docs).
 
 **Acceptance criteria:**
 
-- [ ] Documented DTOs for company list/detail + job status
-- [ ] OpenAPI 3 or JSON Schema checked in / served
-- [ ] Worker vs presentation boundary documented
+- [x] Documented DTOs for company list/detail + job status
+- [x] OpenAPI 3 or JSON Schema checked in / served
+- [x] Worker vs presentation boundary documented
 
 **Out of scope:**
 
@@ -2391,11 +2391,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B93 |
-| Planned sprint | 32 |
+| Planned sprint | 32 (current) |
 
 **Goal:** npm-installable / runnable **`crawley-ui`** host from published `@phone-preview/*`.
 
@@ -2415,11 +2415,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B94, B92 |
-| Planned sprint | 32 |
+| Planned sprint | 32 (current) |
 
 **Goal:** ASX desk pack: list companies, start scan, show job progress + basic detail.
 

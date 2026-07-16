@@ -1,0 +1,1649 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Crawley analytics API",
+    "version": "0.1.0",
+    "description": "Presentation JSON for crawley-ui. See docs/api/presentation-v1.md. Worker store paths are not part of this contract."
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/companies": {
+      "get": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Asx Companies",
+        "operationId": "asx_companies_v1_asx_companies_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/companies/{ticker}": {
+      "get": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Asx Company Detail",
+        "operationId": "asx_company_detail_v1_asx_companies__ticker__get",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticker"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/scan/start": {
+      "post": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Asx Scan Start",
+        "operationId": "asx_scan_start_v1_asx_scan_start_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanActionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/scan/pause": {
+      "post": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Asx Scan Pause",
+        "operationId": "asx_scan_pause_v1_asx_scan_pause_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanActionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/scan/resume": {
+      "post": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Asx Scan Resume",
+        "operationId": "asx_scan_resume_v1_asx_scan_resume_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanActionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/asx/scan/reset": {
+      "post": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Asx Scan Reset",
+        "operationId": "asx_scan_reset_v1_asx_scan_reset_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanActionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs": {
+      "get": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Jobs List",
+        "operationId": "jobs_list_v1_jobs_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job_id}": {
+      "get": {
+        "tags": [
+          "analytics-api"
+        ],
+        "summary": "Jobs Get",
+        "operationId": "jobs_get_v1_jobs__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_asx_active_cap_modules_investment_asx_cap_post": {
+        "properties": {
+          "cap": {
+            "type": "string",
+            "title": "Cap",
+            "default": "50"
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_active_cap_modules_investment_asx_cap_post"
+      },
+      "Body_asx_alert_rule_add_modules_investment_alerts_rules_post": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker",
+            "default": ""
+          },
+          "condition": {
+            "type": "string",
+            "title": "Condition",
+            "default": "keyword"
+          },
+          "value": {
+            "type": "string",
+            "title": "Value",
+            "default": ""
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_alert_rule_add_modules_investment_alerts_rules_post"
+      },
+      "Body_asx_citations_mute_modules_investment_citations_mute_post": {
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "Domain",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_citations_mute_modules_investment_citations_mute_post"
+      },
+      "Body_asx_citations_unmute_modules_investment_citations_unmute_post": {
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "Domain",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_citations_unmute_modules_investment_citations_unmute_post"
+      },
+      "Body_asx_company_notebook_save_modules_investment_companies__ticker__notebook_post": {
+        "properties": {
+          "thesis": {
+            "type": "string",
+            "title": "Thesis",
+            "default": ""
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_company_notebook_save_modules_investment_companies__ticker__notebook_post"
+      },
+      "Body_asx_holdings_delete_modules_investment_holdings_delete_post": {
+        "properties": {
+          "holding_id": {
+            "type": "string",
+            "title": "Holding Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_holdings_delete_modules_investment_holdings_delete_post"
+      },
+      "Body_asx_holdings_upsert_modules_investment_holdings_post": {
+        "properties": {
+          "holding_id": {
+            "type": "string",
+            "title": "Holding Id",
+            "default": ""
+          },
+          "ticker": {
+            "type": "string",
+            "title": "Ticker",
+            "default": ""
+          },
+          "qty": {
+            "type": "string",
+            "title": "Qty",
+            "default": "0"
+          },
+          "cost_note": {
+            "type": "string",
+            "title": "Cost Note",
+            "default": ""
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_holdings_upsert_modules_investment_holdings_post"
+      },
+      "Body_asx_poc_set_modules_investment_asx_poc_set_post": {
+        "properties": {
+          "tickers": {
+            "type": "string",
+            "title": "Tickers",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_poc_set_modules_investment_asx_poc_set_post"
+      },
+      "Body_asx_portfolio_trade_modules_investment_portfolio_trade_post": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker",
+            "default": ""
+          },
+          "side": {
+            "type": "string",
+            "title": "Side",
+            "default": "buy"
+          },
+          "qty": {
+            "type": "string",
+            "title": "Qty",
+            "default": "10"
+          },
+          "price": {
+            "type": "string",
+            "title": "Price",
+            "default": ""
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          },
+          "from_recs": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Recs"
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_portfolio_trade_modules_investment_portfolio_trade_post"
+      },
+      "Body_asx_prompts_save_modules_investment_asx_prompts_post": {
+        "properties": {
+          "scan_system": {
+            "type": "string",
+            "title": "Scan System",
+            "default": ""
+          },
+          "profile_system": {
+            "type": "string",
+            "title": "Profile System",
+            "default": ""
+          },
+          "sentiment_system": {
+            "type": "string",
+            "title": "Sentiment System",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_prompts_save_modules_investment_asx_prompts_post"
+      },
+      "Body_asx_recommendation_feedback_modules_investment_recommendations_feedback_post": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker",
+            "default": ""
+          },
+          "disposition": {
+            "type": "string",
+            "title": "Disposition",
+            "default": "dismissed"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_recommendation_feedback_modules_investment_recommendations_feedback_post"
+      },
+      "Body_asx_source_toggle_modules_investment_asx_sources__source_id__toggle_post": {
+        "properties": {
+          "enabled": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enabled"
+          }
+        },
+        "type": "object",
+        "title": "Body_asx_source_toggle_modules_investment_asx_sources__source_id__toggle_post"
+      },
+      "Body_calendar_write_cancel_modules_calendar_write_back_cancel_post": {
+        "properties": {
+          "draft_id": {
+            "type": "string",
+            "title": "Draft Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_calendar_write_cancel_modules_calendar_write_back_cancel_post"
+      },
+      "Body_calendar_write_confirm_modules_calendar_write_back_confirm_post": {
+        "properties": {
+          "draft_id": {
+            "type": "string",
+            "title": "Draft Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_calendar_write_confirm_modules_calendar_write_back_confirm_post"
+      },
+      "Body_calendar_write_propose_modules_calendar_write_back_propose_post": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "title": "Summary",
+            "default": ""
+          },
+          "start": {
+            "type": "string",
+            "title": "Start",
+            "default": ""
+          },
+          "end": {
+            "type": "string",
+            "title": "End",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_calendar_write_propose_modules_calendar_write_back_propose_post"
+      },
+      "Body_co_parenting_run_modules_co_parenting_run_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_co_parenting_run_modules_co_parenting_run_post"
+      },
+      "Body_co_parenting_save_modules_co_parenting_save_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_co_parenting_save_modules_co_parenting_save_post"
+      },
+      "Body_coding_run_modules_coding_creative_run_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          },
+          "include_shared_context": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Shared Context"
+          }
+        },
+        "type": "object",
+        "title": "Body_coding_run_modules_coding_creative_run_post"
+      },
+      "Body_coding_save_modules_coding_creative_save_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_coding_save_modules_coding_creative_save_post"
+      },
+      "Body_day_brief_refresh_day_brief_refresh_post": {
+        "properties": {
+          "use_llm": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Use Llm"
+          },
+          "include_shared_context": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Shared Context"
+          }
+        },
+        "type": "object",
+        "title": "Body_day_brief_refresh_day_brief_refresh_post"
+      },
+      "Body_diy_run_modules_diy_run_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_diy_run_modules_diy_run_post"
+      },
+      "Body_diy_save_modules_diy_save_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_diy_save_modules_diy_save_post"
+      },
+      "Body_finance_run_modules_finance_taxes_run_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_finance_run_modules_finance_taxes_run_post"
+      },
+      "Body_finance_save_modules_finance_taxes_save_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_finance_save_modules_finance_taxes_save_post"
+      },
+      "Body_fitness_run_modules_fitness_run_post": {
+        "properties": {
+          "goal": {
+            "type": "string",
+            "title": "Goal",
+            "default": ""
+          },
+          "use_import": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Use Import"
+          }
+        },
+        "type": "object",
+        "title": "Body_fitness_run_modules_fitness_run_post"
+      },
+      "Body_gmail_attachments_extract_modules_gmail_attachments_extract_post": {
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "title": "Message Id",
+            "default": ""
+          },
+          "attachment_id": {
+            "type": "string",
+            "title": "Attachment Id",
+            "default": ""
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename",
+            "default": ""
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_attachments_extract_modules_gmail_attachments_extract_post"
+      },
+      "Body_gmail_attachments_list_modules_gmail_attachments_list_post": {
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "title": "Message Id",
+            "default": ""
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_attachments_list_modules_gmail_attachments_list_post"
+      },
+      "Body_gmail_label_cancel_modules_gmail_labels_cancel_post": {
+        "properties": {
+          "draft_id": {
+            "type": "string",
+            "title": "Draft Id",
+            "default": ""
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_label_cancel_modules_gmail_labels_cancel_post"
+      },
+      "Body_gmail_label_confirm_modules_gmail_labels_confirm_post": {
+        "properties": {
+          "draft_id": {
+            "type": "string",
+            "title": "Draft Id",
+            "default": ""
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_label_confirm_modules_gmail_labels_confirm_post"
+      },
+      "Body_gmail_label_propose_modules_gmail_labels_propose_post": {
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "title": "Message Id",
+            "default": ""
+          },
+          "label_id": {
+            "type": "string",
+            "title": "Label Id",
+            "default": ""
+          },
+          "label_name": {
+            "type": "string",
+            "title": "Label Name",
+            "default": ""
+          },
+          "op": {
+            "type": "string",
+            "title": "Op",
+            "default": "add"
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_label_propose_modules_gmail_labels_propose_post"
+      },
+      "Body_gmail_labels_refresh_modules_gmail_labels_refresh_post": {
+        "properties": {
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_labels_refresh_modules_gmail_labels_refresh_post"
+      },
+      "Body_gmail_rule_delete_modules_gmail_rules_delete_post": {
+        "properties": {
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          },
+          "return_to": {
+            "type": "string",
+            "title": "Return To",
+            "default": "list"
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_rule_delete_modules_gmail_rules_delete_post"
+      },
+      "Body_gmail_rule_upsert_modules_gmail_rules_post": {
+        "properties": {
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          },
+          "from_addr": {
+            "type": "string",
+            "title": "From Addr",
+            "default": ""
+          },
+          "priority": {
+            "type": "string",
+            "title": "Priority",
+            "default": "normal"
+          },
+          "tags": {
+            "type": "string",
+            "title": "Tags",
+            "default": ""
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          },
+          "return_to": {
+            "type": "string",
+            "title": "Return To",
+            "default": "list"
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_rule_upsert_modules_gmail_rules_post"
+      },
+      "Body_gmail_search_delete_modules_gmail_searches_delete_post": {
+        "properties": {
+          "search_id": {
+            "type": "string",
+            "title": "Search Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_search_delete_modules_gmail_searches_delete_post"
+      },
+      "Body_gmail_search_run_modules_gmail_searches_run_post": {
+        "properties": {
+          "search_id": {
+            "type": "string",
+            "title": "Search Id",
+            "default": ""
+          },
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_search_run_modules_gmail_searches_run_post"
+      },
+      "Body_gmail_search_save_modules_gmail_searches_post": {
+        "properties": {
+          "search_id": {
+            "type": "string",
+            "title": "Search Id",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "default": ""
+          },
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_search_save_modules_gmail_searches_post"
+      },
+      "Body_gmail_send_cancel_modules_gmail_send_cancel_post": {
+        "properties": {
+          "draft_id": {
+            "type": "string",
+            "title": "Draft Id",
+            "default": ""
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_send_cancel_modules_gmail_send_cancel_post"
+      },
+      "Body_gmail_send_confirm_modules_gmail_send_confirm_post": {
+        "properties": {
+          "draft_id": {
+            "type": "string",
+            "title": "Draft Id",
+            "default": ""
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_send_confirm_modules_gmail_send_confirm_post"
+      },
+      "Body_gmail_send_propose_modules_gmail_send_propose_post": {
+        "properties": {
+          "to": {
+            "type": "string",
+            "title": "To",
+            "default": ""
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject",
+            "default": ""
+          },
+          "body": {
+            "type": "string",
+            "title": "Body",
+            "default": ""
+          },
+          "thread_id": {
+            "type": "string",
+            "title": "Thread Id",
+            "default": ""
+          },
+          "sender_id": {
+            "type": "string",
+            "title": "Sender Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_send_propose_modules_gmail_send_propose_post"
+      },
+      "Body_gmail_thread_digest_modules_gmail_senders__sender_id__digest_post": {
+        "properties": {
+          "thread_id": {
+            "type": "string",
+            "title": "Thread Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_gmail_thread_digest_modules_gmail_senders__sender_id__digest_post"
+      },
+      "Body_investment_run_modules_investment_run_post": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "default": "US stock market outlook"
+          },
+          "use_cache": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Use Cache"
+          }
+        },
+        "type": "object",
+        "title": "Body_investment_run_modules_investment_run_post"
+      },
+      "Body_module_write_back_dry_run_modules__module_id__write_back_dry_run_post": {
+        "properties": {
+          "action": {
+            "type": "string",
+            "title": "Action",
+            "default": "preview"
+          }
+        },
+        "type": "object",
+        "title": "Body_module_write_back_dry_run_modules__module_id__write_back_dry_run_post"
+      },
+      "Body_settings_history_pin_settings_history_pin_post": {
+        "properties": {
+          "entry_id": {
+            "type": "string",
+            "title": "Entry Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_history_pin_settings_history_pin_post"
+      },
+      "Body_settings_history_unpin_settings_history_unpin_post": {
+        "properties": {
+          "entry_id": {
+            "type": "string",
+            "title": "Entry Id",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_history_unpin_settings_history_unpin_post"
+      },
+      "Body_settings_llm_save_settings_llm_post": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider",
+            "default": "openai"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "default": "gpt-4o-mini"
+          },
+          "api_key": {
+            "type": "string",
+            "title": "Api Key",
+            "default": ""
+          },
+          "base_url": {
+            "type": "string",
+            "title": "Base Url",
+            "default": "http://127.0.0.1:11434"
+          },
+          "timeout_s": {
+            "type": "string",
+            "title": "Timeout S",
+            "default": "60"
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_llm_save_settings_llm_post"
+      },
+      "Body_settings_network_save_settings_network_post": {
+        "properties": {
+          "lan_enabled": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lan Enabled"
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_network_save_settings_network_post"
+      },
+      "Body_settings_playbook_save_settings_playbooks_post": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "default": ""
+          },
+          "desk": {
+            "type": "string",
+            "title": "Desk",
+            "default": "investment"
+          },
+          "actions": {
+            "type": "string",
+            "title": "Actions",
+            "default": "start_scan"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_playbook_save_settings_playbooks_post"
+      },
+      "Body_settings_scale_save_settings_scale_post": {
+        "properties": {
+          "inbox_cap": {
+            "type": "string",
+            "title": "Inbox Cap",
+            "default": "100"
+          },
+          "inbox_keep_max": {
+            "type": "string",
+            "title": "Inbox Keep Max",
+            "default": "100"
+          },
+          "asx_cap": {
+            "type": "string",
+            "title": "Asx Cap",
+            "default": "50"
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_scale_save_settings_scale_post"
+      },
+      "Body_settings_simulation_save_settings_simulation_post": {
+        "properties": {
+          "starting_cash": {
+            "type": "string",
+            "title": "Starting Cash",
+            "default": "100000"
+          },
+          "fee_flat": {
+            "type": "string",
+            "title": "Fee Flat",
+            "default": "10"
+          },
+          "fee_pct": {
+            "type": "string",
+            "title": "Fee Pct",
+            "default": "0.1"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "default": "AUD"
+          },
+          "broker_label": {
+            "type": "string",
+            "title": "Broker Label",
+            "default": "Paper (simulation)"
+          },
+          "reset_cash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reset Cash"
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_simulation_save_settings_simulation_post"
+      },
+      "Body_settings_theme_settings_theme_post": {
+        "properties": {
+          "theme": {
+            "type": "string",
+            "title": "Theme",
+            "default": "paper"
+          }
+        },
+        "type": "object",
+        "title": "Body_settings_theme_settings_theme_post"
+      },
+      "Body_standing_notes_save_standing_notes_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_standing_notes_save_standing_notes_post"
+      },
+      "Body_work_run_modules_work_run_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_work_run_modules_work_run_post"
+      },
+      "Body_work_save_modules_work_save_post": {
+        "properties": {
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "Body_work_save_modules_work_save_post"
+      },
+      "CompanyDetailResponse": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "sector": {
+            "type": "string",
+            "title": "Sector"
+          },
+          "scan_status": {
+            "type": "string",
+            "title": "Scan Status",
+            "default": "pending"
+          },
+          "snapshot": {
+            "$ref": "#/components/schemas/SnapshotDTO"
+          },
+          "move": {
+            "type": "string",
+            "title": "Move",
+            "default": "\u2014"
+          },
+          "headlines": {
+            "items": {
+              "$ref": "#/components/schemas/HeadlineDTO"
+            },
+            "type": "array",
+            "title": "Headlines"
+          },
+          "sources_used": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sources Used"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/ProfileDTO"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "Not licensed research \u2014 operator notes and desk synthesis only."
+          }
+        },
+        "type": "object",
+        "required": [
+          "ticker",
+          "name",
+          "sector",
+          "snapshot",
+          "profile"
+        ],
+        "title": "CompanyDetailResponse"
+      },
+      "CompanyListItem": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "sector": {
+            "type": "string",
+            "title": "Sector"
+          },
+          "scan_status": {
+            "type": "string",
+            "title": "Scan Status",
+            "description": "pending | ready | error | \u2026"
+          },
+          "change_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change Pct"
+          },
+          "move": {
+            "type": "string",
+            "title": "Move",
+            "default": "\u2014"
+          },
+          "sentiment": {
+            "type": "string",
+            "title": "Sentiment",
+            "default": "unknown"
+          },
+          "scanned_at": {
+            "type": "string",
+            "title": "Scanned At",
+            "default": ""
+          },
+          "error": {
+            "type": "string",
+            "title": "Error",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "ticker",
+          "name",
+          "sector",
+          "scan_status"
+        ],
+        "title": "CompanyListItem"
+      },
+      "CompanyListResponse": {
+        "properties": {
+          "companies": {
+            "items": {
+              "$ref": "#/components/schemas/CompanyListItem"
+            },
+            "type": "array",
+            "title": "Companies"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "active_set_size": {
+            "type": "integer",
+            "title": "Active Set Size",
+            "description": "Tickers in the current PoC / active set"
+          }
+        },
+        "type": "object",
+        "required": [
+          "companies",
+          "count",
+          "active_set_size"
+        ],
+        "title": "CompanyListResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HeadlineDTO": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "default": ""
+          },
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "default": ""
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "HeadlineDTO"
+      },
+      "HealthResponse": {
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "title": "Ok",
+            "default": true
+          },
+          "service": {
+            "type": "string",
+            "title": "Service",
+            "default": "crawley-analytics"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "default": "0.1.0"
+          }
+        },
+        "type": "object",
+        "title": "HealthResponse"
+      },
+      "JobListResponse": {
+        "properties": {
+          "jobs": {
+            "items": {
+              "$ref": "#/components/schemas/JobStatusResponse"
+            },
+            "type": "array",
+            "title": "Jobs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "jobs"
+        ],
+        "title": "JobListResponse"
+      },
+      "JobProgressDTO": {
+        "properties": {
+          "processed": {
+            "type": "integer",
+            "title": "Processed",
+            "default": 0
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "default": 0
+          },
+          "remaining": {
+            "type": "integer",
+            "title": "Remaining",
+            "default": 0
+          },
+          "current_ticker": {
+            "type": "string",
+            "title": "Current Ticker",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "JobProgressDTO"
+      },
+      "JobStatusResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "idle",
+              "busy",
+              "paused",
+              "done",
+              "error"
+            ],
+            "title": "Status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": ""
+          },
+          "error": {
+            "type": "string",
+            "title": "Error",
+            "default": ""
+          },
+          "progress": {
+            "$ref": "#/components/schemas/JobProgressDTO"
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At",
+            "default": ""
+          },
+          "pause_requested": {
+            "type": "boolean",
+            "title": "Pause Requested",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "progress"
+        ],
+        "title": "JobStatusResponse"
+      },
+      "ProfileDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "empty"
+          },
+          "markdown": {
+            "type": "string",
+            "title": "Markdown",
+            "default": ""
+          },
+          "error": {
+            "type": "string",
+            "title": "Error",
+            "default": ""
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "ProfileDTO"
+      },
+      "ScanActionResponse": {
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "job": {
+            "$ref": "#/components/schemas/JobStatusResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ok",
+          "message",
+          "job"
+        ],
+        "title": "ScanActionResponse"
+      },
+      "SnapshotDTO": {
+        "properties": {
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "change_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change Pct"
+          },
+          "volume": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volume"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "default": "AUD"
+          },
+          "sentiment": {
+            "type": "string",
+            "title": "Sentiment",
+            "default": "unknown"
+          },
+          "headline": {
+            "type": "string",
+            "title": "Headline",
+            "default": ""
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of",
+            "default": ""
+          },
+          "gaps": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Gaps"
+          }
+        },
+        "type": "object",
+        "title": "SnapshotDTO"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
