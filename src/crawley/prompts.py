@@ -108,8 +108,17 @@ def build_calendar_user_message(*, header: str, event_lines: list[str]) -> str:
     return header.rstrip() + "\n" + "\n".join(event_lines)
 
 
-def build_fitness_user_message(*, header: str, goal: str) -> str:
-    return f"{header.rstrip()}\n{goal.strip()}\n"
+def build_fitness_user_message(
+    *,
+    header: str,
+    goal: str,
+    activity_import: str = "",
+) -> str:
+    parts = [header.rstrip(), goal.strip()]
+    if activity_import.strip():
+        parts.append("Imported activity (bounded local file; not medical data):")
+        parts.append(activity_import.strip()[:4000])
+    return "\n".join(parts) + "\n"
 
 
 def build_work_user_message(*, header: str, notes: str) -> str:

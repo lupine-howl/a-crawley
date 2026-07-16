@@ -1,0 +1,8 @@
+{# Shared ASX sub-nav #}
+<nav class="asx-subnav" aria-label="Investment sections">
+  <a href="/modules/investment" {% if panel.asx_subnav == 'desk' %}aria-current="page"{% endif %}>Desk</a>
+  <span class="muted">·</span>
+  <a href="/modules/investment/recommendations" {% if panel.asx_subnav == 'recommendations' %}aria-current="page"{% endif %}>Recommendations</a>
+  <span class="muted">·</span>
+  <a href="/modules/investment/portfolio" {% if panel.asx_subnav == 'portfolio' %}aria-current="page"{% endif %}>Paper portfolio</a>
+</nav>

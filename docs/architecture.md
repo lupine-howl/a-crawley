@@ -3,11 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–13 closed (13 = ASX desk scanner + profiles)  
+**Status:** Sprints 1–14 closed (14 = ASX paper desk; also shipped history/pins + fitness import B35–B37)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint **14** — recommendations + paper portfolio)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 14 + B35–B37 done)  
 **Sprint 13 (closed):** [`sprints/archive/sprint-13-asx-profiles.md`](sprints/archive/sprint-13-asx-profiles.md)  
-**Planned 15–20:** [`sprints/planned/README.md`](sprints/planned/README.md)  
+**Next planned:** pivot Sprints 15–20 — [`sprints/planned/README.md`](sprints/planned/README.md)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -42,9 +42,25 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.  
 **Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.  
 **Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.  
-**Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`). Recommendations / paper portfolio remain Sprint 14.
+**Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`).  
+**Sprint 14:** ASX recommendations + paper portfolio + simulation settings; also shipped bounded snapshot history + shared-context pins (B35–B36) and Fitness activity import lite (B37).
 
 ## Sprint delivery maps
+
+### Sprint 14 (closed) — Paper desk + history + fitness import
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S14.1 / B75** | `asx_desk/recommendations.py` · `llm_tasks.generate_recommendations` · `/modules/investment/recommendations` |
+| **S14.2 / B76** | `asx_desk/portfolio.py` · ledger `data/investment/asx/portfolio.json` · MTM from scan prices · `/modules/investment/portfolio` |
+| **S14.3 / B77** | `SimulationSettings` in `settings.json` · fees in paper math · Settings `#paper-portfolio` |
+| **S15.1 / B35** | `snapshot_history.json` · max 20/module · Settings `#snapshot-history` search |
+| **S15.2 / B36** | Pins in `shared_context_meta.json` · injected into `build_shared_context` · ADR-008 |
+| **S16.1 / B37** | `fitness_import.py` · `data/fitness/activity_import.txt` · optional Fitness prompt slice |
+
+**Simulation boundary:** paper ledger never calls brokerage order APIs. Settings (cash, fees, AUD, cosmetic broker label) affect simulation only.
+
+**History vs standing notes:** `snapshots.json` = last success per module; `snapshot_history.json` = bounded ring; standing notes = operator seed; pins = opt-in history excerpts in the shared-context bundle (hard caps).
 
 ### Sprint 13 (closed) — ASX desk
 
@@ -102,12 +118,6 @@ Per-message **metrics** (LLM JSON, normalized in `sender_inbox/schema.py`):
 |-------|--------------------------|
 | **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · LAN/Tailscale allowed + warn · `CRAWLEY_RELOAD` |
 
-### Sprint 14 (current) — ASX recommendations + paper
-
-| Story | Architecture touchpoints |
-|-------|--------------------------|
-| **S14** | Recommendations list · paper portfolio ledger · simulation settings |
-
 ### Sprints 6–10 (bundled, closed)
 
 | Story | Architecture touchpoints |
@@ -144,8 +154,10 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 | Bind | `127.0.0.1` default; LAN `0.0.0.0` | Restart required; trusted LAN only |
 | LLM | Provider interface | OpenAI + **LocalLlama (Ollama HTTP)** |
 | Markdown | `markdown-it-py` + `bleach` | Safe subset |
-| Snapshots | `data/snapshots.json` | Last successful module summaries + Day brief |
-| Shared context | Standing notes + capped snapshots | Opt-in prompt injection; ADR-008 |
+| Snapshots | `data/snapshots.json` + `snapshot_history.json` | Last success + bounded history (≤20/module) |
+| Shared context | Standing notes + capped snapshots + optional pins | Opt-in prompt injection; ADR-008 |
+| Paper portfolio | `data/investment/asx/portfolio.json` | Simulation ledger; fees from Settings |
+| Fitness import | `data/fitness/activity_import.txt` | Bounded text/CSV; optional in Fitness prompt |
 | Process | Single process | Threads for I/O |
 | Analytical store | DuckDB | Local file under `data/` |
 | Google | OAuth installed-app | Gmail/Calendar **readonly** by default; optional `calendar.events` for insert |
@@ -176,8 +188,11 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 5. **Calendar write** — Propose draft (UUID) → Confirm → `events.insert` → audit (or Cancel = no write). Reconnect with `?calendar_write=1` for events scope.  
 6. **Day brief** — Compose from Calendar+Gmail snapshots; optional LLM regenerate; optional shared context.  
 7. **Local LLM** — Settings LocalLlama → base URL/model/timeout → Test → modules use provider.  
-8. **Shared context** — Standing notes + capped snapshots; opt-in into prompts.  
-9. **LAN enable** — Settings toggle / `CRAWLEY_HOST`; trusted LAN only.
+8. **Shared context** — Standing notes + capped snapshots + optional history pins; opt-in into prompts.  
+9. **ASX paper desk** — Refresh recommendations → paper trade → portfolio MTM; simulation settings only.  
+10. **Snapshot history** — Browse/search Settings history; pin into shared context (capped).  
+11. **Fitness import** — Upload bounded activity file; optional include on Fitness run.  
+12. **LAN enable** — Settings toggle / `CRAWLEY_HOST`; trusted LAN only.
 
 ## Decisions (ADR log)
 

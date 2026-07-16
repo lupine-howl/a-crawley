@@ -1,6 +1,6 @@
 # Sprint 15 — Sender Inbox scale (planned)
 
-**Status:** planned (after Sprint 14)  
+**Status:** planned (next after Sprint 14 + B35–B37 delivery)  
 **Duration:** one symbolic week  
 **Backlog refs:** B79, B80  
 **Depends on:** Sprint 12 Sender Inbox PoC  

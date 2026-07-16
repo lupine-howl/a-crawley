@@ -36,11 +36,23 @@ class NetworkSettings:
 
 
 @dataclass
+class SimulationSettings:
+    """Paper portfolio assumptions — never enables live trading."""
+
+    starting_cash: float = 100_000.0
+    fee_flat: float = 10.0
+    fee_pct: float = 0.1
+    currency: str = "AUD"
+    broker_label: str = "Paper (simulation)"
+
+
+@dataclass
 class AppSettings:
     theme: str = DEFAULT_THEME
     llm: LLMSettings = field(default_factory=LLMSettings)
     prompts: PromptSettings = field(default_factory=PromptSettings)
     network: NetworkSettings = field(default_factory=NetworkSettings)
+    simulation: SimulationSettings = field(default_factory=SimulationSettings)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -48,6 +60,7 @@ class AppSettings:
             "llm": asdict(self.llm),
             "prompts": self.prompts.to_dict(),
             "network": asdict(self.network),
+            "simulation": asdict(self.simulation),
         }
 
 
@@ -66,12 +79,20 @@ def load_settings() -> AppSettings:
         return AppSettings()
     llm_raw = raw.get("llm") or {}
     net_raw = raw.get("network") or {}
+    sim_raw = raw.get("simulation") or {}
     timeout_raw = llm_raw.get("timeout_s", 60.0)
     try:
         timeout_s = float(timeout_raw)
     except (TypeError, ValueError):
         timeout_s = 60.0
     timeout_s = max(5.0, min(timeout_s, 600.0))
+
+    def _f(key: str, default: float) -> float:
+        try:
+            return float(sim_raw.get(key, default))
+        except (TypeError, ValueError):
+            return default
+
     return AppSettings(
         theme=_normalize_theme(raw.get("theme")),
         llm=LLMSettings(
@@ -87,6 +108,14 @@ def load_settings() -> AppSettings:
         prompts=prompts_from_dict(raw.get("prompts")),
         network=NetworkSettings(
             lan_enabled=bool(net_raw.get("lan_enabled", False)),
+        ),
+        simulation=SimulationSettings(
+            starting_cash=max(0.0, _f("starting_cash", 100_000.0)),
+            fee_flat=max(0.0, _f("fee_flat", 10.0)),
+            fee_pct=max(0.0, min(_f("fee_pct", 0.1), 5.0)),
+            currency=(sim_raw.get("currency") or "AUD").strip().upper() or "AUD",
+            broker_label=(sim_raw.get("broker_label") or "Paper (simulation)").strip()
+            or "Paper (simulation)",
         ),
     )
 
@@ -197,4 +226,29 @@ def update_network_settings(*, lan_enabled: bool) -> AppSettings:
     current = load_settings()
     current.network.lan_enabled = bool(lan_enabled)
     save_settings(current)
+    return current
+
+
+def update_simulation_settings(
+    *,
+    starting_cash: float,
+    fee_flat: float,
+    fee_pct: float,
+    currency: str = "AUD",
+    broker_label: str = "Paper (simulation)",
+    reset_portfolio_cash: bool = False,
+) -> AppSettings:
+    current = load_settings()
+    current.simulation.starting_cash = max(0.0, float(starting_cash))
+    current.simulation.fee_flat = max(0.0, float(fee_flat))
+    current.simulation.fee_pct = max(0.0, min(float(fee_pct), 5.0))
+    current.simulation.currency = (currency or "AUD").strip().upper() or "AUD"
+    current.simulation.broker_label = (
+        (broker_label or "Paper (simulation)").strip() or "Paper (simulation)"
+    )
+    save_settings(current)
+    if reset_portfolio_cash:
+        from crawley.asx_desk.portfolio import reset_portfolio
+
+        reset_portfolio()
     return current

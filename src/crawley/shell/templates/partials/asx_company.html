@@ -13,13 +13,7 @@
   {% endif %}
 >
   <p class="back-link"><a href="/modules/investment">← ASX desk</a></p>
-  <nav class="asx-subnav" aria-label="Investment sections">
-    <a href="/modules/investment" aria-current="page">Desk</a>
-    <span class="muted">·</span>
-    <span class="muted">Recommendations</span>
-    <span class="muted">·</span>
-    <span class="muted">Paper portfolio</span>
-  </nav>
+  {% include "partials/asx_subnav.html" %}
 
   <h1>{{ c.ticker }} · {{ c.name }}</h1>
   <p class="muted">{{ c.sector }}{% if c.scan.scanned_at %} · last scan {{ c.scan.scanned_at }}{% endif %}</p>

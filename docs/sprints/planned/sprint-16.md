@@ -1,6 +1,8 @@
 # Sprint 16 — Fitness data import lite (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** done (legacy shelved plan; delivered with Sprint 14 in [`../current.md`](../current.md) — **not** pivot Sprint 16)  
+**Pivot Sprint 16:** [`sprint-16-asx-scale-events.md`](sprint-16-asx-scale-events.md)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B37  
 **Depends on:** B11  
@@ -22,14 +24,14 @@ Deepen Fitness without clinical claims: optional **manual export / file import**
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B37 |
 
 **Acceptance criteria:**
 
-- [ ] Import path for a bounded activity artifact under `data/`
-- [ ] Fitness Run can optionally include import slice in prompt
-- [ ] Medical disclaimer retained; no diagnosis framing
-- [ ] Clear errors for bad/oversized files
+- [x] Import path for a bounded activity artifact under `data/`
+- [x] Fitness Run can optionally include import slice in prompt
+- [x] Medical disclaimer retained; no diagnosis framing
+- [x] Clear errors for bad/oversized files
 
 **Out of scope:** Continuous wearable sync product, coaching marketplace

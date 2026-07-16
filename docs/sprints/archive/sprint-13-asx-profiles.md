@@ -8,7 +8,7 @@
 **UX:** ASX desk per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §4  
 **Previous:** [`sprint-12-sender-inbox.md`](sprint-12-sender-inbox.md)  
 **Planned source:** [`../planned/sprint-13-asx-profiles.md`](../planned/sprint-13-asx-profiles.md)  
-**Next:** [`../current.md`](../current.md) (Sprint 14 — recommendations + paper portfolio)
+**Next:** [`../current.md`](../current.md) (Sprint 14 + B35–B37 done)
 
 ## Goal
 

@@ -91,6 +91,34 @@ class InvestmentModule(Module):
         )
         return ctx
 
+    def recommendations_panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.store import load_recommendations
+
+        ctx = self.panel_context()
+        recs = load_recommendations()
+        ctx.update(
+            {
+                "asx_view": "recommendations",
+                "asx_subnav": "recommendations",
+                "recommendations": recs,
+                "poll_asx": recs.get("status") == "busy" or ctx.get("poll_asx"),
+            }
+        )
+        return ctx
+
+    def portfolio_panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.portfolio import portfolio_view
+
+        ctx = self.panel_context()
+        ctx.update(
+            {
+                "asx_view": "portfolio",
+                "asx_subnav": "portfolio",
+                "portfolio": portfolio_view(),
+            }
+        )
+        return ctx
+
     def run(self, inputs: dict[str, Any] | None = None) -> ModuleOutput:
         inputs = inputs or {}
         query = (inputs.get("query") or "US stock market outlook").strip()

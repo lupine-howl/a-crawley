@@ -1,0 +1,68 @@
+{% set recs = panel.recommendations %}
+<div
+  class="panel asx-recs"
+  {% if panel.poll_asx %}
+  hx-get="/modules/investment/recommendations"
+  hx-trigger="every 1.5s"
+  hx-target="#panel-root"
+  hx-swap="innerHTML"
+  {% endif %}
+>
+  <h1>Recommendations</h1>
+  <p class="muted">Structured ideas from the PoC company set · not advice.</p>
+  {% include "partials/asx_subnav.html" %}
+
+  <div class="ingest-actions">
+    <form hx-post="/modules/investment/recommendations/refresh" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" {% if recs.status == 'busy' %}disabled{% endif %}>
+        {% if recs.status == 'busy' %}Refreshing…{% else %}Refresh{% endif %}
+      </button>
+    </form>
+    {% if recs.updated_at %}
+    <p class="muted">Updated {{ recs.updated_at }} · {{ recs.rows|length }} rows</p>
+    {% endif %}
+  </div>
+  {% if recs.status == 'error' %}
+  <p class="job job-error">{{ recs.error }}</p>
+  {% endif %}
+  {% if recs.status == 'busy' %}
+  <p class="job job-busy">Generating recommendations…</p>
+  {% endif %}
+
+  {% if recs.rows %}
+  <table class="inbox-table">
+    <thead>
+      <tr>
+        <th scope="col">Ticker</th>
+        <th scope="col">Action</th>
+        <th scope="col">Urgency</th>
+        <th scope="col">Rationale</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in recs.rows %}
+      <tr>
+        <td><a href="/modules/investment/companies/{{ r.ticker }}"><strong>{{ r.ticker }}</strong></a></td>
+        <td class="{% if r.action in ['Buy','Add'] %}job-done{% elif r.action in ['Trim','Avoid'] %}job-error{% endif %}">{{ r.action }}</td>
+        <td class="muted">{{ r.urgency }}</td>
+        <td>{{ r.rationale }}</td>
+        <td>
+          <form hx-post="/modules/investment/portfolio/trade" hx-target="#panel-root" hx-swap="innerHTML">
+            <input type="hidden" name="ticker" value="{{ r.ticker }}">
+            <input type="hidden" name="side" value="{% if r.action in ['Buy','Add'] %}buy{% elif r.action in ['Trim'] %}sell{% else %}buy{% endif %}">
+            <input type="hidden" name="qty" value="10">
+            <input type="hidden" name="note" value="From recommendation: {{ r.action }}">
+            <input type="hidden" name="from_recs" value="1">
+            <button type="submit" class="secondary">Paper trade</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No recommendations yet — scan profiles on <a href="/modules/investment">Desk</a>, then Refresh.</p>
+  {% endif %}
+  <p class="muted">Not licensed research · personal simulation ideas only · no live brokerage orders.</p>
+</div>
