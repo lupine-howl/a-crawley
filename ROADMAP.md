@@ -2,33 +2,27 @@
 
 Ordered outcomes (not tasks). Product owner owns this file.  
 **Working title:** Crawley  
-**Code check (2026-07-16):** Sprints **6–24** + **26–30** shipped; Sprint **25** remains next (news clustering).  
+**Code check (2026-07-16):** Sprints **6–30** shipped (depth band complete including news themes).  
 **Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)  
-**Pivot:** **11**→**20** delivered. **21–24** + **26–30** delivered. **25** deferred. Former 31–40 / platform Later stays [shelved](docs/sprints/shelved/README.md).
+**Pivot / depth:** **11**→**30** delivered. Former 31–40 / platform Later stays [shelved](docs/sprints/shelved/README.md).
 
 ## Now
 
-**Shipped through Sprint 24 + 26–30:**
+**Shipped through Sprint 30:**
 
-- [x] Shared Python core + stable module contract (Calendar insert, Gmail send, Gmail labels)
-- [x] Local browser dashboard: themes, Settings, Markdown, home At a glance, Day brief
-- [x] Investment + Gmail + Calendar; ASX desk + paper + notebook + citations
-- [x] Sender Inbox digests, VIP rules, saved searches, attachment skim
-- [x] Operator holdings journal (distinct from paper)
-- [x] Google OAuth ops (Tailscale Connect + softer consent + modify scope)
+- [x] Shared Python core + dual desks (Sender Inbox + ASX)
+- [x] Confirm-first Calendar insert, Gmail send, Gmail labels
+- [x] ASX paper, notebook, holdings journal, citations, **news themes**
+- [x] Digests, VIP rules, saved searches, attachment skim
+- [x] Google OAuth ops (Tailscale Connect + softer consent)
 
 *Still out of Now:* native desktop wrapper, public hosting, multi-user, **live brokerage order placement**
 
 ## Next
 
-### Sprint 25 (current) — ASX news theme clustering
-Cluster headlines across active set into cited themes.  
-[`docs/sprints/current.md`](docs/sprints/current.md) · B47
+No active numbered sprint. Candidate follow-ups live under [shelved](docs/sprints/shelved/README.md). Product owner plans the next band into `docs/sprints/current.md` before implement.
 
-### After Sprint 25
-
-- Un-shelve selected former **31–40** / platform Later items where useful ([shelved](docs/sprints/shelved/README.md))
-- Icebox stays closed without PRODUCT revision
+Icebox (live brokerage) stays closed without PRODUCT revision.
 
 ## Closed
 
@@ -43,4 +37,5 @@ Cluster headlines across active set into cited themes.
 | 15–17 | Scale + bridge | [archive](docs/sprints/archive/sprint-15-17-scale-bridge.md) |
 | 18–20 | Send + alerts + playbooks | [archive](docs/sprints/archive/sprint-18-20-send-alerts-playbooks.md) |
 | 21–24 | OAuth + digests + notebook + VIP | [archive](docs/sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md) |
+| 25 | ASX news theme clustering | [archive](docs/sprints/archive/sprint-25-asx-news-clusters.md) |
 | 26–30 | Labels + holdings + searches + attachments + citations | [archive](docs/sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md) |

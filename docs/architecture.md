@@ -3,9 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–24 + 26–30 closed; Sprint 25 (news clustering) next  
+**Status:** Sprints 1–30 closed (Email/ASX depth band complete)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint **25** — ASX news theme clustering)  
+**Latest:** [`docs/sprints/current.md`](sprints/current.md) (no active sprint — depth complete)  
+**Sprint 25 (closed):** [`sprints/archive/sprint-25-asx-news-clusters.md`](sprints/archive/sprint-25-asx-news-clusters.md)  
 **Sprints 26–30 (closed):** [`sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md`](sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md)  
 **Sprints 21–24 (closed):** [`sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md`](sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
@@ -47,9 +48,18 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Sprints 15–17:** Desk scale (Settings, hard ceiling 200); Sender Inbox search/prune; ASX active-set scale + events skim; Email × ASX bridge (`bridge/matcher.py`).  
 **Sprints 18–20:** Confirm-first Gmail send; ASX local alerts + recommendation feedback; operator playbooks + polish.  
 **Sprints 21–24:** Google OAuth Tailscale Connect + softer consent; Sender Inbox thread digests; ASX research notebook; VIP/muted rules.  
-**Sprints 26–30:** Confirm-first Gmail labels; holdings journal; saved searches; attachment skim; ASX citations + domain mute. (Sprint 25 deferred.)
+**Sprint 25:** Active-set news theme clustering (`asx_desk/clusters.py`).  
+**Sprints 26–30:** Confirm-first Gmail labels; holdings journal; saved searches; attachment skim; ASX citations + domain mute.
 
 ## Sprint delivery maps
+
+### Sprint 25 (closed) — ASX news theme clustering
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S25.1 / B47** | `asx_desk/clusters.py` · reuse scan headlines · LLM + heuristic · `/modules/investment/clusters` · `news_clusters.json` |
+
+**Caps:** ≤80 headlines, ≤4/ticker, ≤8 themes, ≤8 sources/theme. Muted domains excluded. Not trade signals.
 
 ### Sprints 26–30 (closed) — Labels, holdings, searches, attachments, citations
 
