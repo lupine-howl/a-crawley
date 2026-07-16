@@ -8,6 +8,7 @@ import { asxDeskPack } from "./packs/asxDeskPack";
 import { asxPortfolioPack } from "./packs/asxPortfolioPack";
 import { asxRecommendationsPack } from "./packs/asxRecommendationsPack";
 import { asxThemesPack } from "./packs/asxThemesPack";
+import { senderInboxPack } from "./packs/senderInboxPack";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
       packs={[
         ...starterPacks(),
         asxDeskPack,
+        senderInboxPack,
         asxRecommendationsPack,
         asxPortfolioPack,
         asxThemesPack,

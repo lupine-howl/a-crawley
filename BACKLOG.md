@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–33 closed; **hard pivot** — Migration Sprint **34** current (B97–B98); Phone Preview `crawley-ui` + analytics daemons
+**Status:** Sprints 1–34 closed; **hard pivot** — Migration Sprint **35** current (B99–B100); Phone Preview `crawley-ui` + analytics daemons
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2459,50 +2459,51 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ---
 
-### B97 — Sender Inbox JSON API
+### B97 — Gmail ingest daemon + Sender Inbox JSON API
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
-| Depends on | B93, Sender Inbox brain |
-| Planned sprint | 34 (current) |
+| Depends on | B93, Sender Inbox brain, B96 |
+| Planned sprint | 34 (closed) |
 
-**Goal:** `/v1/gmail/…` presentation + ingest job control; OAuth stays on analytics.
+**Goal:** ASX-style **gmail-ingest** daemon + `/v1/gmail/…` presentation (senders, reports, ingest job). Reuse PoC `sender_inbox` brain; OAuth stays on analytics.
 
 **Acceptance criteria:**
 
-- [ ] Senders + detail + ingest job endpoints
-- [ ] OpenAPI updated; tests without browser
+- [x] `crawley-gmail-ingest` / `daemons.gmail_ingest` (`once`/`watch`/`status`); `CRAWLEY_GMAIL_WORKER=daemon` queue handoff
+- [x] Senders + detail/report + ingest job endpoints; job id `gmail-ingest`
+- [x] OpenAPI updated; tests without browser
 
 **Out of scope:**
 
-- Porting all Gmail send/labels UX in this item
+- Porting all Gmail send/labels UX in this item; rebuilding ingest in TypeScript
 
 ---
 
-### B98 — senderInboxPack
+### B98 — senderInboxPack (ASX-like Start/Stop)
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B97, B94 |
-| Planned sprint | 34 (current) |
+| Planned sprint | 34 (closed) |
 
-**Goal:** Sender Inbox pack in `crawley-ui` with Connect Google deep-link to analytics OAuth.
+**Goal:** Sender Inbox pack in `crawley-ui` mirroring ASX desk UX: Start/Stop ingest daemon, poll job, sender list → per-sender report. Connect Google deep-link to analytics OAuth.
 
 **Acceptance criteria:**
 
-- [ ] Sender list → detail; ingest controls
-- [ ] OAuth deep-link documented
-- [ ] No secrets in Vite
+- [x] Start/Stop (+ busy spinner/poll) like `asxDeskPack`
+- [x] Sender list → detail (profile markdown report + messages)
+- [x] OAuth deep-link documented; no secrets in Vite
 
 **Out of scope:**
 
-- Calendar pack
+- Calendar pack; full labels/send UI
 
 ---
 
@@ -2510,11 +2511,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B95, B98 |
-| Planned sprint | 35 |
+| Planned sprint | 35 (current) |
 
 **Goal:** Remove product HTML shell; supported path is analytics JSON + `crawley-ui` only.
 
@@ -2534,11 +2535,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P1 |
 | Roadmap theme | Next — Migration |
 | Depends on | B99 |
-| Planned sprint | 35 |
+| Planned sprint | 35 (current) |
 
 **Goal:** Calendar and lite life modules are not product surfaces; code quarantined or unloaded.
 

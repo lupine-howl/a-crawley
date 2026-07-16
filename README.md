@@ -55,11 +55,10 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 ## Delivery status
 
-- **Sprints 1–33** — HTMX PoC + dual-desk depth + analytics `/v1` + `crawley-ui` + ASX daemon (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
-- **Sprint 34** — Sender Inbox API + pack (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprint 35** — HTMX cutover: [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
+- **Sprints 1–34** — HTMX PoC + dual-desk depth + analytics `/v1` + `crawley-ui` + ASX/Gmail daemons (**closed**): [`docs/sprints/archive/`](./docs/sprints/archive/)
+- **Sprint 35** — HTMX cutover (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Shelved** — Calendar product, lite modules, old depth 31–40 stubs: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
-- **ASX daemon ops:** [`docs/daemons/asx-scanner.md`](./docs/daemons/asx-scanner.md)
+- **Daemons:** [`docs/daemons/asx-scanner.md`](./docs/daemons/asx-scanner.md) · [`docs/daemons/gmail-ingest.md`](./docs/daemons/gmail-ingest.md)
 
 ## Product docs
 
@@ -70,4 +69,4 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 
 ## Next delivery
 
-`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 34** — Sender Inbox JSON API + `senderInboxPack`). Do not add Jinja product features.
+`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 35** — delete Jinja product UI; quarantine Calendar + lite modules).

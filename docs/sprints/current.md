@@ -1,50 +1,50 @@
-# Current sprint — 34: Sender Inbox API + pack
+# Current sprint — 35: Cutover (delete HTMX, quarantine modules)
 
-**Theme:** Roadmap Theme 3 — Gmail path via JSON API + Phone Preview pack  
+**Theme:** Roadmap Theme 3 — Phone Preview is the only product UI  
 **Dates:** —  
-**Goal:** Expose Sender Inbox as `/v1/gmail/…` presentation + ingest job control, and ship `senderInboxPack` in `crawley-ui`. OAuth stays on analytics; UI deep-links Connect Google. **No new Jinja/HTMX product UI.**
+**Goal:** **Delete** the Jinja/HTMX product UI from the supported run path. Quarantine **Calendar** and lite life modules. Operator Settings/ops live in `crawley-ui`. Analytics serves JSON (+ OpenAPI) for product paths.
 
-**Prerequisites:** Sprint 33 ASX daemon (closed). Follow [migration plan](../migration-phone-preview.md) Phase 4 and [ADR-009](../adr/009-phone-preview-analytics.md).
+**Prerequisites:** Sprint 34 Gmail ingest + Sender Inbox pack (closed). Follow [migration plan](../migration-phone-preview.md) Phase 5 and [ADR-009](../adr/009-phone-preview-analytics.md).
 
-**Out of scope:** HTMX cutover (Sprint 35); Calendar pack; multi-account Gmail.
+**Out of scope:** Calendar pack; rebuilding ASX/Gmail in TypeScript; un-shelving depth 31–40 stubs.
 
 ---
 
 ## Stories
 
-### S34.1 — Sender Inbox JSON API (B97)
+### S35.1 — Remove Jinja product UI (B99)
 
 **Points:** 5  
 **Status:** Todo  
-**BACKLOG:** B97  
+**BACKLOG:** B99  
 
 **Acceptance criteria:**
 
-- [ ] Senders + detail + ingest job endpoints under `/v1/gmail/…` (or documented `/v1/sender-inbox/…`)
-- [ ] OpenAPI + `presentation-v1.md` updated; structured JSON errors
-- [ ] Automated tests for handlers (mock Gmail client) without browser
+- [ ] Product HTML/HTMX routes and templates removed (or isolated so they are not the run path)
+- [ ] README documents analytics + `crawley-ui` as the supported operator path
+- [ ] Tests updated; no requirement to render Jinja for CI green
+- [ ] ADR-001 marked superseded for product surface (ADR-009 already does)
 
 ---
 
-### S34.2 — senderInboxPack (B98)
+### S35.2 — Quarantine Calendar + lite modules (B100)
 
-**Points:** 5  
+**Points:** 3  
 **Status:** Todo  
-**BACKLOG:** B98  
+**BACKLOG:** B100  
 
 **Acceptance criteria:**
 
-- [ ] Sender list → detail; ingest start/stop (or equivalent) in `crawley-ui`
-- [ ] OAuth Connect Google deep-link to analytics host documented
-- [ ] No secrets in Vite; analytics JSON only
+- [ ] Calendar / Fitness / etc. not reachable as product surfaces
+- [ ] PRODUCT Later notes Calendar return
+- [ ] Day brief HTMX composition retired with shell
 
 ---
 
 ## Parking lot
 
-- Multi-account Gmail
-- Push / watch notifications
-- Calendar pack (post–Sprint 35)
+- Calendar as light daemon + pack (post-cutover)
+- Labels / send / VIP packs on Sender Inbox
 
 ---
 
@@ -52,5 +52,5 @@
 
 - [ ] All stories Done or explicitly deferred with reason
 - [ ] `uv run pytest` green
-- [ ] OpenAPI + architecture updated
-- [ ] Archive this file → `archive/sprint-34-gmail-api-pack.md`; promote Sprint 35
+- [ ] Architecture + README updated
+- [ ] Archive this file → `archive/sprint-35-cutover.md`

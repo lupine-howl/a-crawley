@@ -64,13 +64,15 @@ def _resolved_cap() -> int:
 
 def default_ingest_state() -> dict[str, Any]:
     return {
-        "status": "idle",  # idle | busy | paused | done | error
+        "status": "idle",  # idle | busy | paused | done | error | queued
         "cap": _resolved_cap(),
         "processed": 0,
         "current_line": "",
         "last_error": "",
         "message_errors": [],  # [{id, subject, error}]
         "pause_requested": False,
+        "start_requested": False,
+        "force_requested": False,
         "updated_at": "",
     }
 
@@ -215,6 +217,8 @@ def reset_poc_data() -> None:
         state["last_error"] = ""
         state["message_errors"] = []
         state["pause_requested"] = False
+        state["start_requested"] = False
+        state["force_requested"] = False
         save_ingest_state(state)
 
 
@@ -374,10 +378,13 @@ def progress_view(*, running: bool | None = None) -> dict[str, Any]:
     cap = int(state.get("cap") or _resolved_cap())
     remaining = max(0, cap - processed)
     status = state.get("status") or "idle"
-    if running is True:
+    if status == "queued" or state.get("start_requested"):
+        status = "queued"
+    elif running is True:
         status = "busy"
     elif running is False and status == "busy":
-        # Process restarted mid-ingest — surface as paused so Resume works.
+        # In-process ownership only: demote stale busy when this process is idle.
+        # External daemon mode must pass running=None so disk status is trusted.
         status = "paused"
         state["status"] = "paused"
         save_ingest_state(state)

@@ -53,7 +53,7 @@ export type CompanyDetail = {
 export type JobStatus = {
   id: string;
   kind: string;
-  status: "idle" | "busy" | "paused" | "done" | "error";
+  status: "idle" | "busy" | "paused" | "done" | "error" | "queued";
   message: string;
   error: string;
   progress: {
@@ -61,9 +61,62 @@ export type JobStatus = {
     total: number;
     remaining: number;
     current_ticker: string;
+    current_item?: string;
   };
   updated_at: string;
   pause_requested: boolean;
+};
+
+export type SenderListItem = {
+  sender_id: string;
+  display_name: string;
+  from_name: string;
+  from_addr: string;
+  message_count: number;
+  latest_at: string;
+  signals: string[];
+  open_todos: number;
+  has_profile: boolean;
+  categories: string[];
+  rule_priority: string;
+};
+
+export type SenderListResponse = {
+  senders: SenderListItem[];
+  count: number;
+  google_connected: boolean;
+};
+
+export type SenderDetail = {
+  sender_id: string;
+  display_name: string;
+  from_name: string;
+  from_addr: string;
+  message_count: number;
+  profile: {
+    status: string;
+    markdown: string;
+    error: string;
+    updated_at: string;
+  };
+  messages: {
+    id: string;
+    subject: string;
+    snippet: string;
+    internal_date: string;
+    signals: string[];
+    category: string;
+    error: string;
+  }[];
+  todos: { id: string; text: string; done: boolean; created_at: string }[];
+  open_todo_count: number;
+};
+
+export type GmailConnection = {
+  connected: boolean;
+  client_ok: boolean;
+  error: string;
+  oauth_start_path: string;
 };
 
 export type ScanActionResponse = {
@@ -96,7 +149,12 @@ async function readJson<T>(res: Response): Promise<T> {
   return (await res.json()) as T;
 }
 
-export async function fetchHealth(): Promise<{ ok: boolean; service?: string }> {
+export async function fetchHealth(): Promise<{
+  ok: boolean;
+  service?: string;
+  asx_worker?: string;
+  gmail_worker?: string;
+}> {
   const res = await fetch(`${BASE}/health`);
   return readJson(res);
 }
@@ -273,4 +331,59 @@ export async function fetchLlmModels(refresh = false): Promise<{
     `${BASE}/v1/settings/llm/models${refresh ? "?refresh=true" : ""}`,
   );
   return readJson(res);
+}
+
+export async function fetchGmailConnection(): Promise<GmailConnection> {
+  const res = await fetch(`${BASE}/v1/gmail/connection`);
+  return readJson(res);
+}
+
+export async function fetchSenders(): Promise<SenderListResponse> {
+  const res = await fetch(`${BASE}/v1/gmail/senders`);
+  return readJson(res);
+}
+
+export async function fetchSender(senderId: string): Promise<SenderDetail> {
+  const res = await fetch(`${BASE}/v1/gmail/senders/${encodeURIComponent(senderId)}`);
+  return readJson(res);
+}
+
+export async function fetchGmailIngestJob(): Promise<JobStatus> {
+  const res = await fetch(`${BASE}/v1/jobs/gmail-ingest`);
+  return readJson(res);
+}
+
+export async function startGmailIngest(force = true): Promise<ScanActionResponse> {
+  const res = await fetch(`${BASE}/v1/gmail/ingest/start`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ force }),
+  });
+  return readJson(res);
+}
+
+export async function stopGmailIngest(): Promise<ScanActionResponse> {
+  const res = await fetch(`${BASE}/v1/gmail/ingest/stop`, { method: "POST" });
+  return readJson(res);
+}
+
+export async function resetGmailIngest(): Promise<ScanActionResponse> {
+  const res = await fetch(`${BASE}/v1/gmail/ingest/reset`, { method: "POST" });
+  return readJson(res);
+}
+
+/** Absolute analytics OAuth URL for Connect Google (opens analytics host). */
+export function gmailOAuthStartUrl(oauthStartPath: string): string {
+  const path = oauthStartPath.startsWith("/") ? oauthStartPath : `/${oauthStartPath}`;
+  // Dev: Vite proxies /api/analytics → analytics; OAuth must hit the real host.
+  // Prefer same-origin proxy path so cookies/redirects stay on analytics when
+  // the proxy forwards; document that production UI should deep-link the API origin.
+  if (typeof window !== "undefined") {
+    const apiOrigin = (import.meta.env.VITE_ANALYTICS_ORIGIN as string | undefined)?.replace(
+      /\/$/,
+      "",
+    );
+    if (apiOrigin) return `${apiOrigin}${path}`;
+  }
+  return `${BASE}${path}`;
 }
