@@ -1,6 +1,6 @@
 # Sprint 32 — crawley-ui + ASX pack
 
-**Status:** ready (Migration band — hard pivot)  
+**Status:** blocked (awaiting Phone Preview consume path)  
 **Duration:** one symbolic week  
 **Backlog refs:** B94, B95  
 **Depends on:** Sprint 31 OpenAPI + ASX `/v1` ([archive](archive/sprint-31-analytics-api.md))  
@@ -21,6 +21,12 @@ Scaffold **`crawley-ui`** from **published** Phone Preview packages and ship an 
 3. Start scan from UI; job progress visible  
 4. No secrets in the Vite app; Google OAuth not required for this ASX-only slice  
 
+## Blocker (2026-07-16)
+
+Published `@phone-preview/core@0.6.0` is a **monorepo re-export stub** (`export … from "../../../web/src/…"`). It does not contain Shell/pack runtime when installed from npm; `create-phone-preview@0.4.0` also imports `starterPacks`, which is **not** exported from core@0.6.0 (`withoutEducationFeatures` is). `lupine-howl/phone-preview` is not readable from this agent.
+
+**Need from stakeholder / PP team before S32.1:** consume path for a custom host (see questions on the story).
+
 ## Committed
 
 Implement **in order** (S32.1 → S32.2).
@@ -29,7 +35,7 @@ Implement **in order** (S32.1 → S32.2).
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | blocked |
 | Backlog ref | B94 |
 
 **Acceptance criteria:**
@@ -39,11 +45,16 @@ Implement **in order** (S32.1 → S32.2).
 - [ ] UI persistence uses Phone Preview defaults (IndexedDB; Turso/Duck optional per PP)  
 - [ ] No analytics secrets in frontend env for browser-exposed keys  
 
+**Blocker questions:**
+
+1. How should we consume PP today — (a) app inside phone-preview monorepo (`apps/crawley`), (b) wait for a real published `@phone-preview/core` tarball, (c) git/file dependency to a checkout, or (d) other?  
+2. Where should `crawley-ui` live — subdirectory of `a-crawley`, separate repo, or PP `apps/`?  
+
 ### S32.2 — asxDeskPack (B95)
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | blocked |
 | Backlog ref | B95 |
 
 **Acceptance criteria:**
@@ -52,6 +63,12 @@ Implement **in order** (S32.1 → S32.2).
 - [ ] Start (and show status for) ASX scan job  
 - [ ] Company detail from `GET /v1/asx/companies/{ticker}` (minimum viable)  
 - [ ] Errors/empty states honest; no trade chrome  
+
+**Open (pack composition — answer when unblocked):**
+
+3. Pack set for MVP: `starterPacks()` + `asxDeskPack`, or `withoutEducationFeatures()` + `asxDeskPack` only?  
+4. Dev proxy: `/api/analytics` → `:8000` with path rewrite (UI calls `/api/analytics/v1/…`), or proxy `/v1` + `/health` directly?  
+5. Is demo login (`admin@demo.local` / `demo123`) required for Sprint 32, or can ASX pack work before PP auth/Connections are configured?  
 
 ## Explicitly out of sprint
 
