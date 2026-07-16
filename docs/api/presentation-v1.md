@@ -20,7 +20,7 @@ OAuth redirect URIs remain on the analytics host.
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `GET` | `/health` | Liveness |
+| `GET` | `/health` | Liveness (`asx_worker`: `in_process` \| `daemon`) |
 | `GET` | `/v1/asx/companies` | Active-set company list |
 | `GET` | `/v1/asx/companies/{ticker}` | Company detail |
 | `POST` | `/v1/asx/scan/start` | Start scan (`{ "force": true }` re-runs when complete; Local Llama expands active set to hard ceiling) |
@@ -78,7 +78,7 @@ List envelope: `companies`, `count`, `active_set_size`.
 |-------|------|-------|
 | `id` | string | Stable id: `asx-scan` |
 | `kind` | string | `asx_scan` |
-| `status` | string | `idle` \| `busy` \| `paused` \| `done` \| `error` |
+| `status` | string | `idle` \| `busy` \| `paused` \| `done` \| `error` \| `queued` |
 | `message` | string | Operator-facing line |
 | `error` | string | Last job-level error |
 | `progress` | object | `processed`, `total`, `remaining`, `current_ticker` |
@@ -86,6 +86,15 @@ List envelope: `companies`, `count`, `active_set_size`.
 | `pause_requested` | bool | Pause flag |
 
 Scan actions return `{ ok, message, job }`.
+
+### ASX worker modes (Sprint 33)
+
+| Mode | Env | Who runs the scan loop |
+|------|-----|------------------------|
+| In-process (default) | unset / not `daemon` | API `ThreadPoolExecutor` |
+| Daemon | `CRAWLEY_ASX_WORKER=daemon` | `python -m crawley.daemons.asx_scanner` (`once` / `watch`); API sets `start_requested` + status `queued` |
+
+Ops: [`../daemons/asx-scanner.md`](../daemons/asx-scanner.md). In daemon mode the API trusts disk status for `/v1/jobs/asx-scan` (does not require in-process `_running`).
 
 ## Compatibility
 

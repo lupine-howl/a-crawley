@@ -272,9 +272,13 @@ def progress_view(*, running: bool | None = None) -> dict[str, Any]:
     cap = len(poc) or int(state.get("cap") or POC_CAP)
     remaining = max(0, cap - processed)
     status = state.get("status") or "idle"
-    if running is True:
+    if status == "queued" or state.get("start_requested"):
+        status = "queued"
+    elif running is True:
         status = "busy"
     elif running is False and status == "busy":
+        # In-process ownership only: demote stale busy when this process is idle.
+        # External daemon mode must pass running=None so disk status is trusted.
         status = "paused"
         state["status"] = "paused"
         save_scan_state(state)

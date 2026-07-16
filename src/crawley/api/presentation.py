@@ -17,13 +17,17 @@ from crawley import __version__
 
 ASX_SCAN_JOB_ID = "asx-scan"
 
-JobStatus = Literal["idle", "busy", "paused", "done", "error"]
+JobStatus = Literal["idle", "busy", "paused", "done", "error", "queued"]
 
 
 class HealthResponse(BaseModel):
     ok: bool = True
     service: str = "crawley-analytics"
     version: str = __version__
+    asx_worker: str = Field(
+        default="in_process",
+        description="in_process | daemon (CRAWLEY_ASX_WORKER)",
+    )
 
 
 class CompanyListItem(BaseModel):
@@ -183,6 +187,8 @@ def _map_job_status(progress: dict[str, Any]) -> JobStatus:
     total = int(progress.get("cap") or 0)
     if raw == "busy":
         return "busy"
+    if raw == "queued":
+        return "queued"
     if raw == "paused":
         return "paused"
     if raw == "error":
@@ -195,12 +201,18 @@ def _map_job_status(progress: dict[str, Any]) -> JobStatus:
 
 
 def present_asx_scan_job() -> JobStatusResponse:
-    progress = progress_view(running=is_running())
+    from crawley.asx_desk.worker import external_worker_mode
+
+    # Daemon mode: trust disk status (API process is not the worker).
+    running = None if external_worker_mode() else is_running()
+    progress = progress_view(running=running)
     status = _map_job_status(progress)
     message = str(progress.get("current_line") or "")
     if not message:
         if status == "busy":
             message = "ASX scan in progress…"
+        elif status == "queued":
+            message = "Queued for asx-scanner daemon…"
         elif status == "paused":
             message = "ASX scan paused."
         elif status == "done":

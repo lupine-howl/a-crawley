@@ -24,7 +24,9 @@ router = APIRouter(tags=["analytics-api"])
 
 @router.get("/health", response_model=HealthResponse)
 def health() -> HealthResponse:
-    return HealthResponse()
+    from crawley.asx_desk.worker import external_worker_mode
+
+    return HealthResponse(asx_worker="daemon" if external_worker_mode() else "in_process")
 
 
 @router.get("/v1/asx/companies", response_model=CompanyListResponse)

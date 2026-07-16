@@ -1,6 +1,4 @@
 # Sprint 33 — ASX daemon entrypoint
 
-**Status:** promoted to [`../current.md`](../current.md) (ready — migration)  
-**Backlog refs:** B96  
-
-See [`../current.md`](../current.md) for committed stories and AC.
+**Status:** closed — see [`../archive/sprint-33-asx-daemon.md`](../archive/sprint-33-asx-daemon.md)  
+**Backlog refs:** B96 (done)  

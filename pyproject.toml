@@ -22,6 +22,7 @@ dependencies = [
 
 [project.scripts]
 crawley = "crawley.__main__:main"
+crawley-asx-scanner = "crawley.daemons.asx_scanner:main"
 
 [build-system]
 requires = ["hatchling"]

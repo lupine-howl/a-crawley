@@ -2,7 +2,7 @@
 
 **Status:** closed (archived)  
 **Archived:** 2026-07-16  
-**Promoted next:** [`../current.md`](../current.md) (Sprint 33 — ASX daemon)  
+**Promoted next:** [`sprint-33-asx-daemon.md`](sprint-33-asx-daemon.md) (Sprint 33 — ASX daemon; closed)  
 **Duration:** one symbolic week  
 **Backlog refs:** B94, B95  
 **Depends on:** Sprint 31 OpenAPI + ASX `/v1`  

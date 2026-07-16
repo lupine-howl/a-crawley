@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–32 closed; **hard pivot** — Migration Sprint **33** current (B96); Phone Preview `crawley-ui` + analytics daemons
+**Status:** Sprints 1–33 closed; **hard pivot** — Migration Sprint **34** current (B97–B98); Phone Preview `crawley-ui` + analytics daemons
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2439,19 +2439,19 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Migration |
 | Depends on | B92 |
-| Planned sprint | 33 (current) |
+| Planned sprint | 33 (closed) |
 
 **Goal:** Clear ASX worker entrypoint separate from “Uvicorn owns the scan” ambiguity.
 
 **Acceptance criteria:**
 
-- [ ] Documented entrypoint / process boundary
-- [ ] Job status still via API
-- [ ] Architecture notes (ADR-003 evolved)
+- [x] Documented entrypoint / process boundary (`docs/daemons/asx-scanner.md`, `crawley-asx-scanner`)
+- [x] Job status still via API (`queued` + disk trust in daemon mode)
+- [x] Architecture notes (ADR-003 evolved)
 
 **Out of scope:**
 
@@ -2463,11 +2463,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B93, Sender Inbox brain |
-| Planned sprint | 34 |
+| Planned sprint | 34 (current) |
 
 **Goal:** `/v1/gmail/…` presentation + ingest job control; OAuth stays on analytics.
 
@@ -2486,11 +2486,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | in_sprint |
 | Priority | P0 |
 | Roadmap theme | Next — Migration |
 | Depends on | B97, B94 |
-| Planned sprint | 34 |
+| Planned sprint | 34 (current) |
 
 **Goal:** Sender Inbox pack in `crawley-ui` with Connect Google deep-link to analytics OAuth.
 
