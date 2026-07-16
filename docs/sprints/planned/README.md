@@ -4,7 +4,7 @@
 **Closed through 34:** [`../archive/`](../archive/) (HTMX PoC + dual-desk depth + analytics `/v1` + `crawley-ui` + asx-scanner + gmail-ingest).  
 **Migration guide:** [`../migration-phone-preview.md`](../migration-phone-preview.md).  
 **PP consume pin:** [`../build/consuming-published-core.md`](../build/consuming-published-core.md).  
-**ASX daemon:** [`../daemons/asx-scanner.md`](../daemons/asx-scanner.md).  
+**Daemons:** [`../daemons/asx-scanner.md`](../daemons/asx-scanner.md) · [`../daemons/gmail-ingest.md`](../daemons/gmail-ingest.md).  
 **Shelved:** [`../shelved/README.md`](../shelved/README.md).
 
 ## Migration track (31–35)
