@@ -1,95 +1,125 @@
-# Sprint 13 — ASX company scanner + profiles PoC
+# Sprints 14–16 — ASX paper desk + history + fitness import
 
-**Status:** done  
-**Duration:** one symbolic week  
-**Backlog refs:** B71, B72, B73, B74  
-**Depends on:** Sprint 12 Sender Inbox; B65 UX ASX contract; Investment module  
+**Status:** done (bundled delivery)  
+**Duration:** three symbolic weeks  
+**Backlog refs:** B75–B77 (14); B35–B36 (15); B37 (16)  
+**Depends on:** Sprint 13 ASX desk; UX [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §§5–6  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
-**UX:** ASX desk per [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md) §4  
-**Previous:** [`archive/sprint-12-sender-inbox.md`](archive/sprint-12-sender-inbox.md)  
-**Planned source:** [`planned/sprint-13-asx-profiles.md`](planned/sprint-13-asx-profiles.md)
+**Previous:** [`archive/sprint-13-asx-profiles.md`](archive/sprint-13-asx-profiles.md)  
+**Planned sources:** [`planned/sprint-14-asx-paper-portfolio.md`](planned/sprint-14-asx-paper-portfolio.md) · [`planned/sprint-15.md`](planned/sprint-15.md) · [`planned/sprint-16.md`](planned/sprint-16.md)
 
 ## Goal
 
-Pivot Investment toward an **ASX-first research desk**: large curated universe, slow background scanner, LLM company profiles — PoC on **~20 companies**.
+1. **Sprint 14:** Structured ASX recommendations + simulated paper portfolio + simulation settings (no live broker).  
+2. **Sprint 15:** Bounded snapshot history browser + pin history into shared context.  
+3. **Sprint 16:** Fitness activity import lite grounding plans (non-medical).
 
 ## Demo
 
-1. See ASX universe + PoC set of 20 on Investment → ASX desk  
-2. Start/pause scan; watch N/20 progress  
-3. Open company profile (metrics + Markdown + sources + non-advice footer)  
-4. Inspect/toggle sources and ASX prompt templates  
-5. No live brokerage orders
+1. Refresh recommendations from scanned profiles → Paper trade into portfolio → see cash/MTM/P&L with fees  
+2. Browse snapshot history; pin an item into shared context  
+3. Import a small activity file; Fitness run cites it with disclaimer  
 
 ## Committed
 
-### S13.1 — ASX universe list (B71)
+### S14.1 — Structured recommendations (B75) · done
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B71 |
+| Backlog ref | B75 |
 
 **Acceptance criteria:**
 
-- [x] Curated ASX company list (~193) in `src/crawley/asx_desk/assets/universe.json` with provenance
-- [x] PoC processing set of **20** (default first 20; operator can reconfigure)
-- [x] Investment nav surfaces ASX desk (legacy search under disclosure)
-
----
-
-### S13.2 — Background ASX scanner (B72)
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B72 |
-
-**Acceptance criteria:**
-
-- [x] Background job processes **one company at a time**
-- [x] Per company: bounded price/market snapshot + news/headlines
-- [x] Progress UI; pause/resume; errors isolated per company
-- [x] Hard caps; polite rate limits; artifacts under `data/investment/asx/`
-
----
-
-### S13.3 — Company profiles (B73)
-
-| Field | Value |
-|-------|-------|
-| Status | done |
-| Backlog ref | B73 |
-
-**Acceptance criteria:**
-
-- [x] LLM profile per scanned company with metric snapshot
-- [x] Metric set documented; gaps honest
-- [x] Profile view per UX; regenerable
+- [x] Recommendations as structured rows (ticker, action, rationale, urgency, related profile link, generated_at)
+- [x] Generated from PoC company set via LLM + metrics; regenerable
+- [x] UI list per UX; export optional not required
 - [x] Non-advice disclaimer
 
 ---
 
-### S13.4 — Sources registry + prompt library (B74)
+### S14.2 — Paper portfolio tracker (B76) · done
 
 | Field | Value |
 |-------|-------|
 | Status | done |
-| Backlog ref | B74 |
+| Backlog ref | B76 |
 
 **Acceptance criteria:**
 
-- [x] Configurable source list with enable flags + documented defaults
-- [x] Editable prompt templates for scan / profile / sentiment
-- [x] Architecture note: scan vs curated-source modes
+- [x] Separate Investment sub-page/route for paper portfolio
+- [x] Create paper trades from a recommendation or manual entry (qty, side, price defaulting to last scan)
+- [x] Track positions, cash, simple P&L using latest available prices from scanner store
+- [x] Local persistence under `data/`; no broker API orders
+
+---
+
+### S14.3 — Simulation settings (B77) · done
+
+| Field | Value |
+|-------|-------|
+| Status | done |
+| Backlog ref | B77 |
+
+**Acceptance criteria:**
+
+- [x] Settings: starting cash, fee per trade and/or %, default currency AUD, optional broker name label (cosmetic)
+- [x] Fees applied in simulation math
+- [x] Documented: these settings do **not** enable live trading
+
+---
+
+### S15.1 — Snapshot history browser (B35) · done
+
+| Field | Value |
+|-------|-------|
+| Status | done |
+| Backlog ref | B35 |
+
+**Acceptance criteria:**
+
+- [x] Persist more than “last success” (bounded N per module; `snapshot_history.json`)
+- [x] Simple history UI in Settings; open body safely (escaped `<pre>`, truncated)
+- [x] Prune/retention documented (UI + architecture)
+
+---
+
+### S15.2 — Shared context depth / pins (B36) · done
+
+| Field | Value |
+|-------|-------|
+| Status | done |
+| Backlog ref | B36 |
+
+**Acceptance criteria:**
+
+- [x] Operator can pin/select history items into shared context
+- [x] Hard caps; secrets never injected
+- [x] Architecture + ADR-008: history vs seed standing notes
+
+---
+
+### S16.1 — Fitness import lite (B37) · done
+
+| Field | Value |
+|-------|-------|
+| Status | done |
+| Backlog ref | B37 |
+
+**Acceptance criteria:**
+
+- [x] Import path for a bounded activity artifact under `data/fitness/`
+- [x] Fitness Run can optionally include import slice in prompt
+- [x] Medical disclaimer retained; no diagnosis framing
+- [x] Clear errors for bad/oversized files
 
 ## Explicitly out of sprint
 
-- Paper portfolio / recommendations UI → Sprint **14**
-- Live order placement
-- Paid terminal data contracts
+- Live brokerage OAuth / order placement  
+- Tax/CGT engine; continuous wearable sync  
+- Co-parenting→Calendar publish (still shelved B34)
 
 ## Parking lot
 
-- HotCopper-style forums
-- Franking / dividend calendar depth
+- Multi-currency portfolio  
+- Full Markdown render for history bodies (escaped pre is enough for PoC)

@@ -54,11 +54,17 @@ class FitnessModule(Module):
         self._executor = executor
 
     def panel_context(self) -> dict[str, Any]:
+        from crawley.modules.fitness_import import load_activity_import
+
+        activity = load_activity_import()
         return {
             "coming_soon": False,
             "description": self.meta.description,
             "job": self.job.to_dict(),
             "default_goal": load_last_goal(),
+            "activity_import": activity,
+            "has_activity_import": bool(activity),
+            "use_import_default": True,
             "disclaimer": (
                 "Not medical advice. Personal planning only — talk to a qualified "
                 "professional before changing exercise or health routines."
@@ -75,19 +81,27 @@ class FitnessModule(Module):
         if self._executor is None:
             return ModuleOutput(error="Executor not configured.")
 
+        use_import = inputs.get("use_import", True)
+        if isinstance(use_import, str):
+            use_import = use_import.lower() in {"1", "true", "on", "yes"}
+
         save_last_goal(goal)
         self.job = JobState(status="busy", message="Drafting plan…")
-        self._executor.submit(self._job_body, goal)
+        self._executor.submit(self._job_body, goal, bool(use_import))
         return ModuleOutput(summary="started", details={"status": "busy"})
 
-    def _job_body(self, goal: str) -> None:
+    def _job_body(self, goal: str, use_import: bool = True) -> None:
         try:
+            from crawley.modules.fitness_import import load_activity_import
+
             self.job = JobState(status="busy", message="Calling LLM…")
             prompts = load_settings().prompts
             system = prompts.fitness_system
+            activity = load_activity_import() if use_import else ""
             user = build_fitness_user_message(
                 header=prompts.fitness_user_header,
                 goal=goal,
+                activity_import=activity,
             )
             provider = get_llm_provider()
             result = provider.complete(
@@ -106,6 +120,7 @@ class FitnessModule(Module):
                     "model": result.model,
                     "prompt_system": system,
                     "prompt_user": user,
+                    "used_import": bool(activity),
                 },
             )
             try:

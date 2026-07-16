@@ -89,3 +89,52 @@ def generate_profile(company: dict[str, Any], scan: dict[str, Any]) -> str:
         max_tokens=550,
     )
     return (result.content or "").strip()
+
+
+def generate_recommendations(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """rows: {ticker, name, sector, move, sentiment, profile_excerpt}"""
+    from datetime import UTC, datetime
+
+    from crawley.asx_desk.recommendations import normalize_recommendation
+
+    prompts = load_config()["prompts"]
+    lines = []
+    for r in rows[:20]:
+        lines.append(
+            f"- {r.get('ticker')} {r.get('name')} | move={r.get('move')} | "
+            f"sentiment={r.get('sentiment')} | profile={r.get('profile_excerpt', '')[:180]}"
+        )
+    user = "PoC company set:\n" + "\n".join(lines or ["(none)"])
+    provider = get_llm_provider()
+    result = provider.complete(
+        [
+            ChatMessage(role="system", content=prompts.get("recommendations_system") or ""),
+            ChatMessage(role="user", content=user),
+        ],
+        max_tokens=900,
+    )
+    text = (result.content or "").strip()
+    # Prefer array extract
+    try:
+        raw = json.loads(text)
+    except json.JSONDecodeError:
+        start = text.find("[")
+        end = text.rfind("]")
+        if start < 0 or end <= start:
+            raise ValueError("No JSON array in recommendations response") from None
+        raw = json.loads(text[start : end + 1])
+    if not isinstance(raw, list):
+        raise ValueError("Recommendations must be a JSON array")
+    now = datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    out: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        rec = normalize_recommendation(item)
+        if not rec["ticker"] or rec["ticker"] in seen:
+            continue
+        seen.add(rec["ticker"])
+        rec["generated_at"] = now
+        out.append(rec)
+    return out

@@ -57,6 +57,13 @@ DEFAULT_PROMPTS: dict[str, str] = {
         "Reply with ONLY JSON: "
         '{"sentiment":"constructive|mixed|cautious|negative|unknown","rationale":"one line"}'
     ),
+    "recommendations_system": (
+        "You produce structured personal simulation ideas for ASX equities. "
+        "Reply with ONLY a JSON array of objects: "
+        '[{"ticker":"CBA","action":"Buy|Add|Hold|Trim|Avoid|Watch",'
+        '"urgency":"low|medium|high","rationale":"one line"}]. '
+        "Max one row per ticker. Not licensed advice. Prefer Watch/Hold when data is thin."
+    ),
 }
 
 

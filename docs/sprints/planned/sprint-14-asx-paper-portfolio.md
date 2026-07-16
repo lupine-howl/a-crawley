@@ -1,6 +1,6 @@
 # Sprint 14 — ASX recommendations + paper portfolio (planned)
 
-**Status:** planned (activates after Sprint 13)
+**Status:** done (delivered in [`../current.md`](../current.md) Sprints 14–16 bundle)
 **Duration:** one symbolic week  
 **Backlog refs:** B75, B76, B77  
 **Depends on:** B73 company profiles; B65 UX for recommendations + portfolio pages  
@@ -26,15 +26,15 @@ Operator can:
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B75 |
 
 **Acceptance criteria:**
 
-- [ ] Recommendations as structured rows (ticker, action, rationale, confidence/urgency, related profile link, generated_at)
-- [ ] Generated from PoC company set via LLM + metrics; regenerable
-- [ ] UI list per UX; export optional not required
-- [ ] Non-advice disclaimer
+- [x] Recommendations as structured rows (ticker, action, rationale, confidence/urgency, related profile link, generated_at)
+- [x] Generated from PoC company set via LLM + metrics; regenerable
+- [x] UI list per UX; export optional not required
+- [x] Non-advice disclaimer
 
 ---
 
@@ -42,16 +42,16 @@ Operator can:
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B76 |
 
 **Acceptance criteria:**
 
-- [ ] Separate Investment sub-page/route for paper portfolio
-- [ ] Create paper trades from a recommendation or manual entry (qty, side, price defaulting to last scan)
-- [ ] Track positions, cash, simple P&amp;L using latest available prices from scanner store
-- [ ] Local persistence under `data/`; no broker API orders
-- [ ] Inspired by portfolio trackers (e.g. Sharesight-style clarity) but simulation-only
+- [x] Separate Investment sub-page/route for paper portfolio
+- [x] Create paper trades from a recommendation or manual entry (qty, side, price defaulting to last scan)
+- [x] Track positions, cash, simple P&amp;L using latest available prices from scanner store
+- [x] Local persistence under `data/`; no broker API orders
+- [x] Inspired by portfolio trackers (e.g. Sharesight-style clarity) but simulation-only
 
 ---
 
@@ -59,14 +59,14 @@ Operator can:
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B77 |
 
 **Acceptance criteria:**
 
-- [ ] Settings: starting cash, fee per trade and/or %, default currency AUD, optional broker name label (cosmetic)
-- [ ] Fees applied in simulation math
-- [ ] Documented: these settings do **not** enable live trading
+- [x] Settings: starting cash, fee per trade and/or %, default currency AUD, optional broker name label (cosmetic)
+- [x] Fees applied in simulation math
+- [x] Documented: these settings do **not** enable live trading
 
 **Out of scope (sprint):**
 

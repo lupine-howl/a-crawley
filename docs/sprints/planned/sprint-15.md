@@ -1,6 +1,7 @@
 # Sprint 15 — Snapshot history + deeper shared memory (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** done (un-shelved into [`../current.md`](../current.md) Sprints 14–16 bundle)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B35, B36  
 **Depends on:** B14, B29  
@@ -22,27 +23,27 @@ Thicken local organisation: **searchable / browsable snapshot history** and a ri
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B35 |
 
 **Acceptance criteria:**
 
-- [ ] Persist more than “last success” (bounded N per module)
-- [ ] Simple history UI; open full Markdown safely
-- [ ] Prune/retention documented
+- [x] Persist more than “last success” (bounded N per module)
+- [x] Simple history UI; open body safely (escaped pre)
+- [x] Prune/retention documented
 
 ### S15.2 — Shared context depth (B36)
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B36 |
 | Depends on | S15.1, B29 |
 
 **Acceptance criteria:**
 
-- [ ] Operator can pin/select history items into shared context
-- [ ] Hard caps; secrets never injected
-- [ ] ADR/architecture update: history vs seed standing notes
+- [x] Operator can pin/select history items into shared context
+- [x] Hard caps; secrets never injected
+- [x] ADR/architecture update: history vs seed standing notes
 
 **Out of scope:** Cloud sync of memory, multi-user knowledge base

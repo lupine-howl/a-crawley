@@ -40,9 +40,16 @@ from crawley.settings import (
     update_llm_settings,
     update_network_settings,
     update_prompt_settings,
+    update_simulation_settings,
     update_theme_setting,
 )
-from crawley.shared_context import load_standing_notes, save_standing_notes
+from crawley.shared_context import (
+    list_pins,
+    load_standing_notes,
+    pin_history,
+    save_standing_notes,
+    unpin_history,
+)
 from crawley.writeback import read_audit_entries
 
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
@@ -139,8 +146,13 @@ def _settings_context(
     prompts_notice: str | None = None,
     network_notice: str | None = None,
     update_result: dict | None = None,
+    simulation_notice: str | None = None,
+    history_notice: str | None = None,
+    history_query: str = "",
     refresh_models: bool = False,
 ) -> dict[str, Any]:
+    from crawley.data.snapshots import list_history
+
     registry: dict[str, Module] = request.app.state.registry
     settings = load_settings()
     catalog = list_openai_models(force_refresh=refresh_models)
@@ -150,6 +162,11 @@ def _settings_context(
     env_host = os.environ.get("CRAWLEY_HOST", "").strip()
     lan = host_exposes_lan(bind_host)
     gstat = git_status()
+    history = list_history(query=history_query, limit=40)
+    pins = list_pins()
+    pin_ids = {p.get("id") for p in pins}
+    for row in history:
+        row["pinned"] = row.get("id") in pin_ids
     ctx = _base_context(request, registry)
     ctx.update(
         {
@@ -158,6 +175,7 @@ def _settings_context(
             "llm_settings": settings.llm,
             "prompt_settings": settings.prompts,
             "network_settings": settings.network,
+            "simulation_settings": settings.simulation,
             "bind_host": bind_host,
             "bind_port": resolve_bind_port(),
             "bind_exposes_lan": lan,
@@ -166,6 +184,11 @@ def _settings_context(
             "save_notice": save_notice,
             "prompts_notice": prompts_notice,
             "network_notice": network_notice,
+            "simulation_notice": simulation_notice,
+            "history_notice": history_notice,
+            "history_query": history_query,
+            "history_entries": history,
+            "context_pins": pins,
             "test_result": test_result,
             "model_options": models,
             "models_error": catalog.get("error"),
@@ -347,6 +370,62 @@ def settings_network_save(
             "Trusted LAN only — there is no login gate."
         ),
     )
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
+@router.post("/settings/simulation", response_class=HTMLResponse)
+def settings_simulation_save(
+    request: Request,
+    starting_cash: str = Form("100000"),
+    fee_flat: str = Form("10"),
+    fee_pct: str = Form("0.1"),
+    currency: str = Form("AUD"),
+    broker_label: str = Form("Paper (simulation)"),
+    reset_cash: str | None = Form(None),
+) -> HTMLResponse:
+    try:
+        update_simulation_settings(
+            starting_cash=float(starting_cash),
+            fee_flat=float(fee_flat),
+            fee_pct=float(fee_pct),
+            currency=currency,
+            broker_label=broker_label,
+            reset_portfolio_cash=reset_cash == "on",
+        )
+        notice = "Simulation settings saved. These never enable live trading."
+        if reset_cash == "on":
+            notice += " Paper portfolio reset to starting cash."
+    except ValueError:
+        notice = "Could not parse simulation numbers."
+    ctx = _settings_context(request, simulation_notice=notice)
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
+@router.get("/settings/history", response_class=HTMLResponse)
+def settings_history(request: Request, q: str = "") -> HTMLResponse:
+    ctx = _settings_context(request, history_query=q)
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
+@router.post("/settings/history/pin", response_class=HTMLResponse)
+def settings_history_pin(request: Request, entry_id: str = Form("")) -> HTMLResponse:
+    ok, msg = pin_history(entry_id)
+    ctx = _settings_context(request, history_notice=msg)
+    if request.headers.get("hx-request") == "true":
+        return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
+    return templates.TemplateResponse(request, "settings.html", ctx)
+
+
+@router.post("/settings/history/unpin", response_class=HTMLResponse)
+def settings_history_unpin(request: Request, entry_id: str = Form("")) -> HTMLResponse:
+    unpin_history(entry_id)
+    ctx = _settings_context(request, history_notice="Pin removed.")
     if request.headers.get("hx-request") == "true":
         return templates.TemplateResponse(request, "partials/settings_panel.html", ctx)
     return templates.TemplateResponse(request, "settings.html", ctx)
@@ -539,6 +618,82 @@ def asx_company_profile_retry(request: Request, ticker: str) -> HTMLResponse:
     return _module_response(request, module, panel=panel)
 
 
+@router.get("/modules/investment/recommendations", response_class=HTMLResponse)
+def asx_recommendations(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    return _module_response(request, module, panel=module.recommendations_panel_context())
+
+
+@router.post("/modules/investment/recommendations/refresh", response_class=HTMLResponse)
+def asx_recommendations_refresh(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.worker import refresh_recommendations
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    ok, msg = refresh_recommendations(request.app.state.executor)
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    return _module_response(request, module, panel=module.recommendations_panel_context())
+
+
+@router.get("/modules/investment/portfolio", response_class=HTMLResponse)
+def asx_portfolio(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    return _module_response(request, module, panel=module.portfolio_panel_context())
+
+
+@router.post("/modules/investment/portfolio/trade", response_class=HTMLResponse)
+def asx_portfolio_trade(
+    request: Request,
+    ticker: str = Form(""),
+    side: str = Form("buy"),
+    qty: str = Form("10"),
+    price: str = Form(""),
+    note: str = Form(""),
+    from_recs: str | None = Form(None),
+) -> HTMLResponse:
+    from crawley.asx_desk.portfolio import add_paper_trade
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    price_val = None
+    if price.strip():
+        try:
+            price_val = float(price)
+        except ValueError:
+            panel = module.portfolio_panel_context()
+            panel["trade_ok"] = False
+            panel["trade_notice"] = "Price must be a number."
+            return _module_response(request, module, panel=panel)
+    ok, msg, _ = add_paper_trade(
+        ticker=ticker,
+        side=side,
+        qty=qty,
+        price=price_val,
+        note=note,
+    )
+    # From recommendations: stay on that list if the trade failed; otherwise show portfolio.
+    if from_recs == "1" and not ok:
+        panel = module.recommendations_panel_context()
+    else:
+        panel = module.portfolio_panel_context()
+    panel["trade_ok"] = ok
+    panel["trade_notice"] = msg
+    return _module_response(request, module, panel=panel)
+
+
+@router.post("/modules/investment/portfolio/reset", response_class=HTMLResponse)
+def asx_portfolio_reset(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.portfolio import reset_portfolio
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    reset_portfolio()
+    return _module_response(request, module, panel=module.portfolio_panel_context())
+
+
 @router.post("/modules/gmail/run", response_class=HTMLResponse)
 def gmail_run(request: Request) -> HTMLResponse:
     module = request.app.state.registry["gmail"]
@@ -659,10 +814,11 @@ def calendar_status(request: Request) -> HTMLResponse:
 def fitness_run(
     request: Request,
     goal: str = Form(""),
+    use_import: str | None = Form(None),
 ) -> HTMLResponse:
     module = request.app.state.registry["fitness"]
     assert isinstance(module, FitnessModule)
-    result = module.run({"goal": goal})
+    result = module.run({"goal": goal, "use_import": use_import == "on"})
     if result.error and module.job.status != "busy":
         module.job.status = "error"
         module.job.message = result.error
@@ -673,6 +829,37 @@ def fitness_run(
 def fitness_status(request: Request) -> HTMLResponse:
     module = request.app.state.registry["fitness"]
     return _module_response(request, module)
+
+
+@router.post("/modules/fitness/import", response_class=HTMLResponse)
+async def fitness_import(request: Request) -> HTMLResponse:
+    from crawley.modules.fitness_import import save_activity_import
+
+    module = request.app.state.registry["fitness"]
+    form = await request.form()
+    upload = form.get("file")
+    raw = b""
+    filename = ""
+    if upload is not None and hasattr(upload, "read"):
+        raw = await upload.read()  # type: ignore[misc]
+        filename = getattr(upload, "filename", "") or ""
+    ok, msg = save_activity_import(raw, filename=filename)
+    panel = module.panel_context()
+    panel["import_ok"] = ok
+    panel["import_notice"] = msg
+    return _module_response(request, module, panel=panel)
+
+
+@router.post("/modules/fitness/import/clear", response_class=HTMLResponse)
+def fitness_import_clear(request: Request) -> HTMLResponse:
+    from crawley.modules.fitness_import import clear_activity_import
+
+    module = request.app.state.registry["fitness"]
+    clear_activity_import()
+    panel = module.panel_context()
+    panel["import_ok"] = True
+    panel["import_notice"] = "Import cleared."
+    return _module_response(request, module, panel=panel)
 
 
 @router.post("/modules/work/save", response_class=HTMLResponse)

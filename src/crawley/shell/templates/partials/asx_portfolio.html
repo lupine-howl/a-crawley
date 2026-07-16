@@ -1,0 +1,92 @@
+{% set p = panel.portfolio %}
+<div class="panel asx-portfolio">
+  <h1>Paper portfolio</h1>
+  <p class="muted">Simulated {{ p.currency }} book · fees applied · no live broker.</p>
+  {% include "partials/asx_subnav.html" %}
+
+  <dl class="asx-snapshot">
+    <div><dt>Cash</dt><dd>{{ '%.2f'|format(p.cash) }} {{ p.currency }}</dd></div>
+    <div><dt>Equity MTM</dt><dd>{{ '%.2f'|format(p.equity_mtm) }}</dd></div>
+    <div><dt>P&amp;L</dt><dd class="{% if p.total_pnl > 0 %}job-done{% elif p.total_pnl < 0 %}job-error{% endif %}">{{ '%+.2f'|format(p.total_pnl) }}</dd></div>
+    <div><dt>Fee model</dt><dd class="muted">${{ p.fee_flat }} + {{ p.fee_pct }}% · {{ p.broker_label }}</dd></div>
+  </dl>
+  <p class="muted"><a href="/settings#paper-portfolio">Simulation settings</a> — these never enable live trading.</p>
+
+  <h2>Positions</h2>
+  {% if p.positions %}
+  <table class="inbox-table">
+    <thead>
+      <tr>
+        <th scope="col">Ticker</th>
+        <th scope="col">Qty</th>
+        <th scope="col">Avg</th>
+        <th scope="col">Last</th>
+        <th scope="col">MTM</th>
+        <th scope="col">P&amp;L</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in p.positions %}
+      <tr>
+        <td><a href="/modules/investment/companies/{{ row.ticker }}"><strong>{{ row.ticker }}</strong></a></td>
+        <td>{{ row.qty }}</td>
+        <td>{{ '%.2f'|format(row.avg) }}</td>
+        <td>{% if row.last is not none %}{{ '%.2f'|format(row.last) }}{% else %}—{% endif %}</td>
+        <td>{% if row.mtm is not none %}{{ '%.2f'|format(row.mtm) }}{% else %}—{% endif %}</td>
+        <td class="{% if row.pnl is not none and row.pnl > 0 %}job-done{% elif row.pnl is not none and row.pnl < 0 %}job-error{% endif %}">
+          {% if row.pnl is not none %}{{ '%+.2f'|format(row.pnl) }}{% else %}—{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No positions yet — paper trade from Recommendations or add below.</p>
+  {% endif %}
+
+  <h2>Ledger</h2>
+  {% if p.ledger %}
+  <ul class="src-list">
+    {% for e in p.ledger %}
+    <li>{{ e.at }} · <strong>{{ e.side }}</strong> {{ e.qty }} {{ e.ticker }} @ {{ e.price }} · fee {{ '%.2f'|format(e.fee) }}{% if e.note %} · {{ e.note }}{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No fills yet.</p>
+  {% endif %}
+
+  <h2>Add paper trade</h2>
+  <form class="settings-form" hx-post="/modules/investment/portfolio/trade" hx-target="#panel-root" hx-swap="innerHTML">
+    <div class="field">
+      <label for="pt-ticker">Ticker</label>
+      <input id="pt-ticker" name="ticker" required placeholder="CBA">
+    </div>
+    <div class="field">
+      <label for="pt-side">Side</label>
+      <select id="pt-side" name="side">
+        <option value="buy">Buy</option>
+        <option value="sell">Sell</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="pt-qty">Qty</label>
+      <input id="pt-qty" name="qty" value="10" required>
+    </div>
+    <div class="field">
+      <label for="pt-price">Price (blank = last scan)</label>
+      <input id="pt-price" name="price" placeholder="auto">
+    </div>
+    <div class="field">
+      <label for="pt-note">Note</label>
+      <input id="pt-note" name="note">
+    </div>
+    <button type="submit">Add paper trade</button>
+  </form>
+  {% if panel.trade_notice %}
+  <p class="job {% if panel.trade_ok %}job-done{% else %}job-error{% endif %}">{{ panel.trade_notice }}</p>
+  {% endif %}
+
+  <form class="reset-form" hx-post="/modules/investment/portfolio/reset" hx-target="#panel-root" hx-swap="innerHTML" onsubmit="return confirm('Reset paper portfolio to starting cash?');">
+    <button type="submit" class="secondary">Reset portfolio</button>
+  </form>
+</div>

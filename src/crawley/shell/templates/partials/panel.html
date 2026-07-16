@@ -14,6 +14,10 @@
   {% elif module.meta.id == 'investment' %}
     {% if panel.asx_view == 'company' and panel.company %}
       {% include "partials/asx_company.html" %}
+    {% elif panel.asx_view == 'recommendations' %}
+      {% include "partials/asx_recommendations.html" %}
+    {% elif panel.asx_view == 'portfolio' %}
+      {% include "partials/asx_portfolio.html" %}
     {% else %}
       {% include "partials/asx_desk.html" %}
     {% endif %}
@@ -139,11 +143,39 @@
         <label for="fit-goal">Goal / context</label>
         <textarea id="fit-goal" name="goal" rows="3" {% if panel.job.status == 'busy' %}disabled{% endif %}>{{ panel.default_goal }}</textarea>
       </div>
+      <div class="field-inline">
+        <label>
+          <input type="checkbox" name="use_import" value="on" {% if panel.use_import_default and panel.has_activity_import %}checked{% endif %} {% if not panel.has_activity_import %}disabled{% endif %}>
+          Include imported activity{% if panel.has_activity_import %} ({{ panel.activity_import|length }} chars){% else %} (none yet){% endif %}
+        </label>
+      </div>
       <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
         {% if panel.job.status == 'busy' %}Drafting…{% else %}Draft plan{% endif %}
       </button>
     </form>
-    <p class="muted">Personal planning only · no wearables required this sprint.</p>
+    <details class="prompt-viewer">
+      <summary>Import activity (CSV / text)</summary>
+      <p class="muted">Bounded local file under <code>data/fitness/</code> · max 64KB · not medical data.</p>
+      <form
+        hx-post="/modules/fitness/import"
+        hx-target="#panel-root"
+        hx-swap="innerHTML"
+        hx-encoding="multipart/form-data"
+      >
+        <input type="file" name="file" accept=".txt,.csv,text/plain,text/csv">
+        <button type="submit" class="secondary">Upload import</button>
+      </form>
+      {% if panel.has_activity_import %}
+      <pre class="prompt-pre">{{ panel.activity_import[:800] }}</pre>
+      <form hx-post="/modules/fitness/import/clear" hx-target="#panel-root" hx-swap="innerHTML">
+        <button type="submit" class="secondary">Clear import</button>
+      </form>
+      {% endif %}
+      {% if panel.import_notice %}
+      <p class="job {% if panel.import_ok %}job-done{% else %}job-error{% endif %}">{{ panel.import_notice }}</p>
+      {% endif %}
+    </details>
+    <p class="muted">Personal planning only · wearables optional via file import.</p>
     <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
     {% if panel.job.summary %}
     <div class="summary">

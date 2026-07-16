@@ -14,13 +14,7 @@
   <h1>ASX desk</h1>
   <p class="muted">Research slice · scanner enriches one company at a time · not live trading.</p>
 
-  <nav class="asx-subnav" aria-label="Investment sections">
-    <a href="/modules/investment" aria-current="page">Desk</a>
-    <span class="muted">·</span>
-    <span class="muted" title="Sprint 14">Recommendations</span>
-    <span class="muted">·</span>
-    <span class="muted" title="Sprint 14">Paper portfolio</span>
-  </nav>
+  {% include "partials/asx_subnav.html" %}
 
   <div id="asx-scan-progress" class="ingest-progress" aria-live="polite">
     <div class="ingest-actions">

@@ -231,3 +231,21 @@ def progress_view(*, running: bool | None = None) -> dict[str, Any]:
         "universe_count": universe["count"],
         "poc_count": len(poc),
     }
+
+
+def load_recommendations() -> dict[str, Any]:
+    with _lock:
+        raw = _read_json(_path("recommendations.json"), {})
+        if not isinstance(raw, dict):
+            return {"rows": [], "updated_at": "", "status": "idle", "error": ""}
+        return {
+            "rows": list(raw.get("rows") or []),
+            "updated_at": str(raw.get("updated_at") or ""),
+            "status": str(raw.get("status") or "idle"),
+            "error": str(raw.get("error") or ""),
+        }
+
+
+def save_recommendations(payload: dict[str, Any]) -> None:
+    with _lock:
+        _write_json(_path("recommendations.json"), payload)

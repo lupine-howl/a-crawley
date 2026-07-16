@@ -85,6 +85,65 @@ def regenerate_profile(ticker: str, executor) -> tuple[bool, str]:
     return True, "Updating profile…"
 
 
+def refresh_recommendations(executor) -> tuple[bool, str]:
+    from crawley.asx_desk.store import load_recommendations, save_recommendations
+
+    state = load_scan_state()
+    poc = list(state.get("poc_tickers") or [])
+    profiles = load_profiles()
+    if not any(profiles.get(t, {}).get("markdown") for t in poc):
+        return False, "Scan and profile at least one PoC company first."
+    payload = load_recommendations()
+    payload["status"] = "busy"
+    payload["error"] = ""
+    save_recommendations(payload)
+    executor.submit(_recommendations_body)
+    return True, "Refreshing recommendations…"
+
+
+def _recommendations_body() -> None:
+    from crawley.asx_desk import llm_tasks
+    from crawley.asx_desk.store import (
+        desk_rows,
+        load_profiles,
+        load_recommendations,
+        save_recommendations,
+    )
+
+    try:
+        rows_in = []
+        profiles = load_profiles()
+        for row in desk_rows():
+            if row["status"] not in {"ready", "error"}:
+                continue
+            prof = profiles.get(row["ticker"]) or {}
+            rows_in.append(
+                {
+                    "ticker": row["ticker"],
+                    "name": row["name"],
+                    "sector": row["sector"],
+                    "move": row["move"],
+                    "sentiment": row["sentiment"],
+                    "profile_excerpt": (prof.get("markdown") or "")[:240],
+                }
+            )
+        generated = llm_tasks.generate_recommendations(rows_in)
+        save_recommendations(
+            {
+                "rows": generated,
+                "updated_at": _now_iso(),
+                "status": "ready",
+                "error": "",
+            }
+        )
+    except Exception as exc:  # noqa: BLE001
+        logger.exception("Recommendations refresh failed")
+        payload = load_recommendations()
+        payload["status"] = "error"
+        payload["error"] = str(exc)[:300]
+        save_recommendations(payload)
+
+
 def _company_meta(ticker: str) -> dict[str, Any]:
     for row in load_universe()["companies"]:
         if row["ticker"] == ticker:

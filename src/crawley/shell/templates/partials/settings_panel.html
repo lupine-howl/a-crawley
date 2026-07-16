@@ -309,6 +309,95 @@
   </form>
 </div>
 
+<div class="panel panel-tight settings-section" id="paper-portfolio">
+  <h2 class="section-title">Paper portfolio (simulation)</h2>
+  <p class="muted">Assumptions for the ASX paper ledger. These settings do <strong>not</strong> enable live trading.</p>
+  <form
+    class="settings-form"
+    hx-post="/settings/simulation"
+    hx-target="#panel-root"
+    hx-swap="innerHTML"
+  >
+    <div class="field">
+      <label for="sim-cash">Starting cash ({{ simulation_settings.currency }})</label>
+      <input id="sim-cash" name="starting_cash" value="{{ simulation_settings.starting_cash }}">
+    </div>
+    <div class="field">
+      <label for="sim-fee-flat">Fee flat ($)</label>
+      <input id="sim-fee-flat" name="fee_flat" value="{{ simulation_settings.fee_flat }}">
+    </div>
+    <div class="field">
+      <label for="sim-fee-pct">Fee %</label>
+      <input id="sim-fee-pct" name="fee_pct" value="{{ simulation_settings.fee_pct }}">
+    </div>
+    <div class="field">
+      <label for="sim-ccy">Currency</label>
+      <input id="sim-ccy" name="currency" value="{{ simulation_settings.currency }}">
+    </div>
+    <div class="field">
+      <label for="sim-broker">Broker label (cosmetic)</label>
+      <input id="sim-broker" name="broker_label" value="{{ simulation_settings.broker_label }}">
+    </div>
+    <label>
+      <input type="checkbox" name="reset_cash" value="on">
+      Also reset paper portfolio to starting cash
+    </label>
+    <div class="actions">
+      <button type="submit">Save simulation settings</button>
+    </div>
+    {% if simulation_notice %}
+    <p class="job job-done">{{ simulation_notice }}</p>
+    {% endif %}
+  </form>
+</div>
+
+<div class="panel panel-tight settings-section" id="snapshot-history">
+  <h2 class="section-title">Snapshot history</h2>
+  <p class="muted">
+    Bounded local history (last 20 per module). Pin up to 4 into shared context for prompts.
+    Retention: oldest pruned automatically. No cloud sync.
+  </p>
+  <form class="settings-form" method="get" action="/settings/history" hx-get="/settings/history" hx-target="#panel-root" hx-swap="innerHTML">
+    <div class="field">
+      <label for="hist-q">Search</label>
+      <input id="hist-q" name="q" value="{{ history_query }}">
+    </div>
+    <button type="submit" class="secondary">Search history</button>
+  </form>
+  {% if history_notice %}
+  <p class="job job-done">{{ history_notice }}</p>
+  {% endif %}
+  {% if context_pins %}
+  <p class="muted">Pinned: {% for p in context_pins %}<code>{{ p.module_id }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+  {% endif %}
+  {% if history_entries %}
+  <ul class="src-list">
+    {% for h in history_entries %}
+    <li>
+      <strong>{{ h.module_id }}</strong> · {{ h.updated_at }} · {{ h.title }}
+      {% if h.pinned %}
+      <form style="display:inline" hx-post="/settings/history/unpin" hx-target="#panel-root" hx-swap="innerHTML">
+        <input type="hidden" name="entry_id" value="{{ h.id }}">
+        <button type="submit" class="secondary">Unpin</button>
+      </form>
+      {% else %}
+      <form style="display:inline" hx-post="/settings/history/pin" hx-target="#panel-root" hx-swap="innerHTML">
+        <input type="hidden" name="entry_id" value="{{ h.id }}">
+        <button type="submit" class="secondary">Pin</button>
+      </form>
+      {% endif %}
+      <details>
+        <summary class="muted">View</summary>
+        <pre class="prompt-pre">{{ h.summary_md[:2000] }}</pre>
+      </details>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No history yet — run a module to populate.</p>
+  {% endif %}
+</div>
+
 <div class="panel panel-tight settings-section" id="writeback-audit">
   <h2 class="section-title">Write-back audit</h2>
   <p class="muted">Recent dry-run and live mutation attempts (newest first).</p>

@@ -890,9 +890,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Done — Sprints 14–16 bundle |
 | Depends on | B14 |
 | Planned sprint | 15 |
 
@@ -900,9 +900,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Persist bounded N histories per module
-- [ ] Simple history UI with safe Markdown view
-- [ ] Retention/prune documented
+- [x] Persist bounded N histories per module
+- [x] Simple history UI with safe body view (escaped pre)
+- [x] Retention/prune documented
 
 **Out of scope:**
 
@@ -914,9 +914,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Done — Sprints 14–16 bundle |
 | Depends on | B29, B35 |
 | Planned sprint | 15 |
 
@@ -924,9 +924,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Operator can pin history items into shared context
-- [ ] Hard caps; secrets never injected
-- [ ] Architecture updated
+- [x] Operator can pin history items into shared context
+- [x] Hard caps; secrets never injected
+- [x] Architecture updated
 
 **Out of scope:**
 
@@ -938,9 +938,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | done |
 | Priority | P2 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Done — Sprints 14–16 bundle |
 | Depends on | B11 |
 | Planned sprint | 16 |
 
@@ -948,9 +948,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Import path for bounded activity artifact
-- [ ] Optional use in Fitness Run prompt
-- [ ] Disclaimer retained; bad file errors clear
+- [x] Import path for bounded activity artifact
+- [x] Optional use in Fitness Run prompt
+- [x] Disclaimer retained; bad file errors clear
 
 **Out of scope:**
 
@@ -1912,9 +1912,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B73 |
 | Planned sprint | 14 |
 
@@ -1922,9 +1922,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Structured rows (ticker, action, rationale, links, timestamps)
-- [ ] Regenerable from PoC set
-- [ ] Non-advice disclaimer; UX list layout
+- [x] Structured rows (ticker, action, rationale, links, timestamps)
+- [x] Regenerable from PoC set
+- [x] Non-advice disclaimer; UX list layout
 
 **Out of scope:**
 
@@ -1936,9 +1936,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P0 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B75 |
 | Planned sprint | 14 |
 
@@ -1946,10 +1946,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Separate portfolio surface per UX
-- [ ] Open paper positions from recommendations; local ledger
-- [ ] Simple P&L / cash using latest scanned prices
-- [ ] **No brokerage order API calls**
+- [x] Separate portfolio surface per UX
+- [x] Open paper positions from recommendations; local ledger
+- [x] Simple P&L / cash using latest scanned prices
+- [x] **No brokerage order API calls**
 
 **Out of scope:**
 
@@ -1964,9 +1964,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B76 |
 | Planned sprint | 14 |
 
@@ -1974,9 +1974,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Settings persisted locally; applied to simulation math
-- [ ] Documented that settings never enable live trading
-- [ ] Clear UI copy
+- [x] Settings persisted locally; applied to simulation math
+- [x] Documented that settings never enable live trading
+- [x] Clear UI copy
 
 **Out of scope:**
 

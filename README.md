@@ -46,7 +46,9 @@ Default bind is localhost only (`127.0.0.1:8000`). To reach a phone on the same 
 
 **Manual proof (Sprint 11):** With `CRAWLEY_RELOAD=1`, open Settings → Update, note the short SHA, pull a commit that touches `src/crawley/` (or pull after pushing such a commit), watch the server log for a reload, and confirm the Settings page shows the new SHA / “Pulled … hot reload should apply”.
 
-**ASX desk (Investment):** Open **Investment** — panel title **ASX desk**. Curated universe (~193 tickers) with a PoC set of **~20**. **Start scan** enriches one company at a time (Yahoo price snapshot + Google News headlines + LLM sentiment/profile). Open a ticker for Snapshot + Profile + sources. Toggle sources / edit ASX prompts under Desk disclosures. Reset clears `data/investment/asx/`. Cap: `CRAWLEY_ASX_POC_CAP`. Classic RSS search remains under a disclosure. Not licensed research; no live orders. Recommendations / paper portfolio → Sprint 14.
+**ASX desk (Investment):** Open **Investment** — panel title **ASX desk**. Curated universe (~193 tickers) with a PoC set of **~20**. **Start scan** enriches one company at a time (Yahoo price snapshot + Google News headlines + LLM sentiment/profile). Open a ticker for Snapshot + Profile + sources. Subnav: **Recommendations** (structured actions from profiles) and **Paper portfolio** (simulated trades, MTM from scan prices, fees from Settings). Toggle sources / edit ASX prompts under Desk disclosures. Reset clears `data/investment/asx/`. Cap: `CRAWLEY_ASX_POC_CAP`. Classic RSS search remains under a disclosure. Not licensed research; **no live brokerage orders**.
+
+**Snapshot history / pins:** Settings → **Snapshot history** — browse/search bounded past summaries; pin items into shared context (hard caps). Fitness panel accepts a bounded activity file import for optional plan grounding.
 
 **Sender Inbox (Gmail):** Open **Gmail** in the nav — panel title **Sender Inbox**. Connect Google, then **Start ingest**. Crawley pulls **one INBOX message at a time**, LLM-categorizes it, groups by sender (not chronology), and builds a profile + local todos per sender. Hard stop at **~20** messages (raise later with `CRAWLEY_SENDER_INBOX_CAP` in `.env` and restart). Progress shows `processed / cap` and remaining capacity; **Reset PoC data** clears `data/gmail/sender_inbox/`. Classic inbox skim lives under a disclosure. No auto-send / auto-calendar from todos.
 
@@ -74,8 +76,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprints 6–10** — **implemented** (life modules, Day brief, Calendar write-back, LocalLlama, shared context): [`docs/sprints/archive/sprint-6-10-life-modules-llm-context.md`](./docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](./docs/sprints/archive/sprint-6-10-code-verification.md)
 - **Sprint 11** — Settings Update (git pull + hot reload) (**closed**): [`docs/sprints/archive/sprint-11-settings-update.md`](./docs/sprints/archive/sprint-11-settings-update.md)
 - **Sprint 12** — Sender Inbox PoC (**closed**): [`docs/sprints/archive/sprint-12-sender-inbox.md`](./docs/sprints/archive/sprint-12-sender-inbox.md)
-- **Sprint 13** — ASX desk scanner + profiles (**done**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprint 14** — ASX recommendations + paper portfolio (planned): [`docs/sprints/planned/sprint-14-asx-paper-portfolio.md`](./docs/sprints/planned/sprint-14-asx-paper-portfolio.md)
+- **Sprint 13** — ASX desk scanner + profiles (**closed**): [`docs/sprints/archive/sprint-13-asx-profiles.md`](./docs/sprints/archive/sprint-13-asx-profiles.md)
+- **Sprints 14–16** — ASX paper desk + snapshot history/pins + Fitness import (**done**): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 
