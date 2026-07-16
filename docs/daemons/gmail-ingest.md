@@ -55,6 +55,10 @@ uv run crawley-gmail-ingest once --force
 
 `GET /health` → `gmail_worker`: `in_process` | `daemon`.
 
+## Caps
+
+Default PoC cap is 20 (`CRAWLEY_SENDER_INBOX_CAP` / Settings). With **Local Llama**, ingest + keep-max pad to the hard ceiling (**200**) — same rationale as ASX (no per-call cost).
+
 ## Supervisord sketch
 
 ```ini

@@ -2555,4 +2555,28 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ---
 
+### B101 — Gmail fetch prefetch queue (batch get → LLM)
+
+| Field | Value |
+|-------|-------|
+| Status | idea |
+| Priority | P2 |
+| Roadmap theme | Later |
+| Depends on | B97 |
+
+**Goal:** Prefetch Gmail message bodies in small batches into a local queue while the LLM categorizes one (or a few) at a time — keep pause/error isolation, reduce idle wait on sequential `messages.get`.
+
+**Acceptance criteria:**
+
+- [ ] List IDs still bounded; body fetch pipelined (batch HTTP or small concurrent gets)
+- [ ] LLM stage remains rate-limited / one-at-a-time by default for Local Llama fairness
+- [ ] Pause/stop still finishes or abandons cleanly mid-queue
+- [ ] Documented why this beats pure 1:1 fetch+LLM when network latency dominates
+
+**Out of scope:**
+
+- Celery / Redis; multi-host workers
+
+---
+
 <!-- Add new items above this line. Planned sprints: docs/sprints/planned/ -->
