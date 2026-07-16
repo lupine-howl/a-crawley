@@ -1,47 +1,65 @@
-# Sprints 18–20 — Gmail send, ASX alerts, playbooks
+# Sprint 21 — Google OAuth ops (Tailscale Connect + softer reconsent)
 
-**Status:** done (bundled delivery)  
-**Duration:** three symbolic weeks  
-**Backlog refs:** B84 (18); B85–B86 (19); B87–B88 (20)  
-**Depends on:** ADR-006; Sprints 12–17 dual desks  
-**Architecture:** [`docs/architecture.md`](../architecture.md)  
-**Previous:** [`archive/sprint-15-17-scale-bridge.md`](archive/sprint-15-17-scale-bridge.md)  
-**Planned sources:** [`planned/sprint-18-gmail-send.md`](planned/sprint-18-gmail-send.md) · [`planned/sprint-19-asx-alerts.md`](planned/sprint-19-asx-alerts.md) · [`planned/sprint-20-playbooks-polish.md`](planned/sprint-20-playbooks-polish.md)
+**Status:** ready (next delivery; Sprints 18–20 archived)  
+**Duration:** one symbolic week  
+**Backlog refs:** B89, B90  
+**Depends on:** B15 shared Google OAuth; LAN/Tailscale bind (B12)  
+**Architecture:** [`docs/architecture.md`](../architecture.md) — installed-app OAuth; tokens in `data/secrets/`  
+**UX:** Minimal — Settings / Connect panel copy for redirect URI; no new desk  
+**Previous:** [`archive/sprint-18-20-send-alerts-playbooks.md`](archive/sprint-18-20-send-alerts-playbooks.md)  
+**Planned source:** [`planned/sprint-21-google-oauth-ops.md`](planned/sprint-21-google-oauth-ops.md)
 
 ## Goal
 
-1. **Sprint 18:** Confirm-first Gmail send with audit + opt-in `gmail.send` scope.  
-2. **Sprint 19:** Local ASX alerts + recommendation accept/dismiss/snooze feedback.  
-3. **Sprint 20:** Operator playbooks + dual-desk polish.
+Make **first Connect Google** reliable from a Tailscale (or trusted LAN) client, and reduce unnecessary re-authentication prompts while keeping offline refresh tokens and explicit reconsent when scopes change.
 
 ## Demo
 
-1. Propose reply from Sender detail → Cancel (no send) / Confirm (send + audit)  
-2. Add alert rule; evaluate after scan; dismiss/snooze recommendation  
-3. Run “ASX scan + refresh recs” playbook from Settings or desk  
-
-## PO polish list (S20.2 — recorded before implement)
-
-1. Clearer empty states on ASX desk / recommendations when active set or rows empty  
-2. Home chip for open ASX alerts  
-3. Playbook entry points on both desks + Settings  
-4. Sender detail copy: todos local; compose is the send path  
-5. Alerts labelled informational-only (no trades)
+1. From a Tailscale/LAN client: open Crawley → see the exact redirect URI → Connect succeeds → token on server  
+2. Reconnect with already-granted scopes does **not** force full consent unless refresh token missing or new scopes requested  
+3. README documents Testing-mode ~7-day refresh expiry vs Production, and WSL/Tailscale same-environment tip
 
 ## Committed
 
-### S18.1 — Gmail confirm-first send (B84) · done
-### S19.1 — Local ASX alerts (B85) · done
-### S19.2 — Recommendation feedback loop (B86) · done
-### S20.1 — Operator playbooks (B87) · done
-### S20.2 — Dual-desk polish pass (B88) · done
+Implement **in order** (S21.1 → S21.2).
+
+### S21.1 — Tailscale / LAN first-Connect ergonomics (B89)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B89 |
+
+**Acceptance criteria:**
+
+- [ ] When operator opens Connect from a trusted personal host (Tailscale / LAN), UI shows the **exact** OAuth redirect URI for that request Host (copyable)
+- [ ] README (or Settings Network + Google section) covers: add that URI in Google Cloud; Tailscale in same env as Crawley; token reuse across clients of one server
+- [ ] Existing localhost Connect path unchanged
+- [ ] Automated test covers redirect URI construction for a Tailscale-like Host header (or trusted-host helper)
+
+### S21.2 — Softer OAuth consent prompts (B90)
+
+| Field | Value |
+|-------|-------|
+| Status | todo |
+| Backlog ref | B90 |
+
+**Acceptance criteria:**
+
+- [ ] `authorization_url` no longer always forces `prompt=consent`; force consent only when refresh token is missing **or** requesting scopes not already granted (e.g. Calendar write / Gmail send upgrade)
+- [ ] `access_type=offline` retained so refresh tokens still issued on first grant
+- [ ] Normal API use still auto-refreshes via `load_credentials` without UI prompts
+- [ ] README notes Google **Testing** publishing status (~7-day refresh token expiry) vs Production as the main “weekly re-auth” cause
+- [ ] Tests cover consent-forced vs consent-optional paths
 
 ## Explicitly out of sprint
 
-- Bulk send; SMS/email push; live brokerage  
-- Full redesign; desktop shell  
+- Multi-user Google accounts / per-client tokens
+- Public HTTPS / reverse-proxy productization
+- Unshelving B44+ depth (Sprints 22+)
+- Icebox (live brokerage)
 
 ## Parking lot
 
-- Scheduled overnight playbooks  
-- Undo send from audit  
+- Optional “copy redirect URI” on Settings even before Connect
+- MagicDNS vs 100.x IP: document both if both used

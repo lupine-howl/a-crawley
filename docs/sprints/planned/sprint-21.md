@@ -1,6 +1,6 @@
 # Sprint 21 — Gmail thread digests (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-21-google-oauth-ops.md`](sprint-21-google-oauth-ops.md) · B89–B90 OAuth ops (current))
 **Duration:** one symbolic week  
 **Backlog refs:** B44  
 **Depends on:** B10, B15; Sprint 11 write-back helpful but not required for read  

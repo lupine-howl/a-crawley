@@ -123,7 +123,7 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 
 ## Decisions log (Sprints 14–20 planning)
 
-- **Sprint 14 (current):** ASX structured recommendations + **paper** portfolio + simulation settings — B75–B77; **not** live brokerage orders
+- **Sprint 14 (done):** ASX structured recommendations + **paper** portfolio + simulation settings — B75–B77; **not** live brokerage orders
 - **Sprint 15:** Sender Inbox scale (cap/retention + search/filter) — B79–B80
 - **Sprint 16:** ASX active-set scale + earnings/events skim — B81–B82
 - **Sprint 17:** Email × ASX bridge (mail ↔ tickers/paper) — B83
@@ -131,3 +131,11 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 - **Sprint 19:** ASX local alerts + recommendation feedback — B85–B86
 - **Sprint 20:** Dual-desk playbooks + polish — B87–B88
 - Sequence prefers dual-desk depth over un-shelving old platform Later items; Icebox unchanged
+
+## Decisions log (Sprints 21–30 planning)
+
+- Close out **18–20** (archived); next delivery **Sprint 21** = Google OAuth ops (Tailscale Connect + softer `prompt=consent`) — B89–B90
+- **Un-shelve** former depth items for **22–30** (alternating Sender Inbox / ASX): B44→22, B45→23, B46→24, B47→25, B48→26, B49→27, B50→28, B52→29, B53→30
+- Frame B45/B47/B49/B53 against **ASX desk + paper**, not legacy Investment-only watchlist
+- Leave **31–40** and remaining platform Later (desktop shell, scheduled brief, etc.) shelved unless later PRODUCT revision
+- Icebox unchanged (live brokerage orders, multi-user, SaaS)

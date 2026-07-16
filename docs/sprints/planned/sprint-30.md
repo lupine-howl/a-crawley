@@ -1,6 +1,6 @@
 # Sprint 30 — Investment citations & source quality (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-30-asx-citations.md`](sprint-30-asx-citations.md) · B53 citations)
 **Duration:** one symbolic week  
 **Backlog refs:** B53  
 **Depends on:** B9, B24  

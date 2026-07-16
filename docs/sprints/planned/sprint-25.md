@@ -1,6 +1,6 @@
 # Sprint 25 — Gmail labels (read + confirm-first mutate) (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-25-asx-news-clusters.md`](sprint-25-asx-news-clusters.md) · B47 news clusters)
 **Duration:** one symbolic week  
 **Backlog refs:** B48  
 **Depends on:** B31, B18, B15  

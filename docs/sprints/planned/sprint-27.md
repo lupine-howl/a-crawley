@@ -1,6 +1,6 @@
 # Sprint 27 — Gmail saved searches & query builder (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-27-holdings-journal.md`](sprint-27-holdings-journal.md) · B49 holdings journal)
 **Duration:** one symbolic week  
 **Backlog refs:** B50  
 **Depends on:** B10, B23 helpful  
