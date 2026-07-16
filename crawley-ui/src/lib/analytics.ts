@@ -120,3 +120,8 @@ export async function resumeAsxScan(): Promise<ScanActionResponse> {
   const res = await fetch(`${BASE}/v1/asx/scan/resume`, { method: "POST" });
   return readJson(res);
 }
+
+export async function resetAsxScan(): Promise<ScanActionResponse> {
+  const res = await fetch(`${BASE}/v1/asx/scan/reset`, { method: "POST" });
+  return readJson(res);
+}

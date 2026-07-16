@@ -9,6 +9,7 @@ import {
   fetchCompany,
   fetchHealth,
   pauseAsxScan,
+  resetAsxScan,
   resumeAsxScan,
   startAsxScan,
 } from "../lib/analytics";
@@ -102,16 +103,31 @@ function AsxDeskPage() {
     };
   }, [selected, job?.progress.processed]);
 
-  async function runAction(action: "start" | "pause" | "resume") {
+  async function runAction(action: "start" | "pause" | "resume" | "reset") {
     setActionMessage(null);
     setError(null);
     try {
       const fn =
-        action === "start" ? startAsxScan : action === "pause" ? pauseAsxScan : resumeAsxScan;
+        action === "start"
+          ? startAsxScan
+          : action === "pause"
+            ? pauseAsxScan
+            : action === "resume"
+              ? resumeAsxScan
+              : resetAsxScan;
       const res = await fn();
       setJob(res.job);
       setActionMessage(res.message);
-      if (!res.ok) setError(res.message);
+      // Failed start (e.g. already scanned) — show once as guidance, not as a hard error.
+      if (!res.ok && action === "start") {
+        setActionMessage(res.message);
+      } else if (!res.ok) {
+        setError(res.message);
+      }
+      if (action === "reset") {
+        setSelected(null);
+        setDetail(null);
+      }
       await refreshList();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Scan action failed");
@@ -119,6 +135,12 @@ function AsxDeskPage() {
   }
 
   const busy = job?.status === "busy";
+  const scanComplete =
+    job?.status === "done" ||
+    (job != null &&
+      job.progress.total > 0 &&
+      job.progress.processed >= job.progress.total &&
+      job.status !== "busy");
   const progressLabel = job
     ? `${job.progress.processed} / ${job.progress.total}`
     : "—";
@@ -138,7 +160,7 @@ function AsxDeskPage() {
           <button
             type="button"
             className="rounded-md bg-app-accent px-3 py-1.5 text-sm font-medium text-app-accent-fg disabled:opacity-50"
-            disabled={busy || analyticsOk === false}
+            disabled={busy || analyticsOk === false || scanComplete}
             onClick={() => void runAction("start")}
           >
             Start scan
@@ -159,6 +181,15 @@ function AsxDeskPage() {
           >
             Resume
           </button>
+          <button
+            type="button"
+            className="rounded-md border border-app-border px-3 py-1.5 text-sm text-app-text disabled:opacity-50"
+            disabled={busy || analyticsOk === false}
+            onClick={() => void runAction("reset")}
+            title="Clear PoC scan and profile data so you can scan again"
+          >
+            Reset
+          </button>
           <p className="text-sm text-app-muted">
             Job <span className="text-app-text">{job?.status ?? "…"}</span>
             {" · "}
@@ -169,7 +200,15 @@ function AsxDeskPage() {
           </p>
         </div>
         {job?.message ? <p className="text-sm text-app-muted">{job.message}</p> : null}
-        {actionMessage ? <p className="text-sm text-app-text">{actionMessage}</p> : null}
+        {actionMessage && actionMessage !== job?.message ? (
+          <p className="text-sm text-app-text">{actionMessage}</p>
+        ) : null}
+        {scanComplete && !busy ? (
+          <p className="text-sm text-app-muted">
+            Active set already scanned. Use <span className="text-app-text">Reset</span> to clear
+            PoC data, then Start scan again.
+          </p>
+        ) : null}
         {analyticsOk === false ? (
           <p className="text-sm text-red-600 dark:text-red-400">
             Analytics offline — run <code className="text-app-text">uv run python -m crawley</code>{" "}
