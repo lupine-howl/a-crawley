@@ -74,8 +74,9 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprints 6–10** — **implemented** (life modules, Day brief, Calendar write-back, LocalLlama, shared context): [`docs/sprints/archive/sprint-6-10-life-modules-llm-context.md`](./docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](./docs/sprints/archive/sprint-6-10-code-verification.md)
 - **Sprint 11** — Settings Update (git pull + hot reload) (**closed**): [`docs/sprints/archive/sprint-11-settings-update.md`](./docs/sprints/archive/sprint-11-settings-update.md)
 - **Sprint 12** — Sender Inbox PoC (**closed**): [`docs/sprints/archive/sprint-12-sender-inbox.md`](./docs/sprints/archive/sprint-12-sender-inbox.md)
-- **Sprint 13** — ASX desk scanner + profiles (**done**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprint 14** — ASX recommendations + paper portfolio (planned): [`docs/sprints/planned/sprint-14-asx-paper-portfolio.md`](./docs/sprints/planned/sprint-14-asx-paper-portfolio.md)
+- **Sprint 13** — ASX desk scanner + profiles (**closed**): [`docs/sprints/archive/sprint-13-asx-profiles.md`](./docs/sprints/archive/sprint-13-asx-profiles.md)
+- **Sprint 14** — ASX recommendations + paper portfolio (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
+- **Sprints 15–20** — dual-desk depth (planned): [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
 - **Shelved** — former planned 11–40 queue: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 
@@ -103,4 +104,4 @@ These rules use `alwaysApply: false`. Type `@product-owner`, `@architect-develop
 
 ## Next delivery
 
-`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 12** — Sender Inbox PoC). ASX is Sprints **13–14**. UX: `docs/ux/sender-inbox-asx.md`.
+`@architect-developer` implements [`docs/sprints/current.md`](./docs/sprints/current.md) (**Sprint 14** — ASX recommendations + paper portfolio). Planned **15–20**: Sender Inbox scale → ASX scale/events → Email×ASX bridge → Gmail send → alerts/feedback → playbooks/polish. UX: `docs/ux/sender-inbox-asx.md`.

@@ -5,9 +5,9 @@ Senior architect / developer owns this file. Update when material decisions land
 **Working title:** Crawley  
 **Status:** Sprints 1–13 closed (13 = ASX desk scanner + profiles)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 13 done)  
-**Sprint 12 (closed):** [`sprints/archive/sprint-12-sender-inbox.md`](sprints/archive/sprint-12-sender-inbox.md)  
-**Next planned:** ASX paper / recommendations (14)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint **14** — recommendations + paper portfolio)  
+**Sprint 13 (closed):** [`sprints/archive/sprint-13-asx-profiles.md`](sprints/archive/sprint-13-asx-profiles.md)  
+**Planned 15–20:** [`sprints/planned/README.md`](sprints/planned/README.md)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -102,7 +102,7 @@ Per-message **metrics** (LLM JSON, normalized in `sender_inbox/schema.py`):
 |-------|--------------------------|
 | **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · LAN/Tailscale allowed + warn · `CRAWLEY_RELOAD` |
 
-### Sprint 14 (planned) — ASX recommendations + paper
+### Sprint 14 (current) — ASX recommendations + paper
 
 | Story | Architecture touchpoints |
 |-------|--------------------------|

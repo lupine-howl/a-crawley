@@ -4,11 +4,11 @@ Ordered outcomes (not tasks). Product owner owns this file.
 **Working title:** Crawley  
 **Code check (2026-07-15):** Sprints **6–10 are implemented** in `src/crawley/` (verified modules + `tests/test_sprint6_10.py` green).  
 **Retro:** [Sprints 1–5](docs/sprints/archive/sprints-1-5-retrospective.md)  
-**Pivot:** **Sprint 11** = Settings Update; **Sprint 12** = Sender Inbox; **Sprints 13–14** = ASX PoCs. Former *planned* 11–40 depth/platform queue is [shelved](docs/sprints/shelved/README.md) — not the delivered 6–10 work.
+**Pivot:** **11** Settings Update → **12** Sender Inbox → **13** ASX profiles → **14–20** dual-desk depth (paper portfolio through playbooks). Former *planned* 11–40 platform/depth queue is [shelved](docs/sprints/shelved/README.md) — not the delivered 6–10 work.
 
 ## Now
 
-**Shipped through Sprint 10** (code + automated tests):
+**Shipped through Sprint 13** (code + automated tests where applicable):
 
 - [x] Shared Python core + stable module contract (confirm-first write-back live for Calendar)
 - [x] Local browser dashboard: themes, Settings, Markdown, home At a glance, Day brief
@@ -17,35 +17,48 @@ Ordered outcomes (not tasks). Product owner owns this file.
 - [x] Opt-in phone-on-LAN; ADR-006 write-back model
 - [x] LocalLlama (Ollama HTTP) operable; ADR-007
 - [x] Shared context seed (standing notes + capped snapshots); ADR-008
-
 - [x] Settings → **Update** (git pull + hot reload) — Sprint 11
+- [x] **Sender Inbox** PoC (~20 emails) — Sprint 12
+- [x] **ASX desk** scanner + company profiles (~20 slice) — Sprint 13
 
-*Still out of Now:* native desktop wrapper, Gmail send, public hosting, multi-user, **live brokerage order placement** (paper portfolio planned in Sprint 14); Sender Inbox / ASX PoCs (Sprints 12–14)
+*Still out of Now:* native desktop wrapper, Gmail send, public hosting, multi-user, **live brokerage order placement** (paper portfolio is Sprint 14 — not Icebox)
 
 ## Next
 
-**Settings Update, then Sender Inbox + ASX depth PoCs**
+**Dual-desk depth — Sprints 14–20** (active: Sprint 14)
 
-### Sprint 11 (closed) — Settings Update (git pull + hot reload)
-Settings → **Update** pulls latest app code; hot reload via `CRAWLEY_RELOAD=1`.  
-[`docs/sprints/archive/sprint-11-settings-update.md`](docs/sprints/archive/sprint-11-settings-update.md) · B78 · tests: `tests/test_sprint11_update.py` (5 passed)
+### Sprint 14 (current) — ASX recommendations + paper portfolio
+Structured recommendations; simulated portfolio page; brokerage/simulation settings (**no live orders**).  
+[`docs/sprints/current.md`](docs/sprints/current.md) · B75–B77 · UX: [`docs/ux/sender-inbox-asx.md`](docs/ux/sender-inbox-asx.md)
 
-### Sprint 12 (ready) — Sender Inbox PoC
-~20 emails: categorize → by sender → profiles → todos.  
-[`docs/sprints/current.md`](docs/sprints/current.md) · B65–B70 · UX: [`docs/ux/sender-inbox-asx.md`](docs/ux/sender-inbox-asx.md)
+### Sprint 15 (planned) — Sender Inbox scale
+Raise ingest cap + retention/prune; search/filter across senders/categories/todos.  
+[`docs/sprints/planned/sprint-15-sender-inbox-scale.md`](docs/sprints/planned/sprint-15-sender-inbox-scale.md) · B79–B80
 
-### Sprint 13 (planned) — ASX company scanner + profiles PoC
-Large ASX universe; background scan; per-company profiles; sources + prompts; **~20 company** slice.  
-[`docs/sprints/planned/sprint-13-asx-profiles.md`](docs/sprints/planned/sprint-13-asx-profiles.md) · B71–B74
+### Sprint 16 (planned) — ASX scale + earnings/events
+Expand active set beyond 20; bounded earnings/events skim.  
+[`docs/sprints/planned/sprint-16-asx-scale-events.md`](docs/sprints/planned/sprint-16-asx-scale-events.md) · B81–B82
 
-### Sprint 14 (planned) — ASX recommendations + paper portfolio
-Structured recommendations; simulated portfolio page; brokerage/simulation settings (no live orders).  
-[`docs/sprints/planned/sprint-14-asx-paper-portfolio.md`](docs/sprints/planned/sprint-14-asx-paper-portfolio.md) · B75–B77
+### Sprint 17 (planned) — Email × ASX bridge
+Mail mentions of ASX tickers / paper holdings → bridge digest + deep links.  
+[`docs/sprints/planned/sprint-17-email-asx-bridge.md`](docs/sprints/planned/sprint-17-email-asx-bridge.md) · B83
 
-### After Sprint 14
+### Sprint 18 (planned) — Gmail confirm-first send
+Draft → confirm → send → audit (ADR-006); complements Sender Inbox todos.  
+[`docs/sprints/planned/sprint-18-gmail-send.md`](docs/sprints/planned/sprint-18-gmail-send.md) · B84
 
-- Scale beyond 20-email / 20-company PoC caps
-- Un-shelve selected former 11–40 items where useful ([shelved](docs/sprints/shelved/README.md))
+### Sprint 19 (planned) — ASX alerts + recommendation feedback
+Local in-panel alerts; disposition loop on recommendations (no live orders).  
+[`docs/sprints/planned/sprint-19-asx-alerts.md`](docs/sprints/planned/sprint-19-asx-alerts.md) · B85–B86
+
+### Sprint 20 (planned) — Dual-desk playbooks + polish
+Named playbooks for Sender Inbox / ASX runs; focused polish pass.  
+[`docs/sprints/planned/sprint-20-playbooks-polish.md`](docs/sprints/planned/sprint-20-playbooks-polish.md) · B87–B88
+
+### After Sprint 20
+
+- Un-shelve selected former platform/depth items where useful ([shelved](docs/sprints/shelved/README.md))
+- Icebox stays closed without PRODUCT revision
 
 ## Closed
 
@@ -57,11 +70,12 @@ Structured recommendations; simulated portfolio page; brokerage/simulation setti
 | 5 | LAN + Work + write-back design | [archive](docs/sprints/archive/sprint-5-lan-work-writeback.md) |
 | 6–10 | Life modules, Day brief, Calendar write-back, LocalLlama, shared context | [archive](docs/sprints/archive/sprint-6-10-life-modules-llm-context.md) · [code verification](docs/sprints/archive/sprint-6-10-code-verification.md) |
 | 11 | Settings Update (git pull + hot reload) | [archive](docs/sprints/archive/sprint-11-settings-update.md) · `tests/test_sprint11_update.py` |
-| 11 | Settings Update (git pull + hot reload) | [current](docs/sprints/current.md) |
+| 12 | Sender Inbox PoC | [archive](docs/sprints/archive/sprint-12-sender-inbox.md) · `tests/test_sprint12_sender_inbox.py` |
+| 13 | ASX desk scanner + company profiles | [archive](docs/sprints/archive/sprint-13-asx-profiles.md) · `tests/test_sprint13_asx.py` |
 
 ## Later (shelved — do not start)
 
-Former **planned** Sprints 11–40 (platform Later + Email/Investment depth arc) — filenames `planned/sprint-11.md`…`sprint-40.md` collide with pivot; use `sprint-11-update.md`, `sprint-12-sender-inbox.md`, `sprint-13-asx-profiles.md`, `sprint-14-asx-paper-portfolio.md`.
+Former **planned** Sprints 11–40 (platform Later + Email/Investment depth arc) — filenames `planned/sprint-11.md`…`sprint-40.md` collide with pivot; use the pivot-named files (`sprint-11-update.md`, `sprint-12-sender-inbox.md`, `sprint-13-asx-profiles.md`, `sprint-14-asx-paper-portfolio.md`, `sprint-15-sender-inbox-scale.md` … `sprint-20-playbooks-polish.md`).
 
 ## Icebox
 
