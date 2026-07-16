@@ -23,6 +23,7 @@ dependencies = [
 [project.scripts]
 crawley = "crawley.__main__:main"
 crawley-asx-scanner = "crawley.daemons.asx_scanner:main"
+crawley-gmail-ingest = "crawley.daemons.gmail_ingest:main"
 
 [build-system]
 requires = ["hatchling"]

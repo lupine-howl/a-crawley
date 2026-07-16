@@ -3,10 +3,10 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley (this repo = **analytics**)  
-**Status:** Sprints 1–33 closed; **hard pivot** — Migration Sprint **34** (Sender Inbox API + pack)  
+**Status:** Sprints 1–34 closed; **hard pivot** — Migration Sprint **35** (HTMX cutover)  
 **Migration:** [`migration-phone-preview.md`](migration-phone-preview.md) · [ADR-009](adr/009-phone-preview-analytics.md)  
 **Host (analytics):** WSL2 / Linux; localhost default; opt-in LAN via Settings / `CRAWLEY_HOST`  
-**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 34)  
+**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 35)  
 **API contract:** [`api/presentation-v1.md`](api/presentation-v1.md) · [`api/openapi-v1.json`](api/openapi-v1.json)  
 **ASX daemon:** [`daemons/asx-scanner.md`](daemons/asx-scanner.md) · [ADR-003](adr/003-single-process-threads.md)  
 **UI consume:** [`build/consuming-published-core.md`](build/consuming-published-core.md) · app [`../crawley-ui/`](../crawley-ui/)  
@@ -71,6 +71,16 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 | **S33.1 / B96** | `crawley.daemons.asx_scanner` · console `crawley-asx-scanner` · `CRAWLEY_ASX_WORKER=daemon` queues via `scan_state.json` · job status `queued` · [ADR-003](adr/003-single-process-threads.md) evolved · [`daemons/asx-scanner.md`](daemons/asx-scanner.md) |
 
 **Modes:** default = in-process `ThreadPoolExecutor` on API; daemon = API queues, `asx-scanner watch` claims. Threads OK inside the worker; no Celery.
+
+### Sprint 34 (closed) — Gmail ingest daemon + Sender Inbox pack
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S34.1 / B97** | `crawley.daemons.gmail_ingest` · `crawley-gmail-ingest` · `CRAWLEY_GMAIL_WORKER=daemon` · [`daemons/gmail-ingest.md`](daemons/gmail-ingest.md) |
+| **S34.2 / B97** | `api/gmail_routes.py` · `/v1/gmail/senders` · ingest start/stop · job `gmail-ingest` · `present_gmail_*` |
+| **S34.3 / B98** | `crawley-ui/src/packs/senderInboxPack.tsx` · Start/Stop + poll · sender list → profile report |
+
+**Brain reuse:** `sender_inbox.{worker,store,fetch,llm_tasks}` — UI never calls Gmail/LLM.
 
 **HTMX-era notes (closed):** Sprints 11–30 — Settings Update, Sender Inbox, ASX desk depth, paper, bridge, send/alerts/playbooks, OAuth/digests/notebook/VIP, clusters, labels/holdings/searches/attachments/citations. See maps below and [`archive/`](sprints/archive/).
 

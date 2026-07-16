@@ -20,7 +20,7 @@ OAuth redirect URIs remain on the analytics host.
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `GET` | `/health` | Liveness (`asx_worker`: `in_process` \| `daemon`) |
+| `GET` | `/health` | Liveness (`asx_worker` / `gmail_worker`: `in_process` \| `daemon`) |
 | `GET` | `/v1/asx/companies` | Active-set company list |
 | `GET` | `/v1/asx/companies/{ticker}` | Company detail |
 | `POST` | `/v1/asx/scan/start` | Start scan (`{ "force": true }` re-runs when complete; Local Llama expands active set to hard ceiling) |
@@ -40,8 +40,16 @@ OAuth redirect URIs remain on the analytics host.
 | `POST` | `/v1/settings/llm/test` | Test connection |
 | `GET` | `/v1/settings/llm/models` | Model list (OpenAI or Ollama tags) |
 | `GET`/`PATCH` | `/v1/settings/scale` | Desk caps (`local_llama_uncapped`) |
+| `GET` | `/v1/gmail/connection` | Google OAuth connection + Connect path |
+| `GET` | `/v1/gmail/senders` | Sender Inbox list (grouped reports) |
+| `GET` | `/v1/gmail/senders/{sender_id}` | Sender detail + profile markdown + messages |
+| `POST` | `/v1/gmail/ingest/start` | Start ingest (`{ "force": true }` resets PoC data) |
+| `POST` | `/v1/gmail/ingest/stop` | Request stop / cancel queued |
+| `POST` | `/v1/gmail/ingest/pause` | Request pause |
+| `POST` | `/v1/gmail/ingest/resume` | Resume after pause |
+| `POST` | `/v1/gmail/ingest/reset` | Clear PoC inbox data |
 | `GET` | `/v1/jobs` | Known jobs |
-| `GET` | `/v1/jobs/{job_id}` | Job status (`asx-scan`) |
+| `GET` | `/v1/jobs/{job_id}` | Job status (`asx-scan`, `gmail-ingest`) |
 
 ## `CompanyListItem`
 
@@ -95,6 +103,15 @@ Scan actions return `{ ok, message, job }`.
 | Daemon | `CRAWLEY_ASX_WORKER=daemon` | `python -m crawley.daemons.asx_scanner` (`once` / `watch`); API sets `start_requested` + status `queued` |
 
 Ops: [`../daemons/asx-scanner.md`](../daemons/asx-scanner.md). In daemon mode the API trusts disk status for `/v1/jobs/asx-scan` (does not require in-process `_running`).
+
+### Gmail worker modes (Sprint 34)
+
+| Mode | Env | Who runs the ingest loop |
+|------|-----|--------------------------|
+| In-process (default) | unset / not `daemon` | API `ThreadPoolExecutor` |
+| Daemon | `CRAWLEY_GMAIL_WORKER=daemon` | `python -m crawley.daemons.gmail_ingest` (`once` / `watch`); API sets `start_requested` + status `queued` |
+
+Ops: [`../daemons/gmail-ingest.md`](../daemons/gmail-ingest.md). Job id: `gmail-ingest`. OAuth Connect deep-link: `GET /v1/gmail/connection` → `oauth_start_path` (analytics host).
 
 ## Compatibility
 

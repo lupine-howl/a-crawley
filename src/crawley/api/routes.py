@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, Request, Query
 
 from crawley.api.presentation import (
     ASX_SCAN_JOB_ID,
+    GMAIL_INGEST_JOB_ID,
     CompanyDetailResponse,
     CompanyListResponse,
     HealthResponse,
@@ -24,9 +25,13 @@ router = APIRouter(tags=["analytics-api"])
 
 @router.get("/health", response_model=HealthResponse)
 def health() -> HealthResponse:
-    from crawley.asx_desk.worker import external_worker_mode
+    from crawley.asx_desk.worker import external_worker_mode as asx_external
+    from crawley.sender_inbox.worker import external_worker_mode as gmail_external
 
-    return HealthResponse(asx_worker="daemon" if external_worker_mode() else "in_process")
+    return HealthResponse(
+        asx_worker="daemon" if asx_external() else "in_process",
+        gmail_worker="daemon" if gmail_external() else "in_process",
+    )
 
 
 @router.get("/v1/asx/companies", response_model=CompanyListResponse)
@@ -114,6 +119,9 @@ def jobs_get(job_id: str) -> JobStatusResponse:
     if job is None:
         raise HTTPException(
             status_code=404,
-            detail=f"Unknown job id: {job_id}. Known: {ASX_SCAN_JOB_ID}",
+            detail=(
+                f"Unknown job id: {job_id}. "
+                f"Known: {ASX_SCAN_JOB_ID}, {GMAIL_INGEST_JOB_ID}"
+            ),
         )
     return job

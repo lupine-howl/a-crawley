@@ -1,6 +1,4 @@
-# Sprint 34 — Sender Inbox API + pack
+# Sprint 34 — Gmail ingest daemon + Sender Inbox pack
 
-**Status:** promoted to [`../current.md`](../current.md) (ready — migration)  
-**Backlog refs:** B97–B98  
-
-See [`../current.md`](../current.md) for committed stories and AC.
+**Status:** closed — see [`../archive/sprint-34-gmail-api-pack.md`](../archive/sprint-34-gmail-api-pack.md)  
+**Backlog refs:** B97–B98 (done)  

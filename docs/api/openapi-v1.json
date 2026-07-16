@@ -769,6 +769,110 @@
           }
         }
       }
+    },
+    "/v1/gmail/connection": {
+      "get": {
+        "summary": "Gmail connection",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/gmail/senders": {
+      "get": {
+        "summary": "Sender list",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/gmail/senders/{sender_id}": {
+      "get": {
+        "summary": "Sender detail",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/gmail/ingest/start": {
+      "post": {
+        "summary": "Start ingest",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/gmail/ingest/stop": {
+      "post": {
+        "summary": "Stop ingest",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/gmail/ingest/pause": {
+      "post": {
+        "summary": "Pause ingest",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/gmail/ingest/resume": {
+      "post": {
+        "summary": "Resume ingest",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/gmail/ingest/reset": {
+      "post": {
+        "summary": "Reset inbox PoC",
+        "tags": [
+          "gmail-api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1928,6 +2032,12 @@
             "title": "Asx Worker",
             "description": "in_process | daemon (CRAWLEY_ASX_WORKER)",
             "default": "in_process"
+          },
+          "gmail_worker": {
+            "type": "string",
+            "title": "Gmail Worker",
+            "description": "in_process | daemon (CRAWLEY_GMAIL_WORKER)",
+            "default": "in_process"
           }
         },
         "type": "object",
@@ -1969,6 +2079,12 @@
           "current_ticker": {
             "type": "string",
             "title": "Current Ticker",
+            "default": ""
+          },
+          "current_item": {
+            "type": "string",
+            "title": "Current Item",
+            "description": "Current subject/line for non-ASX jobs",
             "default": ""
           }
         },
