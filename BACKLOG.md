@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–24 + **26–30** closed; **Sprint 25 current** = ASX news clustering (B47, deferred while 26–30 shipped); remaining post-30 platform/depth stays shelved
+**Status:** Sprints 1–30 closed (depth band complete); next = un-shelve selected Later items; Icebox stays closed
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -1188,20 +1188,20 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | in_sprint |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B39, B9 |
-| Planned sprint | 25 (current; deferred while 26–30 delivered) |
+| Planned sprint | 25 |
 
 **Goal:** Cluster watchlist news into cited themes.
 
 **Acceptance criteria:**
 
-- [ ] Bounded fetch across watchlist symbols/topics
-- [ ] LLM or heuristic clustering into themes with source lists
-- [ ] Panel shows clusters + summary; hard caps preserved
-- [ ] No trade buttons; clear empty/error taxonomy
+- [x] Bounded fetch across watchlist symbols/topics
+- [x] LLM or heuristic clustering into themes with source lists
+- [x] Panel shows clusters + summary; hard caps preserved
+- [x] No trade buttons; clear empty/error taxonomy
 
 **Out of scope:**
 

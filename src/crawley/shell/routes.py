@@ -1013,6 +1013,27 @@ def asx_events_refresh(request: Request) -> HTMLResponse:
     return _module_response(request, module, panel=module.events_panel_context())
 
 
+@router.get("/modules/investment/clusters", response_class=HTMLResponse)
+def asx_clusters(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    return _module_response(request, module, panel=module.clusters_panel_context())
+
+
+@router.post("/modules/investment/clusters/refresh", response_class=HTMLResponse)
+def asx_clusters_refresh(request: Request) -> HTMLResponse:
+    from crawley.asx_desk.clusters import start_cluster_refresh
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    ok, msg = start_cluster_refresh(request.app.state.executor)
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    else:
+        module.job = JobState(status="busy", message=msg)
+    return _module_response(request, module, panel=module.clusters_panel_context())
+
+
 @router.get("/modules/investment/bridge", response_class=HTMLResponse)
 def asx_bridge(request: Request) -> HTMLResponse:
     module = request.app.state.registry["investment"]

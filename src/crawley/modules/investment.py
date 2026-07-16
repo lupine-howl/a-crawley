@@ -161,6 +161,25 @@ class InvestmentModule(Module):
         )
         return ctx
 
+    def clusters_panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.clusters import is_running, load_clusters
+        from crawley.markdown_render import render_markdown
+
+        ctx = self.panel_context()
+        clusters = load_clusters()
+        if is_running():
+            clusters = {**clusters, "status": "busy"}
+        ctx.update(
+            {
+                "asx_view": "clusters",
+                "asx_subnav": "clusters",
+                "clusters": clusters,
+                "clusters_html": render_markdown(clusters.get("markdown") or ""),
+                "poll_asx": clusters.get("status") == "busy" or ctx.get("poll_asx"),
+            }
+        )
+        return ctx
+
     def bridge_panel_context(self) -> dict[str, Any]:
         from crawley.bridge.matcher import load_bridge
 

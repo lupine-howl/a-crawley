@@ -134,7 +134,7 @@ Pluggable areas envisioned over time (priority lives in `ROADMAP.md`):
 
 ## Decisions log (Sprints 21–30 planning)
 
-- Close out **26–30** (archived); next delivery **Sprint 25** = ASX news theme clustering — B47 (deferred during 26–30)
+- Depth band **21–30 complete** (Sprint 25 news themes archived); next band via shelved Later items when planned
 - **Un-shelve** former depth items for **22–30** (alternating Sender Inbox / ASX): B44→22, B45→23, B46→24, B47→25, B48→26, B49→27, B50→28, B52→29, B53→30
 - Frame B45/B47/B49/B53 against **ASX desk + paper**, not legacy Investment-only watchlist
 - Leave **31–40** and remaining platform Later (desktop shell, scheduled brief, etc.) shelved unless later PRODUCT revision

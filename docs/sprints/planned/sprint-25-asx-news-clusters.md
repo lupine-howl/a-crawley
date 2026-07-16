@@ -1,6 +1,6 @@
 # Sprint 25 — ASX news theme clustering (planned)
 
-**Status:** promoted to [`../current.md`](../current.md) (ready — next delivery; 26–30 closed out-of-order)
+**Status:** closed — see [`../archive/sprint-25-asx-news-clusters.md`](../archive/sprint-25-asx-news-clusters.md)
 **Duration:** one symbolic week  
 **Backlog refs:** B47  
 **Depends on:** Sprint 13–16 ASX desk + events skim  
