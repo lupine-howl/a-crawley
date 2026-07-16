@@ -1,6 +1,6 @@
 # Sprint 23 — Gmail VIP senders & local priority rules (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-23-asx-notebook.md`](sprint-23-asx-notebook.md) · B45 ASX notebook)
 **Duration:** one symbolic week  
 **Backlog refs:** B46  
 **Depends on:** B10, B44 helpful  

@@ -1,6 +1,6 @@
 # Sprint 24 — Investment watchlist news clusters (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-24-sender-vip-rules.md`](sprint-24-sender-vip-rules.md) · B46 VIP rules)
 **Duration:** one symbolic week  
 **Backlog refs:** B47  
 **Depends on:** B39, B9  

@@ -1,13 +1,21 @@
 # Arc — Email & Investment depth (Sprints 21–40)
 
-**Status:** shelved (deferred after Sender Inbox + ASX PoC pivot)
+**Status:** **21–30 active** (see [`README.md`](README.md)); **31–40 remain shelved**. Sprint **21** inserted as Google OAuth ops before un-shelved depth.
 
-**Stakeholder direction:** After Sprint 20, prioritize **deep functionality** for **Gmail** and **Investment**.  
+**Stakeholder direction:** After Sprint 20, prioritize **deep functionality** for **Gmail / Sender Inbox** and **ASX desk**.  
 **Non-negotiables:** local-first; confirm-first mutations (ADR-006); **no automated trading / order placement**; advice remains manually applied; single Google identity.
 
-## Rhythm
+## Rhythm (updated)
 
-Alternating focus keeps both modules advancing without starving either:
+| Band | Sprints | Emphasis | Status |
+|------|---------|----------|--------|
+| OAuth ops | 21 | Tailscale Connect + softer reconsent (B89–B90) | **current** |
+| Read depth | 22–25 | Thread digests, ASX notebook, VIP rules, news clusters | planned |
+| Hygiene & ledger | 26–28 | Labels, holdings journal, saved searches | planned |
+| Evidence | 29–30 | Attachments, citations | planned |
+| Later depth | 31–40 | Follow-ups, scenario/risk, newsletters, baskets, archive/trash, people, A vs B, polish | **shelved** |
+
+Original alternating table (historical):
 
 | Band | Sprints | Emphasis |
 |------|---------|----------|

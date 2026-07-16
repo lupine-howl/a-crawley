@@ -1,6 +1,6 @@
 # Sprint 29 — Gmail attachments skim (bounded) (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-29-attachment-skim.md`](sprint-29-attachment-skim.md) · B52 attachment skim)
 **Duration:** one symbolic week  
 **Backlog refs:** B52  
 **Depends on:** B44, B27 helpful  

@@ -1,6 +1,6 @@
 # Sprint 26 — Investment holdings journal (manual) (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-26-gmail-labels.md`](sprint-26-gmail-labels.md) · B48 labels)
 **Duration:** one symbolic week  
 **Backlog refs:** B49  
 **Depends on:** B45 preferred, B39  

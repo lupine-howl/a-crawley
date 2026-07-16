@@ -5,9 +5,9 @@ Senior architect / developer owns this file. Update when material decisions land
 **Working title:** Crawley  
 **Status:** Sprints 1–20 closed (pivot dual-desk arc complete through playbooks)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprints 18–20 done)  
-**Sprints 15–17 (closed):** [`sprints/archive/sprint-15-17-scale-bridge.md`](sprints/archive/sprint-15-17-scale-bridge.md)  
-**Next planned:** see backlog / shelved un-shelve  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint **21** — Google OAuth ops)  
+**Sprints 18–20 (closed):** [`sprints/archive/sprint-18-20-send-alerts-playbooks.md`](sprints/archive/sprint-18-20-send-alerts-playbooks.md)  
+**Planned 22–30:** [`sprints/planned/README.md`](sprints/planned/README.md)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 

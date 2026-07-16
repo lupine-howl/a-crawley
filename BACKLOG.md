@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–20 closed (B84–B88 with 18–20); pivot dual-desk arc complete; remaining former post-10 platform/depth plans shelved
+**Status:** Sprints 1–20 closed; **Sprint 21 current** = Google OAuth ops (B89–B90); planned **22–30** = B44–B50, B52–B53 (un-shelved depth); remaining post-30 platform/depth stays shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -809,7 +809,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 ---
 
-## Shelved backlog (former planned Sprints 11–40)
+## Shelved backlog (former planned Sprints 11–40; B44–B50 / B52–B53 un-shelved → 22–30)
 
 ### B32 — Native desktop shell wrapper
 
@@ -1108,11 +1108,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B10, B15 |
-| Planned sprint | 21 |
+| Planned sprint | 22 |
 
 **Goal:** Thread-level Gmail digests (bounded fetch + LLM asks/commitments).
 
@@ -1135,11 +1135,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B9, B39 |
-| Planned sprint | 22 |
+| Planned sprint | 23 |
 
 **Goal:** Per-symbol/topic notebook and thesis notes seeding Investment LLM runs.
 
@@ -1162,11 +1162,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B10 |
-| Planned sprint | 23 |
+| Planned sprint | 24 |
 
 **Goal:** Local VIP/muted sender rules shaping Gmail prioritization.
 
@@ -1188,11 +1188,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B39, B9 |
-| Planned sprint | 24 |
+| Planned sprint | 25 |
 
 **Goal:** Cluster watchlist news into cited themes.
 
@@ -1215,11 +1215,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B31, B18 |
-| Planned sprint | 25 |
+| Planned sprint | 26 |
 
 **Goal:** Read labels; confirm-first apply/remove with audit.
 
@@ -1241,11 +1241,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B45, B39 |
-| Planned sprint | 26 |
+| Planned sprint | 27 |
 
 **Goal:** Operator-entered holdings for advice context — not broker truth.
 
@@ -1268,11 +1268,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B10 |
-| Planned sprint | 27 |
+| Planned sprint | 28 |
 
 **Goal:** Named Gmail queries + builder for bounded skims.
 
@@ -1321,9 +1321,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B44 |
 | Planned sprint | 29 |
 
@@ -1347,9 +1347,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | shelved |
+| Status | ready |
 | Priority | P1 |
-| Roadmap theme | Shelved (after Sprint 10; deferred for Sender Inbox + ASX pivot) |
+| Roadmap theme | Next — Depth 21–30 |
 | Depends on | B9, B24 |
 | Planned sprint | 30 |
 
@@ -2254,6 +2254,60 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 **Out of scope:**
 
 - Full redesign; Icebox items
+
+---
+
+
+### B89 — Tailscale / LAN Google first-Connect ergonomics
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Depth 21–30 |
+| Depends on | B15, B12 |
+| Planned sprint | 21 (current) |
+
+**Goal:** Operator can complete **first Connect Google** from a Tailscale or trusted LAN client without guessing redirect URIs — UI + docs make the exact callback URL obvious.
+
+**Acceptance criteria:**
+
+- [ ] Connect / Google auth UI shows the exact OAuth redirect URI for the current request Host (copyable) when on a trusted personal host
+- [ ] README documents Tailscale/LAN Connect steps, same-environment Tailscale tip, and token reuse on one server across clients
+- [ ] Localhost Connect path unchanged
+- [ ] Test covers redirect URI construction for Tailscale-like Host (or trusted-host helper)
+
+**Out of scope:**
+
+- Public internet OAuth / SaaS multi-tenant auth
+- Per-browser Google sessions (token remains server-side)
+
+---
+
+### B90 — Softer Google OAuth consent prompts
+
+| Field | Value |
+|-------|-------|
+| Status | ready |
+| Priority | P1 |
+| Roadmap theme | Next — Depth 21–30 |
+| Depends on | B15 |
+| Planned sprint | 21 (current) |
+
+**Goal:** Stop forcing Google’s full consent screen on every Connect/Reconnect; only force when a refresh token is missing or new scopes are requested. Document Google Testing-mode refresh expiry as the usual “weekly re-auth” cause.
+
+**Acceptance criteria:**
+
+- [ ] `authorization_url` does not always pass `prompt=consent`; force consent only when refresh token missing or requesting scopes not already granted
+- [ ] `access_type=offline` retained for refresh tokens on first grant
+- [ ] Auto-refresh via `load_credentials` unchanged for normal API use
+- [ ] README notes Testing (~7-day refresh) vs Production publishing status
+- [ ] Tests cover consent-forced vs consent-optional paths
+
+**Out of scope:**
+
+- Changing Google Cloud app verification / Production publishing for the stakeholder (docs only)
+- Multi-account Google
 
 ---
 

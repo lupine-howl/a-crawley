@@ -1,6 +1,6 @@
 # Sprint 22 — Investment research notebook + thesis (planned)
 
-**Status:** shelved (superseded numbering — Sender Inbox + ASX pivot is Sprints 11–13 using `sprint-11-sender-inbox.md` etc.)  
+**Status:** shelved (superseded — active plan is [`sprint-22-thread-digests.md`](sprint-22-thread-digests.md) · B44 thread digests)
 **Duration:** one symbolic week  
 **Backlog refs:** B45  
 **Depends on:** B9, B39 (watchlist preferred)  
