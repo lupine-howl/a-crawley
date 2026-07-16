@@ -1,6 +1,7 @@
 # Sprint 19 — ASX local alerts + recommendation loop (planned)
 
-**Status:** planned (after Sprint 14 paper portfolio)  
+**Status:** done (delivered in [`../current.md`](../current.md) Sprints 18–20 bundle)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B85, B86  
 **Depends on:** B75–B77; ASX scanner  
@@ -21,26 +22,26 @@ Local **in-panel alerts** for the ASX active set (price move / news keyword), an
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B85 |
 
 **Acceptance criteria:**
 
-- [ ] Alert rule CRUD (ticker/topic, condition: keyword / move threshold note)
-- [ ] Evaluation on scan/Run; list in ASX desk; optional home chip
-- [ ] Explicit: informational only; no trades
+- [x] Alert rule CRUD (ticker/topic, condition: keyword / move threshold note)
+- [x] Evaluation on scan/Run; list in ASX desk; optional home chip
+- [x] Explicit: informational only; no trades
 
 ### S19.2 — Recommendation feedback loop (B86)
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B86 |
 
 **Acceptance criteria:**
 
-- [ ] Accept / dismiss / snooze on recommendation rows
-- [ ] Persist feedback; next regenerate can exclude/dismissed or weight accepted
-- [ ] Paper portfolio “accept → open trade” remains explicit separate action
+- [x] Accept / dismiss / snooze on recommendation rows
+- [x] Persist feedback; next regenerate can exclude/dismissed or weight accepted
+- [x] Paper portfolio “accept → open trade” remains explicit separate action
 
 **Out of scope:** SMS/email push off-machine; broker webhooks; automated trading

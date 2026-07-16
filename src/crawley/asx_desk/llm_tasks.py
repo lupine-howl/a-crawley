@@ -104,7 +104,12 @@ def generate_recommendations(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
             f"- {r.get('ticker')} {r.get('name')} | move={r.get('move')} | "
             f"sentiment={r.get('sentiment')} | profile={r.get('profile_excerpt', '')[:180]}"
         )
+    from crawley.asx_desk.feedback import feedback_prompt_slice
+
+    feedback = feedback_prompt_slice()
     user = "PoC company set:\n" + "\n".join(lines or ["(none)"])
+    if feedback:
+        user = user + "\n\n" + feedback
     provider = get_llm_provider()
     result = provider.complete(
         [

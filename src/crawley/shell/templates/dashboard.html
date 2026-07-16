@@ -28,6 +28,9 @@
     <a class="chip ok" href="/settings#network">LAN · localhost only</a>
     {% endif %}
     <span class="chip">Theme · {{ theme_label }}</span>
+    {% if asx_alert_count %}
+    <a class="chip bad" href="/modules/investment#asx-alerts">ASX · {{ asx_alert_count }} alert{% if asx_alert_count != 1 %}s{% endif %}</a>
+    {% endif %}
   </div>
 
   <section class="panel panel-tight" id="day-brief">

@@ -154,6 +154,17 @@
     Configure under Settings → Desk scale (or env <code>CRAWLEY_SENDER_INBOX_CAP</code>).
   </p>
 
+  {% if panel.playbooks %}
+  <section class="panel panel-tight" aria-labelledby="inbox-pb">
+    <h2 id="inbox-pb" class="section-title">Playbooks</h2>
+    {% for p in panel.playbooks %}
+    <form hx-post="/modules/playbooks/{{ p.id }}/run" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+      <button type="submit" class="secondary">{{ p.name }}</button>
+    </form>
+    {% endfor %}
+  </section>
+  {% endif %}
+
   <details class="prompt-viewer">
     <summary>Classic inbox summary</summary>
     <p class="muted">Legacy skim — optional; not the default desk.</p>

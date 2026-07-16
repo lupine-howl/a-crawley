@@ -3,11 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–17 closed (15–17 = inbox/ASX scale + email bridge)  
+**Status:** Sprints 1–20 closed (pivot dual-desk arc complete through playbooks)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprints 15–17 done)  
-**Sprint 14 (closed):** [`sprints/archive/sprint-14-asx-paper-portfolio.md`](sprints/archive/sprint-14-asx-paper-portfolio.md)  
-**Next planned:** pivot Sprints 18–20 — [`sprints/planned/README.md`](sprints/planned/README.md)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprints 18–20 done)  
+**Sprints 15–17 (closed):** [`sprints/archive/sprint-15-17-scale-bridge.md`](sprints/archive/sprint-15-17-scale-bridge.md)  
+**Next planned:** see backlog / shelved un-shelve  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -44,9 +44,22 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.  
 **Sprint 13:** Investment panel is **ASX desk** — curated universe (~193), one-company-at-a-time scanner (Yahoo chart + Google News RSS), LLM profiles, sources registry (`asx_desk/`).  
 **Sprint 14:** ASX recommendations + paper portfolio + simulation settings; also shipped bounded snapshot history + shared-context pins (B35–B36) and Fitness activity import lite (B37).  
-**Sprints 15–17:** Desk scale (Settings, hard ceiling 200); Sender Inbox search/prune; ASX active-set scale + events skim; Email × ASX bridge (`bridge/matcher.py`).
+**Sprints 15–17:** Desk scale (Settings, hard ceiling 200); Sender Inbox search/prune; ASX active-set scale + events skim; Email × ASX bridge (`bridge/matcher.py`).  
+**Sprints 18–20:** Confirm-first Gmail send; ASX local alerts + recommendation feedback; operator playbooks + polish.
 
 ## Sprint delivery maps
+
+### Sprints 18–20 (closed) — Send, alerts, playbooks
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S18.1 / B84** | `gmail.send` opt-in OAuth · `pending_send_drafts.json` · propose/confirm/cancel · ADR-006 · audit |
+| **S19.1 / B85** | `asx_desk/alerts.py` · rules + triggered JSON · evaluate after scan · home chip |
+| **S19.2 / B86** | `asx_desk/feedback.py` · accept/dismiss/snooze · capped prompt slice on regenerate |
+| **S20.1 / B87** | `playbooks.py` · `data/playbooks.json` · Run from desks / Settings |
+| **S20.2 / B88** | Empty states · alert copy · compose/todos clarity · dual-desk maps (this section) |
+
+**Gmail send boundary:** never requested with Calendar write casually; separate `?gmail_send=1` reconsent. Cancel = no `messages.send`.
 
 ### Sprints 15–17 (closed) — Scale + bridge
 

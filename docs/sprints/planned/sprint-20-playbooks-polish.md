@@ -1,6 +1,7 @@
 # Sprint 20 — Dual-desk playbooks + polish (planned)
 
-**Status:** planned (after Sprints 15–19 preferred)  
+**Status:** done (delivered in [`../current.md`](../current.md) Sprints 18–20 bundle)  
+
 **Duration:** one symbolic week  
 **Backlog refs:** B87, B88  
 **Depends on:** Sender Inbox + ASX desks live  
@@ -22,27 +23,27 @@ Close the 13–20 arc with **operator playbooks** (saved run recipes for Sender 
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B87 |
 
 **Acceptance criteria:**
 
-- [ ] Named playbooks binding desk + scope + prompt/run options
-- [ ] One-click Run from Gmail/Investment or Settings
-- [ ] Stored locally under `data/`
+- [x] Named playbooks binding desk + scope + prompt/run options
+- [x] One-click Run from Gmail/Investment or Settings
+- [x] Stored locally under `data/`
 
 ### S20.2 — Dual-desk polish pass (B88)
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B88 |
 
 **Acceptance criteria:**
 
-- [ ] PO polish list recorded in sprint file before implement
-- [ ] Fixes use existing theme tokens / UX contract
-- [ ] No new domain modules in this story
+- [x] PO polish list recorded in sprint file before implement
+- [x] Fixes use existing theme tokens / UX contract
+- [x] No new domain modules in this story
 
 **Out of scope:** Live trading, multi-user, public SaaS, full redesign
 

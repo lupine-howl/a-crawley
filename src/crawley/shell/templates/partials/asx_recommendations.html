@@ -9,7 +9,7 @@
   {% endif %}
 >
   <h1>Recommendations</h1>
-  <p class="muted">Structured ideas from the PoC company set · not advice.</p>
+  <p class="muted">Structured ideas from the active set · not advice · feedback shapes the next refresh.</p>
   {% include "partials/asx_subnav.html" %}
 
   <div class="ingest-actions">
@@ -37,16 +37,34 @@
         <th scope="col">Action</th>
         <th scope="col">Urgency</th>
         <th scope="col">Rationale</th>
+        <th scope="col">Feedback</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {% for r in recs.rows %}
-      <tr>
+      <tr {% if r.snoozed %}class="muted"{% endif %}>
         <td><a href="/modules/investment/companies/{{ r.ticker }}"><strong>{{ r.ticker }}</strong></a></td>
         <td class="{% if r.action in ['Buy','Add'] %}job-done{% elif r.action in ['Trim','Avoid'] %}job-error{% endif %}">{{ r.action }}</td>
         <td class="muted">{{ r.urgency }}</td>
-        <td>{{ r.rationale }}</td>
+        <td>{{ r.rationale }}{% if r.accepted %} <span class="signal">accepted</span>{% endif %}{% if r.snoozed %} <span class="signal">snoozed</span>{% endif %}</td>
+        <td>
+          <form hx-post="/modules/investment/recommendations/feedback" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+            <input type="hidden" name="ticker" value="{{ r.ticker }}">
+            <input type="hidden" name="disposition" value="accepted">
+            <button type="submit" class="secondary">Accept</button>
+          </form>
+          <form hx-post="/modules/investment/recommendations/feedback" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+            <input type="hidden" name="ticker" value="{{ r.ticker }}">
+            <input type="hidden" name="disposition" value="dismissed">
+            <button type="submit" class="secondary">Dismiss</button>
+          </form>
+          <form hx-post="/modules/investment/recommendations/feedback" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+            <input type="hidden" name="ticker" value="{{ r.ticker }}">
+            <input type="hidden" name="disposition" value="snoozed">
+            <button type="submit" class="secondary">Snooze</button>
+          </form>
+        </td>
         <td>
           <form hx-post="/modules/investment/portfolio/trade" hx-target="#panel-root" hx-swap="innerHTML">
             <input type="hidden" name="ticker" value="{{ r.ticker }}">
@@ -62,7 +80,7 @@
     </tbody>
   </table>
   {% else %}
-  <p class="muted">No recommendations yet — scan profiles on <a href="/modules/investment">Desk</a>, then Refresh.</p>
+  <p class="muted">No recommendations yet — scan profiles on <a href="/modules/investment">Desk</a>, then Refresh. Dismissed rows stay hidden.</p>
   {% endif %}
-  <p class="muted">Not licensed research · personal simulation ideas only · no live brokerage orders.</p>
+  <p class="muted">Not licensed research · personal simulation ideas only · no live brokerage orders. Paper trade is a separate action from Accept.</p>
 </div>

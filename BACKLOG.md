@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–17 closed (B79–B83 with 15–17); next pivot **18–20** = B84–B88; remaining former post-10 platform/depth plans shelved
+**Status:** Sprints 1–20 closed (B84–B88 with 18–20); pivot dual-desk arc complete; remaining former post-10 platform/depth plans shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -2138,9 +2138,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B15, B18, B25 |
 | Planned sprint | 18 |
 
@@ -2148,11 +2148,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Propose draft from operator input and/or LLM suggestion (e.g. from sender todo)
-- [ ] Confirm required; cancel leaves no remote send
-- [ ] On confirm: Gmail send with write scope; reconsent if needed
-- [ ] Local audit entry; success/failure clear
-- [ ] No silent/scheduled send
+- [x] Propose draft from operator input and/or LLM suggestion (e.g. from sender todo)
+- [x] Confirm required; cancel leaves no remote send
+- [x] On confirm: Gmail send with write scope; reconsent if needed
+- [x] Local audit entry; success/failure clear
+- [x] No silent/scheduled send
 
 **Out of scope:**
 
@@ -2164,9 +2164,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B72, B76 |
 | Planned sprint | 19 |
 
@@ -2174,10 +2174,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Alert rule CRUD (ticker/topic, condition type: keyword / threshold note / paper P&L note)
-- [ ] Evaluation on scan/recommend and/or opt-in schedule (default off)
-- [ ] Triggered alerts list on ASX desk; optional home chip
-- [ ] Explicit: informational; no trades
+- [x] Alert rule CRUD (ticker/topic, condition type: keyword / threshold note / paper P&L note)
+- [x] Evaluation on scan/recommend and/or opt-in schedule (default off)
+- [x] Triggered alerts list on ASX desk; optional home chip
+- [x] Explicit: informational; no trades
 
 **Out of scope:**
 
@@ -2189,9 +2189,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B75, B76 |
 | Planned sprint | 19 |
 
@@ -2199,9 +2199,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Per-recommendation disposition persisted locally
-- [ ] Regenerated lists respect dispositions (hide dismissed or section them)
-- [ ] Optional note field; architecture note on feedback use in prompts (capped)
+- [x] Per-recommendation disposition persisted locally
+- [x] Regenerated lists respect dispositions (hide dismissed or section them)
+- [x] Optional note field; architecture note on feedback use in prompts (capped)
 
 **Out of scope:**
 
@@ -2213,9 +2213,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B67, B75, B76 |
 | Planned sprint | 20 |
 
@@ -2223,9 +2223,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Named playbooks (module + scope + prompt template) stored locally
-- [ ] One-click Run from Sender Inbox / ASX / Settings
-- [ ] Exportable with local backup patterns if present
+- [x] Named playbooks (module + scope + prompt template) stored locally
+- [x] One-click Run from Sender Inbox / ASX / Settings
+- [x] Exportable with local backup patterns if present
 
 **Out of scope:**
 
@@ -2237,9 +2237,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P2 |
-| Roadmap theme | Next — Pivot |
+| Roadmap theme | Done — Pivot |
 | Depends on | B87 |
 | Planned sprint | 20 |
 
@@ -2247,9 +2247,9 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] PO polish list recorded in sprint file before implement
-- [ ] Address list within theme tokens; no second UI stack
-- [ ] Architecture module maps updated for dual-desk surfaces
+- [x] PO polish list recorded in sprint file before implement
+- [x] Address list within theme tokens; no second UI stack
+- [x] Architecture module maps updated for dual-desk surfaces
 
 **Out of scope:**
 

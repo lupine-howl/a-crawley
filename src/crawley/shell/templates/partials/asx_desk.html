@@ -16,6 +16,10 @@
 
   {% include "partials/asx_subnav.html" %}
 
+  {% if panel.alert_open_count %}
+  <p class="job job-busy" id="asx-alerts-chip">{{ panel.alert_open_count }} open alert{% if panel.alert_open_count != 1 %}s{% endif %} · informational only</p>
+  {% endif %}
+
   <div id="asx-scan-progress" class="ingest-progress" aria-live="polite">
     <div class="ingest-actions">
       {% if progress.status == 'busy' %}
@@ -85,7 +89,76 @@
     </tbody>
   </table>
   {% else %}
-  <p class="muted">No PoC companies configured.</p>
+  <p class="muted">No companies in the active set yet — apply a size below or paste tickers from the universe.</p>
+  {% endif %}
+
+  <section class="panel panel-tight" id="asx-alerts" aria-labelledby="alerts-heading">
+    <h2 id="alerts-heading" class="section-title">Local alerts</h2>
+    <p class="muted">Informational only · evaluated after scan · no trades.</p>
+    {% if panel.alerts_open %}
+    <ul class="todo-list">
+      {% for a in panel.alerts_open %}
+      <li class="todo-item">
+        <strong>{{ a.ticker or "—" }}</strong> — {{ a.message }}
+        <form hx-post="/modules/investment/alerts/{{ a.id }}/dismiss" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+          <button type="submit" class="secondary">Dismiss</button>
+        </form>
+        <form hx-post="/modules/investment/alerts/{{ a.id }}/snooze" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+          <button type="submit" class="secondary">Snooze 24h</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No open alerts.</p>
+    {% endif %}
+    <form
+      class="settings-form"
+      hx-post="/modules/investment/alerts/rules"
+      hx-target="#panel-root"
+      hx-swap="innerHTML"
+    >
+      <label for="alert-ticker">Ticker (blank = any active)</label>
+      <input id="alert-ticker" name="ticker" placeholder="CBA">
+      <label for="alert-cond">Condition</label>
+      <select id="alert-cond" name="condition">
+        <option value="keyword">Headline keyword</option>
+        <option value="move_pct">|Move %| ≥</option>
+      </select>
+      <label for="alert-value">Value</label>
+      <input id="alert-value" name="value" placeholder="earnings or 3" required>
+      <label for="alert-note">Note</label>
+      <input id="alert-note" name="note" placeholder="optional">
+      <button type="submit" class="secondary">Add rule</button>
+    </form>
+    <form hx-post="/modules/investment/alerts/evaluate" hx-target="#panel-root" hx-swap="innerHTML">
+      <button type="submit" class="secondary">Evaluate now</button>
+    </form>
+    {% if panel.alert_rules %}
+    <p class="muted">Rules:</p>
+    <ul class="src-list">
+      {% for r in panel.alert_rules %}
+      <li>
+        <code>{{ r.ticker or "*" }}</code> {{ r.condition }}={{ r.value }}
+        <form hx-post="/modules/investment/alerts/rules/{{ r.id }}/delete" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+          <button type="submit" class="secondary">Delete</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+
+  {% if panel.playbooks %}
+  <section class="panel panel-tight" aria-labelledby="pb-heading">
+    <h2 id="pb-heading" class="section-title">Playbooks</h2>
+    {% for p in panel.playbooks %}
+    <form hx-post="/modules/playbooks/{{ p.id }}/run" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+      <button type="submit" class="secondary">{{ p.name }}</button>
+    </form>
+    {% endfor %}
+    <p class="muted">Manage under Settings → Playbooks.</p>
+  </section>
   {% endif %}
 
   <details class="prompt-viewer">

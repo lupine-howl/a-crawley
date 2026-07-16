@@ -50,6 +50,9 @@ class InvestmentModule(Module):
         from crawley.asx_desk.store import desk_rows, load_universe, progress_view
         from crawley.asx_desk.worker import is_running
 
+        from crawley.asx_desk.alerts import load_rules, load_triggered, open_alert_count
+        from crawley.playbooks import load_playbooks
+
         progress = progress_view(running=is_running())
         rows = desk_rows()
         universe = load_universe()
@@ -71,6 +74,10 @@ class InvestmentModule(Module):
             "asx_prompts": cfg.get("prompts") or {},
             "poll_asx": progress.get("status") == "busy" or self.job.status == "busy",
             "asx_subnav": "desk",
+            "alert_rules": load_rules(),
+            "alerts_open": load_triggered(),
+            "alert_open_count": open_alert_count(),
+            "playbooks": [p for p in load_playbooks() if p.get("desk") == "investment"],
         }
 
     def company_panel_context(self, ticker: str) -> dict[str, Any] | None:
@@ -92,10 +99,13 @@ class InvestmentModule(Module):
         return ctx
 
     def recommendations_panel_context(self) -> dict[str, Any]:
+        from crawley.asx_desk.feedback import apply_feedback_to_rows
         from crawley.asx_desk.store import load_recommendations
 
         ctx = self.panel_context()
         recs = load_recommendations()
+        rows = apply_feedback_to_rows(list(recs.get("rows") or []))
+        recs = {**recs, "rows": rows}
         ctx.update(
             {
                 "asx_view": "recommendations",

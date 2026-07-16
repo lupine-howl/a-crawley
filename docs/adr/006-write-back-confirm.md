@@ -1,22 +1,24 @@
 # ADR-006: Write-back requires explicit confirm (draft-first)
 
-- **Status:** Accepted
+- **Status:** Accepted (amended Sprint 18)
 - **Date:** 2026-07-15
+- **Amended:** 2026-07-16
 
 ## Context
 
-Crawley modules may eventually mutate Google (Gmail send/labels, Calendar insert) and other systems. Product constraints forbid silent automation and multi-user ACLs. Sprint 5 designs the contract so later sprints can add mutations safely.
+Crawley modules may mutate Google (Gmail send, Calendar insert) and other systems. Product constraints forbid silent automation and multi-user ACLs.
 
 ## Decision
 
 1. **Explicit user confirm** is required before any live mutation. No background or scheduled writes in the personal OS PoC.
-2. **Draft-first stages:** propose → show diff/draft → confirm → execute → append a **local audit log**.
+2. **Draft-first stages:** propose → show draft → confirm → execute → append a **local audit log**.
 3. **Per-module capability flags** (`WriteBackCapability`): `supported`, `dry_run_only`, human `label`.
-4. Per-module: Gmail remains **dry-run only**. Calendar insert is live after confirm (Sprint 8) with a session draft UUID; Cancel performs no remote write.
-5. Out of scope: silent automation, multi-user ACLs, cloud secret managers, Gmail send.
+4. **Calendar** insert is live after confirm (Sprint 8) with opt-in `calendar.events` scope.
+5. **Gmail send** is live after confirm (Sprint 18) with separate opt-in `gmail.send` scope (`?gmail_send=1`). Cancel performs no remote send. Audit stages: propose / cancel / execute.
+6. Out of scope: silent automation, multi-user ACLs, bulk send, cloud secret managers.
 
 ## Consequences
 
-- **Positive:** Confirm-first Calendar path proves the stages; audit trail covers dry-run and live attempts.
-- **Negative:** Gmail mutations still deferred; primary-calendar-only insert.
-- **Later:** Gmail draft-then-send; undo/delete from audit row.
+- **Positive:** Two live confirm-first surfaces (Calendar + Gmail) share the same audit trail.
+- **Negative:** Operators must reconsent for each write scope; primary-calendar-only insert; send is irreversible from Crawley.
+- **Follow-up:** Undo/delete from audit row; draft-only (Gmail drafts API) if preferred later.
