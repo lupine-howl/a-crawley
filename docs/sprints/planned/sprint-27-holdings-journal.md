@@ -1,6 +1,6 @@
 # Sprint 27 — Manual holdings journal (planned)
 
-**Status:** planned (after Sprint 26)  
+**Status:** closed — see [`../archive/sprint-26-30-labels-holdings-search-attach-citations.md`](../archive/sprint-26-30-labels-holdings-search-attach-citations.md)
 **Duration:** one symbolic week  
 **Backlog refs:** B49  
 **Depends on:** Sprint 14 paper portfolio; Sprint 23 notebook preferred  

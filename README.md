@@ -83,8 +83,8 @@ Shared contract: [`AGENTS.md`](./AGENTS.md)
 - **Sprints 15–17** — Inbox/ASX scale + email bridge (**closed**): [`docs/sprints/archive/sprint-15-17-scale-bridge.md`](./docs/sprints/archive/sprint-15-17-scale-bridge.md)
 - **Sprints 18–20** — Gmail send + ASX alerts + playbooks (**closed**): [`docs/sprints/archive/sprint-18-20-send-alerts-playbooks.md`](./docs/sprints/archive/sprint-18-20-send-alerts-playbooks.md)
 - **Sprints 21–24** — OAuth ops + digests + notebook + VIP (**closed**): [`docs/sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md`](./docs/sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md)
-- **Sprint 25** — ASX news theme clustering (**current**): [`docs/sprints/current.md`](./docs/sprints/current.md)
-- **Sprints 26–30** — Email/ASX depth (planned): [`docs/sprints/planned/README.md`](./docs/sprints/planned/README.md)
+- **Sprints 26–30** — Labels + holdings + searches + attachments + citations (**closed**): [`docs/sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md`](./docs/sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md)
+- **Sprint 25** — ASX news theme clustering (**current**, deferred): [`docs/sprints/current.md`](./docs/sprints/current.md)
 - **Shelved** — former 31–40 / platform Later remnants: [`docs/sprints/shelved/README.md`](./docs/sprints/shelved/README.md)
 
 

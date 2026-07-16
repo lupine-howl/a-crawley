@@ -1,12 +1,13 @@
 # Sprint 25 — ASX news theme clustering
 
-**Status:** ready (next delivery; Sprints 21–24 archived)  
+**Status:** ready (next delivery; Sprints 26–30 archived out-of-order)  
 **Duration:** one symbolic week  
 **Backlog refs:** B47  
 **Depends on:** Sprint 13–16 ASX desk + events skim; Sprint 23 notebook helpful  
 **Architecture:** [`docs/architecture.md`](../architecture.md)  
 **UX:** ASX desk / themes panel — no trade chrome  
 **Previous:** [`archive/sprint-21-24-oauth-digests-notebook-vip.md`](archive/sprint-21-24-oauth-digests-notebook-vip.md)  
+**Also closed (out-of-order):** [`archive/sprint-26-30-labels-holdings-search-attach-citations.md`](archive/sprint-26-30-labels-holdings-search-attach-citations.md)  
 **Planned source:** [`planned/sprint-25-asx-news-clusters.md`](planned/sprint-25-asx-news-clusters.md)
 
 ## Goal
@@ -40,8 +41,8 @@ Cluster bounded news/headlines across the active ASX set into cited **themes** �
 - Streaming quotes product
 - Order tickets
 - Automated trading
-- Unshelving B48+ (Sprints 26+)
+- Re-opening closed 26–30 items
 
 ## Parking lot
 
-- Tie-ins to playbooks / notebook when useful
+- Tie-ins to playbooks / notebook / citations when useful

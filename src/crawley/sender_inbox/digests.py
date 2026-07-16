@@ -118,6 +118,15 @@ def generate_thread_digest_markdown(messages: list[dict[str, Any]]) -> str:
         "Be honest when thin. Cite only what is in the thread."
     )
     user = "Thread messages (newest first, bounded):\n\n" + "\n---\n".join(lines)
+    try:
+        from crawley.sender_inbox.attachments import attachment_digest_slice
+
+        ids = [str(m.get("id") or "") for m in messages if m.get("id")]
+        att = attachment_digest_slice(ids)
+        if att:
+            user = user + "\n\n" + att
+    except Exception:  # noqa: BLE001
+        pass
     if len(user) > MAX_DIGEST_CHARS:
         user = user[: MAX_DIGEST_CHARS - 1] + "…"
     provider = get_llm_provider()

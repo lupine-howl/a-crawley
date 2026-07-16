@@ -3,11 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–24 closed (OAuth ops + digests + notebook + VIP)  
+**Status:** Sprints 1–24 + 26–30 closed; Sprint 25 (news clustering) next  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
 **Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint **25** — ASX news theme clustering)  
+**Sprints 26–30 (closed):** [`sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md`](sprints/archive/sprint-26-30-labels-holdings-search-attach-citations.md)  
 **Sprints 21–24 (closed):** [`sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md`](sprints/archive/sprint-21-24-oauth-digests-notebook-vip.md)  
-**Planned 26–30:** [`sprints/planned/README.md`](sprints/planned/README.md)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -46,9 +46,22 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Sprint 14:** ASX recommendations + paper portfolio + simulation settings; also shipped bounded snapshot history + shared-context pins (B35–B36) and Fitness activity import lite (B37).  
 **Sprints 15–17:** Desk scale (Settings, hard ceiling 200); Sender Inbox search/prune; ASX active-set scale + events skim; Email × ASX bridge (`bridge/matcher.py`).  
 **Sprints 18–20:** Confirm-first Gmail send; ASX local alerts + recommendation feedback; operator playbooks + polish.  
-**Sprints 21–24:** Google OAuth Tailscale Connect + softer consent; Sender Inbox thread digests; ASX research notebook; VIP/muted rules.
+**Sprints 21–24:** Google OAuth Tailscale Connect + softer consent; Sender Inbox thread digests; ASX research notebook; VIP/muted rules.  
+**Sprints 26–30:** Confirm-first Gmail labels; holdings journal; saved searches; attachment skim; ASX citations + domain mute. (Sprint 25 deferred.)
 
 ## Sprint delivery maps
+
+### Sprints 26–30 (closed) — Labels, holdings, searches, attachments, citations
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S26.1 / B48** | `gmail.modify` · `sender_inbox/labels.py` · propose/confirm/cancel · ADR-006 |
+| **S27.1 / B49** | `asx_desk/holdings.py` · `/modules/investment/holdings` · capped prompt slice |
+| **S28.1 / B50** | `sender_inbox/saved_searches.py` · bounded `messages.list(q=…)` |
+| **S29.1 / B52** | `sender_inbox/attachments.py` · allowlist extract · digest slice |
+| **S30.1 / B53** | `asx_desk/citations.py` · `## Citations` on profiles · muted domains |
+
+**Citation quality rubric:** `trusted` / `ok` / `low` / `unknown`. Muted domains excluded from scan headlines and citation prompts.
 
 ### Sprints 21–24 (closed) — OAuth, digests, notebook, VIP
 

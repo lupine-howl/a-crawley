@@ -1,6 +1,6 @@
 # Sprint 26 — Gmail labels confirm-first (planned)
 
-**Status:** planned (after Sprint 25)  
+**Status:** closed — see [`../archive/sprint-26-30-labels-holdings-search-attach-citations.md`](../archive/sprint-26-30-labels-holdings-search-attach-citations.md)
 **Duration:** one symbolic week  
 **Backlog refs:** B48  
 **Depends on:** ADR-006; Sprint 18 Gmail send patterns  

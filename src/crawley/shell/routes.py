@@ -917,6 +917,83 @@ def asx_portfolio_reset(request: Request) -> HTMLResponse:
     return _module_response(request, module, panel=module.portfolio_panel_context())
 
 
+@router.get("/modules/investment/holdings", response_class=HTMLResponse)
+def asx_holdings(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    return _module_response(request, module, panel=module.holdings_panel_context())
+
+
+@router.post("/modules/investment/holdings", response_class=HTMLResponse)
+def asx_holdings_upsert(
+    request: Request,
+    holding_id: str = Form(""),
+    ticker: str = Form(""),
+    qty: str = Form("0"),
+    cost_note: str = Form(""),
+    note: str = Form(""),
+) -> HTMLResponse:
+    from crawley.asx_desk.holdings import upsert_holding
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    try:
+        upsert_holding(
+            holding_id=holding_id,
+            ticker=ticker,
+            qty=float(qty or 0),
+            cost_note=cost_note,
+            note=note,
+        )
+        module.job = JobState(status="done", message=f"Holding saved for {ticker.upper()}.")
+    except (ValueError, TypeError) as exc:
+        module.job = JobState(status="error", message=str(exc))
+    return _module_response(request, module, panel=module.holdings_panel_context())
+
+
+@router.post("/modules/investment/holdings/delete", response_class=HTMLResponse)
+def asx_holdings_delete(request: Request, holding_id: str = Form("")) -> HTMLResponse:
+    from crawley.asx_desk.holdings import delete_holding
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    if delete_holding(holding_id):
+        module.job = JobState(status="done", message="Holding removed.")
+    return _module_response(request, module, panel=module.holdings_panel_context())
+
+
+@router.get("/modules/investment/citations", response_class=HTMLResponse)
+def asx_citations(request: Request) -> HTMLResponse:
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    return _module_response(request, module, panel=module.citations_panel_context())
+
+
+@router.post("/modules/investment/citations/mute", response_class=HTMLResponse)
+def asx_citations_mute(request: Request, domain: str = Form("")) -> HTMLResponse:
+    from crawley.asx_desk.citations import mute_domain
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    try:
+        mute_domain(domain)
+        module.job = JobState(status="done", message=f"Muted domain {domain}.")
+    except ValueError as exc:
+        module.job = JobState(status="error", message=str(exc))
+    return _module_response(request, module, panel=module.citations_panel_context())
+
+
+@router.post("/modules/investment/citations/unmute", response_class=HTMLResponse)
+def asx_citations_unmute(request: Request, domain: str = Form("")) -> HTMLResponse:
+    from crawley.asx_desk.citations import unmute_domain
+
+    module = request.app.state.registry["investment"]
+    assert isinstance(module, InvestmentModule)
+    unmute_domain(domain)
+    module.job = JobState(status="done", message=f"Unmuted {domain}.")
+    return _module_response(request, module, panel=module.citations_panel_context())
+
+
 @router.get("/modules/investment/events", response_class=HTMLResponse)
 def asx_events(request: Request) -> HTMLResponse:
     module = request.app.state.registry["investment"]
@@ -1205,6 +1282,242 @@ def gmail_rule_delete(
     else:
         module.job = JobState(status="idle", message="No rule to remove.")
     if return_to == "sender" and sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/labels/propose", response_class=HTMLResponse)
+def gmail_label_propose(
+    request: Request,
+    message_id: str = Form(""),
+    label_id: str = Form(""),
+    label_name: str = Form(""),
+    op: str = Form("add"),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    from crawley.sender_inbox import labels as label_mod
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    try:
+        name = label_name
+        if not name and label_id:
+            for lab in module._cached_labels or []:
+                if lab.get("id") == label_id:
+                    name = lab.get("name") or label_id
+                    break
+        draft = label_mod.propose_label_change(
+            message_id=message_id,
+            label_id=label_id,
+            op=op,
+            sender_id=sender_id,
+            label_name=name or label_id,
+        )
+        module.pending_label_draft = draft
+        module.job = JobState(
+            status="idle",
+            message="Label draft ready — Confirm to apply or Cancel.",
+        )
+    except ValueError as exc:
+        module.job = JobState(status="error", message=str(exc))
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/labels/confirm", response_class=HTMLResponse)
+def gmail_label_confirm(
+    request: Request,
+    draft_id: str = Form(""),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    from crawley.sender_inbox import labels as label_mod
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    auth = module.auth_status()
+    ok, msg, _draft = label_mod.confirm_label_change(
+        draft_id, modify_ok=bool(auth.get("gmail_modify_ok"))
+    )
+    module.pending_label_draft = None
+    module.job = JobState(status="done" if ok else "error", message=msg)
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/labels/cancel", response_class=HTMLResponse)
+def gmail_label_cancel(
+    request: Request,
+    draft_id: str = Form(""),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    from crawley.sender_inbox import labels as label_mod
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    label_mod.cancel_label_change(draft_id)
+    module.pending_label_draft = None
+    module.job = JobState(status="idle", message="Label change cancelled. No remote mutation.")
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/labels/refresh", response_class=HTMLResponse)
+def gmail_labels_refresh(request: Request, sender_id: str = Form("")) -> HTMLResponse:
+    from crawley.google_oauth import load_credentials
+    from crawley.sender_inbox.labels import list_user_labels
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    try:
+        creds = load_credentials()
+        if not creds:
+            raise RuntimeError("Connect Google first.")
+        module._cached_labels = list_user_labels(creds)
+        module.job = JobState(status="done", message=f"Loaded {len(module._cached_labels)} labels.")
+    except Exception as exc:  # noqa: BLE001
+        module.job = JobState(status="error", message=str(exc)[:300])
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/searches", response_class=HTMLResponse)
+def gmail_search_save(
+    request: Request,
+    search_id: str = Form(""),
+    name: str = Form(""),
+    query: str = Form(""),
+) -> HTMLResponse:
+    from crawley.sender_inbox.saved_searches import upsert_search
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    try:
+        upsert_search(search_id=search_id, name=name, query=query)
+        module.job = JobState(status="done", message=f"Saved search “{name}”.")
+    except ValueError as exc:
+        module.job = JobState(status="error", message=str(exc))
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/searches/delete", response_class=HTMLResponse)
+def gmail_search_delete(request: Request, search_id: str = Form("")) -> HTMLResponse:
+    from crawley.sender_inbox.saved_searches import delete_search
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    if delete_search(search_id):
+        module.job = JobState(status="done", message="Saved search removed.")
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/searches/run", response_class=HTMLResponse)
+def gmail_search_run(
+    request: Request,
+    search_id: str = Form(""),
+    query: str = Form(""),
+) -> HTMLResponse:
+    from crawley.google_oauth import load_credentials
+    from crawley.sender_inbox.saved_searches import get_search, run_saved_search
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    q = (query or "").strip()
+    if search_id and not q:
+        row = get_search(search_id)
+        q = (row or {}).get("query") or ""
+    try:
+        creds = load_credentials()
+        if not creds:
+            raise RuntimeError("Connect Google first.")
+        module.job = JobState(status="busy", message="Running saved search…")
+        result = run_saved_search(creds, q)
+        module.job = JobState(
+            status="done",
+            message=f"Search returned {result.get('count', 0)} message(s).",
+        )
+    except (ValueError, RuntimeError) as exc:
+        module.job = JobState(status="error", message=str(exc)[:400])
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/attachments/list", response_class=HTMLResponse)
+def gmail_attachments_list(
+    request: Request,
+    message_id: str = Form(""),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    from crawley.google_oauth import load_credentials
+    from crawley.sender_inbox.attachments import fetch_message_attachments
+    from crawley.sender_inbox.store import load_messages, save_messages
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    try:
+        creds = load_credentials()
+        if not creds:
+            raise RuntimeError("Connect Google first.")
+        atts = fetch_message_attachments(creds, message_id)
+        # Stash on stored message for UI
+        msgs = load_messages()
+        for m in msgs:
+            if m.get("id") == message_id:
+                m["attachments"] = atts
+                m["label_ids"] = m.get("label_ids") or []
+        save_messages(msgs)
+        module.job = JobState(
+            status="done",
+            message=f"Found {len(atts)} attachment(s).",
+        )
+    except Exception as exc:  # noqa: BLE001
+        module.job = JobState(status="error", message=str(exc)[:300])
+    if sender_id:
+        panel = module.sender_panel_context(sender_id)
+        if panel:
+            return _module_response(request, module, panel=panel)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/attachments/extract", response_class=HTMLResponse)
+def gmail_attachments_extract(
+    request: Request,
+    message_id: str = Form(""),
+    attachment_id: str = Form(""),
+    filename: str = Form(""),
+    sender_id: str = Form(""),
+) -> HTMLResponse:
+    from crawley.google_oauth import load_credentials
+    from crawley.sender_inbox.attachments import extract_attachment_text
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    try:
+        creds = load_credentials()
+        if not creds:
+            raise RuntimeError("Connect Google first.")
+        record = extract_attachment_text(
+            creds, message_id, attachment_id, filename=filename
+        )
+        module.job = JobState(
+            status="done",
+            message=f"Extracted text from {record.get('filename') or 'attachment'}.",
+        )
+    except (ValueError, RuntimeError) as exc:
+        module.job = JobState(status="error", message=str(exc)[:400])
+    if sender_id:
         panel = module.sender_panel_context(sender_id)
         if panel:
             return _module_response(request, module, panel=panel)
@@ -1500,11 +1813,13 @@ def gmail_oauth_start(request: Request) -> RedirectResponse:
     assert isinstance(module, GmailModule)
     include_cal = request.query_params.get("calendar_write") == "1"
     include_send = request.query_params.get("gmail_send") == "1"
+    include_modify = request.query_params.get("gmail_modify") == "1"
     try:
         url, state = authorization_url(
             _base_url(request),
             include_calendar_write=include_cal,
             include_gmail_send=include_send,
+            include_gmail_modify=include_modify,
         )
         module.oauth_state = state
         return RedirectResponse(url)

@@ -93,7 +93,8 @@ def generate_profile(company: dict[str, Any], scan: dict[str, Any]) -> str:
         ],
         max_tokens=550,
     )
-    return (result.content or "").strip()
+    md = (result.content or "").strip()
+    return append_citations_section(md, str(company.get("ticker") or ""), headlines)
 
 
 def generate_recommendations(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -114,11 +115,16 @@ def generate_recommendations(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
 
     feedback = feedback_prompt_slice()
     notebooks = notebook_prompt_slice()
+    from crawley.asx_desk.holdings import holdings_prompt_slice
+
+    holdings = holdings_prompt_slice()
     user = "PoC company set:\n" + "\n".join(lines or ["(none)"])
     if feedback:
         user = user + "\n\n" + feedback
     if notebooks:
         user = user + "\n\n" + notebooks
+    if holdings:
+        user = user + "\n\n" + holdings
     provider = get_llm_provider()
     result = provider.complete(
         [
@@ -152,3 +158,15 @@ def generate_recommendations(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
         rec["generated_at"] = now
         out.append(rec)
     return out
+
+
+def append_citations_section(markdown: str, ticker: str, headlines: list[dict[str, Any]]) -> str:
+    from crawley.asx_desk.citations import citations_markdown_section
+
+    section = citations_markdown_section(ticker, headlines)
+    if not section:
+        return markdown
+    body = (markdown or "").rstrip()
+    if "## Citations" in body:
+        return body
+    return body + "\n\n" + section

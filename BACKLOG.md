@@ -2,7 +2,7 @@
 
 Prioritized work items. Product owner owns this file.  
 **Working title:** Crawley  
-**Status:** Sprints 1–24 closed; **Sprint 25 current** = ASX news theme clustering (B47); planned **26–30** = B48–B50, B52–B53; remaining post-30 platform/depth stays shelved
+**Status:** Sprints 1–24 + **26–30** closed; **Sprint 25 current** = ASX news clustering (B47, deferred while 26–30 shipped); remaining post-30 platform/depth stays shelved
 
 Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
@@ -1192,7 +1192,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B39, B9 |
-| Planned sprint | 25 (current)
+| Planned sprint | 25 (current; deferred while 26–30 delivered) |
 
 **Goal:** Cluster watchlist news into cited themes.
 
@@ -1215,7 +1215,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B31, B18 |
@@ -1225,10 +1225,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Read and display labels for messages/threads in panel
-- [ ] Propose apply/remove → draft → confirm → execute → audit
-- [ ] Reconsent if modify scope missing
-- [ ] No bulk silent labeling; no auto-rules engine yet
+- [x] Read and display labels for messages/threads in panel
+- [x] Propose apply/remove → draft → confirm → execute → audit
+- [x] Reconsent if modify scope missing
+- [x] No bulk silent labeling; no auto-rules engine yet
 
 **Out of scope:**
 
@@ -1241,7 +1241,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B45, B39 |
@@ -1251,11 +1251,11 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Local holdings table/file under data/
-- [ ] Panel CRUD; validation for obvious junk rows
-- [ ] Optional include in LLM context with hard cap
-- [ ] UI states this is operator-entered, not broker-synced
-- [ ] No order/rebalance execution
+- [x] Local holdings table/file under data/
+- [x] Panel CRUD; validation for obvious junk rows
+- [x] Optional include in LLM context with hard cap
+- [x] UI states this is operator-entered, not broker-synced
+- [x] No order/rebalance execution
 
 **Out of scope:**
 
@@ -1268,7 +1268,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B10 |
@@ -1278,10 +1278,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Persist named queries under data/
-- [ ] Panel query builder or advanced string field with examples
-- [ ] Run bounded fetch for query; job status
-- [ ] Invalid query / API errors actionable
+- [x] Persist named queries under data/
+- [x] Panel query builder or advanced string field with examples
+- [x] Run bounded fetch for query; job status
+- [x] Invalid query / API errors actionable
 
 **Out of scope:**
 
@@ -1321,7 +1321,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B44 |
@@ -1331,10 +1331,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] List attachment metadata (name, type, size) for selected message/thread
-- [ ] Opt-in text extract for allowlisted types under size cap; store under data/
-- [ ] Never auto-exfiltrate; clear skip reasons for unsafe/huge files
-- [ ] Optional include snippets in digest prompt
+- [x] List attachment metadata (name, type, size) for selected message/thread
+- [x] Opt-in text extract for allowlisted types under size cap; store under data/
+- [x] Never auto-exfiltrate; clear skip reasons for unsafe/huge files
+- [x] Optional include snippets in digest prompt
 
 **Out of scope:**
 
@@ -1347,7 +1347,7 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 | Field | Value |
 |-------|-------|
-| Status | ready |
+| Status | done |
 | Priority | P1 |
 | Roadmap theme | Next — Depth 21–30 |
 | Depends on | B9, B24 |
@@ -1357,10 +1357,10 @@ Status values: `idea` | `ready` | `in_sprint` | `done` | `dropped` | `shelved`
 
 **Acceptance criteria:**
 
-- [ ] Structured source records in DuckDB/files (url, title, retrieved_at, quality tag)
-- [ ] Advice Markdown includes citations section
-- [ ] Operator can mute/exclude domains for future runs
-- [ ] Document quality rubric simply in architecture or module README
+- [x] Structured source records in DuckDB/files (url, title, retrieved_at, quality tag)
+- [x] Advice Markdown includes citations section
+- [x] Operator can mute/exclude domains for future runs
+- [x] Document quality rubric simply in architecture or module README
 
 **Out of scope:**
 

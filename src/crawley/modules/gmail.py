@@ -171,6 +171,8 @@ class GmailModule(Module):
         self._executor = None
         self.oauth_state: str | None = None
         self.pending_draft: dict[str, Any] | None = None
+        self.pending_label_draft: dict[str, Any] | None = None
+        self._cached_labels: list[dict[str, str]] = []
 
     def bind_executor(self, executor) -> None:
         self._executor = executor
@@ -203,6 +205,7 @@ class GmailModule(Module):
         for row in senders:
             row["latest_rel"] = relative_time(row.get("latest_at"))
         from crawley.sender_inbox.rules import load_rules
+        from crawley.sender_inbox.saved_searches import EXAMPLES, load_last_run, load_searches
 
         return {
             "coming_soon": False,
@@ -214,6 +217,9 @@ class GmailModule(Module):
             "inbox_progress": progress,
             "inbox_senders": senders,
             "sender_rules": load_rules(),
+            "saved_searches": load_searches(),
+            "saved_search_examples": EXAMPLES,
+            "saved_search_last_run": load_last_run(),
             "poc_cap": progress.get("cap") or POC_CAP,
             "hard_ceiling": HARD_SCALE_CEILING,
             "filter_q": query,
@@ -222,11 +228,13 @@ class GmailModule(Module):
             "filter_categories": CATEGORIES,
             "poll_inbox": progress.get("status") == "busy" or self.job.status == "busy",
             "pending_send": self.pending_draft,
+            "pending_label": getattr(self, "pending_label_draft", None),
             "playbooks": [p for p in load_playbooks() if p.get("desk") == "gmail"],
         }
 
     def sender_panel_context(self, sender_id: str) -> dict[str, Any] | None:
         from crawley.markdown_render import render_markdown
+        from crawley.sender_inbox.attachments import load_extracts_for_message
         from crawley.sender_inbox.digests import digests_for_sender, is_digest_running
         from crawley.sender_inbox.formatters import relative_time
         from crawley.sender_inbox.rules import get_rule
@@ -238,6 +246,9 @@ class GmailModule(Module):
         for msg in detail["messages"]:
             msg["latest_rel"] = relative_time(msg.get("internal_date"))
             msg["signals"] = msg.get("signals") or []
+            msg["attachment_extracts"] = load_extracts_for_message(str(msg.get("id") or ""))
+            msg["attachments"] = msg.get("attachments") or []
+            msg["label_ids"] = msg.get("label_ids") or []
         threads = digests_for_sender(sender_id, detail["messages"])
         for t in threads:
             t["digest_html"] = render_markdown(t.get("markdown") or "") if t.get("markdown") else ""
@@ -253,6 +264,8 @@ class GmailModule(Module):
                 "thread_digests": threads,
                 "profile_html": render_markdown((detail.get("profile") or {}).get("markdown") or ""),
                 "pending_send": self.pending_draft,
+                "pending_label": getattr(self, "pending_label_draft", None),
+                "gmail_labels": getattr(self, "_cached_labels", None) or [],
                 "poll_inbox": (detail.get("profile") or {}).get("status") == "generating"
                 or digest_busy
                 or ctx.get("poll_inbox"),

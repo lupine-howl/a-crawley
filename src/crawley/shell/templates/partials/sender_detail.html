@@ -196,6 +196,30 @@
 
   <section aria-labelledby="msgs-heading">
     <h2 id="msgs-heading">Messages in bundle</h2>
+    {% if panel.pending_label %}
+    {% set ld = panel.pending_label %}
+    <div class="panel panel-tight">
+      <p><strong>Pending label {{ ld.payload.op }}:</strong> {{ ld.payload.label_name or ld.payload.label_id }} on message <code>{{ ld.payload.message_id }}</code></p>
+      {% if not panel.auth.gmail_modify_ok %}
+      <p class="job job-error">Gmail modify scope not granted.</p>
+      <p><a class="btn secondary" href="/modules/gmail/oauth/start?gmail_modify=1">Reconnect for labels</a></p>
+      {% endif %}
+      <form hx-post="/modules/gmail/labels/confirm" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+        <input type="hidden" name="draft_id" value="{{ ld.draft_id }}">
+        <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+        <button type="submit" {% if not panel.auth.gmail_modify_ok %}disabled{% endif %}>Confirm label change</button>
+      </form>
+      <form hx-post="/modules/gmail/labels/cancel" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+        <input type="hidden" name="draft_id" value="{{ ld.draft_id }}">
+        <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+        <button type="submit" class="secondary">Cancel</button>
+      </form>
+    </div>
+    {% endif %}
+    <form hx-post="/modules/gmail/labels/refresh" hx-target="#panel-root" hx-swap="innerHTML" style="margin-bottom:0.75rem">
+      <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+      <button type="submit" class="secondary">Refresh Gmail labels</button>
+    </form>
     <ul class="bundle-list">
       {% for m in s.messages %}
       <li class="bundle-item">
@@ -209,8 +233,65 @@
             {% if m.error %}<span class="job job-error">error</span>{% endif %}
           </summary>
           <p class="muted">{{ m.metrics.brief or m.snippet }}</p>
+          {% if m.label_ids %}
+          <p class="muted">Labels: {% for lid in m.label_ids %}<code>{{ lid }}</code> {% endfor %}</p>
+          {% endif %}
           {% if m.body_text %}
           <pre class="bundle-body">{{ m.body_text[:1200] }}</pre>
+          {% endif %}
+          {% if panel.gmail_labels %}
+          <form
+            class="settings-form"
+            hx-post="/modules/gmail/labels/propose"
+            hx-target="#panel-root"
+            hx-swap="innerHTML"
+          >
+            <input type="hidden" name="message_id" value="{{ m.id }}">
+            <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+            <label>Apply / remove label</label>
+            <select name="label_id" required>
+              {% for lab in panel.gmail_labels %}
+              <option value="{{ lab.id }}">{{ lab.name }}</option>
+              {% endfor %}
+            </select>
+            <select name="op">
+              <option value="add">Add</option>
+              <option value="remove">Remove</option>
+            </select>
+            <button type="submit" class="secondary">Propose label change</button>
+          </form>
+          {% endif %}
+          <form hx-post="/modules/gmail/attachments/list" hx-target="#panel-root" hx-swap="innerHTML">
+            <input type="hidden" name="message_id" value="{{ m.id }}">
+            <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+            <button type="submit" class="secondary">List attachments</button>
+          </form>
+          {% if m.attachments %}
+          <ul class="src-list">
+            {% for a in m.attachments %}
+            <li>
+              <code>{{ a.filename }}</code>
+              · {{ a.mime_type }} · {{ a.size }} bytes
+              {% if a.extractable %}
+              <form hx-post="/modules/gmail/attachments/extract" hx-target="#panel-root" hx-swap="innerHTML" style="display:inline">
+                <input type="hidden" name="message_id" value="{{ m.id }}">
+                <input type="hidden" name="attachment_id" value="{{ a.attachment_id }}">
+                <input type="hidden" name="filename" value="{{ a.filename }}">
+                <input type="hidden" name="sender_id" value="{{ s.sender_id }}">
+                <button type="submit" class="secondary">Extract text</button>
+              </form>
+              {% else %}
+              <span class="muted">skip: {{ a.skip_reason }}</span>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {% if m.attachment_extracts %}
+          <p class="muted">Extracted snippets:</p>
+          {% for e in m.attachment_extracts %}
+          <pre class="bundle-body">{{ e.filename }}: {{ e.text[:400] }}</pre>
+          {% endfor %}
           {% endif %}
         </details>
       </li>

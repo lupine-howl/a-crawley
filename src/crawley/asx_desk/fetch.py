@@ -170,6 +170,13 @@ def scan_company(ticker: str, name: str) -> dict[str, Any]:
     if "google_news_rss" in enabled:
         sources_used.append("google_news_rss")
         headlines = fetch_news_headlines(ticker, name)
+        from crawley.asx_desk.citations import (
+            filter_muted_headlines,
+            record_headlines_as_citations,
+        )
+
+        headlines = filter_muted_headlines(headlines)
+        record_headlines_as_citations(ticker, headlines)
         if headlines:
             snapshot["headline"] = headlines[0]["title"]
         else:

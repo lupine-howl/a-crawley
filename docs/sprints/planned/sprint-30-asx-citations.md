@@ -1,6 +1,6 @@
 # Sprint 30 — ASX citations + source quality (planned)
 
-**Status:** planned (after Sprint 29)  
+**Status:** closed — see [`../archive/sprint-26-30-labels-holdings-search-attach-citations.md`](../archive/sprint-26-30-labels-holdings-search-attach-citations.md)
 **Duration:** one symbolic week  
 **Backlog refs:** B53  
 **Depends on:** Sprint 13–25 ASX desk + clustering  
