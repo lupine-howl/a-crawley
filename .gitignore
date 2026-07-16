@@ -16,7 +16,7 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 dist/
-build/
+/build/
 
 # OS / editor
 .DS_Store

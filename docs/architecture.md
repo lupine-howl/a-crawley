@@ -3,12 +3,13 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley (this repo = **analytics**)  
-**Status:** Sprints 1–30 closed (HTMX-era); **hard pivot** — Migration Sprint **31** closed; **32** next (`crawley-ui`)  
+**Status:** Sprints 1–32 closed; **hard pivot** — Migration Sprint **33** (ASX daemon)  
 **Migration:** [`migration-phone-preview.md`](migration-phone-preview.md) · [ADR-009](adr/009-phone-preview-analytics.md)  
 **Host (analytics):** WSL2 / Linux; localhost default; opt-in LAN via Settings / `CRAWLEY_HOST`  
-**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 32 planned after 31)  
+**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 33)  
 **API contract:** [`api/presentation-v1.md`](api/presentation-v1.md) · [`api/openapi-v1.json`](api/openapi-v1.json)  
-**Product UI:** `crawley-ui` (npm / published Phone Preview) — separate from this repo  
+**UI consume:** [`build/consuming-published-core.md`](build/consuming-published-core.md) · app [`../crawley-ui/`](../crawley-ui/)  
+**Product UI:** `crawley-ui` (published `@phone-preview/core` ≥ 0.6.1)  
 **Shelved:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -50,6 +51,15 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 | **S31.3 / B93** | `crawley.api.presentation` DTOs · `docs/api/presentation-v1.md` · `docs/api/openapi-v1.json` (+ runtime `/openapi.json`) |
 
 **Job mapping:** ASX desk scan → stable job id `asx-scan` (wraps `asx_desk.worker` + `progress_view`). OAuth stays on analytics host.
+
+### Sprint 32 (closed) — crawley-ui + asxDeskPack
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S32.1 / B94** | `crawley-ui/` via `create-phone-preview` · `@phone-preview/core` ≥ 0.6.1 · `starterPacks()` · Vite `/api/analytics` → `:8000` |
+| **S32.2 / B95** | `crawley-ui/src/packs/asxDeskPack.tsx` · `src/lib/analytics.ts` · companies + scan + job poll + detail |
+
+**Pack rule:** app-private packs only for desks; no education curriculum; no `--with-api` as analytics brain. Persistence = PP IndexedDB defaults.
 
 **HTMX-era notes (closed):** Sprints 11–30 — Settings Update, Sender Inbox, ASX desk depth, paper, bridge, send/alerts/playbooks, OAuth/digests/notebook/VIP, clusters, labels/holdings/searches/attachments/citations. See maps below and [`archive/`](sprints/archive/).
 
