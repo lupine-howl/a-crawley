@@ -77,53 +77,11 @@
     {% endif %}
   </div>
   {% elif module.meta.id == 'gmail' %}
-  <div
-    class="panel"
-    {% if panel.job.status == 'busy' %}
-    hx-get="/modules/gmail/status"
-    hx-trigger="every 1s"
-    hx-target="#panel-root"
-    hx-swap="innerHTML"
-    {% endif %}
-  >
-    {% if not panel.auth.client_ok %}
-    <p class="job job-error">{{ panel.auth.error }}</p>
-    <p class="muted">Create OAuth Desktop credentials in Google Cloud, enable <strong>Gmail API</strong> and <strong>Google Calendar API</strong>, then set <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> in <code>.env</code>.</p>
-    {% elif not panel.auth.connected or panel.auth.needs_reconsent %}
-    <p class="muted">{% if panel.auth.error %}{{ panel.auth.error }}{% else %}Not connected.{% endif %} Tokens: <code>{{ panel.auth.token_path }}</code> (gitignored).</p>
-    <p><a class="btn" href="/modules/gmail/oauth/start">Connect Google (Gmail + Calendar read-only)</a></p>
+    {% if panel.inbox_view == 'sender' and panel.sender %}
+      {% include "partials/sender_detail.html" %}
     {% else %}
-    <p class="job job-done">Google connected (Gmail read-only).</p>
-    <form hx-post="/modules/gmail/run" hx-target="#panel-root" hx-swap="innerHTML">
-      <button type="submit" {% if panel.job.status == 'busy' %}disabled{% endif %}>
-        {% if panel.job.status == 'busy' %}Scanning…{% else %}Scan inbox (max {{ panel.max_messages }}){% endif %}
-      </button>
-    </form>
-    <form class="run-form" hx-post="/modules/gmail/write-back/dry-run" hx-target="#panel-root" hx-swap="innerHTML">
-      <input type="hidden" name="action" value="draft_reply">
-      <button type="submit" class="secondary" {% if panel.job.status == 'busy' %}disabled{% endif %}>
-        Write-back dry-run (no send)
-      </button>
-    </form>
+      {% include "partials/sender_inbox.html" %}
     {% endif %}
-    <p class="job job-{{ panel.job.status }}"><strong>Status:</strong> {{ panel.job.status }} — {{ panel.job.message }}</p>
-    {% if panel.job.summary %}
-    <div class="summary">
-      <h2>Inbox summary</h2>
-      <div class="summary-body">{{ panel.summary_html }}</div>
-    </div>
-    {% endif %}
-    {% if panel.job.details and panel.job.details.prompt_system %}
-    <details class="prompt-viewer">
-      <summary>Last prompt sent to the LLM</summary>
-      <p class="muted">Editable templates live in <a href="/settings#prompts">Settings → Summary prompts</a>.</p>
-      <h3>System</h3>
-      <pre class="prompt-pre">{{ panel.job.details.prompt_system }}</pre>
-      <h3>User</h3>
-      <pre class="prompt-pre">{{ panel.job.details.prompt_user }}</pre>
-    </details>
-    {% endif %}
-  </div>
   {% elif module.meta.id == 'calendar' %}
   <div
     class="panel"

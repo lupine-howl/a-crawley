@@ -3,11 +3,11 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley  
-**Status:** Sprints 1–11 closed (11 = Settings Update: git pull + hot reload)  
+**Status:** Sprints 1–12 closed (12 = Sender Inbox PoC)  
 **Host (Now):** WSL2 / Linux personal machine; **localhost by default**; opt-in LAN bind (`0.0.0.0`) via Settings / `CRAWLEY_HOST` (**restart required**)  
-**Active sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 12 — Sender Inbox)  
+**Latest sprint:** [`docs/sprints/current.md`](sprints/current.md) (Sprint 12 done)  
 **Sprint 11 (closed):** [`sprints/archive/sprint-11-settings-update.md`](sprints/archive/sprint-11-settings-update.md)  
-**Next planned:** Sender Inbox (12) · ASX profiles (13) · ASX paper (14)  
+**Next planned:** ASX profiles (13) · ASX paper (14)  
 **Shelved plans:** [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -40,9 +40,21 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 **Shipped:** Investment, Gmail, Calendar (read + confirm-first insert), Fitness, Co-parenting, DIY, Work, Finance/Taxes, Coding/Creative; Day brief; shared context seed; LocalLlama (Ollama HTTP); themable shell.  
 **UX:** [`docs/ux.md`](ux.md) Sprint 2 design contract (later modules reuse form/snapshot patterns).  
 **Not in PoC:** public hosting, multi-user auth, native desktop shell, automated trading, Gmail send.  
-**Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.
+**Sprint 11:** Settings → **Update** runs local `git fetch` + **ff-only** merge of the current branch upstream (`git_update.py`). Allowed on localhost and trusted LAN/Tailscale (UI warns; no login gate). Relies on `CRAWLEY_RELOAD=1` (Uvicorn watches `src/crawley/`) for hot reload after watched files change. No scheduled auto-pull; no conflict UI. LAN bind helpers recognize Tailscale CGNAT / MagicDNS for personal http OAuth and startup “try also” URLs.  
+**Sprint 12:** Gmail panel is **Sender Inbox** — background one-mail ingest, LLM categorization, sender-grouped UI, profiles, local todos, ~20 PoC cap (`sender_inbox/`). Classic inbox skim remains under a disclosure.
 
 ## Sprint delivery maps
+
+### Sprint 12 (closed) — Sender Inbox
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S12.1 / B65** | UX contract `docs/ux/sender-inbox-asx.md` accepted for implement |
+| **S12.2 / B66** | `sender_inbox/worker.py` · one-at-a-time Gmail fetch + LLM metrics |
+| **S12.3 / B67** | `/modules/gmail` sender list · `/modules/gmail/senders/{id}` |
+| **S12.4 / B68** | Profiles JSON under `data/gmail/sender_inbox/` |
+| **S12.5 / B69** | Todos JSON + HTMX toggle; no send/calendar |
+| **S12.6 / B70** | Cap default 20 · `CRAWLEY_SENDER_INBOX_CAP` · Reset PoC data |
 
 ### Sprint 11 (closed) — Settings Update
 
@@ -50,12 +62,30 @@ Crawley is a **local-first personal assistant**: one Python process serves a bro
 |-------|--------------------------|
 | **S11.1 / B78** | `git_update.py` · `POST /settings/update/pull` · Settings `#update` · ff-only · LAN/Tailscale allowed + warn · `CRAWLEY_RELOAD` |
 
-### Sprint 12+ (planned) — Sender Inbox / ASX
+### Sprint 13–14 (planned) — ASX
 
 | Story | Architecture touchpoints |
 |-------|--------------------------|
-| **S12** Sender Inbox | Background one-mail ingest; categorization store; sender UI; profiles; todos; ~20 cap |
 | **S13–14** ASX | Universe scan, company profiles, recommendations, paper ledger |
+
+### Sender Inbox categorization schema
+
+Persisted under `data/gmail/sender_inbox/` (`messages.json`, `profiles.json`, `todos.json`, `ingest_state.json`).
+
+Per-message **metrics** (LLM JSON, normalized in `sender_inbox/schema.py`):
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `urgency` | `low\|medium\|high\|critical` | Drives sort boost + `urgent` signal |
+| `requires_reply` | bool | Adds `reply` signal |
+| `action_needed` | bool | Adds `action` signal |
+| `vip` | bool | Adds `vip` signal |
+| `category` | `personal\|work\|billing\|newsletter\|other` | Coarse class |
+| `signals` | string[] | Max 5; UI shows ≤3 quiet chips |
+| `brief` | string | One-line summary |
+
+**Sort:** newest activity first, with boost for high/critical urgency and `requires_reply`.  
+**Cap:** default 20; raise later via env `CRAWLEY_SENDER_INBOX_CAP` (restart).
 
 ### Sprints 6–10 (bundled, closed)
 

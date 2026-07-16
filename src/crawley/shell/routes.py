@@ -100,6 +100,10 @@ def _enrich_panel(panel: dict[str, Any]) -> dict[str, Any]:
     summary = job.get("summary") or ""
     if summary:
         panel = {**panel, "summary_html": render_markdown(summary)}
+    sender = panel.get("sender") or {}
+    profile_md = (sender.get("profile") or {}).get("markdown") or ""
+    if profile_md:
+        panel = {**panel, "profile_html": render_markdown(profile_md)}
     return panel
 
 
@@ -108,6 +112,7 @@ def _module_response(
     module: Module,
     *,
     status_code: int = 200,
+    panel: dict[str, Any] | None = None,
 ) -> HTMLResponse:
     registry: dict[str, Module] = request.app.state.registry
     ctx = _base_context(request, registry)
@@ -115,7 +120,7 @@ def _module_response(
         {
             "active_id": module.meta.id,
             "module": module,
-            "panel": _enrich_panel(module.panel_context()),
+            "panel": _enrich_panel(panel if panel is not None else module.panel_context()),
         }
     )
     template = "partials/panel.html" if request.headers.get("hx-request") == "true" else "module.html"
@@ -437,6 +442,88 @@ def gmail_run(request: Request) -> HTMLResponse:
 def gmail_status(request: Request) -> HTMLResponse:
     module = request.app.state.registry["gmail"]
     return _module_response(request, module)
+
+
+@router.post("/modules/gmail/inbox/start", response_class=HTMLResponse)
+def gmail_inbox_start(request: Request) -> HTMLResponse:
+    from crawley.sender_inbox.worker import start_ingest
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    ok, msg = start_ingest(request.app.state.executor)
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/inbox/pause", response_class=HTMLResponse)
+def gmail_inbox_pause(request: Request) -> HTMLResponse:
+    from crawley.sender_inbox.worker import request_pause
+
+    module = request.app.state.registry["gmail"]
+    request_pause()
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/inbox/resume", response_class=HTMLResponse)
+def gmail_inbox_resume(request: Request) -> HTMLResponse:
+    from crawley.sender_inbox.worker import resume_ingest
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    ok, msg = resume_ingest(request.app.state.executor)
+    if not ok:
+        module.job = JobState(status="error", message=msg)
+    return _module_response(request, module)
+
+
+@router.post("/modules/gmail/inbox/reset", response_class=HTMLResponse)
+def gmail_inbox_reset(request: Request) -> HTMLResponse:
+    from crawley.sender_inbox.store import reset_poc_data
+    from crawley.sender_inbox.worker import request_pause
+
+    module = request.app.state.registry["gmail"]
+    request_pause()
+    reset_poc_data()
+    return _module_response(request, module)
+
+
+@router.get("/modules/gmail/senders/{sender_id}", response_class=HTMLResponse)
+def gmail_sender_detail(request: Request, sender_id: str) -> HTMLResponse:
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    panel = module.sender_panel_context(sender_id)
+    if panel is None:
+        return _module_response(request, module, status_code=404)
+    return _module_response(request, module, panel=panel)
+
+
+@router.post("/modules/gmail/senders/{sender_id}/profile/retry", response_class=HTMLResponse)
+def gmail_sender_profile_retry(request: Request, sender_id: str) -> HTMLResponse:
+    from crawley.sender_inbox.worker import regenerate_profile
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    regenerate_profile(sender_id, request.app.state.executor)
+    panel = module.sender_panel_context(sender_id)
+    if panel is None:
+        return _module_response(request, module, status_code=404)
+    return _module_response(request, module, panel=panel)
+
+
+@router.post("/modules/gmail/todos/{todo_id}/toggle", response_class=HTMLResponse)
+def gmail_todo_toggle(request: Request, todo_id: str) -> HTMLResponse:
+    from crawley.sender_inbox.store import toggle_todo
+
+    module = request.app.state.registry["gmail"]
+    assert isinstance(module, GmailModule)
+    todo = toggle_todo(todo_id)
+    if todo is None:
+        return _module_response(request, module, status_code=404)
+    panel = module.sender_panel_context(todo["sender_id"])
+    if panel is None:
+        return _module_response(request, module)
+    return _module_response(request, module, panel=panel)
 
 
 @router.post("/modules/calendar/run", response_class=HTMLResponse)

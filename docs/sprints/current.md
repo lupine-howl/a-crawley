@@ -1,6 +1,6 @@
 # Sprint 12 — Sender Inbox PoC
 
-**Status:** ready (next delivery; Sprint 11 archived)  
+**Status:** done  
 **Duration:** one symbolic week  
 **Backlog refs:** B65, B66, B67, B68, B69, B70  
 **Depends on:** Sprint 11 Settings Update; Sprints 1–10 shell; UX [`docs/ux/sender-inbox-asx.md`](../ux/sender-inbox-asx.md)  
@@ -31,13 +31,13 @@ Implement **in order** (S12.1 → … → S12.6). Treat UX draft as implementabl
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B65 |
 
 **Acceptance criteria:**
 
-- [ ] Stakeholder accepts `docs/ux/sender-inbox-asx.md` as implement contract (or lands small amendments)
-- [ ] Settings → Update placement already shipped (Sprint 11); ASX surfaces remain specified for Sprints 13–14
+- [x] Stakeholder accepts `docs/ux/sender-inbox-asx.md` as implement contract (or lands small amendments) — accepted by proceeding to implement Sprint 12
+- [x] Settings → Update placement already shipped (Sprint 11); ASX surfaces remain specified for Sprints 13–14
 
 ---
 
@@ -45,15 +45,15 @@ Implement **in order** (S12.1 → … → S12.6). Treat UX draft as implementabl
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B66 |
 
 **Acceptance criteria:**
 
-- [ ] Background worker pulls **one email at a time**
-- [ ] Each message LLM-categorized onto a documented metric set (schema in architecture)
-- [ ] Progress visible; failures isolate one message
-- [ ] Existing Google read path; no write-back required
+- [x] Background worker pulls **one email at a time**
+- [x] Each message LLM-categorized onto a documented metric set (schema in architecture)
+- [x] Progress visible; failures isolate one message
+- [x] Existing Google read path; no write-back required
 
 ---
 
@@ -61,14 +61,14 @@ Implement **in order** (S12.1 → … → S12.6). Treat UX draft as implementabl
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B67 |
 
 **Acceptance criteria:**
 
-- [ ] Primary Inbox surface **grouped by sender**
-- [ ] Drill-in to sender’s ingested messages; metric chips per UX
-- [ ] Theme tokens only
+- [x] Primary Inbox surface **grouped by sender**
+- [x] Drill-in to sender’s ingested messages; metric chips per UX
+- [x] Theme tokens only
 
 ---
 
@@ -76,13 +76,13 @@ Implement **in order** (S12.1 → … → S12.6). Treat UX draft as implementabl
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B68 |
 
 **Acceptance criteria:**
 
-- [ ] LLM profile per sender with ingested mail; regenerate on new mail or refresh
-- [ ] Persisted under `data/`; shown on sender detail
+- [x] LLM profile per sender with ingested mail; regenerate on new mail or refresh
+- [x] Persisted under `data/`; shown on sender detail
 
 ---
 
@@ -90,13 +90,13 @@ Implement **in order** (S12.1 → … → S12.6). Treat UX draft as implementabl
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B69 |
 
 **Acceptance criteria:**
 
-- [ ] Todos extracted from sender bundle; open/done local toggle
-- [ ] No auto-send / auto-calendar
+- [x] Todos extracted from sender bundle; open/done local toggle
+- [x] No auto-send / auto-calendar
 
 ---
 
@@ -104,12 +104,13 @@ Implement **in order** (S12.1 → … → S12.6). Treat UX draft as implementabl
 
 | Field | Value |
 |-------|-------|
-| Status | todo |
+| Status | done |
 | Backlog ref | B70 |
 
 **Acceptance criteria:**
 
-- [ ] Hard stop ~20; remaining capacity visible; reset path documented
+- [x] Hard stop ~20; remaining capacity visible; reset path documented
+- [x] Raise-later path: `CRAWLEY_SENDER_INBOX_CAP` (documented)
 
 ## Explicitly out of sprint
 

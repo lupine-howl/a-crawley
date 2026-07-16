@@ -377,6 +377,68 @@
     .section-title { font-size: 1.05rem; margin: 0 0 var(--space-1); font-family: var(--font-display); }
     .settings-section { margin-bottom: var(--space-5); }
     code { font-size: 0.85em; }
+    :root {
+      --row-hover: var(--nav-hover);
+      --signal-border: color-mix(in srgb, var(--line) 80%, var(--muted));
+      --table-head: var(--muted);
+    }
+    .sender-inbox h1, .sender-detail h1 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      margin: 0 0 var(--space-1);
+    }
+    .ingest-progress { margin: var(--space-3) 0 var(--space-4); }
+    .ingest-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+    .inbox-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-3) 0;
+    }
+    .inbox-table th {
+      text-align: left;
+      color: var(--table-head);
+      font-weight: 500;
+      font-size: 0.8rem;
+      padding: var(--space-2) var(--space-2) var(--space-2) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .inbox-table td {
+      padding: var(--space-3) var(--space-2) var(--space-3) 0;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .inbox-table tr:hover td { background: var(--row-hover); }
+    .sender-link { color: inherit; text-decoration: none; display: inline-flex; flex-direction: column; gap: 0.1rem; }
+    .sender-link:hover .sender-name { color: var(--accent); }
+    .sender-name { font-weight: 600; }
+    .sender-addr { font-size: 0.85rem; }
+    .signal {
+      display: inline-block;
+      margin-right: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border-bottom: 1px dotted var(--signal-border);
+    }
+    .back-link { margin: 0 0 var(--space-2); }
+    .todo-list, .bundle-list { list-style: none; padding: 0; margin: 0 0 var(--space-4); }
+    .todo-item, .bundle-item {
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .todo-done .todo-text {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .todo-from { display: block; font-size: 0.8rem; margin-left: 1.5rem; }
+    .bundle-subject { font-weight: 600; margin-right: 0.5rem; }
+    .bundle-body {
+      white-space: pre-wrap;
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-height: 12rem;
+      overflow: auto;
+    }
+    .reset-form { margin-top: var(--space-4); }
     @media (max-width: 720px) {
       .wrap { grid-template-columns: 1fr; }
       nav {
@@ -389,6 +451,10 @@
       }
       .brand { width: 100%; padding-bottom: var(--space-2); }
       .nav-sep, .nav-foot { width: 100%; margin-top: 0; }
+      .inbox-table thead { display: none; }
+      .inbox-table, .inbox-table tbody, .inbox-table tr, .inbox-table td { display: block; width: 100%; }
+      .inbox-table td { border-bottom: none; padding: 0.15rem 0; }
+      .inbox-table tr { border-bottom: 1px solid var(--line); padding: var(--space-3) 0; }
     }
   </style>
   {% block head %}{% endblock %}
