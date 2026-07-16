@@ -30,14 +30,15 @@ Stakeholder decisions (2026-07-16):
    - **Presentation** — stable tables/views or API DTOs the UI consumes; analytics publishes upserts. UI app state (nav, enablement, local notes) lives in Phone Preview persistence (IndexedDB ± sync), not in Python secrets.
 4. **UI never** calls Yahoo/Gmail/LLM directly; it starts jobs and reads presentation endpoints.
 5. **Secrets** (Google OAuth, OpenAI, Ollama URL) stay on the analytics host only.
-6. **HTMX/Jinja** — freeze feature work immediately; **remove** product HTML routes once ASX + Gmail JSON APIs + packs cover the operator loop.
-7. **Daemons** — evolve from in-process threads to clear entrypoints (`asx-scanner`, `gmail-ingest`, …) with status via API; threads OK inside a worker.
+6. **HTMX/Jinja** — **removed** in Sprint 35. Thin OAuth HTML at `/modules/gmail/oauth/*` only; no product dashboard.
+7. **Daemons** — clear entrypoints (`asx-scanner`, `gmail-ingest`, …) with status via API; threads OK inside a worker.
+8. **Quarantine** — Calendar + lite modules under `src/crawley/_quarantine/` (not in registry).
 
 ## Consequences
 
 - **Positive:** Correct separation of concerns; Phone Preview UX; analytics can run headlessly; OpenAPI becomes the team contract.
-- **Negative:** Two runtimes to operate (Node UI + Python analytics); OAuth “Connect Google” is a cross-app handoff; temporary dual surface until HTMX deleted.
-- **Neutral:** Repo name stays `a-crawley`; docs call the Python side “Crawley analytics.”
+- **Negative:** Two runtimes to operate (Node UI + Python analytics); OAuth “Connect Google” is a cross-app handoff.
+- **Neutral:** Repo name stays `a-crawley`; docs call the Python side “Crawley analytics.” Dual HTMX surface ended (Sprint 35).
 
 ## Non-goals (this ADR)
 

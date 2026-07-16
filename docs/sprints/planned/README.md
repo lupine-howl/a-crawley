@@ -1,13 +1,14 @@
 # Planned sprints index
 
-**Active / next delivery:** [`../current.md`](../current.md) — **Sprint 35** HTMX cutover (migration).  
-**Closed through 34:** [`../archive/`](../archive/) (HTMX PoC + dual-desk depth + analytics `/v1` + `crawley-ui` + asx-scanner + gmail-ingest).  
+**Active / next delivery:** none — [`../current.md`](../current.md) (migration complete).  
+**Closed through 35:** [`../archive/`](../archive/) (HTMX PoC → Phone Preview migration).  
 **Migration guide:** [`../migration-phone-preview.md`](../migration-phone-preview.md).  
 **PP consume pin:** [`../build/consuming-published-core.md`](../build/consuming-published-core.md).  
 **Daemons:** [`../daemons/asx-scanner.md`](../daemons/asx-scanner.md) · [`../daemons/gmail-ingest.md`](../daemons/gmail-ingest.md).  
+**Quarantine:** [`../../../src/crawley/_quarantine/`](../../../src/crawley/_quarantine/).  
 **Shelved:** [`../shelved/README.md`](../shelved/README.md).
 
-## Migration track (31–35)
+## Migration track (31–35) — complete
 
 | Sprint | Theme | File | Backlog | Status |
 |--------|-------|------|---------|--------|
@@ -15,7 +16,7 @@
 | 32 | crawley-ui + ASX pack | [`../archive/sprint-32-crawley-ui-asx-pack.md`](../archive/sprint-32-crawley-ui-asx-pack.md) | B94–B95 | closed |
 | 33 | ASX daemon entrypoint | [`../archive/sprint-33-asx-daemon.md`](../archive/sprint-33-asx-daemon.md) | B96 | closed |
 | 34 | Gmail ingest daemon + Sender Inbox pack | [`../archive/sprint-34-gmail-api-pack.md`](../archive/sprint-34-gmail-api-pack.md) | B97–B98 | closed |
-| 35 | Cutover (delete HTMX, quarantine modules) | [`../current.md`](../current.md) / [`sprint-35-cutover.md`](sprint-35-cutover.md) | B99–B100 | **current** |
+| 35 | Cutover (delete HTMX, quarantine modules) | [`../archive/sprint-35-cutover.md`](../archive/sprint-35-cutover.md) | B99–B100 | closed |
 
 ## Legacy tracks (complete)
 

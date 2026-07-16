@@ -16,7 +16,6 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     import crawley.data.duck as duck
     import crawley.data.paths as paths
     import crawley.google_oauth as google_oauth
-    import crawley.modules.fitness as fitness_mod
     import crawley.modules.investment_fetch as inv_fetch
     import crawley.settings as settings
 
@@ -46,32 +45,12 @@ def client(monkeypatch: pytest.MonkeyPatch, tmp_path):
     monkeypatch.setattr(
         google_oauth, "LEGACY_PENDING_PATH", data / "secrets" / "gmail_oauth_pending.json"
     )
-    monkeypatch.setattr(fitness_mod, "FITNESS_DIR", data / "fitness")
-    monkeypatch.setattr(fitness_mod, "LAST_GOAL_PATH", data / "fitness" / "last_goal.txt")
-    import crawley.modules.work as work_mod
-    import crawley.modules.co_parenting as co_mod
-    import crawley.modules.diy as diy_mod
-    import crawley.modules.finance as finance_mod
-    import crawley.modules.coding_creative as coding_mod
-    import crawley.modules.calendar as calendar_mod
-
-    monkeypatch.setattr(work_mod, "WORK_DIR", data / "work")
-    monkeypatch.setattr(work_mod, "NOTES_PATH", data / "work" / "notes.txt")
-    monkeypatch.setattr(co_mod, "CO_PARENTING_DIR", data / "co_parenting")
-    monkeypatch.setattr(co_mod, "SCHEDULE_PATH", data / "co_parenting" / "schedule.json")
-    monkeypatch.setattr(diy_mod, "NOTES_DIR", data / "diy")
-    monkeypatch.setattr(finance_mod, "NOTES_DIR", data / "finance")
-    monkeypatch.setattr(coding_mod, "NOTES_DIR", data / "coding_creative")
-    monkeypatch.setattr(calendar_mod, "CALENDAR_DIR", data / "calendar")
-    monkeypatch.setattr(calendar_mod, "DRAFTS_PATH", data / "calendar" / "pending_drafts.json")
     monkeypatch.setattr(settings, "SECRETS_DIR", data / "secrets")
     monkeypatch.setattr(settings, "SETTINGS_PATH", data / "secrets" / "settings.json")
     import crawley.writeback as writeback
 
     monkeypatch.setattr(writeback, "DATA_DIR", data)
     monkeypatch.setattr(writeback, "AUDIT_PATH", data / "writeback_audit.jsonl")
-
-    # shared_context / snapshots resolve via paths.DATA_DIR at call time (already patched).
 
     ensure_data_dirs()
     init_schema()

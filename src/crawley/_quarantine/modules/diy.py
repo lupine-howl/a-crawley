@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from crawley.data.paths import DIY_DIR
 from crawley.modules.contract import ModuleKind, ModuleMeta
-from crawley.modules.notes_lite import NotesLiteModule
+from crawley._quarantine.modules.notes_lite import NotesLiteModule
 
 NOTES_DIR = DIY_DIR
 

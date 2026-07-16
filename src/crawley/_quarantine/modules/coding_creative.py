@@ -11,7 +11,7 @@ from crawley.jobs import JobState
 from crawley.llm.base import ChatMessage, LLMError
 from crawley.llm.factory import get_llm_provider
 from crawley.modules.contract import ModuleKind, ModuleMeta, ModuleOutput
-from crawley.modules.notes_lite import NotesLiteModule
+from crawley._quarantine.modules.notes_lite import NotesLiteModule
 from crawley.settings import load_settings
 from crawley.shared_context import append_context_to_user_message, build_shared_context
 

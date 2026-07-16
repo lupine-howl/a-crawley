@@ -12,7 +12,6 @@ dependencies = [
     "google-auth-httplib2>=0.4.0",
     "google-auth-oauthlib>=1.4.0",
     "httpx>=0.28.1",
-    "jinja2>=3.1.6",
     "markdown-it-py>=4.2.0",
     "openai>=2.45.0",
     "python-dotenv>=1.2.2",
@@ -32,9 +31,6 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/crawley"]
 
-[tool.hatch.build.targets.wheel.force-include]
-"src/crawley/shell/templates" = "crawley/shell/templates"
-
 [tool.uv]
 package = true
 
@@ -44,6 +40,8 @@ pythonpath = ["src", "."]
 markers = [
     "network: hits real external network (deselect with -m 'not network')",
 ]
+# Historical HTMX panel tests retired with Sprint 35 cutover (brains covered by /v1 tests).
+norecursedirs = [".git", ".venv", "node_modules", "_retired_htmx"]
 
 [dependency-groups]
 dev = [

@@ -3,30 +3,31 @@
 Senior architect / developer owns this file. Update when material decisions land.
 
 **Working title:** Crawley (this repo = **analytics**)  
-**Status:** Sprints 1–34 closed; **hard pivot** — Migration Sprint **35** (HTMX cutover)  
+**Status:** Sprints 1–35 closed — **migration complete** (Phone Preview UI + analytics JSON)  
 **Migration:** [`migration-phone-preview.md`](migration-phone-preview.md) · [ADR-009](adr/009-phone-preview-analytics.md)  
-**Host (analytics):** WSL2 / Linux; localhost default; opt-in LAN via Settings / `CRAWLEY_HOST`  
-**Latest sprint:** [`sprints/current.md`](sprints/current.md) (Sprint 35)  
+**Host (analytics):** WSL2 / Linux; localhost default; opt-in LAN via `CRAWLEY_HOST`  
+**Latest sprint:** [`sprints/archive/sprint-35-cutover.md`](sprints/archive/sprint-35-cutover.md) (Sprint 35 closed)  
 **API contract:** [`api/presentation-v1.md`](api/presentation-v1.md) · [`api/openapi-v1.json`](api/openapi-v1.json)  
-**ASX daemon:** [`daemons/asx-scanner.md`](daemons/asx-scanner.md) · [ADR-003](adr/003-single-process-threads.md)  
+**Daemons:** [`daemons/asx-scanner.md`](daemons/asx-scanner.md) · [`daemons/gmail-ingest.md`](daemons/gmail-ingest.md) · [ADR-003](adr/003-single-process-threads.md)  
 **UI consume:** [`build/consuming-published-core.md`](build/consuming-published-core.md) · app [`../crawley-ui/`](../crawley-ui/)  
-**Product UI:** `crawley-ui` (published `@phone-preview/core` ≥ 0.6.1)  
-**Shelved:** [`sprints/shelved/`](sprints/shelved/README.md)  
+**Product UI:** `crawley-ui` only (published `@phone-preview/core` ≥ 0.6.1)  
+**Quarantine:** [`../src/crawley/_quarantine/`](../src/crawley/_quarantine/) · [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
 ## Overview
 
-Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon workers (ASX, Gmail ingest), DuckDB/filesystem worker store, Google OAuth, LLM. The **product UI** is **`crawley-ui`** (Phone Preview packs), not Jinja/HTMX.
+Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon workers (ASX, Gmail ingest), DuckDB/filesystem worker store, Google OAuth, LLM. The **product UI** is **`crawley-ui`** (Phone Preview packs). Jinja/HTMX product shell is **gone** (Sprint 35).
 
 ```
 ┌─────────────────────────────────────────────┐
 │  crawley-ui (Phone Preview)                   │
 │  packs · IndexedDB (± Turso/Duck UI sync)     │
 └──────────────────────┬──────────────────────┘
-                       │ HTTP /v1 JSON
+                       │ HTTP /v1 JSON (+ OAuth deep-link)
 ┌──────────────────────▼──────────────────────┐
 │  Analytics API (this repo)                    │
-│  /health · /v1/asx · /v1/jobs · OAuth         │
+│  /health · /v1/asx · /v1/gmail · /v1/jobs     │
+│  /modules/gmail/oauth/* (thin HTML)           │
 │  presentation DTOs (crawley.api)              │
 └──────────┬─────────────────────┬────────────┘
            │                     │
@@ -36,10 +37,9 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 └─────────────────────┘  └──────────────────────────┘
 ```
 
-**Shape (pivot):** analytics API + daemons; UI in `crawley-ui`.  
-**Product domains (pivot):** ASX desk + Sender Inbox. Calendar + lite modules quarantined.  
-**HTMX/Jinja:** **frozen** — bugfixes only; no new product features; delete in Sprint 35.  
-**UX (product):** Phone Preview packs; legacy [`ux.md`](ux.md) / [`ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) inform pack IA until replaced.  
+**Product domains:** ASX desk + Sender Inbox.  
+**Quarantine:** Calendar + lite modules under `crawley._quarantine` (not in `build_registry`).  
+**UX (product):** Phone Preview packs; legacy [`ux.md`](ux.md) / [`ux/sender-inbox-asx.md`](ux/sender-inbox-asx.md) inform pack IA.  
 
 ## Sprint delivery maps
 
@@ -82,7 +82,14 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 
 **Brain reuse:** `sender_inbox.{worker,store,fetch,llm_tasks}` — UI never calls Gmail/LLM.
 
-**HTMX-era notes (closed):** Sprints 11–30 — Settings Update, Sender Inbox, ASX desk depth, paper, bridge, send/alerts/playbooks, OAuth/digests/notebook/VIP, clusters, labels/holdings/searches/attachments/citations. See maps below and [`archive/`](sprints/archive/).
+### Sprint 35 (closed) — HTMX cutover
+
+| Story | Architecture touchpoints |
+|-------|--------------------------|
+| **S35.1 / B99** | Deleted `shell/` + Jinja; `api/oauth_routes.py` keeps `/modules/gmail/oauth/*`; `jinja2` dep removed |
+| **S35.2 / B100** | Empty `build_registry()`; Calendar + lite (+ HTMX investment/gmail modules) → `_quarantine/`; Day brief unwired |
+
+**HTMX-era notes (closed):** Sprints 11–30 brains may still feed `/v1`; panel tests retired under `tests/_retired_htmx/`. See maps below and [`archive/`](sprints/archive/).
 
 ### Sprint 25 (closed) — ASX news theme clustering
 
@@ -250,8 +257,8 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 | Language | Python 3.12+ | Hard requirement |
 | Packaging / run | `uv` | `uv run python -m crawley` |
 | HTTP / product API | FastAPI JSON `/v1` | Presentation DTOs for `crawley-ui` |
-| HTTP / legacy UI | Jinja2 + HTMX | **Frozen** — bugfixes only until Sprint 35 deletion |
-| UI styling (legacy) | Custom CSS variables + `data-theme` | Four themes; no Node build in this repo |
+| HTTP / OAuth | Thin HTML at `/modules/gmail/oauth/*` | Deep-link from crawley-ui; not a product dashboard |
+| Product UI | `crawley-ui` (Phone Preview) | Separate npm app; Jinja shell deleted Sprint 35 |
 | Operator settings | `data/secrets/settings.json` | Theme, LLM (incl. local URL/timeout), prompts, LAN |
 | Bind | `127.0.0.1` default; LAN `0.0.0.0` | Restart required; trusted LAN only |
 | LLM | Provider interface | OpenAI + **LocalLlama (Ollama HTTP)** |
@@ -309,7 +316,7 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 
 | ID | Decision | Date | Status |
 |----|----------|------|--------|
-| [ADR-001](adr/001-fastapi-htmx.md) | FastAPI + Jinja2/HTMX for local UI | 2026-07-15 | **Superseded** for product surface by ADR-009 |
+| [ADR-001](adr/001-fastapi-htmx.md) | FastAPI + Jinja2/HTMX for local UI | 2026-07-15 | **Superseded** — shell deleted Sprint 35 |
 | [ADR-002](adr/002-duckdb-filesystem.md) | DuckDB + filesystem (+ Parquet) worker store | 2026-07-15 | Accepted |
 | [ADR-003](adr/003-single-process-threads.md) | API + optional ASX daemon; threads inside workers | 2026-07-15 | Accepted (evolved Sprint 33) |
 | [ADR-004](adr/004-module-contract-registry.md) | Module Protocol + explicit in-repo registry | 2026-07-15 | Accepted (quarantine non-ASX/Gmail in Sprint 35) |
