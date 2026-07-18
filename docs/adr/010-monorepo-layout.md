@@ -28,4 +28,5 @@ Product packs must be portable: move the folder, add to `apps/<name>` packs arra
 
 - **Positive:** Copy-paste merge into phone-preview monorepo; packs reusable; clear ownership boundary.
 - **Negative:** Two package managers (uv + npm); temporary `@phone-preview/core` vs future `@phone-preview/shell` rename.
-- **Neutral:** Historical docs may still say `crawley-ui/`; treat as `apps/crawley`.
+- **Neutral:** Historical sprint docs may still say `crawley-ui/`; treat as `apps/crawley`. Delete any leftover root `crawley-ui/` on old checkouts.
+- **Local boot:** `npm run dev` starts analytics API + Vite host together (`@crawley/app`).

@@ -2,7 +2,7 @@
 
 Phone Preview host for **Crawley**. Packs live in portable workspace packages under `packages/crawley-*` (Phase 4 plug-and-play).
 
-Python analytics brain stays at the **repo root** (`uv run python -m crawley`) — not inside this npm app.
+Python analytics lives at the **repo root** (`src/crawley`). `npm run dev` in this app (or from the monorepo root) boots **API + UI** together.
 
 ## Layout (this repo)
 
@@ -28,18 +28,20 @@ src/crawley/                  ← Python analytics (separate runtime)
 
 ## Run
 
-From **repo root**:
+From **repo root** (preferred):
 
 ```bash
-# Terminal A — analytics
-uv run python -m crawley
-
-# Terminal B — UI
 npm install
-npm run dev
+npm run dev          # API (:8000) + Vite UI
 ```
 
-Or: `npm run dev -w @crawley/app`
+Or from this package:
+
+```bash
+npm run dev          # same — concurrently api + vite
+npm run dev:ui       # Vite only
+npm run dev:api      # analytics only (uv from repo root)
+```
 
 Demo login (if prompted): `admin@demo.local` / `demo123`
 

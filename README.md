@@ -42,20 +42,25 @@ uv run crawley-asx-scanner watch
 uv run crawley-gmail-ingest watch
 ```
 
-## Run product UI
+## Run product UI (+ API)
 
-Requires Node 20+.
+Requires Node 20+ and `uv` (analytics). From repo root:
 
 ```bash
-# Terminal A — analytics (repo root)
-uv run python -m crawley
-
-# Terminal B — UI (repo root)
 npm install
 npm run dev
 ```
 
-Vite proxies `/api/analytics` → `:8000`. Packs are workspace packages (`@crawley/asx`, `@crawley/inbox`, `@crawley/settings`).
+That starts **both** the analytics API (`:8000`) and Vite UI via `@crawley/app`. Vite proxies `/api/analytics` → `:8000`.
+
+Split processes if you prefer:
+
+```bash
+npm run dev:api   # uv run python -m crawley
+npm run dev:ui    # Vite only
+```
+
+Packs are workspace packages (`@crawley/asx`, `@crawley/inbox`, `@crawley/settings`). There is no root `crawley-ui/` — that host lives at `apps/crawley`.
 
 ## Agent roles
 
