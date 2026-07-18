@@ -161,7 +161,9 @@ def test_openapi_includes_v1_paths(client: TestClient) -> None:
     assert "/v1/asx/scan/start" in paths
     assert "/v1/jobs/{job_id}" in paths
 
-    checked_in = Path(__file__).resolve().parents[1] / "docs" / "api" / "openapi-v1.json"
+    from crawley.data.paths import REPO_ROOT
+
+    checked_in = REPO_ROOT / "docs" / "api" / "openapi-v1.json"
     artifact = json.loads(checked_in.read_text(encoding="utf-8"))
     for path in (
         "/health",

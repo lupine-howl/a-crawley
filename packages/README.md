@@ -21,7 +21,7 @@ Crawley product packs prepared for **phone-preview Phase 4** monorepo merge (`pa
 ```bash
 # From this repo → phone-preview monorepo
 cp -R packages/crawley-* <pp-monorepo>/packages/
-cp -R apps/crawley <pp-monorepo>/apps/
+cp -R apps/crawley <pp-monorepo>/apps/   # includes nested analytics/ (Python + data + tests)
 # Add workspace entries; npm/pnpm install; ensure apps/crawley packs array includes @crawley/*
 ```
 

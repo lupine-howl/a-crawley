@@ -12,12 +12,12 @@ Senior architect / developer owns this file. Update when material decisions land
 **UI consume:** [`build/consuming-published-core.md`](build/consuming-published-core.md) · app [`../apps/crawley/`](../apps/crawley/)  
 **Product UI:** `apps/crawley` + `packages/crawley-*` (published `@phone-preview/core`) · [ADR-010](adr/010-monorepo-layout.md)  
 **Monorepo merge:** [`migration-monorepo.md`](migration-monorepo.md)  
-**Quarantine:** [`../src/crawley/_quarantine/`](../src/crawley/_quarantine/) · [`sprints/shelved/`](sprints/shelved/README.md)  
+**Quarantine:** [`../apps/crawley/analytics/src/crawley/_quarantine/`](../apps/crawley/analytics/src/crawley/_quarantine/) · [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
 ## Overview
 
-Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon workers (ASX, Gmail ingest), DuckDB/filesystem worker store, Google OAuth, LLM. The **product UI** is **`apps/crawley`** (Phone Preview packs under `packages/crawley-*`). Jinja/HTMX product shell is **gone** (Sprint 35). Root `crawley-ui/` was renamed into this layout ([ADR-010](adr/010-monorepo-layout.md)).
+Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon workers (ASX, Gmail ingest), DuckDB/filesystem worker store, Google OAuth, LLM. The **product UI** is **`apps/crawley`** (Phone Preview packs under `packages/crawley-*`). Jinja/HTMX product shell is **gone** (Sprint 35). Layout: [ADR-010](adr/010-monorepo-layout.md).
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -26,19 +26,19 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 └──────────────────────┬──────────────────────┘
                        │ HTTP /v1 JSON (+ OAuth deep-link)
 ┌──────────────────────▼──────────────────────┐
-│  Analytics API (src/crawley)                  │
+│  apps/crawley/analytics (src/crawley)         │
 │  /health · /v1/asx · /v1/gmail · /v1/jobs     │
 │  /modules/gmail/oauth/* (thin HTML)           │
 │  presentation DTOs (crawley.api)              │
 └──────────┬─────────────────────┬────────────┘
            │                     │
 ┌──────────▼──────────┐  ┌───────▼────────────────┐
-│  Daemons / workers  │  │  Worker store (Duck/files)│
-│  asx · gmail · …    │→ │  publish → API DTOs       │
+│  Daemons / workers  │  │  Worker store            │
+│  asx · gmail · …    │→ │  analytics/data/         │
 └─────────────────────┘  └──────────────────────────┘
 ```
 
-**Local boot:** `npm run dev` (repo root) starts API + Vite together; `npm run dev:ui` / `npm run dev:api` for split processes. Daemons remain optional.
+**Local boot:** `npm run dev` starts API + Vite; `npm run test:api` runs pytest under `apps/crawley/analytics`. Daemons remain optional. Pack tests (when added) co-locate under `packages/crawley-*`; Python tests stay in `analytics/tests/`.
 
 **Product domains:** ASX desk + Sender Inbox.  
 **Quarantine:** Calendar + lite modules under `crawley._quarantine` (not in `build_registry`).  

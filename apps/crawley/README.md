@@ -2,17 +2,17 @@
 
 Phone Preview host for **Crawley**. Packs live in portable workspace packages under `packages/crawley-*` (Phase 4 plug-and-play).
 
-Python analytics lives at the **repo root** (`src/crawley`). `npm run dev` in this app (or from the monorepo root) boots **API + UI** together.
+Python analytics lives in **`analytics/`** beside this UI host. `npm run dev` boots **API + UI** together.
 
-## Layout (this repo)
+## Layout
 
 ```
-apps/crawley/                 ← this host
+apps/crawley/                 ← this host (@crawley/app)
+  analytics/                  ← uv project (src/crawley, tests, data)
 packages/crawley-analytics-client/
 packages/crawley-asx/
 packages/crawley-inbox/
 packages/crawley-settings/
-src/crawley/                  ← Python analytics (separate runtime)
 ```
 
 ## Portability (product packs)
@@ -24,13 +24,14 @@ src/crawley/                  ← Python analytics (separate runtime)
 | Domain services via `packServices` / analytics HTTP only | Yes — `@crawley/analytics-client` |
 | Own migrations / API registrar if needed | N/A (analytics owns `/v1`) |
 
-**Merge into phone-preview monorepo:** copy `apps/crawley` + `packages/crawley-*`, then register packs in `apps/crawley` (already exported as `crawleyPacks`).
+**Merge into phone-preview monorepo:** copy `apps/crawley` (including `analytics/`) + `packages/crawley-*`, then register packs in `apps/crawley` (already exported as `crawleyPacks`).
 
 ## Run
 
 From **repo root** (preferred):
 
 ```bash
+cd apps/crawley/analytics && uv sync && cp -n .env.example .env && cd -
 npm install
 npm run dev          # API (:8000) + Vite UI
 ```
@@ -38,9 +39,9 @@ npm run dev          # API (:8000) + Vite UI
 Or from this package:
 
 ```bash
-npm run dev          # same — concurrently api + vite
+npm run dev          # concurrently api + vite
 npm run dev:ui       # Vite only
-npm run dev:api      # analytics only (uv from repo root)
+npm run dev:api      # analytics only (`uv` in ./analytics)
 ```
 
 Demo login (if prompted): `admin@demo.local` / `demo123`
