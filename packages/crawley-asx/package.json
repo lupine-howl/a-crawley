@@ -1,0 +1,18 @@
+{
+  "name": "@crawley/asx",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Crawley ASX desk packs — portable product packs for Phone Preview hosts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "@phone-preview/core": ">=0.6.1",
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "dependencies": {
+    "@crawley/analytics-client": "*"
+  }
+}

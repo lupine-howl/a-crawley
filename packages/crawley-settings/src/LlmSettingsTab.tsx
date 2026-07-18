@@ -5,7 +5,7 @@ import {
   fetchLlmSettings,
   saveLlmSettings,
   testLlm,
-} from "../lib/analytics";
+} from "@crawley/analytics-client";
 
 /** Settings toolbar tab — LLM provider / model (Phone Preview systemTab). */
 export function LlmSettingsTab() {

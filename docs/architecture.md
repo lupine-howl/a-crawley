@@ -10,7 +10,8 @@ Senior architect / developer owns this file. Update when material decisions land
 **API contract:** [`api/presentation-v1.md`](api/presentation-v1.md) · [`api/openapi-v1.json`](api/openapi-v1.json)  
 **Daemons:** [`daemons/asx-scanner.md`](daemons/asx-scanner.md) · [`daemons/gmail-ingest.md`](daemons/gmail-ingest.md) · [ADR-003](adr/003-single-process-threads.md)  
 **UI consume:** [`build/consuming-published-core.md`](build/consuming-published-core.md) · app [`../crawley-ui/`](../crawley-ui/)  
-**Product UI:** `crawley-ui` only (published `@phone-preview/core` ≥ 0.6.1)  
+**Product UI:** `apps/crawley` + `packages/crawley-*` (published `@phone-preview/core`) · [ADR-010](adr/010-monorepo-layout.md)  
+**Monorepo merge:** [`migration-monorepo.md`](migration-monorepo.md)  
 **Quarantine:** [`../src/crawley/_quarantine/`](../src/crawley/_quarantine/) · [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
@@ -325,6 +326,7 @@ See archive under [`sprints/archive/`](sprints/archive/) and earlier maps in git
 | [ADR-007](adr/007-local-llm-ollama.md) | LocalLlama via Ollama HTTP | 2026-07-15 | Accepted |
 | [ADR-008](adr/008-shared-context.md) | Shared context seed (caps, opt-in) | 2026-07-15 | Accepted |
 | [ADR-009](adr/009-phone-preview-analytics.md) | Phone Preview UI + Python analytics/daemons | 2026-07-16 | **Accepted** |
+| [ADR-010](adr/010-monorepo-layout.md) | `apps/` + `packages/crawley-*` Phase 4 layout | 2026-07-18 | **Accepted** |
 
 ## Risks & open questions
 

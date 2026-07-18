@@ -7,6 +7,6 @@
 **Supported operator path:**
 
 1. `uv run python -m crawley` (analytics JSON + OAuth)  
-2. `cd crawley-ui && npm run dev` (product UI)
+2. `npm install && npm run dev` (product UI — `apps/crawley`)
 
 **Next planning (not committed):** Calendar pack, B101 Gmail prefetch, un-shelve selected Later items — product owner owns new sprints in `planned/` when ready.

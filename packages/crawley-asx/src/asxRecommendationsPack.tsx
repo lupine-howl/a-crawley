@@ -1,6 +1,6 @@
 import type { FeaturePack } from "@phone-preview/core";
 import { useCallback, useEffect, useState } from "react";
-import { fetchRecommendations, paperTrade, refreshRecommendations } from "../lib/analytics";
+import { fetchRecommendations, paperTrade, refreshRecommendations } from "@crawley/analytics-client";
 
 function RecIcon({ className }: { className?: string }) {
   return (

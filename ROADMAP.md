@@ -49,6 +49,7 @@ Jinja product UI removed; Calendar + lite under `_quarantine/`; Settings/ops in 
 
 ### After Sprint 35 (not yet planned)
 
+- Merge Crawley `apps/crawley` + `packages/crawley-*` into phone-preview monorepo (Phase 4) — [`docs/migration-monorepo.md`](docs/migration-monorepo.md)  
 - Re-introduce Calendar as light daemon + pack if needed  
 - Un-shelve selected former depth/platform items ([shelved](docs/sprints/shelved/README.md))  
 - B101 Gmail prefetch queue (idea)  
