@@ -53,10 +53,10 @@ src/crawley/                       # Python analytics (unchanged runtime)
 ## Local commands
 
 ```bash
-# Analytics
-uv run python -m crawley
-
-# UI (repo root)
 npm install
-npm run dev
+npm run dev          # API + UI (apps/crawley)
+# npm run dev:api    # analytics only
+# npm run dev:ui     # Vite only
 ```
+
+If a root `crawley-ui/` directory still exists on an old checkout, delete it — the host is `apps/crawley` only.

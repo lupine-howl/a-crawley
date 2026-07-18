@@ -8,6 +8,8 @@
   ],
   "scripts": {
     "dev": "npm run dev -w @crawley/app",
+    "dev:ui": "npm run dev:ui -w @crawley/app",
+    "dev:api": "uv run python -m crawley",
     "build": "npm run build -w @crawley/app",
     "preview": "npm run preview -w @crawley/app"
   },
