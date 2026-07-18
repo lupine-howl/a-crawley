@@ -4,46 +4,39 @@
 
 | Layer | Location |
 |-------|----------|
-| **Product UI** | `apps/crawley` (Phone Preview host) + `packages/crawley-*` packs |
-| **Analytics** | `apps/crawley/analytics` — Python JSON API + daemons + `data/` + pytest |
+| **Product UI** | `apps/crawley` + `packages/crawley-*` |
+| **Analytics** | `services/crawley` — Python JSON API + daemons + `data/` + pytest |
 
-**Monorepo:** matches phone-preview Phase 4 plug-and-play shape — [`docs/migration-monorepo.md`](./docs/migration-monorepo.md) · [ADR-010](./docs/adr/010-monorepo-layout.md)  
-**Pivot:** [`docs/migration-phone-preview.md`](./docs/migration-phone-preview.md) · [ADR-009](./docs/adr/009-phone-preview-analytics.md)
+**Monorepo shape:** phone-preview Phase 4 — [`docs/migration-monorepo.md`](./docs/migration-monorepo.md) · [ADR-010](./docs/adr/010-monorepo-layout.md)
 
 ```
-apps/crawley/                         # UI host (@crawley/app)
-  analytics/                          # Python brain (src, tests, data)
-packages/crawley-analytics-client/
-packages/crawley-asx/
-packages/crawley-inbox/
-packages/crawley-settings/
+apps/crawley/                 # Vite / Phone Preview host
+packages/crawley-*            # portable packs
+services/crawley/             # Python analytics (uv)
 ```
 
-Copying `apps/crawley` + `packages/crawley-*` into the upstream monorepo does **not** leave `data/` or `tests/` at the monorepo root.
+Copy into phone-preview as-is: `apps/crawley`, `packages/crawley-*`, `services/crawley`.
 
-## Run (UI + API)
+## Run
 
 Requires Node 20+ and [uv](https://docs.astral.sh/uv/) (Python 3.12+).
 
 ```bash
-cd apps/crawley/analytics && uv sync && cp -n .env.example .env
-cd ../../..
+cd services/crawley && uv sync && cp -n .env.example .env && cd ../..
 npm install
-npm run dev
+npm run dev          # or: npm run dev:crawley  → API :8000 + Vite
 ```
 
-That starts **both** the analytics API (`:8000`) and Vite UI. Vite proxies `/api/analytics` → `:8000`.
-
 ```bash
-npm run dev:api    # analytics only
-npm run dev:ui     # Vite only
-npm run test:api   # pytest under apps/crawley/analytics
+npm run dev:api      # analytics only
+npm run dev:ui       # Vite only
+npm run test:api     # pytest in services/crawley
 ```
 
 JSON contract: [`docs/api/presentation-v1.md`](./docs/api/presentation-v1.md).  
-**OAuth:** `/modules/gmail/oauth/start` (deep-link from UI). Optional `CRAWLEY_UI_ORIGIN` for return link.
+OAuth: `/modules/gmail/oauth/start`. Optional `CRAWLEY_UI_ORIGIN`.
 
-**Daemons (optional)** — from `apps/crawley/analytics`:
+**Daemons (optional)** — from `services/crawley`:
 
 ```bash
 export CRAWLEY_ASX_WORKER=daemon CRAWLEY_GMAIL_WORKER=daemon
@@ -62,14 +55,7 @@ uv run crawley-gmail-ingest watch
 
 Shared contract: [`AGENTS.md`](./AGENTS.md)
 
-## Delivery status
-
-- **Sprints 1–35** — closed (migration to Phone Preview complete): [`docs/sprints/archive/`](./docs/sprints/archive/)
-- **Monorepo layout** — `apps/crawley` (+ nested analytics) + `packages/crawley-*`
-- **No active sprint** — [`docs/sprints/current.md`](./docs/sprints/current.md)
-
 ## Product docs
 
 - [`PRODUCT.md`](./PRODUCT.md) · [`ROADMAP.md`](./ROADMAP.md) · [`BACKLOG.md`](./BACKLOG.md)
 - [`docs/architecture.md`](./docs/architecture.md) · [`docs/migration-monorepo.md`](./docs/migration-monorepo.md)
-- [`docs/build/consuming-published-core.md`](./docs/build/consuming-published-core.md)

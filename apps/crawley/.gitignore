@@ -4,5 +4,3 @@ dist/
 *.local
 .env
 .env.*
-!analytics/.env.example
-analytics/.venv/

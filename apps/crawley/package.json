@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Crawley product host — Phone Preview Shell + portable @crawley/* packs",
+  "description": "Crawley product host — Phone Preview + portable @crawley/* packs",
   "scripts": {
     "dev": "concurrently -k -n api,ui -c cyan,magenta \"npm run dev:api\" \"vite\"",
-    "dev:api": "uv run --directory analytics python -m crawley",
+    "dev:api": "uv run --directory ../../services/crawley python -m crawley",
     "dev:ui": "vite",
     "build": "vite build",
     "preview": "vite preview"
