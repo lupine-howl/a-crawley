@@ -1,0 +1,17 @@
+{
+  "name": "a-crawley",
+  "private": true,
+  "description": "Crawley monorepo — apps/crawley (Phone Preview host) + packages/crawley-* packs; Python analytics at repo root",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @crawley/app",
+    "build": "npm run build -w @crawley/app",
+    "preview": "npm run preview -w @crawley/app"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

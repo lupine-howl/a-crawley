@@ -13,8 +13,8 @@ A single person’s investing and email still mean tab-hopping and ad-hoc LLM ch
 
 Crawley is a **local-first, AI-rich personal assistant** with a clear split:
 
-- **Presentation:** `crawley-ui` — Phone Preview host (published `@phone-preview/*`), packs for desks, UI persistence via IndexedDB (± Turso/Duck sync through Phone Preview’s light backend).
-- **Analytics:** Python in this repo — semi-autonomous daemons (ASX scan, Gmail ingest, …) with private worker storage that **publish** results; a thin FastAPI **JSON API** for jobs + presentation reads; Google OAuth and LLM stay here.
+- **Presentation:** `apps/crawley` — Phone Preview host; portable packs in `packages/crawley-*` (Phase 4 monorepo-ready); UI persistence via IndexedDB (± Turso/Duck sync through Phone Preview’s light backend).
+- **Analytics:** Python in this repo (`src/crawley`) — semi-autonomous daemons (ASX scan, Gmail ingest, …) with private worker storage that **publish** results; a thin FastAPI **JSON API** for jobs + presentation reads; Google OAuth and LLM stay here.
 - **Domains in scope for the pivot:** **Investment / ASX desk** and **Gmail / Sender Inbox** only. Calendar and other life modules are shelved for later.
 
 ## Target users

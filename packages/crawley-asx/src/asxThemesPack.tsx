@@ -1,6 +1,6 @@
 import type { FeaturePack } from "@phone-preview/core";
 import { useCallback, useEffect, useState } from "react";
-import { fetchAlerts, fetchClusters, fetchHoldings, refreshClusters } from "../lib/analytics";
+import { fetchAlerts, fetchClusters, fetchHoldings, refreshClusters } from "@crawley/analytics-client";
 
 function ThemesIcon({ className }: { className?: string }) {
   return (

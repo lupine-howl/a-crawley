@@ -1,6 +1,6 @@
 import type { FeaturePack } from "@phone-preview/core";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { fetchPortfolio, paperTrade } from "../lib/analytics";
+import { fetchPortfolio, paperTrade } from "@crawley/analytics-client";
 
 function PortIcon({ className }: { className?: string }) {
   return (

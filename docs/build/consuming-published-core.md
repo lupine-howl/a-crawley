@@ -1,8 +1,9 @@
 # Consuming published `@phone-preview/core` (Crawley pin)
 
-**Status:** Pinned for `crawley-ui` (Sprint 32)  
+**Status:** Pinned for `apps/crawley` (monorepo layout 2026-07-18)  
 **Upstream:** Prefer the phone-preview repo `docs/build/consuming-published-core.md` when available; this file records what Crawley uses.  
-**Packages:** `@phone-preview/core` ≥ **0.6.1**, `create-phone-preview` ≥ **0.4.1**
+**Packages:** `@phone-preview/core` ≥ **0.6.1** (swap to `@phone-preview/shell` when published)  
+**Layout:** [`../migration-monorepo.md`](../migration-monorepo.md) · [ADR-010](../adr/010-monorepo-layout.md)
 
 ## Do not use
 
@@ -15,11 +16,12 @@
 ## Scaffold
 
 ```bash
-npm create phone-preview@latest crawley-ui -- --name "Crawley"
-cd crawley-ui
+# Prefer the workspace host already in this repo:
 npm install
-# ensure package.json has "@phone-preview/core": "^0.6.1"
-npm run dev
+npm run dev   # apps/crawley
+
+# Or scaffold a fresh host and wire @crawley/* packs:
+npm create phone-preview@latest apps/crawley -- --name "Crawley"
 ```
 
 Login (Phone Preview shell demo): `admin@demo.local` / `demo123`
@@ -29,11 +31,12 @@ Login (Phone Preview shell demo): `admin@demo.local` / `demo123`
 ```tsx
 import "@phone-preview/core/styles.css";
 import { Shell, starterPacks } from "@phone-preview/core";
-import { asxDeskPack } from "./packs/asxDeskPack";
+import { asxDeskPack } from "@crawley/asx";
+import { senderInboxPack } from "@crawley/inbox";
 
 <Shell
-  brand={{ name: "Crawley", id: "crawley-ui" }}
-  packs={[...starterPacks(), asxDeskPack]}
+  brand={{ name: "Crawley", id: "crawley" }}
+  packs={[...starterPacks(), asxDeskPack, senderInboxPack]}
 />
 ```
 
@@ -54,7 +57,7 @@ Crawley Sprint 32 pack: `asxDeskPack` (client scope) — list/detail/scan via an
 
 ## Dev proxy (external analytics)
 
-Vite (`crawley-ui/vite.config.ts`):
+Vite (`apps/crawley/vite.config.ts`):
 
 ```ts
 server: {
@@ -95,16 +98,16 @@ Contract: [`../api/presentation-v1.md`](../api/presentation-v1.md).
 # A — repo root
 uv run python -m crawley
 
-# B
-cd crawley-ui && npm run dev
+# B — repo root
+npm run dev
 ```
 
 Open Vite → **ASX desk** pack → company list + Start scan → job progress from `/v1/jobs/asx-scan`.
 
 ## Ownership
 
-| Repo | Owns |
+| Path | Owns |
 |------|------|
-| `a-crawley` | `/v1` JSON, OpenAPI, workers, OAuth, LLM |
-| `crawley-ui` | Shell, packs, Connections UX, job controls |
-| Shared | OpenAPI + presentation field docs in `a-crawley` |
+| `src/crawley` (this repo) | `/v1` JSON, OpenAPI, workers, OAuth, LLM |
+| `apps/crawley` + `packages/crawley-*` | Shell host, portable packs, Connections UX, job controls |
+| Shared | OpenAPI + presentation field docs |

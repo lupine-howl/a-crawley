@@ -18,6 +18,13 @@ __pycache__/
 dist/
 /build/
 
+# Node (npm workspaces)
+node_modules/
+apps/*/dist/
+apps/*/node_modules/
+packages/*/node_modules/
+packages/*/dist/
+
 # OS / editor
 .DS_Store
 *.swp
