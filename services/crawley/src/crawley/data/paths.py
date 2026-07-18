@@ -1,10 +1,10 @@
-"""Local data plane paths (gitignored runtime under analytics/data/)."""
+"""Local data plane paths (gitignored runtime under services/crawley/data/)."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-# src/crawley/data/paths.py → parents[3] = apps/crawley/analytics (uv project root)
+# src/crawley/data/paths.py → parents[3] = services/crawley (uv project root)
 ANALYTICS_ROOT = Path(__file__).resolve().parents[3]
 
 

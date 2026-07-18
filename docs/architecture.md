@@ -12,7 +12,7 @@ Senior architect / developer owns this file. Update when material decisions land
 **UI consume:** [`build/consuming-published-core.md`](build/consuming-published-core.md) · app [`../apps/crawley/`](../apps/crawley/)  
 **Product UI:** `apps/crawley` + `packages/crawley-*` (published `@phone-preview/core`) · [ADR-010](adr/010-monorepo-layout.md)  
 **Monorepo merge:** [`migration-monorepo.md`](migration-monorepo.md)  
-**Quarantine:** [`../apps/crawley/analytics/src/crawley/_quarantine/`](../apps/crawley/analytics/src/crawley/_quarantine/) · [`sprints/shelved/`](sprints/shelved/README.md)  
+**Quarantine:** [`../services/crawley/src/crawley/_quarantine/`](../services/crawley/src/crawley/_quarantine/) · [`sprints/shelved/`](sprints/shelved/README.md)  
 **Prior sprints:** [`archive/`](sprints/archive/)  
 
 ## Overview
@@ -26,7 +26,7 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
 └──────────────────────┬──────────────────────┘
                        │ HTTP /v1 JSON (+ OAuth deep-link)
 ┌──────────────────────▼──────────────────────┐
-│  apps/crawley/analytics (src/crawley)         │
+│  services/crawley (src/crawley)               │
 │  /health · /v1/asx · /v1/gmail · /v1/jobs     │
 │  /modules/gmail/oauth/* (thin HTML)           │
 │  presentation DTOs (crawley.api)              │
@@ -34,11 +34,11 @@ Crawley analytics is a **local-first Python brain**: FastAPI JSON API, daemon wo
            │                     │
 ┌──────────▼──────────┐  ┌───────▼────────────────┐
 │  Daemons / workers  │  │  Worker store            │
-│  asx · gmail · …    │→ │  analytics/data/         │
+│  asx · gmail · …    │→ │  services/crawley/data/  │
 └─────────────────────┘  └──────────────────────────┘
 ```
 
-**Local boot:** `npm run dev` starts API + Vite; `npm run test:api` runs pytest under `apps/crawley/analytics`. Daemons remain optional. Pack tests (when added) co-locate under `packages/crawley-*`; Python tests stay in `analytics/tests/`.
+**Local boot:** `npm run dev:crawley` starts API + Vite; `npm run test:api` runs pytest under `services/crawley`. Daemons remain optional. Pack tests (when added) co-locate under `packages/crawley-*`.
 
 **Product domains:** ASX desk + Sender Inbox.  
 **Quarantine:** Calendar + lite modules under `crawley._quarantine` (not in `build_registry`).  

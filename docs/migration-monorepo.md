@@ -1,61 +1,49 @@
 # Migration — monorepo layout (Crawley → phone-preview Phase 4)
 
-**Status:** Layout landed in this repo (2026-07-18)  
+**Status:** Layout matches Core cleanup Option A (2026-07-18)  
 **ADR:** [`adr/010-monorepo-layout.md`](adr/010-monorepo-layout.md)
 
-## Target (upstream phone-preview)
+## Target (this repo = merge source)
 
 ```
 apps/
-  crawley/                 ← UI host only (from this repo apps/crawley, minus analytics/)
+  crawley/                 # UI host only
 packages/
-  crawley-*/               ← packs (from this repo packages/crawley-*)
+  crawley-*                # portable packs
 services/
-  crawley/                 ← Python server (from this repo apps/crawley/analytics/)
+  crawley/                 # Python API + daemons + data + pytest
 ```
 
-| Piece | Monorepo home | Why |
-|-------|---------------|-----|
+| Piece | Path | Why |
+|-------|------|-----|
 | Vite / Phone Preview host | `apps/crawley` | Same as core / Learninator apps |
 | TS packs + analytics-client | `packages/crawley-*` | Plug-and-play workspace libs |
-| Python API + daemons + `data/` + pytest | **`services/crawley`** | Not an npm app; not a package — Option A from Core cleanup |
+| Python API + daemons + `data/` + pytest | **`services/crawley`** | Not an npm app; not a package |
 
-**Do not** put Python under `packages/` (wrong runtime) or leave it only as a Vite proxy with no tree. Nesting under `apps/crawley` also fights npm `apps/*` conventions; prefer `services/`.
+## Merge into phone-preview
 
-## This repo today (transport shape)
+1. Copy `apps/crawley` → `apps/crawley`
+2. Copy `packages/crawley-*` → `packages/`
+3. Copy `services/crawley` → `services/crawley`
+4. Wire root **`dev:crawley`**: Python `:8000` + Vite (proxy `/api/analytics` → `:8000`)
+5. CI matrix: `apps/crawley` build + `services/crawley` pytest
 
-```
-apps/crawley/                         # @crawley/app (Vite host)
-  analytics/                          # ← copy this folder → services/crawley in the mono
-packages/crawley-*
-```
-
-## Merge order (Crawley steps)
-
-1. Platform packages (Phases 1–2) land on phone-preview `main`.
-2. Copy Learninator packs → `packages/` (upstream).
-3. Copy **`packages/crawley-*` → `packages/`**, **UI → `apps/crawley`**, **`apps/crawley/analytics/` → `services/crawley`**.
-4. Wire root **`dev:crawley`**: `uv run` in `services/crawley` (`:8000`) **+** Vite for `apps/crawley` (proxy `/api/analytics` → `:8000`).
-5. Delete duplicated trees from product repos once CI is green; matrix includes `apps/crawley` build + `services/crawley` pytest.
 ## Plug-and-play checklist
 
-- [x] Packs only depend on `@phone-preview/core` (+ `@crawley/analytics-client`)
+- [x] Packs depend on `@phone-preview/core` (+ `@crawley/analytics-client`)
 - [x] UI via `FeaturePack` (`page` / `systemTab`)
 - [x] No secrets in packs; analytics HTTP only
-- [x] Host packs array is just imports from `@crawley/*`
-- [x] Analytics `data/` + `tests/` nested under `apps/crawley/analytics` (not monorepo root)
+- [x] Python under `services/crawley` (not monorepo root, not `packages/`)
 - [ ] Swap `@phone-preview/core` → `@phone-preview/shell` when published
-- [ ] Land folders into phone-preview monorepo workspaces
+- [ ] Prod path for `/api/analytics` (BFF / rewrites) — separate from local Vite proxy
 
 ## Local commands
 
 ```bash
-cd apps/crawley/analytics && uv sync && cp -n .env.example .env && cd -
+cd services/crawley && uv sync && cp -n .env.example .env && cd ../..
 npm install
-npm run dev          # API + UI
-# npm run dev:api    # analytics only
-# npm run dev:ui     # Vite only
-# npm run test:api   # pytest
+npm run dev:crawley
+npm run test:api
 ```
 
-If a root `crawley-ui/`, `src/`, `tests/`, or `data/` still exists on an old checkout, delete those leftovers — the host + brain live under `apps/crawley/`.
+Delete leftovers on old checkouts: root `crawley-ui/`, `src/`, `tests/`, `data/`, `apps/crawley/analytics/`.

@@ -21,8 +21,9 @@ Crawley product packs prepared for **phone-preview Phase 4** monorepo merge (`pa
 ```bash
 # From this repo → phone-preview monorepo
 cp -R packages/crawley-* <pp-monorepo>/packages/
-cp -R apps/crawley <pp-monorepo>/apps/   # includes nested analytics/ (Python + data + tests)
-# Add workspace entries; npm/pnpm install; ensure apps/crawley packs array includes @crawley/*
+cp -R apps/crawley <pp-monorepo>/apps/
+cp -R services/crawley <pp-monorepo>/services/
+# Add workspace entries; wire dev:crawley (Python :8000 + Vite); npm/pnpm install
 ```
 
 Platform packages (`shell`, `content`, `interactives`, `ai`, `api`, …) are owned by phone-preview — not duplicated here.
