@@ -7,42 +7,36 @@
 
 ```
 apps/
-  core/
-  core-plus/
-  learninator/
-  crawley/                 ← from this repo apps/crawley (UI + analytics/)
+  crawley/                 ← UI host only (from this repo apps/crawley, minus analytics/)
 packages/
-  shell/
-  content/
-  interactives/
-  ai/
-  api/
-  api-vercel/
-  education/               # from Learninator
-  crawley-*/               ← from this repo packages/crawley-*
+  crawley-*/               ← packs (from this repo packages/crawley-*)
+services/
+  crawley/                 ← Python server (from this repo apps/crawley/analytics/)
 ```
 
-## This repo today
+| Piece | Monorepo home | Why |
+|-------|---------------|-----|
+| Vite / Phone Preview host | `apps/crawley` | Same as core / Learninator apps |
+| TS packs + analytics-client | `packages/crawley-*` | Plug-and-play workspace libs |
+| Python API + daemons + `data/` + pytest | **`services/crawley`** | Not an npm app; not a package — Option A from Core cleanup |
+
+**Do not** put Python under `packages/` (wrong runtime) or leave it only as a Vite proxy with no tree. Nesting under `apps/crawley` also fights npm `apps/*` conventions; prefer `services/`.
+
+## This repo today (transport shape)
 
 ```
 apps/crawley/                         # @crawley/app (Vite host)
-  analytics/                          # uv project: src/crawley, tests, data
-packages/crawley-analytics-client/    # @crawley/analytics-client
-packages/crawley-asx/                 # @crawley/asx
-packages/crawley-inbox/               # @crawley/inbox
-packages/crawley-settings/            # @crawley/settings
+  analytics/                          # ← copy this folder → services/crawley in the mono
+packages/crawley-*
 ```
-
-**Why nest analytics here:** so merge does not drop `data/`, `tests/`, or `src/` onto the phone-preview monorepo root. Worker store + pytest travel inside `apps/crawley/analytics/`.
 
 ## Merge order (Crawley steps)
 
 1. Platform packages (Phases 1–2) land on phone-preview `main`.
 2. Copy Learninator packs → `packages/` (upstream).
-3. **Copy `packages/crawley-*` + `apps/crawley` from this repo** into the monorepo (includes nested analytics).
-4. Delete duplicated host/pack trees from product repos once CI is green.
-5. Single CI matrix: build/test each app (including `apps/crawley` UI + `apps/crawley/analytics` pytest).
-
+3. Copy **`packages/crawley-*` → `packages/`**, **UI → `apps/crawley`**, **`apps/crawley/analytics/` → `services/crawley`**.
+4. Wire root **`dev:crawley`**: `uv run` in `services/crawley` (`:8000`) **+** Vite for `apps/crawley` (proxy `/api/analytics` → `:8000`).
+5. Delete duplicated trees from product repos once CI is green; matrix includes `apps/crawley` build + `services/crawley` pytest.
 ## Plug-and-play checklist
 
 - [x] Packs only depend on `@phone-preview/core` (+ `@crawley/analytics-client`)
