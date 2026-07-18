@@ -1,12 +1,24 @@
-"""Local data plane paths (gitignored runtime under data/)."""
+"""Local data plane paths (gitignored runtime under analytics/data/)."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-# src/crawley/data/paths.py → parents[3] = repo root
-REPO_ROOT = Path(__file__).resolve().parents[3]
-DATA_DIR = REPO_ROOT / "data"
+# src/crawley/data/paths.py → parents[3] = apps/crawley/analytics (uv project root)
+ANALYTICS_ROOT = Path(__file__).resolve().parents[3]
+
+
+def _find_git_root(start: Path) -> Path:
+    """Walk up for a git checkout (monorepo root after Phase 4 merge)."""
+    for path in (start, *start.parents):
+        if (path / ".git").exists():
+            return path
+    return start
+
+
+# Git checkout root (Settings → Update). Distinct from ANALYTICS_ROOT when nested.
+REPO_ROOT = _find_git_root(ANALYTICS_ROOT)
+DATA_DIR = ANALYTICS_ROOT / "data"
 SECRETS_DIR = DATA_DIR / "secrets"
 INVESTMENT_DIR = DATA_DIR / "investment"
 GMAIL_DIR = DATA_DIR / "gmail"

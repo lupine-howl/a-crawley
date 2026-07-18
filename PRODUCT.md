@@ -14,7 +14,7 @@ A single person’s investing and email still mean tab-hopping and ad-hoc LLM ch
 Crawley is a **local-first, AI-rich personal assistant** with a clear split:
 
 - **Presentation:** `apps/crawley` — Phone Preview host; portable packs in `packages/crawley-*` (Phase 4 monorepo-ready); UI persistence via IndexedDB (± Turso/Duck sync through Phone Preview’s light backend).
-- **Analytics:** Python in this repo (`src/crawley`) — semi-autonomous daemons (ASX scan, Gmail ingest, …) with private worker storage that **publish** results; a thin FastAPI **JSON API** for jobs + presentation reads; Google OAuth and LLM stay here.
+- **Analytics:** Python under `apps/crawley/analytics` (`src/crawley`) — semi-autonomous daemons (ASX scan, Gmail ingest, …) with private worker storage that **publish** results; a thin FastAPI **JSON API** for jobs + presentation reads; Google OAuth and LLM stay here.
 - **Domains in scope for the pivot:** **Investment / ASX desk** and **Gmail / Sender Inbox** only. Calendar and other life modules are shelved for later.
 
 ## Target users
@@ -64,7 +64,7 @@ Crawley is a **local-first, AI-rich personal assistant** with a clear split:
 ## Modular domains (intent)
 
 **Now (pivot):** ASX desk, Sender Inbox via `crawley-ui` + analytics `/v1`.  
-**Sprint 35:** Jinja/HTMX product UI **deleted**; Calendar + lite modules **quarantined** under `src/crawley/_quarantine/` (not in registry).  
+**Sprint 35:** Jinja/HTMX product UI **deleted**; Calendar + lite modules **quarantined** under `apps/crawley/analytics/src/crawley/_quarantine/` (not in registry).  
 **Later:** Calendar return as light daemon + Phone Preview pack; Day brief as pack composition; other life modules; depth 31–40; platform Later (desktop shell, etc.).
 
 ## Decisions log (Interview 1 — original)
@@ -79,7 +79,7 @@ Crawley is a **local-first, AI-rich personal assistant** with a clear split:
 - Consume **published** `@phone-preview/*`; ask PP team for setup recipe (create host, IndexedDB/Turso, proxy, OAuth deep link)
 - UI persistence: **IndexedDB** primary; Turso/Duck are PP persistence options — confirm in PP code/docs
 - Jinja/HTMX product UI **deleted** (Sprint 35) — no permanent ops HTML; thin OAuth page only
-- **Calendar** + lite modules **quarantined** (`src/crawley/_quarantine/`); return path = daemon + pack
+- **Calendar** + lite modules **quarantined** (`apps/crawley/analytics/src/crawley/_quarantine/`); return path = daemon + pack
 - Depth band 21–30 remains shipped history (brains may still serve JSON)
 - Migration sprints **31–35 complete**; former shelved depth 31–40 stays shelved under backlog B54+ until planned
 - Icebox unchanged

@@ -2,13 +2,18 @@
 .env
 .env.*
 !.env.example
+!apps/crawley/analytics/.env.example
 
 # Runtime data plane (DuckDB, caches, OAuth tokens, crawl artifacts)
-data/*
-!data/.gitkeep
+# Lives under the analytics uv project (not monorepo root).
+apps/crawley/analytics/data/*
+!apps/crawley/analytics/data/.gitkeep
+# Legacy root path (pre nest) — ignore if leftover on old checkouts
+/data/*
 
 # Python / tooling
 .venv/
+apps/crawley/analytics/.venv/
 __pycache__/
 *.py[cod]
 *.egg-info/

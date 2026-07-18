@@ -1,7 +1,7 @@
 {
   "name": "a-crawley",
   "private": true,
-  "description": "Crawley monorepo — apps/crawley (Phone Preview host) + packages/crawley-* packs; Python analytics at repo root",
+  "description": "Crawley monorepo — apps/crawley (UI + analytics/) + packages/crawley-* packs",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "npm run dev -w @crawley/app",
     "dev:ui": "npm run dev:ui -w @crawley/app",
-    "dev:api": "uv run python -m crawley",
+    "dev:api": "uv run --directory apps/crawley/analytics python -m crawley",
+    "test:api": "uv run --directory apps/crawley/analytics pytest",
     "build": "npm run build -w @crawley/app",
     "preview": "npm run preview -w @crawley/app"
   },
