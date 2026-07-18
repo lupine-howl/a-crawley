@@ -9,24 +9,27 @@
 Phone Preview is consolidating into one monorepo:
 
 ```
-apps/     core · core-plus · learninator · crawley
-packages/ shell · content · interactives · ai · api · … · crawley-*
+apps/      core · core-plus · learninator · crawley
+packages/  shell · content · interactives · ai · api · … · crawley-*
+services/  crawley   ← Python analytics (not an npm app/package)
 ```
 
 Product packs must be portable: move the folder, add to `apps/<name>` packs array. Crawley’s UI previously lived as a single `crawley-ui/` tree with app-private packs.
 
+Upstream gap analysis: Python belongs under **`services/crawley`** (Option A — vendor/submodule + `dev:crawley` boots `:8000`). It is **not** an `apps/*` Vite host and **not** a `packages/*` workspace library.
+
 ## Decision
 
-1. **This repo** adopts the same `apps/` + `packages/` shape for the Crawley slice only.
-2. **`apps/crawley`** — Phone Preview host (`@crawley/app`); wires `starterPacks()` + `@crawley/*` packs.
+1. **This repo** mirrors the Crawley slice for copy into phone-preview.
+2. **`apps/crawley`** — Phone Preview host only (`@crawley/app`); wires `starterPacks()` + `@crawley/*` packs.
 3. **`packages/crawley-*`** — portable packs + analytics client (`@crawley/asx`, `@crawley/inbox`, `@crawley/settings`, `@crawley/analytics-client`).
-4. **Python analytics** nests under **`apps/crawley/analytics/`** (`src/crawley`, `tests/`, `data/`, `pyproject.toml`) so merge does not pollute the monorepo root. Separate runtime from the npm workspace (uv); not an npm package. `DATA_DIR` is under that analytics root; `REPO_ROOT` walks up to the git checkout for Settings → Update.
-5. Platform packages (`@phone-preview/shell`, etc.) are **not** vendored here; consume published `@phone-preview/core` until shell ships, then swap peer imports.
-6. npm **workspaces** at the repo root install/link `apps/*` and `packages/*` (only packages with `package.json` — analytics is ignored by npm).
+4. **Python analytics → `services/crawley` in the monorepo** (uv project: `src/crawley`, `tests/`, `data/`, `pyproject.toml`). Separate runtime from npm; never an npm workspace member. In *this* product repo the same tree currently lives at `apps/crawley/analytics/` as a transport packaging convenience — **on merge, land it at `services/crawley`**, not under `apps/` or `packages/`. `DATA_DIR` stays beside the uv project; `REPO_ROOT` walks up to the git checkout for Settings → Update.
+5. Platform packages (`@phone-preview/shell`, etc.) are **not** vendored here; consume published `@phone-preview/core` until shell ships, then swap peer imports (Learninator-style).
+6. npm **workspaces** install/link `apps/*` and `packages/*` only. `services/` is orchestrated by root scripts (e.g. `dev:crawley` = Python `:8000` + Vite).
 
 ## Consequences
 
-- **Positive:** Copy-paste merge (`apps/crawley` + `packages/crawley-*`); packs reusable; analytics `data/`/`tests/` stay inside the Crawley app tree.
-- **Negative:** Two package managers (uv + npm); temporary `@phone-preview/core` vs future `@phone-preview/shell` rename.
-- **Neutral:** Historical sprint docs may still say `crawley-ui/` or root `src/crawley`; treat as `apps/crawley` (+ `analytics/`). Delete leftover root `crawley-ui/`, `src/`, `tests/`, `data/` on old checkouts.
-- **Local boot:** `npm run dev` starts analytics API + Vite host together (`@crawley/app`).
+- **Positive:** Clear split — UI app / TS packs / Python service; merge does not put DuckDB/`data/` on monorepo root or inside `packages/`.
+- **Negative:** Two package managers (uv + npm); temporary `@phone-preview/core` vs `@phone-preview/shell`; this repo’s `apps/crawley/analytics/` path must be remapped to `services/crawley` on copy.
+- **Neutral:** Historical docs may say `crawley-ui/` or root `src/crawley`.
+- **Local boot (mono):** `dev:crawley` must start Python on `:8000` **and** the Vite host (Vite proxy `/api/analytics` → `:8000` remains the local path; prod BFF/rewrites are a separate story).
